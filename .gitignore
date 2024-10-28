@@ -65,3 +65,5 @@ artifacts/
 .idea/
 config/
 configurations
+
+.github/
