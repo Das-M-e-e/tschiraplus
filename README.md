@@ -1,3 +1,3 @@
 # tschiraplus
 
-To build the app, run Project.cs in the UI Project.
+To build the app, run Program.cs in the UI Project.
