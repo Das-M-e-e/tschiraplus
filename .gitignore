@@ -1,0 +1,67 @@
+# Build-Outputs
+bin/
+obj/
+*.dll
+*.exe
+*.app
+*.pdb
+*.mdb
+*.cache
+
+# Rider-spezifische Dateien
+.idea/
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/shelf/
+.idea/**/libraries/
+.idea/**/vcs.xml
+.idea/**/modules.xml
+
+# Benutzer-spezifische Konfigurationen
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.swp
+*.rsuser
+*.DotSettings.user
+*.csproj.user
+*.pidb
+.vscode/
+
+# Paketmanager-Ausgaben
+packages/
+node_modules/
+
+# Dotnet-spezifische Ausschlüsse
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.csproj.nuget.dgspec.json
+*.csproj.nuget.g.props
+*.csproj.nuget.g.targets
+.nuget/
+.nuget/packages/
+
+# AvaloniaUI-spezifische Ausgaben (falls vorhanden)
+.avalonia/
+
+# Log- und Debug-Dateien
+*.log
+*.nlog
+*.tlog
+
+# Sonstige Cache-Dateien
+*.cache
+*.tmp
+*.temp
+*.ide
+*.db
+
+# Einstellungen für IDEs und CI/CD, die nicht versioniert werden sollten
+*.vs/
+.resharper/
+.idea/
+config/
+configurations
