@@ -5,21 +5,21 @@ namespace Core.Models;
 
 public class TaskModel
 {
-    private Guid Id { get; set; }
-    private string? Title { get; set; }
-    private string? Description { get; set; }
-    private TaskStatus? Status { get; set; }
-    private TaskPriority? Priority { get; set; }
-    private DateTime CreationDate { get; set; }
-    private DateTime? DueDate { get; set; }
-    private DateTime? CompletionDate { get; set; }
-    //private List<User>? Assignees { get; set; }
-    private List<string> Tags { get; set; } = [];
-    //private Guid? SprintId { get; set; }
-    //private Guid ProjectId { get; set; }
-    //private TimeSpan? EstimatedTime { get; set; }
-    //private TimeSpan? ActualTimeSpent { get; set; }
-    //private List<Attachment> Attachments { get; set; }
-    //private List<Comment> Comments { get; set; }
-    //private List<Guid> Dependencies { get; set; }
+    public Guid TaskId { get; set; }
+    public string? Title { get; set; }
+    public string? Description { get; set; }
+    public TaskStatus? Status { get; set; }
+    public TaskPriority? Priority { get; set; }
+    public DateTime CreationDate { get; set; }
+    public DateTime? DueDate { get; set; }
+    public DateTime? CompletionDate { get; set; }
+    public List<UserModel>? Assignees { get; set; }
+    public List<string> Tags { get; set; } = [];
+    public Guid? SprintId { get; set; }
+    public Guid ProjectId { get; set; }
+    public TimeSpan? EstimatedTime { get; set; }
+    public TimeSpan? ActualTimeSpent { get; set; }
+    public List<AttachmentModel> Attachments { get; set; } = [];
+    //public List<Comment> Comments { get; set; }
+    //public List<Guid> Dependencies { get; set; }
 }
