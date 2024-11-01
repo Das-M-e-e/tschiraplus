@@ -1,0 +1,76 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="UI.Views.ListView"
+        Title="ListView">
+    
+   
+    <Grid RowDefinitions="Auto, *, Auto"> 
+        <!-- Title bar -->
+        <Grid Grid.Row="0" Background="Black" Height="80">
+            
+            <TextBox Background="#353340" 
+                     Height="40" 
+                     Width="250" 
+                     CornerRadius="15" 
+                     Foreground="#CFCFCF">Search...</TextBox>
+            
+            
+        </Grid>
+        <!-- Main -->
+        <Grid Grid.Row="1"  Background="#333">
+            <!-- Sort select area -->
+            <Rectangle Grid.Column="0" Fill="#454752" 
+                       Width="300" 
+                       HorizontalAlignment="Left">
+            </Rectangle>
+            <Grid Grid.Row="2">
+                <CheckBox Background="Transparent"
+                          VerticalAlignment="Top"
+                          Height="2"
+                          Margin="20"
+                          FontSize="20"
+                          >Tags</CheckBox>
+                <CheckBox Background="Transparent"
+                          VerticalAlignment="Top"
+                          Height="30"
+                          Margin="20,60"
+                          FontSize="20"
+                >Priority</CheckBox>
+            </Grid>
+            
+            <Button 
+                Background="#6e91b5" 
+                Height="40" 
+                Width="90"
+                CornerRadius="15"
+                VerticalAlignment="Bottom"
+                Margin="20,20,20,40" 
+                FontSize="20"
+                VerticalContentAlignment="2"
+                HorizontalContentAlignment="2">Apply</Button> 
+        </Grid>
+        
+        <!-- Bottom bar -->
+        <Grid Grid.Row="2" Background="Black" Height="20"  >
+            
+            
+            
+            
+        </Grid>
+        
+    </Grid>
+
+    <!--  <TextBlock Width="250"
+               Height="40"
+               VerticalAlignment="Center"
+               HorizontalAlignment="Center"
+               Margin="5"
+               Background="Pink"
+               Grid.Column="1"></TextBlock> -->
+
+
+
+</Window>
