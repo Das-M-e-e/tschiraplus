@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace UI.Views;
 
-public partial class ListView : Window
+public partial class ListView : UserControl
 {
     public ListView()
     {

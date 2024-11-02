@@ -2,12 +2,12 @@
 
 namespace UI.ViewModels;
 
-public class TabItemModel
+public class TabItemModel : ViewModelBase
 {
     public string Header { get; }
-    public Window Content { get; }
+    public UserControl Content { get; }
 
-    public TabItemModel(string header, Window content)
+    public TabItemModel(string header, UserControl content)
     {
         Header = header;
         Content = content;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Controls.Chrome;
+using UI.Views;
 
 namespace UI.ViewModels;
 
@@ -12,8 +13,8 @@ public class MainTabViewModel : ViewModelBase
     {
         Tabs = new ObservableCollection<TabItemModel>
         {
-            new TabItemModel("One", new Window()),
-            new TabItemModel("Two", new Window())
+            new TabItemModel("Kanban", new Kanban()),
+            new TabItemModel("ListView", new ListView())
         };
     }
 }

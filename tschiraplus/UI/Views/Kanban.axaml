@@ -1,14 +1,8 @@
-<Window xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:UI.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1050" d:DesignHeight="630"
-        Width="1050" Height="630"
         x:Class="UI.Views.Kanban"
-        x:DataType="vm:KanbanViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Kanban UI">
+        x:DataType="vm:KanbanViewModel">
     
     <Grid RowDefinitions="Auto, Auto, *, Auto">
         <!-- Title bar -->
@@ -290,4 +284,4 @@
         </Grid>
     </Grid>
 
-</Window>
+</UserControl>

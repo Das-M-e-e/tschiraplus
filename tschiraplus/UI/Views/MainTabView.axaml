@@ -8,7 +8,7 @@
         x:DataType="vm:MainTabViewModel"
         Title="MainTabView">
         
-        <TabControl ItemsSource="{Binding Tabs}">
+        <TabControl ItemsSource="{Binding Tabs}" Padding="0">
                 <TabControl.ItemTemplate>
                         <DataTemplate>
                                 <TextBlock Text="{Binding Header}" />
@@ -16,9 +16,7 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                         <DataTemplate DataType="vm:TabItemModel">
-                                <DockPanel LastChildFill="True">
-                                        <TextBlock Text="{Binding Content}"></TextBlock>
-                                </DockPanel>
+                                <ContentControl Content="{Binding Content}" />
                         </DataTemplate>
                 </TabControl.ContentTemplate>
         </TabControl>
