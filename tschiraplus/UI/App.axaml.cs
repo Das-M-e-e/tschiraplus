@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Services;
 using UI.ViewModels;
 using UI.Views;
 
@@ -12,6 +13,9 @@ public partial class App : Application
 {
     public override void Initialize()
     {
+        var dbService = new DatabaseService("Data Source=localDatabase.db");
+        dbService.InitializeDatabase();
+        
         AvaloniaXamlLoader.Load(this);
     }
 

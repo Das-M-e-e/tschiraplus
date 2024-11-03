@@ -28,4 +28,8 @@
         <DependentUpon>ListView.axaml</DependentUpon>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Services\Services.csproj" />
+    </ItemGroup>
 </Project>

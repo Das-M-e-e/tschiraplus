@@ -13,13 +13,13 @@ public class TaskModel
     public DateTime CreationDate { get; set; }
     public DateTime? DueDate { get; set; }
     public DateTime? CompletionDate { get; set; }
-    public List<UserModel>? Assignees { get; set; }
-    public List<string> Tags { get; set; } = [];
+    public List<Guid>? Assignees { get; set; }          // Guids of assigned users
+    public List<string>? Tags { get; set; }
     public Guid? SprintId { get; set; }
     public Guid ProjectId { get; set; }
     public TimeSpan? EstimatedTime { get; set; }
     public TimeSpan? ActualTimeSpent { get; set; }
-    public List<AttachmentModel> Attachments { get; set; } = [];
-    //public List<Comment> Comments { get; set; }
+    public List<Guid>? Attachments { get; set; }        // Guids of attachments
+    //public List<Guid> Comments { get; set; }            // Guids of comments
     //public List<Guid> Dependencies { get; set; }
 }

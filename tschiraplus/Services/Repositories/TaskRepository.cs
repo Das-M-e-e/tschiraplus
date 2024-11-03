@@ -1,0 +1,34 @@
+﻿using Core.Models;
+using PetaPoco;
+
+namespace Services.Repositories;
+
+public class TaskRepository
+{
+    private readonly Database _db;
+
+    public TaskRepository(Database db)
+    {
+        _db = db;
+    }
+
+    public void AddTask(TaskModel task)
+    {
+        _db.Insert("Tasks", "TaskId", task);
+    }
+
+    public TaskModel GetTaskById(Guid taskId)
+    {
+        return _db.SingleOrDefault<TaskModel>("WHERE TaskId = @0", taskId);
+    }
+
+    public void UpdateTask(TaskModel task)
+    {
+        _db.Update("Tasks", "TaskId", task);
+    }
+
+    public void DeleteTask(Guid taskId)
+    {
+        _db.Delete<TaskModel>("WHERE TaskId = @0", taskId);
+    }
+}
