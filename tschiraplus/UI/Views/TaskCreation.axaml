@@ -1,0 +1,47 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="650"
+        x:Class="UI.Views.TaskCreation"
+        
+        Title="TaskCreation">
+    <StackPanel Orientation="Vertical">
+    <StackPanel Orientation="Horizontal">
+        <Label Margin="15,15, 15, 0" >Priority:</Label>
+        
+
+            <StackPanel Orientation="Vertical" >
+                <RadioButton GroupName="Priority" Content="High" Margin="0,11,0,0" ></RadioButton>
+                <RadioButton GroupName="Priority" Content="Medium"></RadioButton>
+                <RadioButton GroupName="Priority" Content="Low" Margin="0,0,0,20"></RadioButton>
+            </StackPanel>
+    </StackPanel>
+        
+        
+        
+        <StackPanel Orientation="Horizontal">
+            <Label Margin="15,15">Task:</Label>
+            <TextBox Width="300" Height="10" Margin="17, 0, 10, 0"></TextBox>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <Label Margin="15,15">Date:</Label>
+            <Calendar x:Name="calendar" SelectionMode="MultipleRange" />
+            <TextBlock Margin="20" 
+                       Text="{Binding #calendar.SelectedDate}"/> 
+                     
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <Label Margin="15,15">Tag:</Label>
+            <Button>+</Button>
+        </StackPanel>
+        
+        <StackPanel Orientation="Horizontal">
+            <Label Margin="15,15">Assign People:</Label>
+            <Button>+</Button>
+        </StackPanel>
+        
+    </StackPanel>
+</Window>
