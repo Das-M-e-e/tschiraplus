@@ -8,10 +8,10 @@ public class TaskListViewModel
 
     public TaskListViewModel()
     {
-        Tasks.Add(new TaskViewModel{Title = "Task 1", Description = "Task 1 description", Status = "Backlog"});
-        Tasks.Add(new TaskViewModel{Title = "Task 2", Description = "Task 2 description", Status = "Backlog"});
-        Tasks.Add(new TaskViewModel{Title = "Task 3", Description = "Task 3 description", Status = "Backlog"});
-        Tasks.Add(new TaskViewModel{Title = "Task 4", Description = "Task 4 description", Status = "Backlog"});
-        Tasks.Add(new TaskViewModel{Title = "Task 5", Description = "Task 5 description", Status = "Backlog"});
+        Tasks.Add(new TaskViewModel{Title = "Task 1", Tag = "Example tag1", User = "Franzi"});
+        Tasks.Add(new TaskViewModel{Title = "Task 2", Tag = "Example tag2", User = "Sofia"});
+        Tasks.Add(new TaskViewModel{Title = "Task 3", Tag = "Example tag3", User = "Franzi"});
+        Tasks.Add(new TaskViewModel{Title = "Task 4", Tag = "Example tag4", User = "Sofia"});
+        Tasks.Add(new TaskViewModel{Title = "Task 5", Tag = "Example tag5", User = "Franzi"});
     }
 }

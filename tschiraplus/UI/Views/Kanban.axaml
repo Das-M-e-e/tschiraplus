@@ -54,14 +54,14 @@
                                 <ItemsControl.ItemTemplate><DataTemplate x:DataType="vm:TaskViewModel">
                                     <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#ECF3FF" BoxShadow="0 1 2 0 CornflowerBlue" >
                                         <StackPanel Orientation="Vertical">
-                                            <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
+                                            <TextBlock Text="{Binding Title}" FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
                                             <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
-                                                <TextBlock Text="{Binding Title}" Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
+                                                <TextBlock Text="{Binding Tag}" Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
                                             </Border>
                                             <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#85ADF3" CornerRadius="20">
                                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                                                     <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                                    <TextBlock Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                                                    <TextBlock Text="{Binding User}" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
                                                 </StackPanel>
                                             </Border>
                                         </StackPanel>
@@ -98,22 +98,26 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Canvas x:Name="ReadyCanvas" Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" Height="96">
-                            <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFF9F8" BoxShadow="0 1 2 0 LightPink" >
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
-                                        <TextBlock Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
-                                    </Border>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#FEC7CF" CornerRadius="20">
-                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                            <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                            <TextBlock Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                        <ScrollViewer Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0">
+                            <ItemsControl ItemsSource="{Binding Tasks}">
+                                <ItemsControl.ItemTemplate><DataTemplate x:DataType="vm:TaskViewModel">
+                                    <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFF9F8" BoxShadow="0 1 2 0 LightPink" >
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding Title}" FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
+                                                <TextBlock Text="{Binding Tag}" Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
+                                            </Border>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#FEC7CF" CornerRadius="20">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
+                                                    <TextBlock Text="{Binding User}" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                                                </StackPanel>
+                                            </Border>
                                         </StackPanel>
                                     </Border>
-                                </StackPanel>
-                            </Border>
-                        </Canvas>
+                                </DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
@@ -143,22 +147,26 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Canvas x:Name="InProgressCanvas" Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" Height="96">
-                            <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFFCF0" BoxShadow="0 1 2 0 #FFDE59">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
-                                        <TextBlock Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
-                                    </Border>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#FFEB9A" CornerRadius="20">
-                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                            <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                            <TextBlock Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                        <ScrollViewer Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" >
+                            <ItemsControl ItemsSource="{Binding Tasks}">
+                                <ItemsControl.ItemTemplate> <DataTemplate x:DataType="vm:TaskViewModel">
+                                    <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFFCF0" BoxShadow="0 1 2 0 #FFDE59">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding Title}" FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
+                                                <TextBlock Text="{Binding Tag}" Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
+                                            </Border>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#FFEB9A" CornerRadius="20">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
+                                                    <TextBlock Text="{Binding User}" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                                                </StackPanel>
+                                            </Border>
                                         </StackPanel>
                                     </Border>
-                                </StackPanel>
-                            </Border>
-                        </Canvas>
+                                </DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
@@ -188,22 +196,26 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Canvas x:Name="InReviewCanvas" Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" Height="96">
-                            <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFFAF4" BoxShadow="0 1 2 0 LightSalmon">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
-                                        <TextBlock Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
-                                    </Border>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#FDB89D" CornerRadius="20">
-                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                            <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                            <TextBlock Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                        <ScrollViewer Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0">
+                            <ItemsControl ItemsSource="{Binding Tasks}">
+                                <ItemsControl.ItemTemplate><DataTemplate x:DataType="vm:TaskViewModel">
+                                    <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFFAF4" BoxShadow="0 1 2 0 LightSalmon">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock Text="{Binding Title}" FontWeight="Medium" FontSize="11" Foreground="Black"></TextBlock>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
+                                                <TextBlock Text="{Binding Tag}" Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9"></TextBlock>
+                                            </Border>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#FDB89D" CornerRadius="20">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
+                                                    <TextBlock Text="{Binding User}" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9"></TextBlock>
+                                                </StackPanel>
+                                            </Border>
                                         </StackPanel>
                                     </Border>
-                                </StackPanel>
-                            </Border>
-                        </Canvas>
+                                </DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
@@ -233,22 +245,26 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Canvas x:Name="DoneCanvas" Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" Height="96">
-                            <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#E6FFF1" BoxShadow="0 1 2 0 MediumSeaGreen">
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="LightGray" CornerRadius="20">
-                                        <TextBlock Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
-                                    </Border>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#78D8A3" CornerRadius="20">
-                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                            <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                            <TextBlock Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                        <ScrollViewer Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" >
+                            <ItemsControl ItemsSource="{Binding Tasks}">
+                                <ItemsControl.ItemTemplate> <DataTemplate x:DataType="vm:TaskViewModel">
+                                    <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#E6FFF1" BoxShadow="0 1 2 0 MediumSeaGreen">
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="LightGray" CornerRadius="20">
+                                                <TextBlock Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
+                                            </Border>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#78D8A3" CornerRadius="20">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
+                                                    <TextBlock Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                                                </StackPanel>
+                                            </Border>
                                         </StackPanel>
                                     </Border>
-                                </StackPanel>
-                            </Border>
-                        </Canvas>
+                                </DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
