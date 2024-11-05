@@ -22,6 +22,11 @@ public class TaskRepository
         return _db.SingleOrDefault<TaskModel>("WHERE TaskId = @0", taskId);
     }
 
+    public IEnumerable<TaskModel> GetAllTasks()
+    {
+        return _db.Fetch<TaskModel>("SELECT * FROM Tasks");
+    }
+
     public void UpdateTask(TaskModel task)
     {
         _db.Update("Tasks", "TaskId", task);
