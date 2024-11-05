@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:UI.ViewModels"
         x:Class="UI.Views.Kanban"
-        x:DataType="vm:KanbanViewModel">
+        x:DataType="vm:TaskListViewModel">
     
     <Grid RowDefinitions="Auto, Auto, *, Auto">
         <!-- Title bar -->
@@ -41,7 +41,7 @@
         <Grid Grid.Row="2" ColumnDefinitions="Auto, Auto, Auto, Auto, Auto" Background="#1a1c20">
             <!-- Backlog -->
             <StackPanel Grid.Column="0" Width="209.6" Spacing="8" HorizontalAlignment="Center">
-                <Border Margin="0" HorizontalAlignment="Stretch" CornerRadius="6" Background="LightSteelBlue">
+                <Border Name="TaskBox1" Margin="0" HorizontalAlignment="Stretch" CornerRadius="6" Background="LightSteelBlue" >
                     <Grid RowDefinitions="Auto,*,Auto">
                         <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
                                 <Border VerticalAlignment="Center" HorizontalAlignment="Left" Height="18" Width="65" CornerRadius="20" Background="CornflowerBlue">
@@ -49,22 +49,26 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Grid Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0">
-                            <Border Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#ECF3FF" BoxShadow="0 1 2 0 CornflowerBlue" >
-                                <StackPanel Orientation="Vertical">
-                                    <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
-                                        <TextBlock Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
-                                    </Border>
-                                    <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#85ADF3" CornerRadius="20">
-                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                                            <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                            <TextBlock Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                        <ScrollViewer Grid.Row="1" Margin="5,0,5,0" VerticalAlignment="Top">
+                            <ItemsControl ItemsSource="{Binding Tasks}">
+                                <ItemsControl.ItemTemplate><DataTemplate x:DataType="vm:TaskViewModel">
+                                    <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#ECF3FF" BoxShadow="0 1 2 0 CornflowerBlue" >
+                                        <StackPanel Orientation="Vertical">
+                                            <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
+                                                <TextBlock Text="{Binding Title}" Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
+                                            </Border>
+                                            <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#85ADF3" CornerRadius="20">
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                                    <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
+                                                    <TextBlock Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9">Franzi</TextBlock>
+                                                </StackPanel>
+                                            </Border>
                                         </StackPanel>
                                     </Border>
-                                </StackPanel>
-                            </Border>
-                        </Grid>
+                                </DataTemplate></ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
@@ -86,7 +90,7 @@
             
             <!-- Ready -->
             <StackPanel Grid.Column="1" Width="209.6" Spacing="8" HorizontalAlignment="Center">
-                <Border Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="MistyRose">
+                <Border Name="TaskBox2" Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="MistyRose" >
                     <Grid RowDefinitions="Auto,*,Auto">
                         <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
                                 <Border VerticalAlignment="Center" HorizontalAlignment="Left" Height="18" Width="51" CornerRadius="20" Background="LightPink">
@@ -94,8 +98,8 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Grid Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0">
-                            <Border Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFF9F8" BoxShadow="0 1 2 0 LightPink" >
+                        <Canvas x:Name="ReadyCanvas" Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" Height="96">
+                            <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFF9F8" BoxShadow="0 1 2 0 LightPink" >
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
                                     <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
@@ -109,7 +113,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                        </Grid>
+                        </Canvas>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
@@ -131,7 +135,7 @@
             
             <!-- In Progress-->
             <StackPanel Grid.Column="2" Width="209.6" Spacing="8" HorizontalAlignment="Center">
-                <Border Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="#FFF5CD">
+                <Border Name="TaskBox3" Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="#FFF5CD">
                     <Grid RowDefinitions="Auto,*,Auto">
                         <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
                                 <Border VerticalAlignment="Center" HorizontalAlignment="Left" Height="18" Width="86" CornerRadius="20" Background="#FFDE59">
@@ -139,8 +143,8 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Grid Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0">
-                            <Border Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFFCF0" BoxShadow="0 1 2 0 #FFDE59" >
+                        <Canvas x:Name="InProgressCanvas" Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" Height="96">
+                            <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFFCF0" BoxShadow="0 1 2 0 #FFDE59">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
                                     <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
@@ -154,7 +158,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                        </Grid>
+                        </Canvas>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
@@ -176,7 +180,7 @@
             
             <!-- In Review -->
             <StackPanel Grid.Column="3" Width="209.6" Spacing="8" HorizontalAlignment="Center">
-                <Border Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="Bisque">
+                <Border Name="TaskBox4" Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="Bisque">
                     <Grid RowDefinitions="Auto,*,Auto">
                         <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
                                 <Border VerticalAlignment="Center" HorizontalAlignment="Left" Height="18" Width="75" CornerRadius="20" Background="LightSalmon">
@@ -184,8 +188,8 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Grid Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0">
-                            <Border Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFFAF4" BoxShadow="0 1 2 0 LightSalmon" >
+                        <Canvas x:Name="InReviewCanvas" Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" Height="96">
+                            <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#FFFAF4" BoxShadow="0 1 2 0 LightSalmon">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
                                     <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
@@ -199,7 +203,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                        </Grid>
+                        </Canvas>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
@@ -221,7 +225,7 @@
             
             <!-- Done -->
             <StackPanel Grid.Column="4" Width="209.6" Spacing="8" HorizontalAlignment="Center">
-                <Border Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="#B7DAA8">
+                <Border Name="TaskBox5" Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="#B7DAA8" >
                     <Grid RowDefinitions="Auto,*,Auto">
                         <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
                                 <Border VerticalAlignment="Center" HorizontalAlignment="Left" Height="18" Width="46" CornerRadius="20" Background="MediumSeaGreen">
@@ -229,8 +233,8 @@
                                 </Border>
                         </Grid>
                         <!-- Task items go here -->
-                        <Grid Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0">
-                            <Border Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#E6FFF1" BoxShadow="0 1 2 0 MediumSeaGreen" >
+                        <Canvas x:Name="DoneCanvas" Grid.Row="1" VerticalAlignment="Top" Margin="5,0,5,0" Height="96">
+                            <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#E6FFF1" BoxShadow="0 1 2 0 MediumSeaGreen">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
                                     <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="LightGray" CornerRadius="20">
@@ -244,7 +248,7 @@
                                     </Border>
                                 </StackPanel>
                             </Border>
-                        </Grid>
+                        </Canvas>
                         <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
