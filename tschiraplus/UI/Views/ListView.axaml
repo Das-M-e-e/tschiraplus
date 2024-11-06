@@ -5,52 +5,168 @@
    
     <Grid RowDefinitions="Auto, *, Auto"> 
         <!-- Title bar -->
-        <Grid Grid.Row="0" Background="Black" Height="80">
+        
+        <Grid Grid.Row="0" Background="#1a1c20" Height="80">
+            <Image Source="avares://UI/Assets/kanban_fill_icon.png" 
+                   Stretch="Fill" 
+                   Width="18" 
+                   Height="16" 
+                   Margin="8,0,0,0"></Image>
             
-            <TextBox Background="#353340" 
-                     Height="40" 
-                     Width="250" 
-                     CornerRadius="15" 
-                     Foreground="#CFCFCF">Search...</TextBox>
-            
-            
-        </Grid>
-        <!-- Main -->
-        <Grid Grid.Row="1"  Background="#333">
-            <!-- Sort select area -->
-            <Rectangle Grid.Column="0" Fill="#454752" 
-                       Width="300" 
-                       HorizontalAlignment="Left">
-            </Rectangle>
-            <Grid Grid.Row="2">
-                <CheckBox Background="Transparent"
-                          VerticalAlignment="Top"
-                          Height="2"
-                          Margin="20"
-                          FontSize="20"
-                          >Tags</CheckBox>
-                <CheckBox Background="Transparent"
-                          VerticalAlignment="Top"
-                          Height="30"
-                          Margin="20,60"
-                          FontSize="20"
-                >Priority</CheckBox>
+           
+            <Grid>
+                <Border Background="LightSteelBlue" 
+                        CornerRadius="15" 
+                        Margin="10,10,10,0">
+                    
+                    <TextBox Background="#353340" 
+                             Height="40" 
+                             Width="250" 
+                             CornerRadius="15" 
+                             Foreground="#CFCFCF">Search...</TextBox>
+                </Border>
             </Grid>
             
-            <Button 
-                Background="#6e91b5" 
-                Height="40" 
-                Width="90"
-                CornerRadius="15"
-                VerticalAlignment="Bottom"
-                Margin="20,20,20,40" 
-                FontSize="20"
-                VerticalContentAlignment="2"
-                HorizontalContentAlignment="2">Apply</Button> 
+             <Grid Grid.Row="0">
+                            <StackPanel 
+                                        Height="34" 
+                                        Width="34" 
+                                        HorizontalAlignment="Left">
+                                
+                                <Image Source="avares://UI/Assets/kanban_fill_icon.png"
+                                       Stretch="Fill" 
+                                       Width="18" 
+                                       Height="16" 
+                                       Margin="20,10, 0,0"></Image>
+                                <TextBlock Text="List View" 
+                                           FontSize="12"
+                                           Margin="40,-15,0,20"
+                                           FontWeight="Regular" 
+                                           Foreground="Black" 
+                                           HorizontalAlignment="Left" 
+                                           Width="150">
+                                    
+                                </TextBlock>
+                                
+                            </StackPanel>
+                        </Grid>
+            
         </Grid>
         
+        <!-- Main -->
+        
+              <!-- Select Area -->
+        <Grid Grid.Row="1"  Background="#1a1c20">
+            <StackPanel Grid.Column="0" Width="209.6" Spacing="8" HorizontalAlignment="Left">
+                
+            <Border 
+                Margin="10" 
+                HorizontalAlignment="Stretch" 
+                CornerRadius="6" 
+                Background="LightSteelBlue">
+                
+                <Grid RowDefinitions="Auto,*,Auto">
+                    
+                    <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
+                        
+                            <TextBlock FontSize="14" 
+                                       VerticalAlignment="Center" 
+                                       HorizontalAlignment="Left" 
+                                       Text="Selector" 
+                                       Height="35" 
+                                       FontWeight="DemiBold" 
+                                       Foreground="Black" 
+                                       Padding="5,9,0,0">
+                            </TextBlock>
+                        
+                    </Grid>
+                    
+                    <Grid Grid.Row="1" VerticalAlignment="Top" Margin="3,0,5,20">
+                        <Border 
+                            Margin="10,15,10,110" 
+                            Padding="10,0,10,15" 
+                            CornerRadius="6" 
+                            Background="#ECF3FF" 
+                            BoxShadow="0 1 2 0 CornflowerBlue" 
+                            >
+                            
+                        </Border>
+                        
+                    <!-- Checkboxs -->
+                        <Grid Grid.Row="3">
+                    <CheckBox Background="Transparent"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Left"
+                              Margin="20"
+                              FontSize="12"
+                              Height="35" 
+                              FontWeight="DemiBold" 
+                              Foreground="Black" 
+                    >Alphabetical</CheckBox>
+                    <CheckBox Background="Transparent"
+                              VerticalAlignment="Top"
+                              Margin="20,60"
+                              FontSize="12"
+                              Height="35" 
+                              FontWeight="DemiBold" 
+                              Foreground="Black"
+                    >Priority</CheckBox>
+                        
+                        <CheckBox Background="Transparent"
+                                  VerticalAlignment="Top"
+                                  Margin="20,100"
+                                  FontSize="12"
+                                  Height="35" 
+                                  FontWeight="DemiBold" 
+                                  Foreground="Black"
+                        >Newest</CheckBox>   
+                        
+                        <CheckBox Background="Transparent"
+                                  VerticalAlignment="Top"
+                                  Margin="20,140"
+                                  FontSize="12"
+                                  Height="35" 
+                                  FontWeight="DemiBold" 
+                                  Foreground="Black"
+                                  
+                        >Oldest</CheckBox>    
+                </Grid>    
+                    </Grid>
+            </Grid>
+            </Border>
+            </StackPanel>
+            
+            
+            <Button 
+                Grid.Column="2"
+                CornerRadius="15"
+                VerticalAlignment="Bottom"
+                Margin="130,20,20,180" 
+                FontSize="14"
+                VerticalContentAlignment="2"
+                HorizontalContentAlignment="2">Apply</Button> 
+            
+                
+        </Grid>
+        
+        
+        <Grid.Styles>
+            <Style Selector="Button">
+                <Setter Property="Background" Value="#98acd0"></Setter>
+                <Setter Property="Foreground" Value="Black"></Setter>
+                <Setter Property="Cursor" Value="Arrow"></Setter>
+                <Setter Property="BorderBrush" Value="#5C76A6"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+            </Style>
+            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="#98acd0"></Setter>
+                <Setter Property="Foreground" Value="Black"></Setter>
+            </Style>
+        </Grid.Styles>
+        
+        
         <!-- Bottom bar -->
-        <Grid Grid.Row="2" Background="Black" Height="20"  >
+        <Grid Grid.Row="2" Background="Snow" Height="47"  >
             
             
             
@@ -58,15 +174,6 @@
         </Grid>
         
     </Grid>
-
-    <!--  <TextBlock Width="250"
-               Height="40"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Center"
-               Margin="5"
-               Background="Pink"
-               Grid.Column="1"></TextBlock> -->
-
 
 
 </UserControl>

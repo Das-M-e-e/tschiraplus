@@ -11,10 +11,12 @@
     <ItemGroup>
         <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
+        <Folder Include="Views\Models\" />
     </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Avalonia" Version="11.1.0"/>
+        <PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="$(AvaloniaVersion)" />
         <PackageReference Include="Avalonia.Desktop" Version="11.1.0"/>
         <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0"/>
         <PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.0"/>
