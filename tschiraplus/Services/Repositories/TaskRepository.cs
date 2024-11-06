@@ -22,6 +22,11 @@ public class TaskRepository
         return _db.SingleOrDefault<TaskModel>("WHERE TaskId = @0", taskId);
     }
 
+    public List<TaskModel> GetAllTasks()
+    {
+        return _db.Fetch<TaskModel>("SELECT * FROM Tasks");
+    }
+
     public void UpdateTask(TaskModel task)
     {
         _db.Update("Tasks", "TaskId", task);
@@ -29,6 +34,6 @@ public class TaskRepository
 
     public void DeleteTask(Guid taskId)
     {
-        _db.Delete<TaskModel>("WHERE TaskId = @0", taskId);
+        _db.Execute("DELETE FROM Tasks WHERE TaskId = @0", taskId);
     }
 }

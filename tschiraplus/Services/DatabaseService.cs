@@ -1,4 +1,5 @@
 ﻿using Data.DatabaseConfig;
+using PetaPoco;
 
 namespace Services;
 
@@ -15,5 +16,10 @@ public class DatabaseService
     {
         var dbInitializer = new DatabaseInitializer(_dbConfig);
         dbInitializer.InitializeDatabase();
+    }
+
+    public Database GetDatabase()
+    {
+        return _dbConfig.GetDatabase();
     }
 }
