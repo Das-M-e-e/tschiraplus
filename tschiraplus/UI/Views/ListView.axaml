@@ -1,57 +1,74 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        x:Class="UI.Views.ListView">
+        xmlns:vm="clr-namespace:UI.ViewModels"
+        x:Class="UI.Views.ListView"
+        x:DataType="vm:TaskListViewModel">
     
-   
-    <Grid RowDefinitions="Auto, *, Auto"> 
+   <Grid RowDefinitions="Auto, *, Auto">
+       <Grid Grid.Row="0" Background="#1a1c20">
+       <Border Background="LightSteelBlue" 
+               CornerRadius="15" 
+               Margin="10,20,10,0"
+               Height="60"
+               >
+           
+           <StackPanel 
+               Height="34" 
+               Width="34" 
+               HorizontalAlignment="Left"
+               Orientation="Horizontal">
+                                
+               <Image Source="avares://UI/Assets/kanban_fill_icon.png"
+                      Stretch="Fill" 
+                      Width="18" 
+                      Height="16" 
+                      Margin="20,0, 0,0"></Image>
+               <TextBlock Text="List View" 
+                          FontSize="12"
+                          Margin="10,10,0,20"
+                          FontWeight="Regular" 
+                          Foreground="Black" 
+                          HorizontalAlignment="Left" 
+                          Width="150">
+                                    
+               </TextBlock>
+               
+               <!-- Search bar -->
+               <TextBox Background="#353340" 
+                        Height="40" 
+                        Width="250" 
+                        CornerRadius="15" 
+                        Foreground="#CFCFCF"
+                        >
+                   <TextBox.Styles>
+                       <Style Selector="TextBox">
+                           <Setter Property="Background" Value="White"/>
+                           <Setter Property="Foreground" Value="Black"/>
+                           <Setter Property="Padding" Value="5"/>
+                           <Setter Property="FontSize" Value="16"/>
+                           <Setter Property="Opacity" Value="0.5"/>
+                       </Style>
+                       <Style Selector="TextBox:focus">
+                           <Setter Property="Opacity" Value="1"/>
+                       </Style>
+                   </TextBox.Styles>
+               </TextBox>
+                                
+           </StackPanel>
+           
+           
+       </Border>
+       </Grid>
+       <Grid Grid.Row="1" ColumnDefinitions="Auto, *" Background="#1a1c20"> 
         <!-- Title bar -->
         
         <Grid Grid.Row="0" Background="#1a1c20" Height="80">
-            <Image Source="avares://UI/Assets/kanban_fill_icon.png" 
-                   Stretch="Fill" 
-                   Width="18" 
-                   Height="16" 
-                   Margin="8,0,0,0"></Image>
-            
-           
-            <Grid>
-                <Border Background="LightSteelBlue" 
-                        CornerRadius="15" 
-                        Margin="10,10,10,0">
-                    
-                    <TextBox Background="#353340" 
-                             Height="40" 
-                             Width="250" 
-                             CornerRadius="15" 
-                             Foreground="#CFCFCF">Search...</TextBox>
-                </Border>
-            </Grid>
-            
              <Grid Grid.Row="0">
-                            <StackPanel 
-                                        Height="34" 
-                                        Width="34" 
-                                        HorizontalAlignment="Left">
-                                
-                                <Image Source="avares://UI/Assets/kanban_fill_icon.png"
-                                       Stretch="Fill" 
-                                       Width="18" 
-                                       Height="16" 
-                                       Margin="20,10, 0,0"></Image>
-                                <TextBlock Text="List View" 
-                                           FontSize="12"
-                                           Margin="40,-15,0,20"
-                                           FontWeight="Regular" 
-                                           Foreground="Black" 
-                                           HorizontalAlignment="Left" 
-                                           Width="150">
-                                    
-                                </TextBlock>
-                                
-                            </StackPanel>
+                 
                         </Grid>
             
         </Grid>
+        
         
         <!-- Main -->
         
@@ -83,7 +100,7 @@
                     
                     <Grid Grid.Row="1" VerticalAlignment="Top" Margin="3,0,5,20">
                         <Border 
-                            Margin="10,15,10,110" 
+                            Margin="10,1,10,110" 
                             Padding="10,0,10,15" 
                             CornerRadius="6" 
                             Background="#ECF3FF" 
@@ -91,6 +108,9 @@
                             >
                             
                         </Border>
+                        
+                        
+                       
                         
                     <!-- Checkboxs -->
                         <Grid Grid.Row="3">
@@ -130,23 +150,36 @@
                                   Foreground="Black"
                                   
                         >Oldest</CheckBox>    
-                </Grid>    
+                </Grid>
+                    
+                    <Button 
+                        Grid.Column="2"
+                        CornerRadius="15"
+                        VerticalAlignment="Bottom"
+                        Margin="110,0,0,0" 
+                        FontSize="14"
+                        VerticalContentAlignment="2"
+                        HorizontalContentAlignment="2">Apply</Button> 
+                    
+                    <Button Background="#ECF3FF" 
+                            Grid.Column="2"
+                            VerticalAlignment="Bottom"
+                            Margin="10,0,0,70" 
+                            FontSize="14"
+                            Width="165"
+                            HorizontalAlignment="Left"
+                            BorderBrush="LightBlue">+ Add new Task</Button>
+                    
                     </Grid>
+                    
+                    
             </Grid>
             </Border>
+                
             </StackPanel>
             
             
-            <Button 
-                Grid.Column="2"
-                CornerRadius="15"
-                VerticalAlignment="Bottom"
-                Margin="130,20,20,180" 
-                FontSize="14"
-                VerticalContentAlignment="2"
-                HorizontalContentAlignment="2">Apply</Button> 
             
-                
         </Grid>
         
         
@@ -165,15 +198,36 @@
         </Grid.Styles>
         
         
-        <!-- Bottom bar -->
-        <Grid Grid.Row="2" Background="Snow" Height="47"  >
-            
-            
-            
-            
-        </Grid>
+        <ScrollViewer Grid.Row="1" 
+                      Grid.Column="1">
+            <ItemsControl ItemsSource="{Binding Tasks}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:TaskViewModel">
+                        <Border BorderBrush="Gray"
+                                BorderThickness="1"
+                                Margin="10"
+                                Padding="10"
+                                >
+                            <StackPanel TextElement.Foreground="Snow">
+                                <TextBlock Text="{Binding Title}" ></TextBlock>
+                                <TextBlock Text="{Binding Description}"></TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+   
         
-    </Grid>
-
+        
+        <!-- Bottom bar -->
+        
+        
+    </Grid >
+      <Border Grid.Row="2" Background="Snow" 
+              VerticalAlignment="Bottom"
+              Height="45"></Border>
+       
+   </Grid>
 
 </UserControl>
