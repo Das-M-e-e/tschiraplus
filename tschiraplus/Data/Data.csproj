@@ -6,4 +6,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Data.Sqlite" Version="9.0.0-rc.2.24474.1" />
+      <PackageReference Include="PetaPoco.Compiled" Version="6.0.683" />
+    </ItemGroup>
+
 </Project>
