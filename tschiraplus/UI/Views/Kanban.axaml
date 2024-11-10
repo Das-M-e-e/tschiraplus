@@ -1,8 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="using:UI.ViewModels"
+        xmlns:vm="clr-namespace:UI.ViewModels"
         x:Class="UI.Views.Kanban"
         x:DataType="vm:TaskListViewModel">
     
@@ -56,9 +54,9 @@
                                 <ItemsControl.ItemTemplate><DataTemplate x:DataType="vm:TaskViewModel">
                                     <Border Width="185" Margin="4,15,4,0" Padding="10,10,10,15" CornerRadius="6" Background="#ECF3FF" BoxShadow="0 1 2 0 CornflowerBlue" >
                                         <StackPanel Orientation="Vertical">
-                                            <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black">Example Task</TextBlock>
+                                            <TextBlock FontWeight="Medium" FontSize="11" Foreground="Black" Text="{Binding Title}"></TextBlock>
                                             <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="65" Background="Gainsboro" CornerRadius="20">
-                                                <TextBlock Text="{Binding Title}" Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
+                                                <TextBlock Text="{Binding Description}" Foreground="Black" Padding="1.5" HorizontalAlignment="Center" FontSize="9">Example tag</TextBlock>
                                             </Border>
                                             <Border Margin="0,5,1,1" HorizontalAlignment="Left" Width="50" Background="#85ADF3" CornerRadius="20">
                                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
@@ -71,7 +69,7 @@
                                 </DataTemplate></ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-                        <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
+                        <Button Grid.Row="2" Command="{Binding AddRandomTaskCommand}" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
                         <Grid.Styles>
@@ -120,7 +118,7 @@
                                 </DataTemplate></ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-                        <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
+                        <Button Grid.Row="2" Command="{Binding AddRandomTaskCommand}" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
                         <Grid.Styles>
@@ -169,7 +167,7 @@
                                 </DataTemplate></ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-                        <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
+                        <Button Grid.Row="2" Command="{Binding AddRandomTaskCommand}" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
                         <Grid.Styles>
@@ -218,7 +216,7 @@
                                 </DataTemplate></ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-                        <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
+                        <Button Grid.Row="2" Command="{Binding AddRandomTaskCommand}" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
                         <Grid.Styles>
@@ -267,7 +265,7 @@
                                 </DataTemplate></ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-                        <Button Grid.Row="2" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
+                        <Button Grid.Row="2" Command="{Binding AddRandomTaskCommand}" Background="Transparent" BorderBrush="Transparent" FontSize="12" Foreground="Black" Padding="5.5" Margin="10,8,0,0" HorizontalAlignment="Left">
                             <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                         </Button>
                         <Grid.Styles>
@@ -289,7 +287,7 @@
         <!-- Bottom bar -->
         <Grid Grid.Row="3" Background="snow" ColumnDefinitions="Auto, Auto, *">
             <Button Grid.Column="0" CornerRadius="15" Margin="10,10,5,10"> Exit </Button>
-            <Button Grid.Column="1" CornerRadius="15" Margin="8,10,8,10"> Test </Button>
+            <Button Grid.Column="1" Command="{Binding AddRandomTaskCommand}" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
             <Grid.Styles>
                 <Style Selector="Button">
                     <Setter Property="Background" Value="#98acd0"></Setter>

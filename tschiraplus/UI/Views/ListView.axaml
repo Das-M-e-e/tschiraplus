@@ -145,7 +145,8 @@
                                 FontSize="14"
                                 Width="165"
                                 HorizontalAlignment="Left"
-                                BorderBrush="LightBlue">+ Add new Task</Button>
+                                BorderBrush="LightBlue"
+                                Command="{Binding AddRandomTaskCommand}">+ Add new Task</Button>
                     
                             </Grid>
                         </Grid>
@@ -162,8 +163,9 @@
                                         Margin="10"
                                         Padding="10">
                                     <StackPanel TextElement.Foreground="Snow">
-                                        <TextBlock Text="{Binding Title}" ></TextBlock>
+                                        <TextBlock Text="{Binding Title}"></TextBlock>
                                         <TextBlock Text="{Binding Description}"></TextBlock>
+                                        <Button Command="{Binding DeleteTaskCommand}" Content="Delete"></Button>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

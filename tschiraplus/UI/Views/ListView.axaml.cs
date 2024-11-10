@@ -8,6 +8,5 @@ public partial class ListView : UserControl
     public ListView()
     {
         InitializeComponent();
-        DataContext = new TaskListViewModel();
     }
 }

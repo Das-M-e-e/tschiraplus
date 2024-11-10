@@ -14,8 +14,8 @@ public class MainTabViewModel : ViewModelBase
         
         Tabs = new ObservableCollection<TabItemModel>
         {
-            new TabItemModel("Kanban", new Kanban()),
-            new TabItemModel("ListView", new ListView{ DataContext = taskListViewModel })
+            new("Kanban", new Kanban { DataContext = taskListViewModel }),
+            new("ListView", new ListView{ DataContext = taskListViewModel })
         };
     }
 }
