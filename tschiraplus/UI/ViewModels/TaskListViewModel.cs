@@ -1,7 +1,5 @@
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using Avalonia.Controls;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Core.Models;
@@ -22,16 +20,10 @@ public class TaskListViewModel
 
         AddRandomTaskCommand = new RelayCommand(AddRandomTask);
         
-        //Tasks.Add(new TaskViewModel{Title = "Task 1", Tag = "Example tag1", User = "Franzi"});
-        //Tasks.Add(new TaskViewModel{Title = "Task 2", Tag = "Example tag2", User = "Sofia"});
-        //Tasks.Add(new TaskViewModel{Title = "Task 3", Tag = "Example tag3", User = "Franzi"});
-        //Tasks.Add(new TaskViewModel{Title = "Task 4", Tag = "Example tag4", User = "Sofia"});
-        //Tasks.Add(new TaskViewModel{Title = "Task 5", Tag = "Example tag5", User = "Franzi"});
-        
         LoadTasks();
     }
 
-    public void LoadTasks()
+    private void LoadTasks()
     {
         Tasks.Clear();
         var allTasks = _taskRepository.GetAllTasks();
@@ -41,7 +33,7 @@ public class TaskListViewModel
         }
     }
 
-    public void AddRandomTask()
+    private void AddRandomTask()
     {
         var newTask = new TaskModel
         {
