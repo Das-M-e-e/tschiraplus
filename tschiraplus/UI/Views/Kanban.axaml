@@ -1,8 +1,12 @@
 <UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:UI.ViewModels"
         x:Class="UI.Views.Kanban"
         x:DataType="vm:TaskListViewModel">
+    
+    
     
     <Grid RowDefinitions="Auto, Auto, *, Auto">
         <!-- Title bar -->
@@ -236,8 +240,8 @@
             </StackPanel>
             
             <!-- Done -->
-            <StackPanel Grid.Column="4" Width="209.6" Spacing="8" HorizontalAlignment="Center">
-                <Border Name="TaskBox5" Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="#B7DAA8" >
+            <StackPanel Name="MainContainer" DragDrop.AllowDrop="True" Grid.Column="4" Width="209.6" Spacing="8" HorizontalAlignment="Center">
+                <Border Margin="5,0,0,0" HorizontalAlignment="Stretch" CornerRadius="6" Background="#B7DAA8" >
                     <Grid RowDefinitions="Auto,*,Auto">
                         <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
                                 <Border VerticalAlignment="Center" HorizontalAlignment="Left" Height="18" Width="46" CornerRadius="20" Background="MediumSeaGreen">

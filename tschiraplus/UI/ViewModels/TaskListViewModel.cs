@@ -1,5 +1,7 @@
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using Avalonia.Controls;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Core.Models;
