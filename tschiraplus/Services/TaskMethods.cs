@@ -4,13 +4,16 @@ using TaskStatus = System.Threading.Tasks.TaskStatus;
 
 namespace Services;
 using Core.Models;
+using Services.Repositories;
 
 public class TaskMethods
 {
-    private List<TaskModel> taskList = new List<TaskModel>();
+    //private List<TaskModel> taskList = new List<TaskModel>();
     //private var TaskModels = taskList;
+    
+    private readonly DatabaseService databaseService;   
 
-    TaskModel CreateTaskModell(Guid taskId
+    public void CreateTaskModel(Guid taskId
                         ,string title
                         ,string description
                         ,TaskStatus status
@@ -47,9 +50,16 @@ public class TaskMethods
         //newTask.Attachments = attachments;
         //newTask.Comments = comments;
         //newTask.Dependencies = dependencies;
+
+
+        /*-----------------
+         * Hier return Task entfernt und Methode vom Typ void gemacht -->ermöglicht, dass die Methode die Task direkt
+         * in die Datenbank einträgt
+         *return newTask;
+         * ----------------
+         */
         
-        
-        return newTask;
+        databaseService.InsertTask(newTask);
     }
 
 }
