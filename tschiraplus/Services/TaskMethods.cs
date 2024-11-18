@@ -13,7 +13,7 @@ public class TaskMethods
     
     private readonly DatabaseService databaseService;   
 
-    public void CreateTaskModel(Guid taskId
+    public static TaskModel CreateTaskModel(Guid taskId
                         ,string title
                         ,string description
                         ,TaskStatus status
@@ -50,16 +50,11 @@ public class TaskMethods
         //newTask.Attachments = attachments;
         //newTask.Comments = comments;
         //newTask.Dependencies = dependencies;
-
-
-        /*-----------------
-         * Hier return Task entfernt und Methode vom Typ void gemacht -->ermöglicht, dass die Methode die Task direkt
-         * in die Datenbank einträgt
-         *return newTask;
-         * ----------------
-         */
         
-        databaseService.InsertTask(newTask);
+         return newTask;
+         
+        
+     
     }
 
 }
