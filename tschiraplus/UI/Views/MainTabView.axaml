@@ -6,6 +6,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="UI.Views.MainTabView"
         x:DataType="vm:MainTabViewModel"
+        WindowState="Maximized"
         Title="MainTabView">
         
         <TabControl ItemsSource="{Binding Tabs}" Padding="0">

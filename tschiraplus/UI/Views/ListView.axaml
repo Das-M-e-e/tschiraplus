@@ -102,6 +102,7 @@
                                       Height="35" 
                                       FontWeight="DemiBold" 
                                       Foreground="Black" 
+                                      Command="{Binding SortTasksByTitleCommand}"
                             >Alphabetical</CheckBox>
                                     
                             <CheckBox Background="Transparent"
@@ -120,6 +121,7 @@
                                       Height="35" 
                                       FontWeight="DemiBold" 
                                       Foreground="Black"
+                                      Command="{Binding SortTasksByCreationDateCommand}"
                             >Newest</CheckBox>
                             
                             <CheckBox Background="Transparent"
