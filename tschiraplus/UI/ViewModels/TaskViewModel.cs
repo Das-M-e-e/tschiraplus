@@ -1,8 +1,7 @@
 using System;
 using System.Windows.Input;
-using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
-using Core.Models;
+using Services.DTOs;
 
 namespace UI.ViewModels;
 
@@ -17,12 +16,12 @@ public class TaskViewModel
     public string? Status { get; }
     public DateTime CreationDate { get; }
 
-    public TaskViewModel(TaskModel task, TaskListViewModel taskListViewModel)
+    public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel)
     {
         TaskId = task.TaskId;
-        Title = task.Title ?? "Unnamed Task";
-        Description = task.Description ?? "...";
-        Status = task.Status.ToString();
+        Title = task.Title;
+        Description = task.Description;
+        Status = task.Status;
         CreationDate = task.CreationDate;
 
         _taskListViewModel = taskListViewModel;

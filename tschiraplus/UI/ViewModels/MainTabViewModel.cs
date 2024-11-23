@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Services;
 using Services.Repositories;
 using Services.TaskProcessing;
 using UI.Views;
@@ -11,7 +12,7 @@ public class MainTabViewModel : ViewModelBase
 
     public MainTabViewModel(TaskRepository taskRepository)
     {
-        var taskListViewModel = new TaskListViewModel(taskRepository, new TaskSortingManager());
+        var taskListViewModel = new TaskListViewModel(new TaskService(taskRepository, new TaskSortingManager()));
         
         Tabs = new ObservableCollection<TabItemModel>
         {

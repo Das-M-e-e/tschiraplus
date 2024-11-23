@@ -9,4 +9,11 @@ public class TaskSortingManager
     {
         return items.OrderBy(keySelector).ToList();
     }
+
+    public IEnumerable<T> FilterByPredicate<T>(
+        IEnumerable<T> items,
+        Func<T, bool> predicate)
+    {
+        return items.Where(predicate).ToList();
+    }
 }

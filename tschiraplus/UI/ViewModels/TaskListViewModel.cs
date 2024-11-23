@@ -1,12 +1,12 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
-using Services.Repositories;
-using Services.TaskProcessing;
-using TaskFactory = Services.Factories.TaskFactory;
+using Services;
+using Services.DTOs;
 
 namespace UI.ViewModels;
 
@@ -15,25 +15,26 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
 {
     public ViewModelActivator Activator { get; }
 
-    private readonly TaskRepository _taskRepository;
-    private readonly TaskSortingManager _taskSortingManager;
+    private readonly TaskService _taskService;
+    // Lists
     public ObservableCollection<TaskViewModel> Tasks { get; } = new();
     public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = new();
+
+    private List<TaskDto> AllTasks { get; set; } = new();
+    // Commands
     public ICommand AddRandomTaskCommand { get; }
     public ICommand SortTasksByTitleCommand { get; }
-    public ICommand SortTasksByCreationDateCommand { get; }
+    public ICommand FilterTasksByStatusCommand { get; }
 
-    public TaskListViewModel(TaskRepository taskRepository, TaskSortingManager taskSortingManager)
+    public TaskListViewModel(TaskService taskService)
     {
-        _taskRepository = taskRepository;
-        _taskSortingManager = taskSortingManager;
+        _taskService = taskService;
 
         AddRandomTaskCommand = new RelayCommand(AddRandomTask);
         SortTasksByTitleCommand = new RelayCommand(SortTasksByTitle);
-        SortTasksByCreationDateCommand = new RelayCommand(SortTasksByCreationDate);
+        FilterTasksByStatusCommand = new RelayCommand(FilterTasksByStatus);
         
         InitializeKanbanColumns();
-        //LoadTasks();
 
         Activator = new ViewModelActivator();
         this.WhenActivated((CompositeDisposable disposables) =>
@@ -44,72 +45,65 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
 
     private void InitializeKanbanColumns()
     {
-        KanbanColumns.Add(new KanbanColumnViewModel("Backlog", "Backlog", "LightSteelBlue", "#ECF3FF", _taskRepository, this));
-        KanbanColumns.Add(new KanbanColumnViewModel("Ready", "Ready", "MistyRose", "#FFF9F8", _taskRepository, this));
-        KanbanColumns.Add(new KanbanColumnViewModel("In Progress", "InProgress", "#FFF5CD", "#FFFCF0", _taskRepository, this));
-        KanbanColumns.Add(new KanbanColumnViewModel("In Review", "InReview", "Bisque", "#FFFAF4", _taskRepository, this));
-        KanbanColumns.Add(new KanbanColumnViewModel("Done", "Done", "#B7DAA8", "#E6FFF1", _taskRepository, this));
+        KanbanColumns.Add(new KanbanColumnViewModel("Backlog", "Backlog", "LightSteelBlue", "#ECF3FF", _taskService, this));
+        KanbanColumns.Add(new KanbanColumnViewModel("Ready", "Ready", "MistyRose", "#FFF9F8", _taskService, this));
+        KanbanColumns.Add(new KanbanColumnViewModel("In Progress", "InProgress", "#FFF5CD", "#FFFCF0", _taskService, this));
+        KanbanColumns.Add(new KanbanColumnViewModel("In Review", "InReview", "Bisque", "#FFFAF4", _taskService, this));
+        KanbanColumns.Add(new KanbanColumnViewModel("Done", "Done", "#B7DAA8", "#E6FFF1", _taskService, this));
     }
 
-    private void LoadTasks()
+    public void LoadTasks()
     {
-        // empty tasks lists, so no task is shown multiple times
+        AllTasks = _taskService.GetAllTasks();
+        UpdateTaskList(AllTasks);
+    }
+
+    private void UpdateTaskList(IEnumerable<TaskDto> taskDtos)
+    {
         Tasks.Clear();
-        foreach (var column in KanbanColumns)
+        foreach (var col in KanbanColumns)
         {
-            column.Tasks.Clear();
+            col.Tasks.Clear();
         }
         
-        // load all tasks
-        var allTasks = _taskRepository.GetAllTasks();
-        
-        // put the tasks in the tasks lists
-        foreach (var task in allTasks)
+        foreach (var task in taskDtos)
         {
             Tasks.Add(new TaskViewModel(task, this));
-            var column = KanbanColumns.FirstOrDefault(c => c.Status == task.Status?.ToString());
+            var column = KanbanColumns.FirstOrDefault(c => c.Status == task.Status);
             column?.Tasks.Add(new TaskViewModel(task, this));
         }
     }
 
     private void AddRandomTask()
     {
-        var newTask = TaskFactory.CreateRandomTask("Backlog");
-
-        _taskRepository.AddTask(newTask);
-
-        var newTaskViewModel = new TaskViewModel(newTask, this);
-        Tasks.Add(newTaskViewModel);
-        var column = KanbanColumns.FirstOrDefault(c => c.Status == newTask.Status.ToString());
-        column?.Tasks.Add(newTaskViewModel);
+        _taskService.AddRandomTask("Backlog");
+        LoadTasks();
     }
 
     public void DeleteTask(TaskViewModel task)
     {
-        Tasks.Remove(task);
-        _taskRepository.DeleteTask(task.TaskId);
-
-        var column = KanbanColumns.FirstOrDefault(c => c.Status == task.Status);
-        column?.Tasks.Remove(task);
+        _taskService.DeleteTask(task.TaskId);
+        LoadTasks();
     }
 
     private void SortTasksByTitle()
     {
-        var sortedTasks = _taskSortingManager.SortBySingleAttribute(Tasks, task => task.Title);
-        Tasks.Clear();
-        foreach (var task in sortedTasks)
+        var taskDtos = Tasks.Select(task => new TaskDto
         {
-            Tasks.Add(task);
-        }
+            TaskId = task.TaskId,
+            Title = task.Title,
+            Description = task.Description,
+            Status = task.Status,
+            CreationDate = task.CreationDate
+        }).ToList();
+        
+        var sortedTaskDtos = _taskService.SortTasksByTitle(taskDtos);
+        UpdateTaskList(sortedTaskDtos);
     }
 
-    private void SortTasksByCreationDate()
+    private void FilterTasksByStatus()
     {
-        var sortedTasks = _taskSortingManager.SortBySingleAttribute(Tasks, task => task.CreationDate);
-        Tasks.Clear();
-        foreach (var task in sortedTasks)
-        {
-            Tasks.Add(task);
-        }
+        var filteredTasks = _taskService.FilterTasksByStatus(AllTasks, "Backlog");
+        UpdateTaskList(filteredTasks);
     }
 }

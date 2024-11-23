@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using PetaPoco;
+using Services.DTOs;
 
 namespace Services.Repositories;
 
@@ -22,9 +23,18 @@ public class TaskRepository
         return _db.SingleOrDefault<TaskModel>("WHERE TaskId = @0", taskId);
     }
 
-    public List<TaskModel> GetAllTasks()
+    public List<TaskDto> GetAllTasks()
     {
-        return _db.Fetch<TaskModel>("SELECT * FROM Tasks");
+        var tasks = _db.Fetch<TaskModel>("SELECT * FROM Tasks");
+
+        return tasks.Select(task => new TaskDto
+        {
+            TaskId = task.TaskId,
+            Title = task.Title ?? "Unnamed task",
+            Description = task.Description ?? "No description provided",
+            Status = task.Status.ToString(),
+            CreationDate = task.CreationDate
+        }).ToList();
     }
 
     public void UpdateTask(TaskModel task)

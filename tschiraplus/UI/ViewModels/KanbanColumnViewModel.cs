@@ -1,14 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using Services.Factories;
-using Services.Repositories;
+using Services;
 
 namespace UI.ViewModels;
 
 public class KanbanColumnViewModel
 {
-    private readonly TaskRepository _taskRepository;
+    private readonly TaskService _taskService;
     private readonly TaskListViewModel _taskListViewModel;
     
     public string Title { get; }
@@ -21,13 +20,13 @@ public class KanbanColumnViewModel
     public ICommand AddRandomTaskCommand { get; }
 
     public KanbanColumnViewModel(string title, string status, string backgroundColor, string taskBackgroundColor,
-        TaskRepository taskRepository, TaskListViewModel taskListViewModel)
+        TaskService taskService, TaskListViewModel taskListViewModel)
     {
         Title = title;
         Status = status;
         BackgroundColor = backgroundColor;
         TaskBackgroundColor = taskBackgroundColor;
-        _taskRepository = taskRepository;
+        _taskService = taskService;
         _taskListViewModel = taskListViewModel;
 
         AddRandomTaskCommand = new RelayCommand(AddRandomTask);
@@ -35,12 +34,7 @@ public class KanbanColumnViewModel
 
     private void AddRandomTask()
     {
-        var newTask = TaskFactory.CreateRandomTask(Status);
-        _taskRepository.AddTask(newTask);
-
-        var taskViewModel = new TaskViewModel(newTask, _taskListViewModel);
-        
-        Tasks.Add(taskViewModel);
-        _taskListViewModel.Tasks.Add(taskViewModel);
+        _taskService.AddRandomTask(Status);
+        _taskListViewModel.LoadTasks();
     }
 }

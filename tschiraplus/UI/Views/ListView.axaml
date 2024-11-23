@@ -4,7 +4,7 @@
         x:Class="UI.Views.ListView"
         x:DataType="vm:TaskListViewModel">
     
-    <Grid RowDefinitions="Auto, *, Auto">
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
         
         <!-- Top Bar -->
         <Grid Grid.Row="0" Background="#1a1c20">
@@ -56,8 +56,13 @@
             </Border>
         </Grid>
         
+        <!-- Search/Sort/Filter Bar -->
+        <Grid Grid.Row="1">
+            <TextBox Text="" Watermark="Search/Sort/Filter" MaxWidth="500" MinWidth="300" Margin="0,10"></TextBox>
+        </Grid>
+        
         <!-- Main Area -->
-        <Grid Grid.Row="1" Background="#1a1c20">
+        <Grid Grid.Row="2" Background="#1a1c20">
             <Grid ColumnDefinitions="Auto,*">
                 <!-- Select Area -->
                 <StackPanel Grid.Column="0" Width="209.6" Spacing="8" HorizontalAlignment="Left">
@@ -112,6 +117,7 @@
                                       Height="35" 
                                       FontWeight="DemiBold" 
                                       Foreground="Black"
+                                      Command="{Binding FilterTasksByStatusCommand}"
                             >Priority</CheckBox>
                                 
                             <CheckBox Background="Transparent"
@@ -121,7 +127,6 @@
                                       Height="35" 
                                       FontWeight="DemiBold" 
                                       Foreground="Black"
-                                      Command="{Binding SortTasksByCreationDateCommand}"
                             >Newest</CheckBox>
                             
                             <CheckBox Background="Transparent"
@@ -193,7 +198,7 @@
         </Grid.Styles>
         
         <!-- Bottom Bar -->
-        <Border Grid.Row="2" Background="Snow" 
+        <Border Grid.Row="3" Background="Snow" 
                 VerticalAlignment="Bottom"
                 Height="45">
         </Border>
