@@ -1,9 +1,8 @@
 ﻿using Core.Models;
 using Services.DTOs;
 using Services.Repositories;
-using Services.TaskProcessing;
 
-namespace Services;
+namespace Services.TaskServices;
 
 public class TaskService(TaskRepository taskRepository, TaskSortingManager taskSortingManager)
 {

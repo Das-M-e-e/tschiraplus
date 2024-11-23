@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using Services;
+using Services.TaskServices;
 
 namespace UI.ViewModels;
 

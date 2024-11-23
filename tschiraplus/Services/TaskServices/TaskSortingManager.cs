@@ -1,4 +1,4 @@
-﻿namespace Services.TaskProcessing;
+﻿namespace Services.TaskServices;
 
 public class TaskSortingManager
 {

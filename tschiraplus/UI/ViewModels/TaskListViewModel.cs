@@ -5,8 +5,8 @@ using System.Reactive.Disposables;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
-using Services;
 using Services.DTOs;
+using Services.TaskServices;
 
 namespace UI.ViewModels;
 

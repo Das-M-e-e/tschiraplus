@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using Services;
 using Services.Repositories;
-using Services.TaskProcessing;
+using Services.TaskServices;
 using UI.Views;
 
 namespace UI.ViewModels;
