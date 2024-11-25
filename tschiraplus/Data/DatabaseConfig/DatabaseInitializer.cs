@@ -15,13 +15,13 @@ public class DatabaseInitializer
         db.Execute(@"
                 CREATE TABLE IF NOT EXISTS Tasks (
                     TaskId TEXT PRIMARY KEY,
-                    Title TEXT,
+                    Title TEXT NOT NULL,
                     Description TEXT,
-                    Status INTEGER,
+                    Status INTEGER NOT NULL,
                     Priority INTEGER,
-                    CreationDate DATETIME,
-                    DueDate DATETIME,
-                    CompletionDate DATETIME,
+                    CreationDate TIMESTAMP,  /* Timestamp because it converts the times into the Timezone in which the User is working from. */
+                    DueDate TIMESTAMP,
+                    CompletionDate TIMESTAMP,
                     SprintId TEXT,
                     ProjectId TEXT,
                     EstimatedTime TEXT,
@@ -30,13 +30,13 @@ public class DatabaseInitializer
                 
                 CREATE TABLE IF NOT EXISTS Task (      /* a new task table because the other one is only for testing purposes */
                     TaskId TEXT PRIMARY KEY,
-                    Title TEXT not null,
+                    Title TEXT NOT NULL,
                     Description TEXT,
                     Status INTEGER,
                     Priority INTEGER,
-                    CreationDate DATETIME,
-                    DueDate DATETIME,
-                    CompletionDate DATETIME,
+                    CreationDate TIMESTAMP,
+                    DueDate TIMESTAMP,
+                    CompletionDate TIMESTAMP,
                     Assignees TEXT references User (UserName),
                     Tags TEXT,
                     SprintId TEXT references Sprint(SprintId),
@@ -45,123 +45,123 @@ public class DatabaseInitializer
                     ActualTimeSpent TEXT,
                     Attachements TEXT,
                     Comments TEXT,
-                    Dependencies,
+                    Dependencies TEXT
                 )
                 
                 CREATE TABLE IF NOT EXISTS User (
                     UserId TEXT PRIMARY KEY,
-                    Username TEXT not null,
-                    Email TEXT not null,
-                    PasswordHash TEXT not null,
+                    Username TEXT NOT NULL,
+                    Email TEXT NOT NULL,
+                    PasswordHash TEXT NOT NULL,
                     ProfilePictureUrl TEXT,
-                    CreatedAt DATETIME,
-                    LastLogin DATETIME,
+                    CreatedAt TIMESTAMP,
+                    LastLogin TIMESTAMP,
                     Status INTEGER,
                     Bio TEXT,
                     Settings TEXT,
                     Coins INTEGER,
                     Friends TEXT,
-                    Notifications TEXT,
+                    Notifications TEXT
                 )
                 
                 CREATE TABLE IF NOT EXISTS Project (
                     ProjectId TEXT PRIMARY KEY,
-                    Name TEXT not null,
+                    Name TEXT NOT NULL,
                     Description TEXT,
-                    CreationDate DATETIME
-                    DueDate DATETIME,
+                    CreationDate TIMESTAMP,
+                    DueDate TIMESTAMP,
                     Status INTEGER,
                     Priority INTEGER,
                     Sprints TEXT,
-                    Members TEXT not null,
+                    Members TEXT NOT NULL,
                     Tasks TEXT,
                     Attachements TEXT,
-                    OwnerId TEXT not null references User (UserId),
-                    LastUpdated DATETIME
+                    OwnerId TEXT references User (UserId),
+                    LastUpdated TIMESTAMP
                 ) 
                 
                 CREATE TABLE IF NOT EXISTS Attachment (
                     AttachmentId TEXT PRIMARY KEY,
-                    FileName TEXT not null,
-                    FileType TEXT not null,
-                    FileSize TEXT not null,
-                    FilePath TEXT not null,
-                    UploadedBy TEXT not null,
-                    UploadedDate DATETIME,
-                    TaskId TEXT not null references Task (TaskId),
-                    ProjectId TEXT not null references Project (ProjectId),
-                    CommentId TEXT not null references Comment (CommentId),
-                    Description TEXT not null,
+                    FileName TEXT NOT NULL,
+                    FileType TEXT NOT NULL,
+                    FileSize TEXT NOT NULL,
+                    FilePath TEXT NOT NULL,
+                    UploadedBy TEXT NOT NULL,
+                    UploadedDate TIMESTAMP,
+                    TaskId TEXT references Task (TaskId),
+                    ProjectId TEXT references Project (ProjectId),
+                    CommentId TEXT references Comment (CommentId),
+                    Description TEXT NOT NULL
                 )
                 
                 CREATE TABLE IF NOT EXISTS Comment (
                     CommentId TEXT PRIMARY KEY,
-                    Content TEXT not null,
-                    CreatedDate DATETIME not null,
-                    LastUpdatedTime DATETIME not null,
-                    AuthorId TEXT not null references User (UserId),
-                    ProjectId TEXT not null references Project (ProjectId),
-                    TaskId TEXT not null references Task (TaskId),
-                    ParentCommentId TEXT not null references Comment (CommentId),
+                    Content TEXT NOT NULL,
+                    CreatedDate TIMESTAMP NOT NULL,
+                    LastUpdatedTime TIMESTAMP NOT NULL,
+                    AuthorId TEXT references User (UserId),
+                    ProjectId TEXT references Project (ProjectId),
+                    TaskId TEXT references Task (TaskId),
+                    ParentCommentId TEXT references Comment (CommentId),
                     Attachements TEXT,
-                    isEdited TEXT not null,
-                    isDeleted TEXT not null,
+                    isEdited TEXT NOT NULL,
+                    isDeleted TEXT NOT NULL
                 )
                
                 CREATE TABLE IF NOT EXISTS Notification (
                     NotificationId TEXT PRIMARY KEY,
-                    Title TEXT not null,
-                    Message TEXT not null,
-                    Timestamp DATETIME not null,
+                    Title TEXT NOT NULL,
+                    Message TEXT NOT NULL,
+                    Timestamp TIMESTAMP NOT NULL,
                     isRead INTEGER,
-                    Type TEXT not null,
-                    Severity TEXT not null,
-                    AuthorId TEXT not null references User (UserId),
-                    RecipientId TEXT not null
+                    Type TEXT NOT NULL,
+                    Severity TEXT NOT NULL,
+                    AuthorId TEXT references User (UserId),
+                    RecipientId TEXT NOT NULL
                 )
                 
                 CREATE TABLE IF NOT EXISTS TaskAssignment (
                     ProjectTaskAssignmentId TEXT PRIMARY KEY,
-                    UserId TEXT not null references User(UserId),
-                    ProjectId TEXT not null references Project(ProjectId),
-                    TaskId TEXT not null references Task(TaskId),
-                    AssignedDate DATETIME
+                    UserId TEXT references User(UserId),
+                    ProjectId TEXT references Project(ProjectId),
+                    TaskId TEXT references Task(TaskId),
+                    AssignedDate TIMESTAMP NOT NULL
                 )
                 
                 CREATE TABLE IF NOT EXISTS UserProjectRole (
                     UserProjectRoleId TEXT PRIMARY KEY,
-                    UserId TEXT not null references User (UserId),
-                    ProjectId TEXT not null references Project (ProjectId),
-                    Role TEXT not null,
-                    AssignedDate DATETIME,
-                    IsActive TEXT not null,
+                    UserId TEXT references User (UserId),
+                    ProjectId TEXT references Project (ProjectId),
+                    Role TEXT NOT NULL,
+                    AssignedDate TIMESTAMP NOT NULL,
+                    IsActive TEXT NOT NULL,
                     Permissions TEXT
                 )
                 
                 CREATE TABLE IF NOT EXISTS UserSettings (
                     UserSettingsId TEXT PRIMARY KEY,
-                    UserId TEXT not null references User (UserId),
-                    Theme TEXT not null,
-                    Language TEXT not null,
-                    NotificationsEnabled TEXT not null,
-                    EmailNotificationsEnabled TEXT not null,
-                    ReceiveTaskReminders TEXT not null,
-                    ShowToolTips TEXT not null,
-                    Timezone TEXT not null,
-                    DateFormat TEXT not null
+                    UserId TEXT references User (UserId),
+                    Theme TEXT NOT NULL,
+                    Language TEXT NOT NULL,
+                    NotificationsEnabled TEXT NOT NULL,
+                    EmailNotificationsEnabled TEXT NOT NULL,
+                    ReceiveTaskReminders TEXT NOT NULL,
+                    ShowToolTips TEXT NOT NULL,
+                    Timezone TEXT NOT NULL,
+                    DateFormat TEXT NOT NULL
                 )
                 
                 CREATE TABLE IF NOT EXISTS Sprint (
                     SprintId TEXT PRIMARY KEY,
-                    Name TEXT not null,
+                    Name TEXT NOT NULL,
                     Description TEXT,
-                    StartDate DATETIME,
-                    EndDate DATETIME,
+                    StartDate TIMESTAMP NOT NULL,
+                    EndDate TIMESTAMP NOT NULL,
                     Status INTEGER,
                     ProjectId TEXT references Project(ProjectId),
                     Tasks TEXT,
-                    CreationDate DATETIME,
-                    LastUpdated DATETIME
+                    CreationDate TIMESTAMP NOT NULL,
+                    LastUpdated TIMESTAMP
                 )
                 ");
         
