@@ -26,7 +26,7 @@ public class DatabaseInitializer
                     ProjectId TEXT,
                     EstimatedTime TEXT,
                     ActualTimeSpent TEXT
-                )
+                );
                 
                 CREATE TABLE IF NOT EXISTS Task (      /* a new task table because the other one is only for testing purposes */
                     TaskId TEXT PRIMARY KEY,
@@ -46,7 +46,7 @@ public class DatabaseInitializer
                     Attachements TEXT,
                     Comments TEXT,
                     Dependencies TEXT
-                )
+                );
                 
                 CREATE TABLE IF NOT EXISTS User (
                     UserId TEXT PRIMARY KEY,
@@ -62,7 +62,7 @@ public class DatabaseInitializer
                     Coins INTEGER,
                     Friends TEXT,
                     Notifications TEXT
-                )
+                );
                 
                 CREATE TABLE IF NOT EXISTS Project (
                     ProjectId TEXT PRIMARY KEY,
@@ -78,7 +78,7 @@ public class DatabaseInitializer
                     Attachements TEXT,
                     OwnerId TEXT references User (UserId),
                     LastUpdated TIMESTAMP
-                ) 
+                );
                 
                 CREATE TABLE IF NOT EXISTS Attachment (
                     AttachmentId TEXT PRIMARY KEY,
@@ -92,7 +92,7 @@ public class DatabaseInitializer
                     ProjectId TEXT references Project (ProjectId),
                     CommentId TEXT references Comment (CommentId),
                     Description TEXT NOT NULL
-                )
+                );
                 
                 CREATE TABLE IF NOT EXISTS Comment (
                     CommentId TEXT PRIMARY KEY,
@@ -106,7 +106,7 @@ public class DatabaseInitializer
                     Attachements TEXT,
                     isEdited TEXT NOT NULL,
                     isDeleted TEXT NOT NULL
-                )
+                );
                
                 CREATE TABLE IF NOT EXISTS Notification (
                     NotificationId TEXT PRIMARY KEY,
@@ -118,7 +118,7 @@ public class DatabaseInitializer
                     Severity TEXT NOT NULL,
                     AuthorId TEXT references User (UserId),
                     RecipientId TEXT NOT NULL
-                )
+                );
                 
                 CREATE TABLE IF NOT EXISTS TaskAssignment (
                     ProjectTaskAssignmentId TEXT PRIMARY KEY,
@@ -126,7 +126,7 @@ public class DatabaseInitializer
                     ProjectId TEXT references Project(ProjectId),
                     TaskId TEXT references Task(TaskId),
                     AssignedDate TIMESTAMP NOT NULL
-                )
+                );
                 
                 CREATE TABLE IF NOT EXISTS UserProjectRole (
                     UserProjectRoleId TEXT PRIMARY KEY,
@@ -136,7 +136,7 @@ public class DatabaseInitializer
                     AssignedDate TIMESTAMP NOT NULL,
                     IsActive TEXT NOT NULL,
                     Permissions TEXT
-                )
+                );
                 
                 CREATE TABLE IF NOT EXISTS UserSettings (
                     UserSettingsId TEXT PRIMARY KEY,
@@ -149,7 +149,7 @@ public class DatabaseInitializer
                     ShowToolTips TEXT NOT NULL,
                     Timezone TEXT NOT NULL,
                     DateFormat TEXT NOT NULL
-                )
+                );
                 
                 CREATE TABLE IF NOT EXISTS Sprint (
                     SprintId TEXT PRIMARY KEY,
@@ -162,7 +162,8 @@ public class DatabaseInitializer
                     Tasks TEXT,
                     CreationDate TIMESTAMP NOT NULL,
                     LastUpdated TIMESTAMP
-                )
+                );
+
                 ");
         
                 
