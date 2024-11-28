@@ -15,131 +15,130 @@
             Width = "700" Height="500">
         
         <!--ProjectName-->
-        <StackPanel Margin="50,30,0,0">
+        <StackPanel Margin="50,40,0,0">
             <Grid>
-                <TextBlock Text="Projectname:" Margin="0,10,0,0"></TextBlock>
-                <TextBox Name="ProjectnameTextBox" Width="300" Height="40" CornerRadius="15">
-                    
-                    <TextBox.Styles>
-                        <Style Selector="TextBox">
-                            <Setter Property="Background" Value="White"/>
-                            <Setter Property="Foreground" Value="Black"/>
-                            <Setter Property="Padding" Value="10"/>
-                            <Setter Property="FontSize" Value="16"/>
-                            <Setter Property="Opacity" Value="0.5"/>
-                        </Style>
-                        <Style Selector="TextBox:focus">
-                            <Setter Property="Opacity" Value="1"/>
-                        </Style>
-                    </TextBox.Styles>
-                    
-                </TextBox>
-            </Grid>
-            
-            <TextBlock Text="  "></TextBlock>
-            
-            <!--Members-->
-            <Grid> 
-                <TextBlock Text="Member/s:" Margin="0,10,0,0"></TextBlock>
-                <TextBox Name="NumberOfPerson" Width="300" Height="40" CornerRadius="15">
-                <TextBox.Styles>
-                    <Style Selector="TextBox">
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Foreground" Value="Black"/>
-                        <Setter Property="Padding" Value="10"/>
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Opacity" Value="0.5"/>
-                    </Style>
-                    <Style Selector="TextBox:focus">
-                        <Setter Property="Opacity" Value="1"/>
-                    </Style>
-                </TextBox.Styles>
-                </TextBox>
-            </Grid>   
-            
-            <TextBlock Text="  "></TextBlock>
-            
-            <!--Descript-->
-            <Grid>
-                <TextBlock Text="Description:" Margin="0,10,0,0"></TextBlock>
-                <TextBox Name="Description" Width="300" Height="50" CornerRadius="15">
-                    <TextBox.Styles>
-                        <Style Selector="TextBox">
-                            <Setter Property="Background" Value="White"/>
-                            <Setter Property="Foreground" Value="Black"/>
-                            <Setter Property="Padding" Value="10"/>
-                            <Setter Property="FontSize" Value="16"/>
-                            <Setter Property="Opacity" Value="0.5"/>
-                        </Style>
-                        <Style Selector="TextBox:focus">
-                            <Setter Property="Opacity" Value="1"/>
-                        </Style>
-                    </TextBox.Styles>
-                </TextBox>
-            </Grid>
-            
-            <TextBlock Text= "Prio:" Margin="0,10,0,0"></TextBlock>
-            <ComboBox Name="PrioBox" Width="300" Margin=" 175,0,0,10" CornerRadius="15">
-                <ComboBox.Styles>
-                    <Style Selector="ComboBox">
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Foreground" Value="Black"/>
-                        <Setter Property="Padding" Value="10"/>
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Opacity" Value="0.5"/>
-                    </Style>
-                    <Style Selector="ComboBox:focus">
-                        <Setter Property="Opacity" Value="1"/>
-                    </Style>
-                </ComboBox.Styles>
-                <ComboBoxItem Content="High"></ComboBoxItem>
-                <ComboBoxItem Content="Medium"></ComboBoxItem>
-                <ComboBoxItem Content="Low"></ComboBoxItem>
-            </ComboBox>
-            
-            <!--ProjectStart-->
-            <TextBlock Text="StartDate:" Margin="0"></TextBlock>
-            <DatePicker Name="StartDatePicker" Width="300" CornerRadius="15">
-                <DatePicker.Styles>
-                    <Style Selector="DatePicker">
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Foreground" Value="Black"/>
-                        <Setter Property="Padding" Value="10"/>
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Opacity" Value="0.7"/>
-                    </Style>
-                    <Style Selector="DatePicker:focus">
-                        <Setter Property="Opacity" Value="1"/>
-                    </Style>
-                </DatePicker.Styles>
-            </DatePicker>
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Spacing="35" Margin="20">
+                    <TextBlock Text="Projectname:" VerticalAlignment="Center"/>
+                    <TextBlock Text="Members:" VerticalAlignment="Center"/>
+                    <TextBlock Text="Description:" VerticalAlignment="Center"/>
+                    <TextBlock Text="Prio:" VerticalAlignment="Center"/>
+                </StackPanel>
                 
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Spacing="10" Margin="10,0,0,0">
+                    <TextBox Name="ProjectnameTextBox" Width="300" Height="40" Margin="0,10,0,0" CornerRadius="15">
+                        <TextBox.Styles>
+                            <Style Selector="TextBox">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Style>
+                            <Style Selector="TextBox:focus">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Style>
+                        </TextBox.Styles>
+                    </TextBox>
+                   
+                    <TextBox Name="NumberOfPerson" Width="300" Height="40"  CornerRadius="15">
+                        <TextBox.Styles>
+                            <Style Selector="TextBox">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Style>
+                            <Style Selector="TextBox:focus">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Style>
+                    </TextBox.Styles>
+                    </TextBox>
+                   
+                    <TextBox Name="Description" Width="300" Height="45" Margin= "0,0,0,0" CornerRadius="15">
+                        <TextBox.Styles>
+                            <Style Selector="TextBox">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Style>
+                            <Style Selector="TextBox:focus">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Style>
+                        </TextBox.Styles>
+                    </TextBox>
+                   
+                    <ComboBox Name="PrioBox" Width="300" Margin=" 170,0,0,10" CornerRadius="15">
+                        <ComboBox.Styles>
+                            <Style Selector="ComboBox">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Style>
+                            <Style Selector="ComboBox:focus">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Style>
+                        </ComboBox.Styles>
+                            <ComboBoxItem Content="High"></ComboBoxItem>
+                            <ComboBoxItem Content="Medium"></ComboBoxItem>
+                            <ComboBoxItem Content="Low"></ComboBoxItem>
+                    </ComboBox>
+                </StackPanel> 
+            </Grid>
+            
+           
+            <!--ProjectStart-->
+            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical" Spacing="10" Margin="20,0,0,0">
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                    <TextBlock Text="StartDate:" VerticalAlignment="Center" Margin="0,10,0,0"></TextBlock>
+                    <DatePicker Name="StartDatePicker" Width="300" Margin="70,10,0,0" CornerRadius="15">
+                        <DatePicker.Styles>
+                            <Style Selector="DatePicker">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Style>
+                            <Style Selector="DatePicker:focus">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Style>
+                        </DatePicker.Styles>
+                    </DatePicker>
+                </StackPanel>
             <!--ProjectEnds-->
-            <TextBlock Text="EndDate:" Margin="0,10,0,0" ></TextBlock>
-            <DatePicker Name="EndDatePicker" Width="300" CornerRadius="15">
-                <DatePicker.Styles>
-                    <Style Selector="DatePicker">
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Foreground" Value="Black"/>
-                        <Setter Property="Padding" Value="10"/>
-                        <Setter Property="FontSize" Value="16"/>
-                        <Setter Property="Opacity" Value="0.7"/>
-                    </Style>
-                    <Style Selector="DatePicker:focus">
-                        <Setter Property="Opacity" Value="1"/>
-                    </Style>
-                </DatePicker.Styles>
-            </DatePicker>
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                    <TextBlock Text="EndDate:"  VerticalAlignment="Center" Margin="0,-15,0,0"></TextBlock>
+                    <DatePicker Name="EndDatePicker" Width="300" Margin="80,-10,0,0" CornerRadius="15">
+                        <DatePicker.Styles>
+                            <Style Selector="DatePicker">
+                                <Setter Property="Background" Value="White"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                                <Setter Property="Padding" Value="10"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="Opacity" Value="0.7"/>
+                            </Style>
+                            <Style Selector="DatePicker:focus">
+                                <Setter Property="Opacity" Value="1"/>
+                            </Style>
+                        </DatePicker.Styles>
+                    </DatePicker>
+                </StackPanel>
+            </StackPanel>
             
             <!--Buttons-->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,30,20,0">
                 <Button Name="CancelButton" Content="Cancel" Width="80" Margin="0,0,20,0" CornerRadius="15" 
                         Background="White"></Button>
                 <Button Name="SaveButton" Content="Save" Width="80" Margin="0,0,10,0" CornerRadius="15"
                         Background="CornflowerBlue" ></Button>
                 
             </StackPanel>
-        </StackPanel>
+            </StackPanel>
         
     </Border>
     </Grid>
