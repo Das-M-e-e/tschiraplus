@@ -4,7 +4,7 @@ using Services.Repositories;
 
 namespace Services.TaskServices;
 
-public class TaskService(TaskRepository taskRepository, TaskSortingManager taskSortingManager, TaskModelFactory taskModelFactory) 
+public class TaskService(TaskRepository taskRepository, TaskSortingManager taskSortingManager) 
 {
     //Wandelt Dto-Modelle in TaskModel
     //TODO default-Werte für die anderne Parameter in TaskModell implementieren.
