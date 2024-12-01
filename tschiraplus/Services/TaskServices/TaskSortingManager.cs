@@ -1,6 +1,6 @@
 ﻿namespace Services.TaskServices;
 
-public class TaskSortingManager
+public class TaskSortingManager //Hilfsklasse für Sortierung und Filterung 
 {
     public IEnumerable<T> SortBySingleAttribute<T, TKey>(
         IEnumerable<T> items,

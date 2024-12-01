@@ -7,7 +7,8 @@ using Services.Repositories;
 
 public class TaskModelFactory
 {
-    public TaskModel CreateTaskModel(Guid taskId
+    public TaskModel CreateTaskModel(
+        Guid taskId
         ,string title
         ,string description
         ,string status
@@ -50,6 +51,5 @@ public class TaskModelFactory
         
      
     }
-
     
 }
