@@ -1,7 +1,7 @@
 <UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:UI.ViewModels"
-        x:Class="UI.Views.Kanban"
+        x:Class="UI.Views.KanbanView"
         x:DataType="vm:TaskListViewModel">
     
     <Grid RowDefinitions="Auto, Auto, *, Auto">
@@ -9,7 +9,7 @@
         <Grid Grid.Row="0" Background="Snow" Height="34" ColumnDefinitions="Auto, Auto, Auto, *, Auto">
             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Image Source="avares://UI/Assets/kanban_fill_icon.png" Stretch="Fill" Width="18" Height="16" Margin="8,0,0,0"></Image>
-                <TextBlock Text="Kanban" FontSize="12" Margin="2,0,0,0" FontWeight="Regular" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150"> </TextBlock>
+                <TextBlock Text="KanbanView" FontSize="12" Margin="2,0,0,0" FontWeight="Regular" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150"> </TextBlock>
             </StackPanel>
             <Border Grid.Column="1" Width="97" BorderThickness="0,0,0,2"  BorderBrush="Black">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">

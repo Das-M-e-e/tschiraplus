@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace UI.Views;
 
-public partial class MainTabView : Window
+public partial class MainTabView : UserControl
 {
     public MainTabView()
     {

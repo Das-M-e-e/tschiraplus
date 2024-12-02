@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace UI.Views;
 
-public partial class TaskCreation : Window
+public partial class TaskCreationView : Window
 {
-    public TaskCreation()
+    public TaskCreationView()
     {
         InitializeComponent();
     }

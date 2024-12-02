@@ -11,7 +11,6 @@ public class SprintModel
     public DateTime? EndDate { get; set; }
     public SprintStatus Status { get; set; }
     public Guid ProjectId { get; set; }
-    public List<TaskModel> Tasks { get; set; } = [];
     public DateTime CreationDate { get; set; }
     public DateTime? LastUpdated { get; set; }
 }
