@@ -6,21 +6,35 @@ namespace Services.TaskServices;
 
 public class TaskService(TaskRepository taskRepository, TaskSortingManager taskSortingManager) 
 {
+//Objekt-Wandler:    
     //Wandelt Dto-Modelle in TaskModel
     //TODO default-Werte für die anderne Parameter in TaskModell implementieren.
-    public TaskModel ConvertTaskDtoToTaskModel(TaskDto taskDto)
+    public TaskModel convertTaskDtoToTaskModel(TaskDto taskDto)
     {
-        TaskModel convertedTaskModel = new TaskModel
+        var convertedTaskModel = new TaskModel
         {
             TaskId = taskDto.TaskId,
             CreationDate = taskDto.CreationDate,
+            Title = taskDto.Title,
+            Description = taskDto.Description,
+            Status = Enum.Parse<Core.Enums.TaskStatus>(taskDto.Status)
         };
-        
-        convertedTaskModel.Title = taskDto.Title;
-        convertedTaskModel.Description = taskDto.Description;
-        convertedTaskModel.Status = Enum.Parse<Core.Enums.TaskStatus>(taskDto.Status);
-        
         return convertedTaskModel;
+    }
+    
+    //Wandelt TaskModel in Dto-Modell
+    //TODO default-Werte für die anderen Parameter in TaskModell implementieren.
+    public TaskDto convertTaskModelToTaskDto(TaskModel taskModel)
+    {
+        var convertedTaskDto = new TaskDto
+        {
+            TaskId = taskModel.TaskId,
+            CreationDate = taskModel.CreationDate,
+            Description = taskModel.Description,
+            Title = taskModel.Title,
+            Status = taskModel.Status.ToString()
+        };
+        return convertedTaskDto;
     }
     
     
