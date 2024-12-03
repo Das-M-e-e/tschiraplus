@@ -9,7 +9,7 @@ public class MainTabViewModel : ViewModelBase
 {
     public ObservableCollection<TabItemModel> Tabs { get; }
 
-    public MainTabViewModel(TaskRepository taskRepository)
+    public MainTabViewModel(TaskRepository taskRepository) //Konstruktor
     {
         var taskListViewModel = new TaskListViewModel(new TaskService(taskRepository, new TaskSortingManager()));
         

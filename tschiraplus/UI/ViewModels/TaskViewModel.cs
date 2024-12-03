@@ -16,7 +16,7 @@ public class TaskViewModel
     public string? Status { get; }
     public DateTime CreationDate { get; }
 
-    public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel)
+    public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel) //Konstruktor
     {
         TaskId = task.TaskId;
         Title = task.Title;
@@ -28,7 +28,7 @@ public class TaskViewModel
         DeleteTaskCommand = new RelayCommand(DeleteTask);
     }
 
-    private void DeleteTask()
+    private void DeleteTask() //Löscht diese Task
     {
         _taskListViewModel.DeleteTask(this);
     }
