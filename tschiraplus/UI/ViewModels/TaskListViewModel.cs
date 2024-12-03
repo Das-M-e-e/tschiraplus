@@ -52,7 +52,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         KanbanColumns.Add(new KanbanColumnViewModel("Done", "Done", "#B7DAA8", "#E6FFF1", _taskService, this));
     }
 
-    public void LoadTasks()
+    public void LoadTasks() //Aktualliesiert die Liste der Aufgaben
     {
         AllTasks = _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
@@ -74,13 +74,13 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         }
     }
 
-    private void AddRandomTask()
+    private void AddRandomTask() //Erstellt eine zufällige Aufgabe (Testzwecke)
     {
         _taskService.AddRandomTask("Backlog");
         LoadTasks();
     }
 
-    public void DeleteTask(TaskViewModel task)
+    public void DeleteTask(TaskViewModel task) //Löscht eine Aufgabe per ID
     {
         _taskService.DeleteTask(task.TaskId);
         LoadTasks();
