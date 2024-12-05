@@ -5,7 +5,7 @@
         xmlns:vm="clr-namespace:UI.ViewModels"
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="850"
         WindowState="FullScreen"
-        x:Class="UI.Views.TaskCreation"
+        x:Class="UI.Views.TaskCreationView"
         x:DataType="vm:TaskCreationViewModel"
         Title="TaskCreation">
     

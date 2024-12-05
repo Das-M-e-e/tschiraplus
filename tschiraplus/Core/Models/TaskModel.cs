@@ -15,6 +15,7 @@ public class TaskModel
     public DateTime? CompletionDate { get; set; }
     public List<Guid>? Assignees { get; set; }          // Guids of assigned users
     public List<string>? Tags { get; set; }
+    public Guid ProjectId { get; set; }
     public Guid? SprintId { get; set; }
     public TimeSpan? EstimatedTime { get; set; }
     public TimeSpan? ActualTimeSpent { get; set; }
