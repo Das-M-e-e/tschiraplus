@@ -1,6 +1,6 @@
 ﻿namespace Services.DTOs;
 
-public class TaskDto
+public class TaskDto  //Kommunikations-Objekt für Service und anderen Ebenen 
 {
     public Guid TaskId { get; set; }
     public string Title { get; set; }

@@ -4,12 +4,12 @@ public class DatabaseInitializer
 {
     private readonly PetaPocoConfig _dbConfig;
 
-    public DatabaseInitializer(PetaPocoConfig dbConfig)
+    public DatabaseInitializer(PetaPocoConfig dbConfig) //Konstroktor
     {
         _dbConfig = dbConfig;
     }
 
-    public void InitializeDatabase()
+    public void InitializeDatabase() //Initialisiert die Datenbank und legt Tabellen an TODO (Müsste man nicht erst noch alle existierenden Tabellen löschen?)
     {
         using var db = _dbConfig.GetDatabase();
         db.Execute(@"

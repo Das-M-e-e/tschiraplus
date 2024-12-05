@@ -26,7 +26,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     public ICommand SortTasksByTitleCommand { get; }
     public ICommand FilterTasksByStatusCommand { get; }
 
-    public TaskListViewModel(TaskService taskService)
+    public TaskListViewModel(TaskService taskService) //Konstruktor
     {
         _taskService = taskService;
 
@@ -43,7 +43,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         });
     }
 
-    private void InitializeKanbanColumns()
+    private void InitializeKanbanColumns() //Stellt Spalten aus Kanban bereit
     {
         KanbanColumns.Add(new KanbanColumnViewModel("Backlog", "Backlog", "LightSteelBlue", "#ECF3FF", _taskService, this));
         KanbanColumns.Add(new KanbanColumnViewModel("Ready", "Ready", "MistyRose", "#FFF9F8", _taskService, this));
@@ -52,13 +52,13 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         KanbanColumns.Add(new KanbanColumnViewModel("Done", "Done", "#B7DAA8", "#E6FFF1", _taskService, this));
     }
 
-    public void LoadTasks()
+    public void LoadTasks() //Aktualiesiert und zeigt die Liste der Aufgaben
     {
         AllTasks = _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
     }
 
-    private void UpdateTaskList(IEnumerable<TaskDto> taskDtos)
+    private void UpdateTaskList(IEnumerable<TaskDto> taskDtos) //Aktualisiert die Zeilen anhand einer Liste von Dto's
     {
         Tasks.Clear();
         foreach (var col in KanbanColumns)
@@ -74,19 +74,19 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         }
     }
 
-    private void AddRandomTask()
+    private void AddRandomTask() //Erstellt eine zufällige Aufgabe (Testzwecke)
     {
         _taskService.AddRandomTask("Backlog");
         LoadTasks();
     }
 
-    public void DeleteTask(TaskViewModel task)
+    public void DeleteTask(TaskViewModel task) //Löscht eine Aufgabe per ID
     {
         _taskService.DeleteTask(task.TaskId);
         LoadTasks();
     }
 
-    private void SortTasksByTitle()
+    private void SortTasksByTitle() //Arangiert die Aufgaben anhand ihres Titels (alphabetisch?)
     {
         var taskDtos = Tasks.Select(task => new TaskDto
         {
@@ -101,7 +101,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         UpdateTaskList(sortedTaskDtos);
     }
 
-    private void FilterTasksByStatus()
+    private void FilterTasksByStatus() //Zeigt nur Aufgaben eines bestimmten Status
     {
         var filteredTasks = _taskService.FilterTasksByStatus(AllTasks, "Backlog");
         UpdateTaskList(filteredTasks);
