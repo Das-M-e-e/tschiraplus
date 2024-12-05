@@ -40,8 +40,7 @@ public class TaskCreationViewModel : ViewModelBase
     //Stellt TaskDTo in die Datenbank
     private void CreateTask(TaskDto dto)
     {
-        _taskRepository.AddTask(                            //Ruft db in Repo auf und speichert Task
-            _taskService.convertTaskDtoToTaskModel(dto));   //Wandelt dto zu TaskModell
+        
     }
     
 }

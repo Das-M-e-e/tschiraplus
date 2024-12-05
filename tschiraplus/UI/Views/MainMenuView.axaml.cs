@@ -2,9 +2,9 @@
 
 namespace UI.Views;
 
-public partial class MainTabView : UserControl
+public partial class MainMenuView : Window
 {
-    public MainTabView()
+    public MainMenuView()
     {
         InitializeComponent();
     }

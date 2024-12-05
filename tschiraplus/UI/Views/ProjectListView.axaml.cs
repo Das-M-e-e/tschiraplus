@@ -2,9 +2,9 @@
 
 namespace UI.Views;
 
-public partial class MainTabView : UserControl
+public partial class ProjectListView : UserControl
 {
-    public MainTabView()
+    public ProjectListView()
     {
         InitializeComponent();
     }

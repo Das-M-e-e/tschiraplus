@@ -3,9 +3,9 @@ using UI.ViewModels;
 
 namespace UI.Views;
 
-public partial class Kanban : ReactiveUserControl<TaskListViewModel>
+public partial class KanbanView : ReactiveUserControl<TaskListViewModel>
 {
-    public Kanban()
+    public KanbanView()
     {
         InitializeComponent();
     }

@@ -3,9 +3,9 @@ using UI.ViewModels;
 
 namespace UI.Views;
 
-public partial class ListView : ReactiveUserControl<TaskListViewModel>
+public partial class TaskListView : ReactiveUserControl<TaskListViewModel>
 {
-    public ListView()
+    public TaskListView()
     {
         InitializeComponent();
     }

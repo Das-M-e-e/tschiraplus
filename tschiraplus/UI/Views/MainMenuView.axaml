@@ -1,0 +1,23 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:UI.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        WindowState="Maximized"
+        x:Class="UI.Views.MainMenuView"
+        x:DataType="vm:MainMenuViewModel"
+        Title="MainMenuView">
+    <TabControl ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" TabStripPlacement="Left">
+        <TabControl.ItemTemplate>
+            <DataTemplate>
+                <TextBlock Text="{Binding Header}" MaxWidth="150" TextTrimming="CharacterEllipsis"/>
+            </DataTemplate>
+        </TabControl.ItemTemplate>
+        <TabControl.ContentTemplate>
+            <DataTemplate DataType="vm:TabItemViewModel">
+                <ContentControl Content="{Binding Content}" />
+            </DataTemplate>
+        </TabControl.ContentTemplate>
+    </TabControl>
+</Window>
