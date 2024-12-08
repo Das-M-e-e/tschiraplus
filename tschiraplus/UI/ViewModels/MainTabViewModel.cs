@@ -1,22 +1,35 @@
 ﻿using System.Collections.ObjectModel;
+using Services;
+using Services.DatabaseServices;
 using Services.Repositories;
 using Services.TaskServices;
 using UI.Views;
 
 namespace UI.ViewModels;
 
-public class MainTabViewModel : ViewModelBase
+public class MainTabViewModel : ViewModelBase, IParameterizedViewModel
 {
-    public ObservableCollection<TabItemModel> Tabs { get; }
+    private TaskRepository _taskRepository;
+    
+    public ObservableCollection<TabItemViewModel> Tabs { get; }
 
-    public MainTabViewModel(TaskRepository taskRepository)
+    public MainTabViewModel(TaskRepository taskRepository) //Konstruktor
     {
-        var taskListViewModel = new TaskListViewModel(new TaskService(taskRepository, new TaskSortingManager()));
+        _taskRepository = taskRepository;
+        var taskListViewModel = new TaskListViewModel(new TaskService(_taskRepository, new TaskSortingManager()));
         
-        Tabs = new ObservableCollection<TabItemModel>
+        Tabs = new ObservableCollection<TabItemViewModel>
         {
-            new("Kanban", new Kanban { DataContext = taskListViewModel }),
-            new("ListView", new ListView{ DataContext = taskListViewModel })
+            new("KanbanView", new KanbanView { DataContext = taskListViewModel }),
+            new("TaskListView", new TaskListView{ DataContext = taskListViewModel })
         };
+    }
+
+    public void Initialize(object parameter)
+    {
+        if (parameter is DatabaseService databaseService)
+        {
+            _taskRepository = new TaskRepository(databaseService.GetDatabase());
+        }
     }
 }

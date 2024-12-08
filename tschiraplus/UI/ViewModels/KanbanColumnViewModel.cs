@@ -20,7 +20,7 @@ public class KanbanColumnViewModel
     public ICommand AddRandomTaskCommand { get; }
 
     public KanbanColumnViewModel(string title, string status, string backgroundColor, string taskBackgroundColor,
-        TaskService taskService, TaskListViewModel taskListViewModel)
+        TaskService taskService, TaskListViewModel taskListViewModel) //Konstruktor
     {
         Title = title;
         Status = status;
@@ -32,7 +32,7 @@ public class KanbanColumnViewModel
         AddRandomTaskCommand = new RelayCommand(AddRandomTask);
     }
 
-    private void AddRandomTask()
+    private void AddRandomTask() //Stellt eine zuffälige Task (Testzwecke)
     {
         _taskService.AddRandomTask(Status);
         _taskListViewModel.LoadTasks();
