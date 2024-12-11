@@ -1,21 +1,20 @@
 ﻿using Core.Enums;
 using Core.Models;
-using Data.DatabaseConfig;
-using Services.DatabaseServices;
 using Services.DTOs;
 using Services.Repositories;
+using Services.UserServices;
 
 namespace Services.ProjectServices;
 
 public class ProjectService
 {
-    private readonly DatabaseService _databaseService;
     private readonly ProjectRepository _projectRepository;
+    private UserDTO _currentUser;
 
-    public ProjectService(DatabaseService databaseService, ProjectRepository projectRepository)
+    public ProjectService(ProjectRepository projectRepository, UserDTO currentUser)
     {
-        _databaseService = databaseService;
         _projectRepository = projectRepository;
+        _currentUser = currentUser;
     }
 
     public void CreateProject(string name, string description)
@@ -30,13 +29,6 @@ public class ProjectService
         };
         
         _projectRepository.AddProject(newProject);
-
-        string projectDbPath = $"project_{newProject.Name}.db";
-        _databaseService.CreateDatabase(projectDbPath);
-
-        var projectDbConfig = new PetaPocoConfig($"Data Source={projectDbPath}");
-        var dbInitializer = new DatabaseInitializer(projectDbConfig);
-        dbInitializer.InitializeProjectDatabase();
     }
 
     public void CreateTestProject()
@@ -46,6 +38,7 @@ public class ProjectService
         var newProject = new ProjectModel
         {
             ProjectId = projectId,
+            OwnerId = _currentUser.UserId,
             Name = "Test_Project-" + projectId,
             Description = "No description provided",
             CreationDate = DateTime.Now,
@@ -54,13 +47,6 @@ public class ProjectService
         };
         
         _projectRepository.AddProject(newProject);
-
-        string projectDbPath = DatabasePathHelper.GetDatabasePath($"project_{newProject.ProjectId}.db");
-        _databaseService.CreateDatabase(projectDbPath);
-
-        var projectDbConfig = new PetaPocoConfig($"Data Source={projectDbPath}");
-        var dbInitializer = new DatabaseInitializer(projectDbConfig);
-        dbInitializer.InitializeProjectDatabase();
     }
 
     public List<ProjectDTO> GetAllProjects()

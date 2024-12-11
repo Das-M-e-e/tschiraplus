@@ -4,62 +4,58 @@ public class DatabaseInitializer
 {
     private readonly PetaPocoConfig _dbConfig;
 
-    public DatabaseInitializer(PetaPocoConfig dbConfig) //Konstroktor
+    public DatabaseInitializer(PetaPocoConfig dbConfig)
     {
         _dbConfig = dbConfig;
     }
 
-    public void InitializeDatabase() //Initialisiert die Datenbank und legt Tabellen an TODO (Müsste man nicht erst noch alle existierenden Tabellen löschen?)
+    public void InitializeDatabase()
     {
         using var db = _dbConfig.GetDatabase();
-        // Todo: In Projects bei OwnerId wieder hinzufügen: references User (UserId)
+        
         db.Execute(@"
-                CREATE TABLE IF NOT EXISTS Projects (
-                    ProjectId TEXT PRIMARY KEY,
-                    Name TEXT NOT NULL,
-                    Description TEXT,
-                    CreationDate TIMESTAMP,
-                    DueDate TIMESTAMP,
-                    Status INTEGER,
-                    Priority INTEGER,
-                    OwnerId TEXT,
-                    LastUpdated TIMESTAMP
-                );
-
                 CREATE TABLE IF NOT EXISTS Users (
                     UserId TEXT PRIMARY KEY,
                     Username TEXT NOT NULL,
                     Email TEXT NOT NULL,
                     PasswordHash TEXT NOT NULL,
                     ProfilePictureUrl TEXT,
-                    CreatedAt TIMESTAMP,
-                    LastLogin TIMESTAMP,
-                    Status INTEGER,
                     Bio TEXT,
-                    Settings TEXT,
-                    Coins INTEGER,
-                    Friends TEXT,
-                    Notifications TEXT
+                    Status INTEGER,
+                    CreatedAt TIMESTAMP,
+                    LastLogin TIMESTAMP
                 );
 
-                CREATE TABLE IF NOT EXISTS LocalUserSettings (
-                    LocalUserSettingsId TEXT PRIMARY KEY,
-                    UserId TEXT,
-                    AppLanguage TEXT,
-                    AppTheme TEXT,
-                    StartWithLastOpenedProject TEXT,
-                    LastOpenedProjectId TEXT,
-                    ShowToolTips TEXT
+                CREATE TABLE IF NOT EXISTS Projects (
+                    ProjectId TEXT PRIMARY KEY,
+                    OwnerId TEXT REFERENCES Users(UserId),
+                    Name TEXT NOT NULL,
+                    Description TEXT,
+                    Status INTEGER,
+                    Priority INTEGER,
+                    CreationDate TIMESTAMP,
+                    DueDate TIMESTAMP,
+                    LastUpdated TIMESTAMP
                 );
-        ");
-    }
 
-    public void InitializeProjectDatabase()
-    {
-        using var db = _dbConfig.GetDatabase();
-        db.Execute(@"
+                CREATE TABLE IF NOT EXISTS Sprints (
+                    SprintId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    AuthorId TEXT REFERENCES Users(UserId),
+                    Name TEXT NOT NULL,
+                    Description TEXT,
+                    Status INTEGER,
+                    StartDate TIMESTAMP NOT NULL,
+                    EndDate TIMESTAMP NOT NULL,
+                    CreationDate TIMESTAMP NOT NULL,
+                    LastUpdated TIMESTAMP
+                );
+
                 CREATE TABLE IF NOT EXISTS Tasks (
                     TaskId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    SprintId TEXT REFERENCES Sprints(SprintId),
+                    AuthorId TEXT REFERENCES Users(UserId),
                     Title TEXT NOT NULL,
                     Description TEXT,
                     Status INTEGER,
@@ -67,113 +63,109 @@ public class DatabaseInitializer
                     CreationDate TIMESTAMP,
                     DueDate TIMESTAMP,
                     CompletionDate TIMESTAMP,
-                    Assignees TEXT,
-                    Tags TEXT,
-                    SprintId TEXT references Sprints(SprintId),
+                    LastUpdated TIMESTAMP,
                     EstimatedTime TEXT,
-                    ActualTimeSpent TEXT,
-                    Attachments TEXT,
-                    Comments TEXT,
-                    Dependencies TEXT
+                    ActualTimeSpent TEXT
                 );
 
-                CREATE TABLE IF NOT EXISTS Users (
-                    UserId TEXT PRIMARY KEY,
-                    Username TEXT NOT NULL,
-                    Email TEXT NOT NULL,
-                    PasswordHash TEXT NOT NULL,
-                    ProfilePictureUrl TEXT,
-                    CreatedAt TIMESTAMP,
-                    LastLogin TIMESTAMP,
-                    Status INTEGER,
-                    Bio TEXT,
-                    Settings TEXT,
-                    Coins INTEGER,
-                    Friends TEXT,
-                    Notifications TEXT
-                );
-                
                 CREATE TABLE IF NOT EXISTS Attachments (
                     AttachmentId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    TaskId TEXT REFERENCES Tasks(TaskId),
+                    CommentId TEXT REFERENCES Comments(CommentId),
+                    UploadedBy TEXT REFERENCES Users(UserId),
                     FileName TEXT NOT NULL,
-                    FileType TEXT NOT NULL,
-                    FileSize TEXT NOT NULL,
                     FilePath TEXT NOT NULL,
-                    UploadedBy TEXT NOT NULL,
-                    UploadedDate TIMESTAMP,
-                    TaskId TEXT references Tasks (TaskId),
-                    ProjectId TEXT references Projects (ProjectId),
-                    CommentId TEXT references Comments (CommentId),
-                    Description TEXT NOT NULL
+                    Description TEXT NOT NULL,
+                    FileSize INTEGER NOT NULL,
+                    FileType INTEGER NOT NULL,
+                    UploadedDate TIMESTAMP
                 );
                 
                 CREATE TABLE IF NOT EXISTS Comments (
                     CommentId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    TaskId TEXT REFERENCES Tasks(TaskId),
+                    AuthorId TEXT REFERENCES Users(UserId),
+                    ParentCommentId TEXT REFERENCES Comments(CommentId),
                     Content TEXT NOT NULL,
                     CreatedDate TIMESTAMP NOT NULL,
                     LastUpdatedTime TIMESTAMP NOT NULL,
-                    AuthorId TEXT references Users (UserId),
-                    ProjectId TEXT references Projects (ProjectId),
-                    TaskId TEXT references Tasks (TaskId),
-                    ParentCommentId TEXT references Comments (CommentId),
-                    isEdited TEXT NOT NULL,
-                    isDeleted TEXT NOT NULL
+                    isEdited INTEGER NOT NULL,
+                    isDeleted INTEGER NOT NULL
                 );
                
                 CREATE TABLE IF NOT EXISTS Notifications (
                     NotificationId TEXT PRIMARY KEY,
-                    Title TEXT NOT NULL,
+                    AuthorId TEXT REFERENCES Users(UserId),
+                    RecipientId TEXT REFERENCES Users(UserId),
+                    Title TEXT,
                     Message TEXT NOT NULL,
-                    Timestamp TIMESTAMP NOT NULL,
-                    isRead INTEGER,
-                    Type TEXT NOT NULL,
-                    Severity TEXT NOT NULL,
-                    AuthorId TEXT references Users (UserId),
-                    RecipientId TEXT NOT NULL
+                    Type INTEGER NOT NULL,
+                    Severity INTEGER NOT NULL,
+                    SentAt TIMESTAMP NOT NULL,
+                    isRead INTEGER NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS Tags (
+                    TagId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    AuthorId TEXT REFERENCES Users(UserId),
+                    Title TEXT NOT NULL,
+                    Description TEXT,
+                    ColorCode TEXT NOT NULL,
+                    CreatedAt TIMESTAMP NOT NULL
                 );
                 
-                CREATE TABLE IF NOT EXISTS ProjectTaskAssignments (
-                    ProjectTaskAssignmentId TEXT PRIMARY KEY,
-                    UserId TEXT references Users(UserId),
-                    ProjectId TEXT references Projects(ProjectId),
-                    TaskId TEXT references Tasks(TaskId),
+                CREATE TABLE IF NOT EXISTS UserSettings (
+                    UserSettingsId TEXT PRIMARY KEY,
+                    UserId TEXT REFERENCES Users(UserId),
+                    NotificationsEnabled INTEGER NOT NULL,
+                    EmailNotificationsEnabled INTEGER NOT NULL,
+                    ReceiveTaskReminders INTEGER NOT NULL,
+                    Timezone TEXT NOT NULL,
+                    DateFormat TEXT NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS ProjectUsers (
+                    ProjectUserId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    UserId TEXT REFERENCES Users(UserId),
+                    AssignedAt TIMESTAMP NOT NULL
+                );
+
+                CREATE TABLE IF NOT EXISTS UserTaskAssignments (
+                    UserTaskAssignmentId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    UserId TEXT REFERENCES Users(UserId),
+                    TaskId TEXT REFERENCES Tasks(TaskId),
                     AssignedDate TIMESTAMP NOT NULL
                 );
                 
                 CREATE TABLE IF NOT EXISTS UserProjectRoles (
                     UserProjectRoleId TEXT PRIMARY KEY,
-                    UserId TEXT references Users (UserId),
-                    ProjectId TEXT references Projects (ProjectId),
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    UserId TEXT REFERENCES Users(UserId),
+                    AssignedBy TEXT REFERENCES Users(UserId),
                     Role TEXT NOT NULL,
                     AssignedDate TIMESTAMP NOT NULL,
-                    IsActive TEXT NOT NULL,
-                    Permissions TEXT
+                    IsActive INTEGER NOT NULL
                 );
-                
-                CREATE TABLE IF NOT EXISTS UserSettings (
-                    UserSettingsId TEXT PRIMARY KEY,
-                    UserId TEXT references Users (UserId),
-                    Theme TEXT NOT NULL,
-                    Language TEXT NOT NULL,
-                    NotificationsEnabled TEXT NOT NULL,
-                    EmailNotificationsEnabled TEXT NOT NULL,
-                    ReceiveTaskReminders TEXT NOT NULL,
-                    ShowToolTips TEXT NOT NULL,
-                    Timezone TEXT NOT NULL,
-                    DateFormat TEXT NOT NULL
+
+                CREATE TABLE IF NOT EXISTS TaskTags (
+                    TaskTagId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    TaskId TEXT REFERENCES Tasks(TaskId),
+                    TagId TEXT REFERENCES Tags(TagId),
+                    AssignedBy TEXT REFERENCES Users(UserId),
+                    AssignedAt TIMESTAMP NOT NULL
                 );
-                
-                CREATE TABLE IF NOT EXISTS Sprints (
-                    SprintId TEXT PRIMARY KEY,
-                    Name TEXT NOT NULL,
-                    Description TEXT,
-                    StartDate TIMESTAMP NOT NULL,
-                    EndDate TIMESTAMP NOT NULL,
-                    Status INTEGER,
-                    ProjectId TEXT references Projects(ProjectId),
-                    Tasks TEXT,
-                    CreationDate TIMESTAMP NOT NULL,
-                    LastUpdated TIMESTAMP
+
+                CREATE TABLE IF NOT EXISTS UserFriends (
+                    UserFriendId TEXT PRIMARY KEY,
+                    UserId TEXT REFERENCES Users(UserId),
+                    FriendId TEXT REFERENCES Users(UserId),
+                    BefriendedAt TIMESTAMP NOT NULL
                 );
         ");
     }

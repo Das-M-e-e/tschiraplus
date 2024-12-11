@@ -7,29 +7,21 @@ using UI.Views;
 
 namespace UI.ViewModels;
 
-public class MainTabViewModel : ViewModelBase, IParameterizedViewModel
+public class MainTabViewModel : ViewModelBase
 {
-    private TaskRepository _taskRepository;
+    private TaskService _taskService;
     
     public ObservableCollection<TabItemViewModel> Tabs { get; }
 
-    public MainTabViewModel(TaskRepository taskRepository) //Konstruktor
+    public MainTabViewModel(TaskService taskService)
     {
-        _taskRepository = taskRepository;
-        var taskListViewModel = new TaskListViewModel(new TaskService(_taskRepository, new TaskSortingManager()));
+        _taskService = taskService;
+        var taskListViewModel = new TaskListViewModel(_taskService);
         
         Tabs = new ObservableCollection<TabItemViewModel>
         {
             new("KanbanView", new KanbanView { DataContext = taskListViewModel }),
             new("TaskListView", new TaskListView{ DataContext = taskListViewModel })
         };
-    }
-
-    public void Initialize(object parameter)
-    {
-        if (parameter is DatabaseService databaseService)
-        {
-            _taskRepository = new TaskRepository(databaseService.GetDatabase());
-        }
     }
 }

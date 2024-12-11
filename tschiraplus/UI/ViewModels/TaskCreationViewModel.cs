@@ -14,14 +14,12 @@ public class TaskCreationViewModel : ViewModelBase
     private readonly TaskRepository _taskRepository;
     private readonly TaskService _taskService;
 
-    public TaskCreationViewModel(TaskRepository taskRepository, TaskService taskService) //Konstrukto (evntl. unötig?)
+    public TaskCreationViewModel(TaskRepository taskRepository, TaskService taskService)
     {
         _taskRepository = taskRepository;
         _taskService = taskService;
     }
     
-    //Erstellt eine TaskDTo
-    //TODO Bindings zu den entsprechenden Attributen.
     private TaskDto CreateTaskDTO()
     {
         TaskDto dto = new TaskDto()
@@ -36,11 +34,4 @@ public class TaskCreationViewModel : ViewModelBase
         
         return dto;
     }
-
-    //Stellt TaskDTo in die Datenbank
-    private void CreateTask(TaskDto dto)
-    {
-        
-    }
-    
 }
