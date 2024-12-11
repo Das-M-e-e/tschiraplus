@@ -6,11 +6,11 @@ namespace Services.TaskServices;
 
 public class TaskService : ITaskService
 {
-    private readonly TaskRepository _taskRepository;
-    private readonly TaskSortingManager _taskSortingManager;
+    private readonly ITaskRepository _taskRepository;
+    private readonly ITaskSortingManager _taskSortingManager;
     private readonly ApplicationState _appState;
 
-    public TaskService(TaskRepository taskRepository, TaskSortingManager taskSortingManager, ApplicationState appState)
+    public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState)
     {
         _taskRepository = taskRepository;
         _taskSortingManager = taskSortingManager;
@@ -72,9 +72,9 @@ public class TaskService : ITaskService
     }
    
     public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status)
-   {
+    {
        return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
-   } 
+    }
     
     public void AddRandomTask(string status)
     {
@@ -91,7 +91,4 @@ public class TaskService : ITaskService
         
         _taskRepository.AddTask(newTask);
     }
-
-    
-
 }

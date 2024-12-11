@@ -2,16 +2,15 @@
 using Core.Models;
 using Services.DTOs;
 using Services.Repositories;
-using Services.UserServices;
 
 namespace Services.ProjectServices;
 
-public class ProjectService
+public class ProjectService : IProjectService
 {
-    private readonly ProjectRepository _projectRepository;
-    private UserDTO _currentUser;
+    private readonly IProjectRepository _projectRepository;
+    private readonly UserDTO _currentUser;
 
-    public ProjectService(ProjectRepository projectRepository, UserDTO currentUser)
+    public ProjectService(IProjectRepository projectRepository, UserDTO currentUser)
     {
         _projectRepository = projectRepository;
         _currentUser = currentUser;

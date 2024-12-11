@@ -10,7 +10,7 @@ namespace UI.ViewModels;
 
 public class ProjectListViewModel
 {
-    private readonly ProjectService _projectService;
+    private readonly IProjectService _projectService;
     private readonly MainMenuViewModel _mainMenuViewModel;
     
     public ObservableCollection<ProjectViewModel> Projects { get; set; }
@@ -18,7 +18,7 @@ public class ProjectListViewModel
     public ICommand CreateNewProjectCommand { get; }
     public ICommand OpenProjectCommand { get; }
 
-    public ProjectListViewModel(ProjectService projectService, MainMenuViewModel mainMenuViewModel)
+    public ProjectListViewModel(IProjectService projectService, MainMenuViewModel mainMenuViewModel)
     {
         _projectService = projectService;
         _mainMenuViewModel = mainMenuViewModel;

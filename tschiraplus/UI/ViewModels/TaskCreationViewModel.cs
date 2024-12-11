@@ -11,10 +11,10 @@ namespace UI.ViewModels;
 
 public class TaskCreationViewModel : ViewModelBase
 {
-    private readonly TaskRepository _taskRepository;
-    private readonly TaskService _taskService;
+    private readonly ITaskRepository _taskRepository;
+    private readonly ITaskService _taskService;
 
-    public TaskCreationViewModel(TaskRepository taskRepository, TaskService taskService)
+    public TaskCreationViewModel(ITaskRepository taskRepository, ITaskService taskService)
     {
         _taskRepository = taskRepository;
         _taskService = taskService;
@@ -30,7 +30,6 @@ public class TaskCreationViewModel : ViewModelBase
             Status = string.Empty,
             CreationDate = DateTime.Today
         };
-        
         
         return dto;
     }

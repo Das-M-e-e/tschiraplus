@@ -1,0 +1,12 @@
+﻿using Core.Models;
+using Services.DTOs;
+
+namespace Services.Repositories;
+
+public interface IProjectRepository
+{
+    public void AddProject(ProjectModel project);
+    public ProjectModel GetProjectById(Guid projectId);
+    public List<ProjectDTO> GetAllProjects();
+    public void DeleteProject(Guid projectId);
+}

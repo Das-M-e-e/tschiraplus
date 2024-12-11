@@ -5,7 +5,7 @@ using TaskStatus = Core.Enums.TaskStatus;
 
 namespace Services.Repositories;
 
-public class TaskRepository
+public class TaskRepository : ITaskRepository
 {
     private readonly Database _db;
     public Guid ProjectId { get; set; }
@@ -58,5 +58,4 @@ public class TaskRepository
             CreationDate = task.CreationDate
         }).ToList();
     }
-    
 }

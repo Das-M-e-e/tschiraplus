@@ -15,18 +15,17 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
 {
     public ViewModelActivator Activator { get; }
 
-    private readonly TaskService _taskService;
+    private readonly ITaskService _taskService;
     // Lists
     public ObservableCollection<TaskViewModel> Tasks { get; } = new();
     public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = new();
-
     private List<TaskDto> AllTasks { get; set; } = new();
     // Commands
     public ICommand AddRandomTaskCommand { get; }
     public ICommand SortTasksByTitleCommand { get; }
     public ICommand FilterTasksByStatusCommand { get; }
 
-    public TaskListViewModel(TaskService taskService)
+    public TaskListViewModel(ITaskService taskService)
     {
         _taskService = taskService;
 

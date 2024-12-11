@@ -4,7 +4,7 @@ using Services.DTOs;
 
 namespace Services.Repositories;
 
-public class ProjectRepository
+public class ProjectRepository : IProjectRepository
 {
     private readonly Database _db;
 
