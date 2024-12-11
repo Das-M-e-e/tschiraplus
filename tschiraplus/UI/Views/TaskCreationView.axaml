@@ -45,7 +45,7 @@
                 <Label Margin="15,30, 15,15">Date:</Label>
                     <StackPanel Margin="10,20,10,10">
                 
-                        <Calendar SelectedDate="{Binding _CreationDate}" x:Name="Calendar" SelectionMode="MultipleRange" />
+                        <Calendar SelectedDate="{Binding _creationDate}" x:Name="Calendar" SelectionMode="MultipleRange" />
                         <TextBlock Margin="20" 
                                    Text="{Binding #Calendar.SelectedDate}"/> 
                     </StackPanel>

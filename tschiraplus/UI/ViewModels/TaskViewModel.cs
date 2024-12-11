@@ -14,7 +14,7 @@ public class TaskViewModel
     public string Title { get; }
     public string Description { get; }
     public string? Status { get; }
-    public DateTime CreationDate { get; }
+    public DateTime? CreationDate { get; } //TODO nullabel entfernen
 
     public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel) //Konstruktor
     {
