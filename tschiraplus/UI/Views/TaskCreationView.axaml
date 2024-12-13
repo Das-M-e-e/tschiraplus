@@ -17,9 +17,9 @@
                 
                 <Border CornerRadius="20" Background="#baa8d6"  Margin="22,10,20,10">    
                 <StackPanel Orientation="Vertical" >
-                    <RadioButton GroupName="Priority" Content="High"   Margin="10,11,40,0" ></RadioButton>
-                    <RadioButton GroupName="Priority" Content="Medium" Margin="10,0,0,0"></RadioButton>
-                    <RadioButton GroupName="Priority" Content="Low"    Margin="10,0,0,20"></RadioButton>
+                    <RadioButton GroupName="Priority" IsChecked="{Binding _isHighPrio}" Content="High"   Margin="10,11,40,0" ></RadioButton>
+                    <RadioButton GroupName="Priority" IsChecked="{Binding _isMediumPrio}" Content="Medium" Margin="10,0,0,0"></RadioButton>
+                    <RadioButton GroupName="Priority" IsChecked="{Binding _isLowPrio}" Content="Low"    Margin="10,0,0,20"></RadioButton>
                 </StackPanel>
                 </Border>    
             </StackPanel>
@@ -29,14 +29,14 @@
         <Border CornerRadius="20" Background="#9b84bc"  Margin="10,10,10,0">
             <StackPanel Orientation="Horizontal" >
                 <Label Margin="15,15">Task Name:</Label>
-                <TextBox Width="300" Height="10" Margin="-4, 0, 10, 0"></TextBox>
+                <TextBox Text="{Binding _title}" Width="300" Height="10" Margin="-4, 0, 10, 0"></TextBox>
             </StackPanel>
         </Border>    
         
         <Border CornerRadius="20" Background="#9b84bc"  Margin="10,10,10,0">
             <StackPanel Orientation="Horizontal" >
                 <Label Margin="15,15">Task:</Label>
-                <TextBox Width="300" Height="10" Margin="38, 0, 10, 0"></TextBox>
+                <TextBox Text="{Binding _description}" Width="300" Height="10" Margin="38, 0, 10, 0"></TextBox>
             </StackPanel>
         </Border>
         
@@ -45,7 +45,7 @@
                 <Label Margin="15,30, 15,15">Date:</Label>
                     <StackPanel Margin="10,20,10,10">
                 
-                        <Calendar x:Name="Calendar" SelectionMode="MultipleRange" />
+                        <Calendar SelectedDate="{Binding _creationDate}" x:Name="Calendar" SelectionMode="MultipleRange" />
                         <TextBlock Margin="20" 
                                    Text="{Binding #Calendar.SelectedDate}"/> 
                     </StackPanel>
@@ -70,7 +70,7 @@
         <Border CornerRadius="20" Background="#9b84bc"  Margin="10,10,10,0">
             <StackPanel Orientation="Horizontal">
                 <Label Margin="15,15">Assign People:</Label>
-                <Button Background="#baa8d6">Create Task</Button>
+                <Button Command="{Binding CreateTaskCommand}" Background="#baa8d6">Create Task</Button>
             </StackPanel>
         </Border>
         

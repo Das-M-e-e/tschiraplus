@@ -6,9 +6,29 @@ namespace Services.TaskServices;
 
 public class TaskService(TaskRepository taskRepository, TaskSortingManager taskSortingManager) 
 {
+//Erstellt eine Task in der Datenbank anhand eines DTO:
+
+    public void TaskCreation(TaskDto task)
+    {
+        taskRepository.AddTask(convertTaskDtoToTaskModel(task)); //Eventuell muss man schauen in welche Datenbank das noch gespeist wird.
+    }
+    
+//Erstellt eine TaskDTo (quasi Konstruktor)
+    public TaskDto CreateTaskDto(String? titel, String? description, String? status, DateTime? creationDate)
+    {
+        TaskDto dto = new TaskDto()
+        {
+            TaskId = Guid.NewGuid(),
+            Title = titel,
+            Description = description,
+            Status = status,
+            CreationDate = creationDate
+        };
+        return dto;
+    }    
+    
 //Objekt-Wandler:    
     //Wandelt Dto-Modelle in TaskModel
-    //TODO default-Werte für die anderne Parameter in TaskModell implementieren.
     public TaskModel convertTaskDtoToTaskModel(TaskDto taskDto)
     {
         var convertedTaskModel = new TaskModel
@@ -21,9 +41,7 @@ public class TaskService(TaskRepository taskRepository, TaskSortingManager taskS
         };
         return convertedTaskModel;
     }
-    
     //Wandelt TaskModel in Dto-Modell
-    //TODO default-Werte für die anderen Parameter in TaskModell implementieren.
     public TaskDto convertTaskModelToTaskDto(TaskModel taskModel)
     {
         var convertedTaskDto = new TaskDto
