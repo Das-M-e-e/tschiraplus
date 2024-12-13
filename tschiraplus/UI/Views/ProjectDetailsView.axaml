@@ -6,7 +6,7 @@
              x:Class="UI.Views.ProjectDetailsView">
     <Grid RowDefinitions="Auto,*,Auto"> 
         <!-- title bar -->
-        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Height="40" Background="#D1D1D2">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Height="40" Background="#f3f3f3">
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button>
                     <Image Source="avares://UI/Assets/resize_symbol.png" Opacity="0.45" Stretch="Uniform" Width="12" Margin="15,0,0,0"></Image>
