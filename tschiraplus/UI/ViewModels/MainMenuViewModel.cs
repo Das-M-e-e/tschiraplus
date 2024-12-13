@@ -34,7 +34,8 @@ public class MainMenuViewModel : ObservableObject
 
         Tabs = new ObservableCollection<TabItemViewModel>
         {
-            new("Projects", new ProjectListView{DataContext = new ProjectListViewModel(new ProjectService(_dbService, new ProjectRepository(_dbService.GetDatabase())), this)})
+            new("Projects", new ProjectListView{DataContext = new ProjectListViewModel(new ProjectService(_dbService, new ProjectRepository(_dbService.GetDatabase())), this)}),
+            new("Test", new TaskDetailView())
         };
 
         OpenProjectCommand = new RelayCommand<Guid>(OpenProject);
