@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -94,7 +95,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
             Title = task.Title,
             Description = task.Description,
             Status = task.Status,
-            CreationDate = task.CreationDate
+            CreationDate = DateTime.Today
         }).ToList();
         
         var sortedTaskDtos = _taskService.SortTasksByTitle(taskDtos);

@@ -14,7 +14,7 @@ public class TaskService(TaskRepository taskRepository, TaskSortingManager taskS
     }
     
 //Erstellt eine TaskDTo (quasi Konstruktor)
-    public TaskDto CreateTaskDto(String? titel, String? description, String? status, DateTime? creationDate)
+    public TaskDto CreateTaskDto(String titel, String description, String status, DateTime creationDate)
     {
         TaskDto dto = new TaskDto()
         {

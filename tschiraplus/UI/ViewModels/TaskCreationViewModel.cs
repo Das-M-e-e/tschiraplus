@@ -22,7 +22,7 @@ public class TaskCreationViewModel : ViewModelBase
     private bool _isMediumPrio {get; set;}
     private String _title {get; set;}
     private String _description {get; set;}
-    private DateTime _creationDate {get; set;}
+   
     public ICommand CreateTaskCommand { get; }
     
     
@@ -40,7 +40,7 @@ public class TaskCreationViewModel : ViewModelBase
             _title,
             _description,
             _isLowPrio ? "Low" : _isMediumPrio ? "Medium" : "High",
-            _creationDate);
+            DateTime.Today);
         _taskService.TaskCreation(dto);
     }
     
