@@ -1,14 +1,13 @@
-﻿<Window xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:UI.ViewModels"
         mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="850"
-        WindowState="FullScreen"
         x:Class="UI.Views.TaskCreationView"
-        x:DataType="vm:TaskCreationViewModel"
-        Title="TaskCreation">
+        x:DataType="vm:TaskCreationViewModel">
     
+    <ScrollViewer>
     <StackPanel Orientation="Vertical" Background="#1a1c20" >
         <Border CornerRadius="20" Background="#9b84bc"  Margin="10,10,10,0">
             <StackPanel Orientation="Horizontal" >
@@ -69,11 +68,12 @@
         
         <Border CornerRadius="20" Background="#9b84bc"  Margin="10,10,10,0">
             <StackPanel Orientation="Horizontal">
-                <Label Margin="15,15">Assign People:</Label>
+                <Label Margin="15,15">TaskCreation:</Label>
                 <Button Background="#baa8d6">Create Task</Button>
             </StackPanel>
         </Border>
         
         
     </StackPanel>
-</Window>
+    </ScrollViewer>
+</UserControl>

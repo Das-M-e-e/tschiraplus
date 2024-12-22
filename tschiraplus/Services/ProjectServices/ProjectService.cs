@@ -63,6 +63,31 @@ public class ProjectService
         dbInitializer.InitializeProjectDatabase();
     }
 
+    public void CreateProject(ProjectDTO projectDto)
+    {
+        Guid projectId = Guid.NewGuid();
+        
+        var newProject = new ProjectModel
+        {
+            ProjectId = projectDto.ProjectId,
+            Name = projectDto.Name,
+            Description = projectDto.Description,
+            CreationDate = DateTime.Now,
+            Status = ProjectStatus.NotStarted,
+            LastUpdated = DateTime.Now
+        };
+        
+        _projectRepository.AddProject(newProject);
+
+        string projectDbPath = DatabasePathHelper.GetDatabasePath($"project_{newProject.ProjectId}.db");
+        _databaseService.CreateDatabase(projectDbPath);
+
+        var projectDbConfig = new PetaPocoConfig($"Data Source={projectDbPath}");
+        var dbInitializer = new DatabaseInitializer(projectDbConfig);
+        dbInitializer.InitializeProjectDatabase();
+    }
+    
+    
     public List<ProjectDTO> GetAllProjects()
     {
         return _projectRepository.GetAllProjects();
