@@ -4,32 +4,38 @@ using Services.Repositories;
 
 namespace Services.TaskServices;
 
-public class TaskService(TaskRepository taskRepository, TaskSortingManager taskSortingManager) 
+public class TaskService : ITaskService
 {
-//Erstellt eine Task in der Datenbank anhand eines DTO:
+    private readonly ITaskRepository _taskRepository;
+    private readonly ITaskSortingManager _taskSortingManager;
+    private readonly ApplicationState _appState;
+
+    public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState)
+    {
+        _taskRepository = taskRepository;
+        _taskSortingManager = taskSortingManager;
+        _appState = appState;
+    }
 
     public void TaskCreation(TaskDto task)
     {
-        taskRepository.AddTask(convertTaskDtoToTaskModel(task)); //Eventuell muss man schauen in welche Datenbank das noch gespeist wird.
+        _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
     }
     
-//Erstellt eine TaskDTo (quasi Konstruktor)
-    public TaskDto CreateTaskDto(String titel, String description, String status, DateTime creationDate)
+    public TaskDto CreateTaskDto(string title, string description, string status, DateTime creationDate)
     {
         TaskDto dto = new TaskDto()
         {
             TaskId = Guid.NewGuid(),
-            Title = titel,
+            Title = title,
             Description = description,
             Status = status,
             CreationDate = creationDate
         };
         return dto;
     }    
-    
-//Objekt-Wandler:    
-    //Wandelt Dto-Modelle in TaskModel
-    public TaskModel convertTaskDtoToTaskModel(TaskDto taskDto)
+
+    public TaskModel ConvertTaskDtoToTaskModel(TaskDto taskDto)
     {
         var convertedTaskModel = new TaskModel
         {
@@ -41,8 +47,8 @@ public class TaskService(TaskRepository taskRepository, TaskSortingManager taskS
         };
         return convertedTaskModel;
     }
-    //Wandelt TaskModel in Dto-Modell
-    public TaskDto convertTaskModelToTaskDto(TaskModel taskModel)
+
+    public TaskDto ConvertTaskModelToTaskDto(TaskModel taskModel)
     {
         var convertedTaskDto = new TaskDto
         {
@@ -54,48 +60,53 @@ public class TaskService(TaskRepository taskRepository, TaskSortingManager taskS
         };
         return convertedTaskDto;
     }
+
+    public TaskDto GetTaskById(Guid taskId)
+    {
+        return _taskRepository.GetTaskById(taskId);
+    }
     
-    
-    
-//Folgende Funktionen wurden aus TaskRepository eins zu eins übernommen:    
-    //Erstellt eine Liste aus DTO-Objekten mit allen Zeilen aus Task-Tabelle
     public List<TaskDto> GetAllTasks()
     {
-        return taskRepository.GetAllTasks();
+        try
+        {
+            return _taskRepository.GetTasksByProjectId((Guid)_appState.CurrentProjectId!);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
     
     public void DeleteTask(Guid taskId)
     {
-        taskRepository.DeleteTask(taskId);
+        _taskRepository.DeleteTask(taskId);
     } 
     
-    //Folgende Funktionen wurden aus TaskSorting eins zu eins übernommen:
     public List<TaskDto> SortTasksByTitle(List<TaskDto> tasks)
     {
-       return taskSortingManager.SortBySingleAttribute(tasks, task => task.Title).ToList();
+       return _taskSortingManager.SortBySingleAttribute(tasks, task => task.Title).ToList();
     }
    
     public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status)
-   {
-       return taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
-   } 
+    {
+       return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
+    }
     
-//Funktionen für TestZwecke:    
-    //Erstellt für TestZwecke eine zuffälliges TaskModel mit Eintrag in Task-Tabelle
     public void AddRandomTask(string status)
     {
         var newTask = new TaskModel
         {
             TaskId = Guid.NewGuid(),
+            ProjectId = (Guid)_appState.CurrentProjectId!,
+            AuthorId = _appState.CurrentUser.UserId,
             Title = "Random Task " + new Random().Next(100),
             Description = "This is a randomly generated task.",
             Status = Enum.Parse<Core.Enums.TaskStatus>(status),
             CreationDate = DateTime.Now
         };
         
-        taskRepository.AddTask(newTask);
+        _taskRepository.AddTask(newTask);
     }
-
-    
-
 }

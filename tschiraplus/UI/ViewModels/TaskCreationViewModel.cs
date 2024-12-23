@@ -16,7 +16,9 @@ namespace UI.ViewModels;
 
 public class TaskCreationViewModel : ViewModelBase
 {
-    private readonly TaskService _taskService;
+    private readonly ITaskRepository _taskRepository;
+    private readonly ITaskService _taskService;
+
     private bool _isLowPrio {get; set;}
     private bool _isHighPrio {get; set;}
     private bool _isMediumPrio {get; set;}
@@ -25,15 +27,26 @@ public class TaskCreationViewModel : ViewModelBase
    
     public ICommand CreateTaskCommand { get; }
     
-    
-    
-    public TaskCreationViewModel(TaskRepository taskRepository, TaskService taskService) //Konstrukto (evntl. unötig?)
+    public TaskCreationViewModel(ITaskRepository taskRepository, ITaskService taskService)
     {
         _taskService = taskService;
         CreateTaskCommand = new RelayCommand(CreateTask);
     }
     
-    //Methode die dem ButtonCommand gegeben wird
+    private TaskDto CreateTaskDTO()
+    {
+        TaskDto dto = new TaskDto()
+        {
+            TaskId = Guid.NewGuid(),
+            Title = string.Empty,
+            Description = string.Empty,
+            Status = string.Empty,
+            CreationDate = DateTime.Today
+        };
+        
+        return dto;
+    }
+
     private void CreateTask()
     {
         TaskDto dto = _taskService.CreateTaskDto(
@@ -43,5 +56,4 @@ public class TaskCreationViewModel : ViewModelBase
             DateTime.Today);
         _taskService.TaskCreation(dto);
     }
-    
 }

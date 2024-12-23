@@ -18,17 +18,7 @@ public class DatabaseService
         var dbInitializer = new DatabaseInitializer(_dbConfig);
         dbInitializer.InitializeDatabase();
     }
-
-    public void CreateDatabase(string filePath)
-    {
-        if (File.Exists(filePath))
-        {
-            throw new InvalidOperationException($"Database file '{filePath}' already exists.");
-        }
-
-        File.Create(filePath).Dispose();
-    }
-
+    
     public Database GetDatabase()
     {
         return _dbConfig.GetDatabase();
