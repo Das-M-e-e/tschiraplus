@@ -19,15 +19,15 @@ public class TaskService : ITaskService
 
     public void TaskCreation(TaskDto task)
     {
-        taskRepository.AddTask(convertTaskDtoToTaskModel(task));
+        _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
     }
     
-    public TaskDto CreateTaskDto(String titel, String description, String status, DateTime creationDate)
+    public TaskDto CreateTaskDto(string title, string description, string status, DateTime creationDate)
     {
         TaskDto dto = new TaskDto()
         {
             TaskId = Guid.NewGuid(),
-            Title = titel,
+            Title = title,
             Description = description,
             Status = status,
             CreationDate = creationDate
