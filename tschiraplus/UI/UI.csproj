@@ -38,6 +38,9 @@
       <Compile Update="Views\TaskDetailView.axaml.cs">
         <DependentUpon>TaskDetailView.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\ProjectDetailsView.axaml.cs">
+        <DependentUpon>ProjectDetailsView.axaml</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>

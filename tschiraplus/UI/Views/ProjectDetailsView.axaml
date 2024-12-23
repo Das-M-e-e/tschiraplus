@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="600"
              x:Class="UI.Views.ProjectDetailsView">
-    <Grid RowDefinitions="Auto,*,Auto"> 
+    <Grid RowDefinitions="Auto,*,Auto" Background="Snow"> 
         <!-- title bar -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto, Auto" Height="40" Background="#f3f3f3">
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -25,6 +25,9 @@
                 </Button>
             </StackPanel>
             <Grid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                </Style>
                 <Style Selector="Button">
                     <Setter Property="Background" Value="Transparent"></Setter>
                 </Style>
@@ -37,7 +40,7 @@
         <!-- main -->
         <Grid Grid.Row="1" RowDefinitions="Auto, Auto, *, Auto" >
             <Grid Grid.Row="0">
-                <TextBlock Text="Tschiraplus" FontWeight="SemiBold" FontSize="30" Padding="20"></TextBlock>
+                <TextBlock Text="Tschiraplus" FontWeight="SemiBold" FontSize="30" Padding="20" Foreground="Black"></TextBlock>
             </Grid>
             <Grid Grid.Row="1" Height="180" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal">
@@ -67,6 +70,11 @@
                                         <Image Source="avares://UI/Assets/tag_icon.png" Margin="0,-0.5,2,0" Opacity="0.45" Stretch="Uniform" Width="16"></Image>
                                         <TextBlock Text="Tags" FontWeight="SemiBold" Opacity="0.5" FontSize="11"></TextBlock>
                                     </StackPanel>
+                                    <Grid.Styles>
+                                        <Style Selector="TextBlock">
+                                            <Setter Property="Foreground" Value="Black"></Setter>
+                                        </Style>
+                                    </Grid.Styles>
                         </Grid>
                         <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Width="315" HorizontalAlignment="Left" >
                             <StackPanel Grid.Row="0" Margin="0,0,0,13" Orientation="Horizontal" VerticalAlignment="Center">
@@ -114,6 +122,9 @@
                                         </Border>
                                     </StackPanel>
                             <Grid.Styles>
+                                <Style Selector="TextBlock">
+                                    <Setter Property="Foreground" Value="Black"></Setter>
+                                </Style>
                                 <Style Selector="Button">
                                     <Setter Property="Background" Value="Transparent"></Setter>
                                     <Setter Property="BorderBrush" Value="#dfe3e8"></Setter>
@@ -127,7 +138,7 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-        <Grid Grid.Row="2" Margin="22,0,0,15" Width="500" Height="200" VerticalAlignment="Top">
+        <Grid Grid.Row="2" Margin="20,0,0,15" Width="500" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left">
             <StackPanel Orientation="Vertical">
                 <StackPanel   Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Image Source="avares://UI/Assets/description_icon.png" Margin="0,-1,4,0" Opacity="0.45" Stretch="Uniform" Width="14"></Image>
@@ -155,6 +166,9 @@
                 <Style Selector="Button:pointerover /template/ ContentPresenter">
                     <Setter Property="Foreground" Value="#0000EE"></Setter>
                     <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+                <Style Selector="TextBlock">
+                    <Setter Property="Foreground" Value="Black"></Setter>
                 </Style>
             </Grid.Styles>
         </Grid>
