@@ -12,6 +12,8 @@ public class ProjectViewModel
     public string Description { get; }
 
     public ICommand OpenProjectCommand { get; }
+    public ICommand DeleteProjectCommand { get; }
+    
     private readonly ProjectListViewModel _projectListViewModel;
 
     public ProjectViewModel(ProjectDTO projectDto, ProjectListViewModel projectListViewModel)
@@ -21,11 +23,17 @@ public class ProjectViewModel
         Description = projectDto.Description;
 
         OpenProjectCommand = new RelayCommand(OpenProject);
+        DeleteProjectCommand = new RelayCommand(DeleteProject);
         _projectListViewModel = projectListViewModel;
     }
 
     private void OpenProject()
     {
         _projectListViewModel.OpenProject(ProjectId);
+    }
+
+    private void DeleteProject()
+    {
+        _projectListViewModel.DeleteProject(ProjectId);
     }
 }

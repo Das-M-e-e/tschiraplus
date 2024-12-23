@@ -14,13 +14,14 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
+    // Todo: Temporary, will remove when user profiles are implemented @Das_M_e_e_
     public void AddUserIfNoneExists()
     {
         if (_userRepository.GetAllUsers().Count == 0)
         {
             var newUser = new UserModel
             {
-                UserId = Guid.NewGuid(),
+                UserId = Guid.Empty,
                 Username = "System",
                 Email = "System",
                 PasswordHash = "0",
@@ -33,6 +34,7 @@ public class UserService : IUserService
         }
     }
 
+    // Todo: Temporary, will remove when user profiles are implemented @Das_M_e_e_
     public UserDTO GetSystemUser()
     {
         return _userRepository.GetUserByUsername("System");

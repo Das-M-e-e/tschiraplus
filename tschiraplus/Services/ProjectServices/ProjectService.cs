@@ -28,9 +28,11 @@ public class ProjectService : IProjectService
         };
         
         _projectRepository.AddProject(newProject);
+        _projectRepository.PostProjectAsync(newProject);
     }
 
-    public void CreateTestProject()
+    // Todo: Temporary, will remove when project creation is implemented
+    public void CreateTestProject(bool isOnline)
     {
         Guid projectId = Guid.NewGuid();
         
@@ -42,17 +44,34 @@ public class ProjectService : IProjectService
             Description = "No description provided",
             CreationDate = DateTime.Now,
             Status = ProjectStatus.NotStarted,
-            LastUpdated = DateTime.Now
+            Priority = ProjectPriority.Low,
+            LastUpdated = DateTime.Now,
+            DueDate = DateTime.MaxValue,
+            StartDate = DateTime.Today
         };
         
         _projectRepository.AddProject(newProject);
+
+        if (isOnline)
+        {
+            _projectRepository.PostProjectAsync(newProject);
+        }
     }
 
+    /// <summary>
+    /// Gets a list of all projects in the database as DTOs
+    /// </summary>
+    /// <returns>A List of ProjectDTOs</returns>
     public List<ProjectDTO> GetAllProjects()
     {
         return _projectRepository.GetAllProjects();
     }
 
+    /// <summary>
+    /// Gets a single Project as DTO via its id (projectId)
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns>A ProjectDTO</returns>
     public ProjectDTO GetProjectById(Guid projectId)
     {
         var projectModel = _projectRepository.GetProjectById(projectId);
@@ -63,5 +82,23 @@ public class ProjectService : IProjectService
             Name = projectModel.Name,
             Description = projectModel.Description ?? "No description provided"
         };
+    }
+
+    /// <summary>
+    /// Deletes a specific project (projectId) from both the local and remote database
+    /// </summary>
+    /// <param name="projectId"></param>
+    public async Task DeleteProject(Guid projectId)
+    {
+        await _projectRepository.DeleteAsync(projectId);
+        _projectRepository.DeleteProject(projectId);
+    }
+
+    /// <summary>
+    /// Synchronizes the local database with the remote database
+    /// </summary>
+    public async Task SyncProjects()
+    {
+        await _projectRepository.SyncProjectsAsync();
     }
 }

@@ -9,4 +9,8 @@ public interface IProjectRepository
     public ProjectModel GetProjectById(Guid projectId);
     public List<ProjectDTO> GetAllProjects();
     public void DeleteProject(Guid projectId);
+    public Task<bool> PostProjectAsync(ProjectModel project);
+    public Task<List<ProjectModel>> GetAllProjectsAsync();
+    public Task<bool> DeleteAsync(Guid projectId);
+    public Task SyncProjectsAsync();
 }

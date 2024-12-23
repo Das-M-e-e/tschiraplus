@@ -11,6 +11,7 @@ public class ProjectModel
     public ProjectStatus Status { get; set; }
     public ProjectPriority Priority { get; set; }
     public DateTime CreationDate { get; set; }
+    public DateTime? StartDate { get; set; }
     public DateTime? DueDate { get; set; }
-    public DateTime? LastUpdated { get; set; }
+    public DateTime LastUpdated { get; set; }
 }

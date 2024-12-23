@@ -1,8 +1,10 @@
+using System;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Services;
+using Services.API;
 using Services.DatabaseServices;
 using Services.Repositories;
 using Services.UserServices;
@@ -33,6 +35,20 @@ public partial class App : Application
             var userService = new UserService(new UserRepository(dbService.GetDatabase()));
             userService.AddUserIfNoneExists();
             appState.CurrentUser = userService.GetSystemUser();
+
+            var connectivityService = new ConnectivityService();
+            var isHostReachable = connectivityService.IsHostReachable();
+            
+            if (isHostReachable)
+            {
+                Console.WriteLine("Host available.");
+                appState.IsOnline = true;
+            }
+            else
+            {
+                Console.WriteLine("Host unavailable. App will operate in offline mode.");
+                appState.IsOnline = false;
+            }
 
             desktop.MainWindow = new MainMenuView
             {

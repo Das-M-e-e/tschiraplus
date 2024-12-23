@@ -34,6 +34,7 @@ public class DatabaseInitializer
                     Status INTEGER,
                     Priority INTEGER,
                     CreationDate TIMESTAMP,
+                    StartDate TIMESTAMP,
                     DueDate TIMESTAMP,
                     LastUpdated TIMESTAMP
                 );
@@ -139,6 +140,7 @@ public class DatabaseInitializer
                     ProjectId TEXT REFERENCES Projects(ProjectId),
                     UserId TEXT REFERENCES Users(UserId),
                     TaskId TEXT REFERENCES Tasks(TaskId),
+                    AssignedBy TEXT REFERENCES Users(UserId),
                     AssignedDate TIMESTAMP NOT NULL
                 );
                 
