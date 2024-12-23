@@ -67,7 +67,7 @@ public class ProjectListViewModel
 
     public async void DeleteProject(Guid projectId)
     {
-        await _projectService.DeleteProject(projectId);
+        await _projectService.DeleteProject(projectId, _appState.IsOnline);
         LoadProjects();
     }
 }

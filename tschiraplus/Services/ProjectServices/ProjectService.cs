@@ -49,13 +49,10 @@ public class ProjectService : IProjectService
             DueDate = DateTime.MaxValue,
             StartDate = DateTime.Today
         };
-        
-        _projectRepository.AddProject(newProject);
 
-        if (isOnline)
-        {
-            _projectRepository.PostProjectAsync(newProject);
-        }
+        if (!isOnline) return;
+        _projectRepository.AddProject(newProject);
+        _projectRepository.PostProjectAsync(newProject);
     }
 
     /// <summary>
@@ -88,10 +85,14 @@ public class ProjectService : IProjectService
     /// Deletes a specific project (projectId) from both the local and remote database
     /// </summary>
     /// <param name="projectId"></param>
-    public async Task DeleteProject(Guid projectId)
+    /// <param name="isOnline"></param>
+    public async Task DeleteProject(Guid projectId, bool isOnline)
     {
-        await _projectRepository.DeleteAsync(projectId);
-        _projectRepository.DeleteProject(projectId);
+        if (isOnline)
+        {
+            await _projectRepository.DeleteAsync(projectId);
+            _projectRepository.DeleteProject(projectId);
+        }
     }
 
     /// <summary>
