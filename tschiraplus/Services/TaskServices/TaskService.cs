@@ -16,8 +16,26 @@ public class TaskService : ITaskService
         _taskSortingManager = taskSortingManager;
         _appState = appState;
     }
+
+    public void TaskCreation(TaskDto task)
+    {
+        taskRepository.AddTask(convertTaskDtoToTaskModel(task));
+    }
     
-    public TaskModel convertTaskDtoToTaskModel(TaskDto taskDto)
+    public TaskDto CreateTaskDto(String titel, String description, String status, DateTime creationDate)
+    {
+        TaskDto dto = new TaskDto()
+        {
+            TaskId = Guid.NewGuid(),
+            Title = titel,
+            Description = description,
+            Status = status,
+            CreationDate = creationDate
+        };
+        return dto;
+    }    
+
+    public TaskModel ConvertTaskDtoToTaskModel(TaskDto taskDto)
     {
         var convertedTaskModel = new TaskModel
         {
@@ -29,8 +47,8 @@ public class TaskService : ITaskService
         };
         return convertedTaskModel;
     }
-    
-    public TaskDto convertTaskModelToTaskDto(TaskModel taskModel)
+
+    public TaskDto ConvertTaskModelToTaskDto(TaskModel taskModel)
     {
         var convertedTaskDto = new TaskDto
         {
