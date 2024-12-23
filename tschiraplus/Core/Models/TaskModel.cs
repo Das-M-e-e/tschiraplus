@@ -10,7 +10,7 @@ public class TaskModel
     public string? Description { get; set; }
     public TaskStatus? Status { get; set; }
     public TaskPriority? Priority { get; set; }
-    public DateTime? CreationDate { get; init; } //TODO nullabel entfernen
+    public DateTime CreationDate { get; init; } 
     public DateTime? DueDate { get; set; }
     public DateTime? CompletionDate { get; set; }
     public List<Guid>? Assignees { get; set; }          // Guids of assigned users
