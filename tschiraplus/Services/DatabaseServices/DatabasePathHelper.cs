@@ -2,7 +2,11 @@
 
 public class DatabasePathHelper
 {
-    public static string GetDatabaseFolder()
+    /// <summary>
+    /// Gets the location where databases are stored
+    /// </summary>
+    /// <returns>The path to the desired folder</returns>
+    private static string GetDatabaseFolder()
     {
         var folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Databases");
 
@@ -14,6 +18,11 @@ public class DatabasePathHelper
         return folderPath;
     }
 
+    /// <summary>
+    /// Gets the whole path to a specific database
+    /// </summary>
+    /// <param name="databaseName"></param>
+    /// <returns>The path to the desired database</returns>
     public static string GetDatabasePath(string databaseName)
     {
         var folderPath = GetDatabaseFolder();

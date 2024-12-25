@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,18 +16,17 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
 {
     public ViewModelActivator Activator { get; }
 
-    private readonly TaskService _taskService;
+    private readonly ITaskService _taskService;
     // Lists
     public ObservableCollection<TaskViewModel> Tasks { get; } = new();
     public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = new();
-
     private List<TaskDto> AllTasks { get; set; } = new();
     // Commands
     public ICommand AddRandomTaskCommand { get; }
     public ICommand SortTasksByTitleCommand { get; }
     public ICommand FilterTasksByStatusCommand { get; }
 
-    public TaskListViewModel(TaskService taskService) //Konstruktor
+    public TaskListViewModel(ITaskService taskService)
     {
         _taskService = taskService;
 
@@ -43,7 +43,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         });
     }
 
-    private void InitializeKanbanColumns() //Stellt Spalten aus Kanban bereit
+    private void InitializeKanbanColumns()
     {
         KanbanColumns.Add(new KanbanColumnViewModel("Backlog", "Backlog", "LightSteelBlue", "#ECF3FF", _taskService, this));
         KanbanColumns.Add(new KanbanColumnViewModel("Ready", "Ready", "MistyRose", "#FFF9F8", _taskService, this));
@@ -52,13 +52,13 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         KanbanColumns.Add(new KanbanColumnViewModel("Done", "Done", "#B7DAA8", "#E6FFF1", _taskService, this));
     }
 
-    public void LoadTasks() //Aktualiesiert und zeigt die Liste der Aufgaben
+    public void LoadTasks()
     {
         AllTasks = _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
     }
 
-    private void UpdateTaskList(IEnumerable<TaskDto> taskDtos) //Aktualisiert die Zeilen anhand einer Liste von Dto's
+    private void UpdateTaskList(IEnumerable<TaskDto> taskDtos)
     {
         Tasks.Clear();
         foreach (var col in KanbanColumns)
@@ -74,19 +74,19 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         }
     }
 
-    private void AddRandomTask() //Erstellt eine zufällige Aufgabe (Testzwecke)
+    private void AddRandomTask()
     {
         _taskService.AddRandomTask("Backlog");
         LoadTasks();
     }
 
-    public void DeleteTask(TaskViewModel task) //Löscht eine Aufgabe per ID
+    public void DeleteTask(TaskViewModel task)
     {
         _taskService.DeleteTask(task.TaskId);
         LoadTasks();
     }
 
-    private void SortTasksByTitle() //Arangiert die Aufgaben anhand ihres Titels (alphabetisch?)
+    private void SortTasksByTitle()
     {
         var taskDtos = Tasks.Select(task => new TaskDto
         {
@@ -101,7 +101,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         UpdateTaskList(sortedTaskDtos);
     }
 
-    private void FilterTasksByStatus() //Zeigt nur Aufgaben eines bestimmten Status
+    private void FilterTasksByStatus()
     {
         var filteredTasks = _taskService.FilterTasksByStatus(AllTasks, "Backlog");
         UpdateTaskList(filteredTasks);
