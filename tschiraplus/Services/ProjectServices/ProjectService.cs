@@ -57,8 +57,6 @@ public class ProjectService : IProjectService
 
     public void CreateProject(ProjectDTO projectDto)
     {
-        Guid projectId = Guid.NewGuid();
-        
         var newProject = new ProjectModel
         {
             ProjectId = projectDto.ProjectId,
@@ -69,14 +67,8 @@ public class ProjectService : IProjectService
             LastUpdated = DateTime.Now
         };
         
-        _projectRepository.AddProject(newProject);
-
-        string projectDbPath = DatabasePathHelper.GetDatabasePath($"project_{newProject.ProjectId}.db");
-        _databaseService.CreateDatabase(projectDbPath);
-
-        var projectDbConfig = new PetaPocoConfig($"Data Source={projectDbPath}");
-        var dbInitializer = new DatabaseInitializer(projectDbConfig);
-        dbInitializer.InitializeProjectDatabase();
+          _projectRepository.AddProject(newProject);
+          _projectRepository.PostProjectAsync(newProject);
     }
     
     
