@@ -8,6 +8,7 @@
         x:Class="UI.Views.MainMenuView"
         x:DataType="vm:MainMenuViewModel"
         Title="MainMenuView">
+    
     <TabControl ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" TabStripPlacement="Left">
         <TabControl.ItemTemplate>
             <DataTemplate>
@@ -20,4 +21,5 @@
             </DataTemplate>
         </TabControl.ContentTemplate>
     </TabControl>
+    
 </Window>

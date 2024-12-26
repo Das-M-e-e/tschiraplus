@@ -1,21 +1,19 @@
 ﻿using Core.Enums;
 using Core.Models;
-using Data.DatabaseConfig;
-using Services.DatabaseServices;
 using Services.DTOs;
 using Services.Repositories;
 
 namespace Services.ProjectServices;
 
-public class ProjectService
+public class ProjectService : IProjectService
 {
-    private readonly DatabaseService _databaseService;
-    private readonly ProjectRepository _projectRepository;
+    private readonly IProjectRepository _projectRepository;
+    private readonly UserDTO _currentUser;
 
-    public ProjectService(DatabaseService databaseService, ProjectRepository projectRepository)
+    public ProjectService(IProjectRepository projectRepository, UserDTO currentUser)
     {
-        _databaseService = databaseService;
         _projectRepository = projectRepository;
+        _currentUser = currentUser;
     }
 
     public void CreateProject(string name, string description)
@@ -30,37 +28,31 @@ public class ProjectService
         };
         
         _projectRepository.AddProject(newProject);
-
-        string projectDbPath = $"project_{newProject.Name}.db";
-        _databaseService.CreateDatabase(projectDbPath);
-
-        var projectDbConfig = new PetaPocoConfig($"Data Source={projectDbPath}");
-        var dbInitializer = new DatabaseInitializer(projectDbConfig);
-        dbInitializer.InitializeProjectDatabase();
+        _projectRepository.PostProjectAsync(newProject);
     }
 
-    public void CreateTestProject()
+    // Todo: Temporary, will remove when project creation is implemented
+    public void CreateTestProject(bool isOnline)
     {
         Guid projectId = Guid.NewGuid();
         
         var newProject = new ProjectModel
         {
             ProjectId = projectId,
+            OwnerId = _currentUser.UserId,
             Name = "Test_Project-" + projectId,
             Description = "No description provided",
             CreationDate = DateTime.Now,
             Status = ProjectStatus.NotStarted,
-            LastUpdated = DateTime.Now
+            Priority = ProjectPriority.Low,
+            LastUpdated = DateTime.Now,
+            DueDate = DateTime.MaxValue,
+            StartDate = DateTime.Today
         };
-        
+
+        if (!isOnline) return;
         _projectRepository.AddProject(newProject);
-
-        string projectDbPath = DatabasePathHelper.GetDatabasePath($"project_{newProject.ProjectId}.db");
-        _databaseService.CreateDatabase(projectDbPath);
-
-        var projectDbConfig = new PetaPocoConfig($"Data Source={projectDbPath}");
-        var dbInitializer = new DatabaseInitializer(projectDbConfig);
-        dbInitializer.InitializeProjectDatabase();
+        _projectRepository.PostProjectAsync(newProject);
     }
 
     public void CreateProject(ProjectDTO projectDto)
@@ -88,11 +80,20 @@ public class ProjectService
     }
     
     
+    /// <summary>
+    /// Gets a list of all projects in the database as DTOs
+    /// </summary>
+    /// <returns>A List of ProjectDTOs</returns>
     public List<ProjectDTO> GetAllProjects()
     {
         return _projectRepository.GetAllProjects();
     }
 
+    /// <summary>
+    /// Gets a single Project as DTO via its id (projectId)
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns>A ProjectDTO</returns>
     public ProjectDTO GetProjectById(Guid projectId)
     {
         var projectModel = _projectRepository.GetProjectById(projectId);
@@ -103,5 +104,27 @@ public class ProjectService
             Name = projectModel.Name,
             Description = projectModel.Description ?? "No description provided"
         };
+    }
+
+    /// <summary>
+    /// Deletes a specific project (projectId) from both the local and remote database
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <param name="isOnline"></param>
+    public async Task DeleteProject(Guid projectId, bool isOnline)
+    {
+        if (isOnline)
+        {
+            await _projectRepository.DeleteAsync(projectId);
+            _projectRepository.DeleteProject(projectId);
+        }
+    }
+
+    /// <summary>
+    /// Synchronizes the local database with the remote database
+    /// </summary>
+    public async Task SyncProjects()
+    {
+        await _projectRepository.SyncProjectsAsync();
     }
 }
