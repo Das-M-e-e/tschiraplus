@@ -98,4 +98,70 @@ public class RemoteDatabaseService
             return false;
         }
     }
+
+    /// <summary>
+    /// Sends an HTTP-request to the api
+    /// to register a new user
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns>true or false</returns>
+    public async Task<bool> RegisterUserAsync(string data)
+    {
+        try
+        {
+            // HTTP-POST message to send to host
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                "http://localhost:8080/api/Auth/Register"
+                );
+            
+            request.Headers.Add("accept", "text/plain");
+            request.Content = new StringContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            // HTTP response received from host
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"An error occured while trying to register user: {e.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Sends an HTTP-request to host
+    /// to log in an existing user
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns>The HttpResponseMessage that the host returns</returns>
+    public async Task<HttpResponseMessage> LoginUserAsync(string data)
+    {
+        try
+        {
+            // HTTP-POST message to send to host
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                "http://localhost:8080/api/Auth/Login"
+            );
+            
+            request.Headers.Add("accept", "text/plain");
+            request.Content = new StringContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            // HTTP response received from host
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            return response;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"An error occured while trying to log in user: {e.Message}");
+            throw;
+        }
+    }
 }

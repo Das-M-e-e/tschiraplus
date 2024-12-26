@@ -4,6 +4,7 @@ namespace Services.UserServices;
 
 public interface IUserService
 {
-    public void AddUserIfNoneExists();
-    public UserDTO GetSystemUser();
+    void AddUserIfNoneExists();
+    UserDto GetSystemUser();
+    Task RegisterUserAsync(RegisterUserDto registerUserDto);
 }

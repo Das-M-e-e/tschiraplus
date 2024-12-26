@@ -8,9 +8,9 @@ namespace Services.ProjectServices;
 public class ProjectService : IProjectService
 {
     private readonly IProjectRepository _projectRepository;
-    private readonly UserDTO _currentUser;
+    private readonly UserDto _currentUser;
 
-    public ProjectService(IProjectRepository projectRepository, UserDTO currentUser)
+    public ProjectService(IProjectRepository projectRepository, UserDto currentUser)
     {
         _projectRepository = projectRepository;
         _currentUser = currentUser;
@@ -59,7 +59,7 @@ public class ProjectService : IProjectService
     /// Gets a list of all projects in the database as DTOs
     /// </summary>
     /// <returns>A List of ProjectDTOs</returns>
-    public List<ProjectDTO> GetAllProjects()
+    public List<ProjectDto> GetAllProjects()
     {
         return _projectRepository.GetAllProjects();
     }
@@ -69,11 +69,11 @@ public class ProjectService : IProjectService
     /// </summary>
     /// <param name="projectId"></param>
     /// <returns>A ProjectDTO</returns>
-    public ProjectDTO GetProjectById(Guid projectId)
+    public ProjectDto GetProjectById(Guid projectId)
     {
         var projectModel = _projectRepository.GetProjectById(projectId);
 
-        return new ProjectDTO
+        return new ProjectDto
         {
             ProjectId = projectModel.ProjectId,
             Name = projectModel.Name,

@@ -8,6 +8,7 @@ using Services.DatabaseServices;
 using Services.ProjectServices;
 using Services.Repositories;
 using Services.TaskServices;
+using Services.UserServices;
 using UI.Views;
 
 namespace UI.ViewModels;
@@ -47,6 +48,18 @@ public class MainMenuViewModel : ObservableObject
                         _appState.CurrentUser),
                     this,
                     _appState)
+            }),
+            new("RegisterTest", new RegisterUserView
+            {
+                DataContext = new RegisterUserViewModel(
+                    new UserService(
+                        new UserRepository(
+                            _dbService.GetDatabase()),
+                        new AuthService(
+                            new RemoteDatabaseService()
+                            )
+                        )
+                    )
             })
         };
 

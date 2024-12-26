@@ -7,7 +7,7 @@ public interface IProjectRepository
 {
     public void AddProject(ProjectModel project);
     public ProjectModel GetProjectById(Guid projectId);
-    public List<ProjectDTO> GetAllProjects();
+    public List<ProjectDto> GetAllProjects();
     public void DeleteProject(Guid projectId);
     public Task<bool> PostProjectAsync(ProjectModel project);
     public Task<List<ProjectModel>> GetAllProjectsAsync();

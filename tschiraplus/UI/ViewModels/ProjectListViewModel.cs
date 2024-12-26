@@ -45,7 +45,7 @@ public class ProjectListViewModel
         UpdateProjectList(allProjects);
     }
 
-    private void UpdateProjectList(IEnumerable<ProjectDTO> projectDtos)
+    private void UpdateProjectList(IEnumerable<ProjectDto> projectDtos)
     {
         Projects.Clear();
         foreach (var projectDto in projectDtos)

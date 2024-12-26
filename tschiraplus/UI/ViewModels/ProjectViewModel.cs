@@ -16,7 +16,7 @@ public class ProjectViewModel
     
     private readonly ProjectListViewModel _projectListViewModel;
 
-    public ProjectViewModel(ProjectDTO projectDto, ProjectListViewModel projectListViewModel)
+    public ProjectViewModel(ProjectDto projectDto, ProjectListViewModel projectListViewModel)
     {
         ProjectId = projectDto.ProjectId;
         Name = projectDto.Name;

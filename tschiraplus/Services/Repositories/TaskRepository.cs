@@ -16,21 +16,39 @@ public class TaskRepository : ITaskRepository
         ProjectId = projectId;
     }
     
+    //****** LOCAL DB ******//
+    /// <summary>
+    /// Saves a task to the local database
+    /// </summary>
+    /// <param name="task"></param>
     public void AddTask(TaskModel task)
     {
         _db.Insert("Tasks", "TaskId", task);
     }
     
+    /// <summary>
+    /// Updates a task by id in the local database
+    /// </summary>
+    /// <param name="task"></param>
     public void UpdateTask(TaskModel task)
     {
         _db.Update("Tasks", "TaskId", task);
     }
     
+    /// <summary>
+    /// Deletes a task by id from the local database
+    /// </summary>
+    /// <param name="taskId"></param>
     public void DeleteTask(Guid taskId)
     {
         _db.Execute("DELETE FROM Tasks WHERE TaskId = @0", taskId);
     }
     
+    /// <summary>
+    /// Gets a task by id from the local database
+    /// </summary>
+    /// <param name="taskId"></param>
+    /// <returns>The wanted task as TaskDto</returns>
     public TaskDto GetTaskById(Guid taskId)
     {
         var task = _db.SingleOrDefault<TaskModel>("WHERE TaskId = @0", taskId);
@@ -45,6 +63,11 @@ public class TaskRepository : ITaskRepository
         };
     }
 
+    /// <summary>
+    /// Gets all tasks that belong to a project by their projectId
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns>A List of all related tasks as TaskDto</returns>
     public List<TaskDto> GetTasksByProjectId(Guid projectId)
     {
         var tasks = _db.Fetch<TaskModel>("SELECT * FROM Tasks WHERE ProjectId = @0", projectId);

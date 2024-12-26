@@ -8,10 +8,12 @@ namespace Services.UserServices;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
+    private readonly IAuthService _authService;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, IAuthService authService)
     {
         _userRepository = userRepository;
+        _authService = authService;
     }
 
     // Todo: Temporary, will remove when user profiles are implemented @Das_M_e_e_
@@ -24,7 +26,6 @@ public class UserService : IUserService
                 UserId = Guid.Empty,
                 Username = "System",
                 Email = "System",
-                PasswordHash = "0",
                 Status = UserStatus.Online,
                 CreatedAt = DateTime.Now,
                 LastLogin = DateTime.Now
@@ -35,8 +36,13 @@ public class UserService : IUserService
     }
 
     // Todo: Temporary, will remove when user profiles are implemented @Das_M_e_e_
-    public UserDTO GetSystemUser()
+    public UserDto GetSystemUser()
     {
         return _userRepository.GetUserByUsername("System");
+    }
+
+    public async Task RegisterUserAsync(RegisterUserDto registerUserDto)
+    {
+        await _authService.RegisterAsync(registerUserDto);
     }
 }

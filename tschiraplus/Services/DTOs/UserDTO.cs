@@ -1,7 +1,7 @@
 ﻿namespace Services.DTOs;
 
-public class UserDTO
+public class UserDto
 {
-    public Guid UserId { get; set; }
-    public string Username { get; set; }
+    public Guid UserId { get; init; }
+    public string Username { get; set; } = string.Empty;
 }

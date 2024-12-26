@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
@@ -32,7 +33,13 @@ public partial class App : Application
             var dbService = new DatabaseService("localDatabase.db");
             dbService.InitializeDatabase();
             
-            var userService = new UserService(new UserRepository(dbService.GetDatabase()));
+            var userService = new UserService(
+                new UserRepository(
+                    dbService.GetDatabase()),
+                new AuthService(
+                    new RemoteDatabaseService()
+                    )
+                );
             userService.AddUserIfNoneExists();
             appState.CurrentUser = userService.GetSystemUser();
 

@@ -7,5 +7,5 @@ public interface IUserRepository
 {
     public void AddUser(UserModel user);
     public List<UserModel> GetAllUsers();
-    public UserDTO GetUserByUsername(string username);
+    public UserDto GetUserByUsername(string username);
 }

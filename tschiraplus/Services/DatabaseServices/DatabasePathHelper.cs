@@ -1,6 +1,6 @@
 ﻿namespace Services.DatabaseServices;
 
-public class DatabasePathHelper
+public abstract class DatabasePathHelper
 {
     /// <summary>
     /// Gets the location where databases are stored
