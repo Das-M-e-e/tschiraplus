@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using Services.UserServices;
 
 namespace Services.DatabaseServices;
 
@@ -7,7 +8,7 @@ public class RemoteDatabaseService
     private readonly HttpClient _httpClient = new();
 
     /// <summary>
-    /// Sends an HTTP-request to the api
+    /// Sends an HTTP-request to the host
     /// to post an object (data) to the corresponding table (endpoint)
     /// </summary>
     /// <param name="endpoint"></param>
@@ -20,8 +21,9 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                $"http://localhost:8080/api/{endpoint}"
+                $"http://192.168.0.210:8080/api/{endpoint}"
                 );
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
             
             request.Headers.Add("accept", "text/plain");
             request.Content = new StringContent(data);
@@ -41,7 +43,7 @@ public class RemoteDatabaseService
     }
 
     /// <summary>
-    /// Sends an HTTP-request to the api
+    /// Sends an HTTP-request to the host
     /// to get all elements in a specific table (endpoint)
     /// </summary>
     /// <param name="endpoint"></param>
@@ -53,9 +55,13 @@ public class RemoteDatabaseService
             // HTTP-GET message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"http://localhost:8080/api/{endpoint}"
+                $"http://192.168.0.210:8080/api/{endpoint}"
                 );
 
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+
+            Console.WriteLine(request.Headers.Authorization.Parameter);
+            
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
@@ -70,7 +76,39 @@ public class RemoteDatabaseService
     }
 
     /// <summary>
-    /// Sends an HTTP-request to the api
+    /// Sends an HTTP-request to the host
+    /// to get a specific entry by id
+    /// </summary>
+    /// <param name="endpoint"></param>
+    /// <param name="id"></param>
+    /// <returns>A json string containing the wanted object</returns>
+    public async Task<string> GetByIdAsync(string endpoint, Guid id)
+    {
+        try
+        {
+            // HTTP-GET message to send to host
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                $"http://192.168.0.210:8080/api/{endpoint}/{id}"
+            );
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            
+            // HTTP response received from host
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Sends an HTTP-request to the host
     /// to delete an entry in a specific table (endpoint) with a specific id (id)
     /// </summary>
     /// <param name="endpoint"></param>
@@ -83,8 +121,9 @@ public class RemoteDatabaseService
             // HTTP-DELETE message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Delete,
-                $"http://localhost:8080/api/{endpoint}/{id}"
+                $"http://192.168.0.210:8080/api/{endpoint}/{id}"
                 );
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
 
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
@@ -100,7 +139,7 @@ public class RemoteDatabaseService
     }
 
     /// <summary>
-    /// Sends an HTTP-request to the api
+    /// Sends an HTTP-request to the host
     /// to register a new user
     /// </summary>
     /// <param name="data"></param>
@@ -112,7 +151,7 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                "http://localhost:8080/api/Auth/Register"
+                "http://192.168.0.210:8080/api/Auth/Register"
                 );
             
             request.Headers.Add("accept", "text/plain");
@@ -133,7 +172,7 @@ public class RemoteDatabaseService
     }
 
     /// <summary>
-    /// Sends an HTTP-request to host
+    /// Sends an HTTP-request to the host
     /// to log in an existing user
     /// </summary>
     /// <param name="data"></param>
@@ -145,7 +184,7 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                "http://localhost:8080/api/Auth/Login"
+                "http://192.168.0.210:8080/api/Auth/Login"
             );
             
             request.Headers.Add("accept", "text/plain");

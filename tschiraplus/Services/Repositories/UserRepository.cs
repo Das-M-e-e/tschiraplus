@@ -1,5 +1,7 @@
 ﻿using Core.Models;
+using Newtonsoft.Json;
 using PetaPoco;
+using Services.DatabaseServices;
 using Services.DTOs;
 
 namespace Services.Repositories;
@@ -7,10 +9,12 @@ namespace Services.Repositories;
 public class UserRepository : IUserRepository
 {
     private readonly Database _db;
+    private readonly RemoteDatabaseService _remoteDb;
 
-    public UserRepository(Database db)
+    public UserRepository(Database db, RemoteDatabaseService remoteDb)
     {
         _db = db;
+        _remoteDb = remoteDb;
     }
 
     //****** LOCAL DB ******//
@@ -46,5 +50,33 @@ public class UserRepository : IUserRepository
             UserId = user.UserId,
             Username = user.Username
         };
+    }
+
+    public UserModel? GetUserById(Guid userId)
+    {
+        return _db.SingleOrDefault<UserModel>($"SELECT * FROM Users WHERE Username = @0", userId);
+    }
+    
+    //****** REMOTE DB ******//
+    public async Task<UserModel> GetUserByIdAsync(Guid id)
+    {
+        var jsonString = await _remoteDb.GetByIdAsync("Users", id);
+
+        var user = JsonConvert.DeserializeObject<UserModel>(jsonString);
+
+        if (user == null)
+        {
+            throw new InvalidOperationException("Failed to deserialize json string to UserModel");
+        }
+
+        return user;
+    }
+    
+    //****** HELPERS ******//
+    public bool UserExists(Guid userId)
+    {
+        var user = GetUserById(userId);
+
+        return user != null;
     }
 }

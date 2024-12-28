@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace UI.Views;
 
-public partial class RegisterUserView : UserControl
+public partial class WrapperView : Window
 {
-    public RegisterUserView()
+    public WrapperView()
     {
         InitializeComponent();
     }

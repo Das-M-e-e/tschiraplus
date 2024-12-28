@@ -1,9 +1,10 @@
 using System;
-using System.Net.Http;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using PetaPoco;
 using Services;
 using Services.API;
 using Services.DatabaseServices;
@@ -32,16 +33,6 @@ public partial class App : Application
             var appState = new ApplicationState();
             var dbService = new DatabaseService("localDatabase.db");
             dbService.InitializeDatabase();
-            
-            var userService = new UserService(
-                new UserRepository(
-                    dbService.GetDatabase()),
-                new AuthService(
-                    new RemoteDatabaseService()
-                    )
-                );
-            userService.AddUserIfNoneExists();
-            appState.CurrentUser = userService.GetSystemUser();
 
             var connectivityService = new ConnectivityService();
             var isHostReachable = connectivityService.IsHostReachable();
@@ -57,12 +48,54 @@ public partial class App : Application
                 appState.IsOnline = false;
             }
 
-            desktop.MainWindow = new MainMenuView
+            var wrapperViewModel = new WrapperViewModel(appState);
+
+            desktop.MainWindow = new WrapperView
             {
-                DataContext = new MainMenuViewModel(dbService, appState)
+                DataContext = wrapperViewModel
             };
+
+            _ = PerformTokenCheckAsync(appState, wrapperViewModel);
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private async Task PerformTokenCheckAsync(ApplicationState appState, WrapperViewModel wrapperViewModel)
+    {
+        try
+        {
+            var savedToken = TokenStorageService.LoadToken();
+            if (savedToken != null)
+            {
+                var userService = new UserService(
+                    new UserRepository(new DatabaseService("localDatabase.db").GetDatabase(),
+                        new RemoteDatabaseService()),
+                    new AuthService(new RemoteDatabaseService()),
+                    appState);
+                
+                Console.WriteLine(savedToken);
+
+                var isAuthenticated = await userService.AuthenticateWithTokenAsync(savedToken);
+
+                if (isAuthenticated)
+                {
+                    wrapperViewModel.NavigateToMainMenu();
+                }
+                else
+                {
+                    Console.WriteLine("Token is expired");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No saved token");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 }

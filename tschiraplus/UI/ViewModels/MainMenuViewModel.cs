@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -17,10 +18,13 @@ public class MainMenuViewModel : ObservableObject
 {
     private readonly DatabaseService _dbService;
     private readonly ApplicationState _appState;
+    private readonly IAuthService _authService;
+    private readonly WrapperViewModel _wrapper;
     
     public ObservableCollection<TabItemViewModel> Tabs { get; }
     
     public ICommand OpenProjectCommand { get; }
+    public ICommand LogoutUserCommand { get; }
 
     private TabItemViewModel? _currentProjectTab;
 
@@ -31,10 +35,12 @@ public class MainMenuViewModel : ObservableObject
         set => SetProperty(ref _selectedTabIndex, value);
     }
     
-    public MainMenuViewModel(DatabaseService dbService, ApplicationState appState)
+    public MainMenuViewModel(DatabaseService dbService, ApplicationState appState, IAuthService authService, WrapperViewModel wrapper)
     {
         _dbService = dbService;
         _appState = appState;
+        _authService = authService;
+        _wrapper = wrapper;
 
         Tabs = new ObservableCollection<TabItemViewModel>
         {
@@ -48,22 +54,11 @@ public class MainMenuViewModel : ObservableObject
                         _appState.CurrentUser),
                     this,
                     _appState)
-            }),
-            new("RegisterTest", new RegisterUserView
-            {
-                DataContext = new RegisterUserViewModel(
-                    new UserService(
-                        new UserRepository(
-                            _dbService.GetDatabase()),
-                        new AuthService(
-                            new RemoteDatabaseService()
-                            )
-                        )
-                    )
             })
         };
 
         OpenProjectCommand = new RelayCommand<Guid>(OpenProject);
+        LogoutUserCommand = new AsyncRelayCommand(LogoutUser);
     }
 
     private void OpenProject(Guid projectId)
@@ -105,5 +100,11 @@ public class MainMenuViewModel : ObservableObject
         {
             throw new InvalidOperationException("Tab not found in Tabs collection.");
         }
+    }
+
+    private async Task LogoutUser()
+    {
+        await _authService.LogoutAsync();
+        _wrapper.NavigateToLogin();
     }
 }

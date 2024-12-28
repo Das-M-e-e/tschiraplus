@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
 using Services.DTOs;
 using Services.UserServices;
 
 namespace UI.ViewModels;
 
-public partial class RegisterUserViewModel : ViewModelBase
+public partial class RegisterViewModel : ViewModelBase
 {
     private readonly IUserService _userService;
+    private readonly WrapperViewModel _wrapper;
     
     private string _username;
     private string _email;
@@ -84,6 +87,7 @@ public partial class RegisterUserViewModel : ViewModelBase
     }
 
     public ICommand RegisterUserCommand { get; }
+    public ICommand BackToLoginCommand { get; }
 
     public bool CanRegister =>
         !string.IsNullOrWhiteSpace(Username) &&
@@ -97,28 +101,23 @@ public partial class RegisterUserViewModel : ViewModelBase
     [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
     private static partial Regex EmailRegex();
 
-    [GeneratedRegex(@"^[a-zA-Z0-9äöüÄÖÜßñçéèêàáíóúøåæ@$^()\[\]{}<>~+-_|\\=]+$")]
+    [GeneratedRegex(@"^[a-zA-Z0-9äöüÄÖÜßñçéèêàáíóúøåæ$^()\[\]{}<>~+-_.,!?|\\=]+$")]
     private static partial Regex UsernameRegex();
 
-    [GeneratedRegex(@"[^\w\säöüÄÖÜßñçéèêàáíóúøåæ@$^()\[\]{}<>~+-_|\\=]", RegexOptions.Compiled)]
+    [GeneratedRegex(@"[^\w\säöüÄÖÜßñçéèêàáíóúøåæ@$^()\[\]{}<>~+-_.,!?|\\=]", RegexOptions.Compiled)]
     private static partial Regex SpecialCharsRegex();
 
-    public RegisterUserViewModel(IUserService userService)
+    public RegisterViewModel(IUserService userService, WrapperViewModel wrapper)
     {
         _userService = userService;
+        _wrapper = wrapper;
         
         RegisterUserCommand = ReactiveCommand.CreateFromTask(RegisterUserAsync);
+        BackToLoginCommand = new RelayCommand(BackToLogin);
     }
 
     private async Task RegisterUserAsync()
     {
-        // Todo: implement complete validation
-        if (!CanRegister)
-        {
-            UsernameErrorMessage = "Please fill out every field correctly.";
-            return;
-        }
-
         try
         {
             var newUser = new RegisterUserDto
@@ -129,8 +128,9 @@ public partial class RegisterUserViewModel : ViewModelBase
             };
             
             await _userService.RegisterUserAsync(newUser);
-
-            UsernameErrorMessage = "Registration successful";
+            Console.WriteLine($"Registration of new user {newUser.Username} successful");
+            
+            _wrapper.NavigateToMainMenu();
         }
         catch
         {
@@ -262,5 +262,10 @@ public partial class RegisterUserViewModel : ViewModelBase
 
         ConfirmPasswordErrorMessage = string.Empty;
         return true;
+    }
+
+    private void BackToLogin()
+    {
+        _wrapper.NavigateToLogin();
     }
 }

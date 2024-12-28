@@ -2,7 +2,7 @@
 
 namespace UI.Views;
 
-public partial class MainMenuView : Window
+public partial class MainMenuView : UserControl
 {
     public MainMenuView()
     {

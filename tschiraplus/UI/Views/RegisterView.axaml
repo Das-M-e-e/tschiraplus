@@ -4,31 +4,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:UI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="UI.Views.RegisterUserView"
-             x:DataType="vm:RegisterUserViewModel">
+             x:Class="UI.Views.RegisterView"
+             x:DataType="vm:RegisterViewModel">
     
     <StackPanel Margin="20" Spacing="10">
         <!-- Username -->
         <Label Content="Username:"/>
         <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="{Binding UsernameErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="8" Foreground="Red"/>
+        <Label Content="{Binding UsernameErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Foreground="Red"/>
         
         <!-- Email -->
         <Label Content="Email:"/>
         <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="{Binding EmailErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="8" Foreground="Red"/>
+        <Label Content="{Binding EmailErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Foreground="Red"/>
         
         <!-- Password -->
         <Label Content="Password:"/>
         <TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" PasswordChar="*"/>
-        <Label Content="{Binding PasswordErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="8" Foreground="Red"/>
+        <Label Content="{Binding PasswordErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Foreground="Red"/>
         
         <!-- ConfirmPassword -->
         <Label Content="Confirm Password:"/>
         <TextBox Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}" PasswordChar="*"/>
-        <Label Content="{Binding ConfirmPasswordErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="8" Foreground="Red"/>
+        <Label Content="{Binding ConfirmPasswordErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Foreground="Red"/>
         
         <Button Content="Register" Command="{Binding RegisterUserCommand}" IsEnabled="{Binding CanRegister}"/>
+        <Button Content="Back to Login" Command="{Binding BackToLoginCommand}" />
     </StackPanel>
     
 </UserControl>
