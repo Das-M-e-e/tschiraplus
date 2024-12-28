@@ -7,6 +7,8 @@ public class RemoteDatabaseService
 {
     private readonly HttpClient _httpClient = new();
 
+    private const string BaseAddress = "http://dasmee.ddns.net:8080/api";
+
     /// <summary>
     /// Sends an HTTP-request to the host
     /// to post an object (data) to the corresponding table (endpoint)
@@ -21,7 +23,7 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                $"http://dasmee.ddns.net:8080/api/{endpoint}"
+                $"{BaseAddress}/{endpoint}"
                 );
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
             
@@ -55,7 +57,7 @@ public class RemoteDatabaseService
             // HTTP-GET message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"http://dasmee.ddns.net:8080/api/{endpoint}"
+                $"{BaseAddress}/{endpoint}"
                 );
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
@@ -89,7 +91,7 @@ public class RemoteDatabaseService
             // HTTP-GET message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"http://dasmee.ddns.net:8080/api/{endpoint}/{id}"
+                $"{BaseAddress}/{endpoint}/{id}"
             );
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
@@ -121,7 +123,7 @@ public class RemoteDatabaseService
             // HTTP-DELETE message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Delete,
-                $"http://dasmee.ddns.net:8080/api/{endpoint}/{id}"
+                $"{BaseAddress}/{endpoint}/{id}"
                 );
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
 
@@ -151,7 +153,7 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                "http://dasmee.ddns.net:8080/api/Auth/Register"
+                $"{BaseAddress}/Auth/Register"
                 );
             
             request.Headers.Add("accept", "text/plain");
@@ -184,7 +186,7 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                "http://dasmee.ddns.net:8080/api/Auth/Login"
+                $"{BaseAddress}/Auth/Login"
             );
             
             request.Headers.Add("accept", "text/plain");
