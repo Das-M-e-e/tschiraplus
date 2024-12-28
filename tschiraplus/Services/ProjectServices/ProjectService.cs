@@ -55,6 +55,23 @@ public class ProjectService : IProjectService
         _projectRepository.PostProjectAsync(newProject);
     }
 
+    public void CreateProject(ProjectDTO projectDto)
+    {
+        var newProject = new ProjectModel
+        {
+            ProjectId = projectDto.ProjectId,
+            Name = projectDto.Name,
+            Description = projectDto.Description,
+            CreationDate = DateTime.Now,
+            Status = ProjectStatus.NotStarted,
+            LastUpdated = DateTime.Now
+        };
+        
+          _projectRepository.AddProject(newProject);
+          _projectRepository.PostProjectAsync(newProject);
+    }
+    
+    
     /// <summary>
     /// Gets a list of all projects in the database as DTOs
     /// </summary>
