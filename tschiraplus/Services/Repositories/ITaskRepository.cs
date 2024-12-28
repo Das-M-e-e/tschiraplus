@@ -5,9 +5,9 @@ namespace Services.Repositories;
 
 public interface ITaskRepository
 {
-    public void AddTask(TaskModel task);
-    public void UpdateTask(TaskModel task);
-    public void DeleteTask(Guid taskId);
-    public TaskDto GetTaskById(Guid taskId);
-    public List<TaskDto> GetTasksByProjectId(Guid projectId);
+    void AddTask(TaskModel task);
+    void UpdateTask(TaskModel task);
+    void DeleteTask(Guid taskId);
+    TaskDto GetTaskById(Guid taskId);
+    List<TaskDto> GetTasksByProjectId(Guid projectId);
 }

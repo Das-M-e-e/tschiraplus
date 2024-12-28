@@ -55,7 +55,7 @@ public class ProjectService : IProjectService
         _projectRepository.PostProjectAsync(newProject);
     }
 
-    public void CreateProject(ProjectDTO projectDto)
+    public void CreateProject(ProjectDto projectDto)
     {
         var newProject = new ProjectModel
         {
