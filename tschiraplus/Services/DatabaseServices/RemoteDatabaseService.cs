@@ -21,7 +21,7 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                $"http://192.168.0.210:8080/api/{endpoint}"
+                $"http://dasmee.ddns.net:8080/api/{endpoint}"
                 );
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
             
@@ -55,7 +55,7 @@ public class RemoteDatabaseService
             // HTTP-GET message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"http://192.168.0.210:8080/api/{endpoint}"
+                $"http://dasmee.ddns.net:8080/api/{endpoint}"
                 );
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
@@ -89,7 +89,7 @@ public class RemoteDatabaseService
             // HTTP-GET message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"http://192.168.0.210:8080/api/{endpoint}/{id}"
+                $"http://dasmee.ddns.net:8080/api/{endpoint}/{id}"
             );
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
@@ -121,7 +121,7 @@ public class RemoteDatabaseService
             // HTTP-DELETE message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Delete,
-                $"http://192.168.0.210:8080/api/{endpoint}/{id}"
+                $"http://dasmee.ddns.net:8080/api/{endpoint}/{id}"
                 );
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
 
@@ -151,7 +151,7 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                "http://192.168.0.210:8080/api/Auth/Register"
+                "http://dasmee.ddns.net:8080/api/Auth/Register"
                 );
             
             request.Headers.Add("accept", "text/plain");
@@ -184,7 +184,7 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                "http://192.168.0.210:8080/api/Auth/Login"
+                "http://dasmee.ddns.net:8080/api/Auth/Login"
             );
             
             request.Headers.Add("accept", "text/plain");
