@@ -9,6 +9,9 @@ public class DatabaseInitializer
         _dbConfig = dbConfig;
     }
 
+    /// <summary>
+    /// Contains all SQL queries to create the local database tables
+    /// </summary>
     public void InitializeDatabase()
     {
         using var db = _dbConfig.GetDatabase();

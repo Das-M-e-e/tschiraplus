@@ -13,9 +13,11 @@ namespace UI.ViewModels;
 
 public partial class RegisterViewModel : ViewModelBase
 {
+    // Services
     private readonly IUserService _userService;
     private readonly WrapperViewModel _wrapper;
     
+    // Bindings
     private string _username;
     private string _email;
     private string _password;
@@ -85,10 +87,7 @@ public partial class RegisterViewModel : ViewModelBase
         get => _confirmPasswordErrorMessage;
         set => this.RaiseAndSetIfChanged(ref _confirmPasswordErrorMessage, value);
     }
-
-    public ICommand RegisterUserCommand { get; }
-    public ICommand BackToLoginCommand { get; }
-
+    
     public bool CanRegister =>
         !string.IsNullOrWhiteSpace(Username) &&
         !string.IsNullOrWhiteSpace(Email) &&
@@ -97,7 +96,12 @@ public partial class RegisterViewModel : ViewModelBase
         ValidateEmail(Email) &&
         ValidatePassword(Password) &&
         ValidateConfirmPassword(ConfirmPassword);
+
+    // Commands
+    public ICommand RegisterUserCommand { get; }
+    public ICommand BackToLoginCommand { get; }
     
+    // Regex patterns
     [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
     private static partial Regex EmailRegex();
 
@@ -116,6 +120,9 @@ public partial class RegisterViewModel : ViewModelBase
         BackToLoginCommand = new RelayCommand(BackToLogin);
     }
 
+    /// <summary>
+    /// Uses the _userService to try and register a new user
+    /// </summary>
     private async Task RegisterUserAsync()
     {
         try
@@ -264,6 +271,9 @@ public partial class RegisterViewModel : ViewModelBase
         return true;
     }
 
+    /// <summary>
+    /// Cancels the registration process and returns to the login screen using the _wrapper
+    /// </summary>
     private void BackToLogin()
     {
         _wrapper.NavigateToLogin();

@@ -9,8 +9,10 @@ namespace UI.ViewModels;
 
 public class WrapperViewModel : ViewModelBase
 {
+    // Services
     private readonly ApplicationState _appState;
 
+    // Bindings
     private object _currentView;
     public object CurrentView
     {
@@ -32,6 +34,9 @@ public class WrapperViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Sets the current view (content) of the wrapper to be the MainMenuView
+    /// </summary>
     public void NavigateToMainMenu()
     {
         CurrentView = new MainMenuView
@@ -44,6 +49,9 @@ public class WrapperViewModel : ViewModelBase
         };
     }
 
+    /// <summary>
+    /// Sets the current view (content) of the wrapper to be the LoginView
+    /// </summary>
     public void NavigateToLogin()
     {
         CurrentView = new LoginView
@@ -52,6 +60,9 @@ public class WrapperViewModel : ViewModelBase
         };
     }
 
+    /// <summary>
+    /// Sets the current view (content) of the wrapper to be the RegisterView
+    /// </summary>
     public void NavigateToRegister()
     {
         CurrentView = new RegisterView

@@ -8,5 +8,6 @@ public interface IAuthService
     Task<LoginResponse> LoginAsync(LoginUserDto loginUserDto);
     Task LogoutAsync();
     void SaveToken(string token);
+    string? LoadToken();
     bool IsTokenValid(string? token);
 }

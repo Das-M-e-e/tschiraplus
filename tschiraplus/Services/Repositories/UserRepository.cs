@@ -52,12 +52,23 @@ public class UserRepository : IUserRepository
         };
     }
 
-    public UserModel? GetUserById(Guid userId)
+    /// <summary>
+    /// Gets a user by id from the local database
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    private UserModel? GetUserById(Guid userId)
     {
         return _db.SingleOrDefault<UserModel>($"SELECT * FROM Users WHERE Username = @0", userId);
     }
     
     //****** REMOTE DB ******//
+    /// <summary>
+    /// Gets a user by id from the remote database
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>The UserModel of the wanted user</returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<UserModel> GetUserByIdAsync(Guid id)
     {
         var jsonString = await _remoteDb.GetByIdAsync("Users", id);
@@ -73,6 +84,11 @@ public class UserRepository : IUserRepository
     }
     
     //****** HELPERS ******//
+    /// <summary>
+    /// Checks if a user exists in the local database by id
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>true or false</returns>
     public bool UserExists(Guid userId)
     {
         var user = GetUserById(userId);

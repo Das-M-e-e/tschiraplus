@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using Newtonsoft.Json;
 using Services.DatabaseServices;
 using Services.DTOs;
@@ -38,6 +39,8 @@ public class AuthService : IAuthService
         var response = await _remoteDb.LoginUserAsync(jsonContent);
 
         if (!response.IsSuccessStatusCode) throw new Exception("Login failed.");
+        
+        Console.WriteLine("Login successful");
         
         var jsonResponse = await response.Content.ReadAsStringAsync();
         var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(jsonResponse)!;
@@ -80,7 +83,7 @@ public class AuthService : IAuthService
     /// Loads the authentication token from a file
     /// </summary>
     /// <returns></returns>
-    private static string? LoadToken()
+    public string? LoadToken()
     {
         return TokenStorageService.LoadToken();
     }
@@ -93,6 +96,11 @@ public class AuthService : IAuthService
         TokenStorageService.RemoveToken();
     }
 
+    /// <summary>
+    /// Checks if a token is valid
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns>true or false</returns>
     public bool IsTokenValid(string? token)
     {
         if (string.IsNullOrEmpty(token)) return false;

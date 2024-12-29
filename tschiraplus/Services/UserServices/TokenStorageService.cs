@@ -8,12 +8,20 @@ public class TokenStorageService
     private const string FileName = "authToken.txt";
     private static readonly string FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FileName);
 
+    /// <summary>
+    /// Encrypts a token and saves it to a file
+    /// </summary>
+    /// <param name="token"></param>
     public static void SaveToken(string token)
     {
         var encryptedToken = EncryptToken(token);
         File.WriteAllText(FilePath, encryptedToken);
     }
 
+    /// <summary>
+    /// Loads the saved token and decrypts it
+    /// </summary>
+    /// <returns>The decrypted token as string</returns>
     public static string? LoadToken()
     {
         if (!File.Exists(FilePath)) return null;
@@ -22,11 +30,19 @@ public class TokenStorageService
         return DecryptToken(encryptedToken);
     }
 
+    /// <summary>
+    /// Removes the saved token
+    /// </summary>
     public static void RemoveToken()
     {
         if (File.Exists(FilePath)) File.Delete(FilePath);
     }
 
+    /// <summary>
+    /// Encrypts a token using AES (Advanced Encryption Standard)
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns>The encrypted token</returns>
     private static string EncryptToken(string token)
     {
         var key = GetEncryptionKey();
@@ -51,6 +67,11 @@ public class TokenStorageService
         return Convert.ToBase64String(result);
     }
 
+    /// <summary>
+    /// Decrypts a token using AES (Advanced Encryption Standard)
+    /// </summary>
+    /// <param name="encryptedToken"></param>
+    /// <returns>The decrypted token</returns>
     private static string DecryptToken(string encryptedToken)
     {
         var fullCipher = Convert.FromBase64String(encryptedToken);
@@ -72,6 +93,10 @@ public class TokenStorageService
         return sr.ReadToEnd();
     }
 
+    /// <summary>
+    /// Returns the encryption key as byte array
+    /// </summary>
+    /// <returns>The encryption key as byte array</returns>
     private static byte[] GetEncryptionKey()
     {
         const string key = "YooWassupThisIsMySuperSecretKeyT";

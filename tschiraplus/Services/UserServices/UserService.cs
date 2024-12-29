@@ -1,7 +1,5 @@
 ﻿using System.Net.Http.Headers;
 using System.Security.Authentication;
-using Core.Enums;
-using Core.Models;
 using Newtonsoft.Json;
 using Services.DTOs;
 using Services.Repositories;
@@ -21,31 +19,10 @@ public class UserService : IUserService
         _appState = appState;
     }
 
-    // Todo: Temporary, will remove when user profiles are implemented @Das_M_e_e_
-    public void AddUserIfNoneExists()
-    {
-        if (_userRepository.GetAllUsers().Count == 0)
-        {
-            var newUser = new UserModel
-            {
-                UserId = Guid.Empty,
-                Username = "System",
-                Email = "System",
-                Status = UserStatus.Online,
-                CreatedAt = DateTime.Now,
-                LastLogin = DateTime.Now
-            };
-            
-            _userRepository.AddUser(newUser);
-        }
-    }
-
-    // Todo: Temporary, will remove when user profiles are implemented @Das_M_e_e_
-    public UserDto GetSystemUser()
-    {
-        return _userRepository.GetUserByUsername("System");
-    }
-
+    /// <summary>
+    /// Uses the _authService to register a new user
+    /// </summary>
+    /// <param name="registerUserDto"></param>
     public async Task RegisterUserAsync(RegisterUserDto registerUserDto)
     {
         var success = await _authService.RegisterAsync(registerUserDto);
@@ -61,6 +38,11 @@ public class UserService : IUserService
         }
     }
 
+    /// <summary>
+    /// Uses the _authService to log in an existing user
+    /// </summary>
+    /// <param name="loginUserDto"></param>
+    /// <exception cref="AuthenticationException"></exception>
     public async Task LoginUserAsync(LoginUserDto loginUserDto)
     {
         try
@@ -90,6 +72,11 @@ public class UserService : IUserService
         }
     }
 
+    /// <summary>
+    /// Uses the saved token to try and log in an existing user
+    /// </summary>
+    /// <param name="token"></param>
+    /// <returns>true or false</returns>
     public async Task<bool> AuthenticateWithTokenAsync(string token)
     {
         if (string.IsNullOrEmpty(token)) return false;
@@ -99,7 +86,7 @@ public class UserService : IUserService
             Token = token
         };
 
-        string jsonData = JsonConvert.SerializeObject(tokenVerificationRequest);
+        var jsonData = JsonConvert.SerializeObject(tokenVerificationRequest);
 
         var client = new HttpClient();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -112,22 +99,26 @@ public class UserService : IUserService
             request.Headers.Add("accept", "text/plain");
             request.Content = new StringContent(jsonData);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-            Console.WriteLine(await request.Content.ReadAsStringAsync());
             
             var response = await client.SendAsync(request);
-            Console.WriteLine(await response.Content.ReadAsStringAsync());
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(jsonResponse);
             if (response.IsSuccessStatusCode)
             {
+                // get the user from host
                 var user = await _userRepository.GetUserByIdAsync(tokenResponse!.User.UserId);
+                // set current user in _appState
                 var userDto = new UserDto
                 {
                     UserId = user.UserId,
                     Username = user.Username
                 };
                 _appState.CurrentUser = userDto;
+                // if user doesn't exist in local db, add them
+                if (_userRepository.UserExists(user.UserId))
+                {
+                    _userRepository.AddUser(user);
+                }
                 return true;
             }
         }

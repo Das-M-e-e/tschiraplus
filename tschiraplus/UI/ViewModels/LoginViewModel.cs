@@ -13,10 +13,12 @@ namespace UI.ViewModels;
 
 public class LoginViewModel : ObservableObject
 {
+    // Services
     private readonly WrapperViewModel _wrapperViewModel;
     private readonly ApplicationState _appState;
     private readonly IUserService _userService;
 
+    // Bindings
     private string _usernameOrEmail;
     public string UsernameOrEmail
     {
@@ -32,13 +34,13 @@ public class LoginViewModel : ObservableObject
     }
 
     private string _errorMessage;
-
     public string ErrorMessage
     {
         get => _errorMessage;
         set => SetProperty(ref _errorMessage, value);
     }
 
+    // Commands
     public ICommand LoginCommand { get; }
     public ICommand NavigateToRegisterCommand { get; }
 
@@ -56,6 +58,9 @@ public class LoginViewModel : ObservableObject
         NavigateToRegisterCommand = new RelayCommand(() => _wrapperViewModel.NavigateToRegister());
     }
 
+    /// <summary>
+    /// Uses the _userService to try and log in a user
+    /// </summary>
     private async Task LoginAsync()
     {
         try

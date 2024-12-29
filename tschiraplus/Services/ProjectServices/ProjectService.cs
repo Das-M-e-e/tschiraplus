@@ -16,21 +16,6 @@ public class ProjectService : IProjectService
         _currentUser = currentUser;
     }
 
-    public void CreateProject(string name, string description)
-    {
-        var newProject = new ProjectModel
-        {
-            ProjectId = Guid.NewGuid(),
-            Name = name,
-            Description = description,
-            CreationDate = DateTime.Now,
-            Status = ProjectStatus.NotStarted
-        };
-        
-        _projectRepository.AddProject(newProject);
-        _projectRepository.PostProjectAsync(newProject);
-    }
-
     // Todo: Temporary, will remove when project creation is implemented
     public void CreateTestProject(bool isOnline)
     {
@@ -55,6 +40,10 @@ public class ProjectService : IProjectService
         _projectRepository.PostProjectAsync(newProject);
     }
 
+    /// <summary>
+    /// Creates a new project from a ProjectDto and saves it to the database and host
+    /// </summary>
+    /// <param name="projectDto"></param>
     public void CreateProject(ProjectDto projectDto)
     {
         var newProject = new ProjectModel

@@ -6,8 +6,10 @@ namespace UI.ViewModels;
 
 public class MainTabViewModel : ViewModelBase
 {
+    // Services
     private ITaskService _taskService;
     
+    // Bindings
     public ObservableCollection<TabItemViewModel> Tabs { get; }
 
     public MainTabViewModel(ITaskService taskService)

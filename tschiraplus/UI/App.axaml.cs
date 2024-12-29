@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -74,12 +75,11 @@ public partial class App : Application
                     new AuthService(new RemoteDatabaseService()),
                     appState);
                 
-                Console.WriteLine(savedToken);
-
                 var isAuthenticated = await userService.AuthenticateWithTokenAsync(savedToken);
 
                 if (isAuthenticated)
                 {
+                    Console.WriteLine("User logged in with saved token.");
                     wrapperViewModel.NavigateToMainMenu();
                 }
                 else

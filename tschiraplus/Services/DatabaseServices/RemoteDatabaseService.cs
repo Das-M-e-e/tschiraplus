@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Diagnostics;
+using System.Net.Http.Headers;
 using Services.UserServices;
 
 namespace Services.DatabaseServices;
@@ -61,8 +62,6 @@ public class RemoteDatabaseService
                 );
 
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
-
-            Console.WriteLine(request.Headers.Authorization.Parameter);
             
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
@@ -163,6 +162,8 @@ public class RemoteDatabaseService
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
+            
+            Debug.WriteLine("Registration successful");
             
             return response.IsSuccessStatusCode;
         }

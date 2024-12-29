@@ -16,24 +16,27 @@ namespace UI.ViewModels;
 
 public class MainMenuViewModel : ObservableObject
 {
+    // Services
     private readonly DatabaseService _dbService;
     private readonly ApplicationState _appState;
     private readonly IAuthService _authService;
     private readonly WrapperViewModel _wrapper;
     
+    // Bindings
     public ObservableCollection<TabItemViewModel> Tabs { get; }
     
-    public ICommand OpenProjectCommand { get; }
-    public ICommand LogoutUserCommand { get; }
-
-    private TabItemViewModel? _currentProjectTab;
-
     private int _selectedTabIndex;
     public int SelectedTabIndex
     {
         get => _selectedTabIndex;
         set => SetProperty(ref _selectedTabIndex, value);
     }
+    
+    // Commands
+    public ICommand OpenProjectCommand { get; }
+    public ICommand LogoutUserCommand { get; }
+
+    private TabItemViewModel? _currentProjectTab;
     
     public MainMenuViewModel(DatabaseService dbService, ApplicationState appState, IAuthService authService, WrapperViewModel wrapper)
     {
@@ -61,6 +64,10 @@ public class MainMenuViewModel : ObservableObject
         LogoutUserCommand = new AsyncRelayCommand(LogoutUser);
     }
 
+    /// <summary>
+    /// Opens the selected project in a new tab
+    /// </summary>
+    /// <param name="projectId"></param>
     private void OpenProject(Guid projectId)
     {
         if (_currentProjectTab is { Tag: Guid currentProjectId })
@@ -89,6 +96,11 @@ public class MainMenuViewModel : ObservableObject
         NavigateToTab(_currentProjectTab);
     }
 
+    /// <summary>
+    /// Navigates to the selected tab
+    /// </summary>
+    /// <param name="tab"></param>
+    /// <exception cref="InvalidOperationException"></exception>
     private void NavigateToTab(TabItemViewModel tab)
     {
         var tabIndex = Tabs.IndexOf(tab);
@@ -102,6 +114,9 @@ public class MainMenuViewModel : ObservableObject
         }
     }
 
+    /// <summary>
+    /// Uses the _authService to log out a user
+    /// </summary>
     private async Task LogoutUser()
     {
         await _authService.LogoutAsync();
