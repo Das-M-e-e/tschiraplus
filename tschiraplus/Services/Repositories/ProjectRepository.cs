@@ -65,11 +65,38 @@ public class ProjectRepository : IProjectRepository
     }
 
     /// <summary>
+    /// Gets all projects a user is part of from the local database
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>A List of all projects the user is part of as ProjectDto</returns>
+    public List<ProjectDto>? GetProjectsByUserId(Guid userId)
+    {
+        var projectUsers = _projectUserRepository.GetAllProjectUsersByUserId(userId);
+        if (projectUsers == null) return null;
+        var projectDtos = new List<ProjectDto>();
+        foreach (var projectUser in projectUsers)
+        {
+            var project = GetProjectById(projectUser.ProjectId);
+            if (project == null) continue;
+            var projectDto = new ProjectDto
+            {
+                ProjectId = project.ProjectId,
+                Name = project.Name,
+                Description = project.Description ?? string.Empty,
+                ProjectPriority = project.Priority.ToString(),
+            };
+            projectDtos.Add(projectDto);
+        }
+        return projectDtos;
+    }
+
+    /// <summary>
     /// Deletes a project by id from the local database
     /// </summary>
     /// <param name="projectId"></param>
     public void DeleteProject(Guid projectId)
     {
+        _db.Execute("DELETE FROM ProjectUsers WHERE ProjectId=@0", projectId);
         _db.Execute("DELETE FROM Projects WHERE ProjectId=@0", projectId);
     }
     
@@ -154,6 +181,7 @@ public class ProjectRepository : IProjectRepository
     /// <returns>true or false</returns>
     public async Task<bool> DeleteAsync(Guid projectId)
     {
+        await _remoteDb.DeleteAsync("ProjectUsers/DeleteByProjectId", projectId);
         return await _remoteDb.DeleteAsync("Projects", projectId);
     }
     

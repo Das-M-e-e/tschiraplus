@@ -115,7 +115,7 @@ public class UserService : IUserService
                 };
                 _appState.CurrentUser = userDto;
                 // if user doesn't exist in local db, add them
-                if (_userRepository.UserExists(user.UserId))
+                if (!_userRepository.UserExists(user.UserId))
                 {
                     _userRepository.AddUser(user);
                 }

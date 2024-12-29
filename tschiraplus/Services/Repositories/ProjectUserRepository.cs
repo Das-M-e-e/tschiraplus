@@ -56,6 +56,11 @@ public class ProjectUserRepository : IProjectUserRepository
         return _db.Fetch<ProjectUserModel>("SELECT * FROM ProjectUsers WHERE ProjectId = @0", projectId);
     }
 
+    public List<ProjectUserModel>? GetAllProjectUsersByUserId(Guid userId)
+    {
+        return _db.Fetch<ProjectUserModel>("SELECT * FROM ProjectUsers WHERE UserId = @0", userId);
+    }
+
     /// <summary>
     /// Deletes a ProjectUser by id from the local database
     /// </summary>
