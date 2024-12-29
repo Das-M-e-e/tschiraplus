@@ -117,8 +117,17 @@ public class UserService : IUserService
             
             var response = await client.SendAsync(request);
             Console.WriteLine(await response.Content.ReadAsStringAsync());
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(jsonResponse);
             if (response.IsSuccessStatusCode)
             {
+                var user = await _userRepository.GetUserByIdAsync(tokenResponse!.User.UserId);
+                var userDto = new UserDto
+                {
+                    UserId = user.UserId,
+                    Username = user.Username
+                };
+                _appState.CurrentUser = userDto;
                 return true;
             }
         }
