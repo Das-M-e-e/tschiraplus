@@ -8,27 +8,12 @@ namespace Services.ProjectServices;
 public class ProjectService : IProjectService
 {
     private readonly IProjectRepository _projectRepository;
-    private readonly UserDTO _currentUser;
+    private readonly UserDto _currentUser;
 
-    public ProjectService(IProjectRepository projectRepository, UserDTO currentUser)
+    public ProjectService(IProjectRepository projectRepository, UserDto currentUser)
     {
         _projectRepository = projectRepository;
         _currentUser = currentUser;
-    }
-
-    public void CreateProject(string name, string description)
-    {
-        var newProject = new ProjectModel
-        {
-            ProjectId = Guid.NewGuid(),
-            Name = name,
-            Description = description,
-            CreationDate = DateTime.Now,
-            Status = ProjectStatus.NotStarted
-        };
-        
-        _projectRepository.AddProject(newProject);
-        _projectRepository.PostProjectAsync(newProject);
     }
 
     // Todo: Temporary, will remove when project creation is implemented
@@ -55,7 +40,11 @@ public class ProjectService : IProjectService
         _projectRepository.PostProjectAsync(newProject);
     }
 
-    public void CreateProject(ProjectDTO projectDto)
+    /// <summary>
+    /// Creates a new project from a ProjectDto and saves it to the database and host
+    /// </summary>
+    /// <param name="projectDto"></param>
+    public void CreateProject(ProjectDto projectDto)
     {
         var newProject = new ProjectModel
         {
@@ -76,7 +65,7 @@ public class ProjectService : IProjectService
     /// Gets a list of all projects in the database as DTOs
     /// </summary>
     /// <returns>A List of ProjectDTOs</returns>
-    public List<ProjectDTO> GetAllProjects()
+    public List<ProjectDto> GetAllProjects()
     {
         return _projectRepository.GetAllProjects();
     }
@@ -86,11 +75,11 @@ public class ProjectService : IProjectService
     /// </summary>
     /// <param name="projectId"></param>
     /// <returns>A ProjectDTO</returns>
-    public ProjectDTO GetProjectById(Guid projectId)
+    public ProjectDto GetProjectById(Guid projectId)
     {
         var projectModel = _projectRepository.GetProjectById(projectId);
 
-        return new ProjectDTO
+        return new ProjectDto
         {
             ProjectId = projectModel.ProjectId,
             Name = projectModel.Name,

@@ -8,27 +8,30 @@ namespace UI.ViewModels;
 
 public class CreateNewProjectViewModel
 {
+    // Services
+    private readonly IProjectService _projectService;
+    
+    // Bindings
     public string Name { get; set; }
     public string Description { get; set; }
     public string ProjectPriority { get; set; }
     
+    // Commands
     public ICommand CreateProjectCommand { get; set; }
     
-    private readonly ProjectService _projectService;
-
-
-    public CreateNewProjectViewModel(ProjectService projectService)
+    public CreateNewProjectViewModel(IProjectService projectService)
     {
         _projectService = projectService;
         CreateProjectCommand = new RelayCommand(CreateProject);
     }
     
-    
-
-    public void CreateProject()
+    /// <summary>
+    /// Uses the _projectService to create a new project
+    /// </summary>
+    private void CreateProject()
     {
-        Guid projectId = Guid.NewGuid();
-        var newProjectDto = new ProjectDTO
+        var projectId = Guid.NewGuid();
+        var newProjectDto = new ProjectDto
         {
             ProjectId = projectId,
             Name = Name,
@@ -37,27 +40,5 @@ public class CreateNewProjectViewModel
         };
         
         _projectService.CreateProject(newProjectDto);
-        
-        
-
     }
-    
-    
-    
-
-    /*public ProjectDTO CreateProjectDto()
-    {
-        Guid projectId = Guid.NewGuid();
-        var newProjectDto = new ProjectDTO
-        {
-            ProjectId = projectId,
-            Name = Name,
-            Description = Description
-        };
-        return newProjectDto;
-    }
-    */
-    
-    
-    
 }

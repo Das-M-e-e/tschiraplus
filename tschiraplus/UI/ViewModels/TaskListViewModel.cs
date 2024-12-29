@@ -14,13 +14,15 @@ namespace UI.ViewModels;
 
 public class TaskListViewModel : ViewModelBase, IActivatableViewModel
 {
+    // Services
     public ViewModelActivator Activator { get; }
-
     private readonly ITaskService _taskService;
-    // Lists
+    
+    // Bindings
     public ObservableCollection<TaskViewModel> Tasks { get; } = new();
     public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = new();
     private List<TaskDto> AllTasks { get; set; } = new();
+    
     // Commands
     public ICommand AddRandomTaskCommand { get; }
     public ICommand SortTasksByTitleCommand { get; }
@@ -43,6 +45,9 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         });
     }
 
+    /// <summary>
+    /// Fills the KanbanColumns list with five initial columns
+    /// </summary>
     private void InitializeKanbanColumns()
     {
         KanbanColumns.Add(new KanbanColumnViewModel("Backlog", "Backlog", "LightSteelBlue", "#ECF3FF", _taskService, this));
@@ -52,12 +57,19 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         KanbanColumns.Add(new KanbanColumnViewModel("Done", "Done", "#B7DAA8", "#E6FFF1", _taskService, this));
     }
 
+    /// <summary>
+    /// Loads all tasks from the database
+    /// </summary>
     public void LoadTasks()
     {
         AllTasks = _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
     }
 
+    /// <summary>
+    /// Updates the Tasks list using a given list of TaskDtos
+    /// </summary>
+    /// <param name="taskDtos"></param>
     private void UpdateTaskList(IEnumerable<TaskDto> taskDtos)
     {
         Tasks.Clear();
@@ -74,18 +86,24 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         }
     }
 
+    // Todo: Remove when custom task creation is implemented @Das_M_e_e_
     private void AddRandomTask()
     {
         _taskService.AddRandomTask("Backlog");
         LoadTasks();
     }
 
+    /// <summary>
+    /// Uses the _taskService to delete a task
+    /// </summary>
+    /// <param name="task"></param>
     public void DeleteTask(TaskViewModel task)
     {
         _taskService.DeleteTask(task.TaskId);
         LoadTasks();
     }
 
+    // Todo: Remove when generic sorting/filtering is implemented @Das_M_e_e_
     private void SortTasksByTitle()
     {
         var taskDtos = Tasks.Select(task => new TaskDto
@@ -101,6 +119,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         UpdateTaskList(sortedTaskDtos);
     }
 
+    // Todo: Remove when generic sorting/filtering is implemented @Das_M_e_e_
     private void FilterTasksByStatus()
     {
         var filteredTasks = _taskService.FilterTasksByStatus(AllTasks, "Backlog");

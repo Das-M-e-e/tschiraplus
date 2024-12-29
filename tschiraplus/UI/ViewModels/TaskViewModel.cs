@@ -7,14 +7,18 @@ namespace UI.ViewModels;
 
 public class TaskViewModel
 {
+    // Services
     private readonly TaskListViewModel _taskListViewModel;
-    public ICommand DeleteTaskCommand { get; }
     
+    // Bindings
     public Guid TaskId { get; }
     public string Title { get; }
     public string Description { get; }
     public string? Status { get; }
-    public DateTime CreationDate { get; } 
+    public DateTime CreationDate { get; }
+    
+    // Commands
+    public ICommand DeleteTaskCommand { get; }
 
     public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel) //Konstruktor
     {
@@ -28,7 +32,10 @@ public class TaskViewModel
         DeleteTaskCommand = new RelayCommand(DeleteTask);
     }
 
-    private void DeleteTask() //Löscht diese Task
+    /// <summary>
+    /// Uses the _taskListViewModel to delete the task
+    /// </summary>
+    private void DeleteTask()
     {
         _taskListViewModel.DeleteTask(this);
     }

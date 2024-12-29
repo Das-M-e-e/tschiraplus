@@ -9,6 +9,9 @@ public class DatabaseInitializer
         _dbConfig = dbConfig;
     }
 
+    /// <summary>
+    /// Contains all SQL queries to create the local database tables
+    /// </summary>
     public void InitializeDatabase()
     {
         using var db = _dbConfig.GetDatabase();
@@ -18,9 +21,9 @@ public class DatabaseInitializer
                     UserId TEXT PRIMARY KEY,
                     Username TEXT NOT NULL,
                     Email TEXT NOT NULL,
-                    PasswordHash TEXT NOT NULL,
                     ProfilePictureUrl TEXT,
                     Bio TEXT,
+                    IsActivated INTEGER NOT NULL,
                     Status INTEGER,
                     CreatedAt TIMESTAMP,
                     LastLogin TIMESTAMP

@@ -17,14 +17,26 @@ public class TaskService : ITaskService
         _appState = appState;
     }
 
+    /// <summary>
+    /// Saves a task using the TaskRepository
+    /// </summary>
+    /// <param name="task"></param>
     public void TaskCreation(TaskDto task)
     {
         _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
     }
     
+    /// <summary>
+    /// Creates a TaskDto from relevant attributes
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="description"></param>
+    /// <param name="status"></param>
+    /// <param name="creationDate"></param>
+    /// <returns>The newly created TaskDto</returns>
     public TaskDto CreateTaskDto(string title, string description, string status, DateTime creationDate)
     {
-        TaskDto dto = new TaskDto()
+        var dto = new TaskDto()
         {
             TaskId = Guid.NewGuid(),
             Title = title,
@@ -35,7 +47,12 @@ public class TaskService : ITaskService
         return dto;
     }    
 
-    public TaskModel ConvertTaskDtoToTaskModel(TaskDto taskDto)
+    /// <summary>
+    /// Converts a TaskDto to a TaskModel
+    /// </summary>
+    /// <param name="taskDto"></param>
+    /// <returns>The TaskModel</returns>
+    private TaskModel ConvertTaskDtoToTaskModel(TaskDto taskDto)
     {
         var convertedTaskModel = new TaskModel
         {
@@ -48,7 +65,12 @@ public class TaskService : ITaskService
         return convertedTaskModel;
     }
 
-    public TaskDto ConvertTaskModelToTaskDto(TaskModel taskModel)
+    /// <summary>
+    /// Converts a TaskModel to a TaskDto
+    /// </summary>
+    /// <param name="taskModel"></param>
+    /// <returns>The TaskDto</returns>
+    private TaskDto ConvertTaskModelToTaskDto(TaskModel taskModel)
     {
         var convertedTaskDto = new TaskDto
         {
@@ -61,11 +83,20 @@ public class TaskService : ITaskService
         return convertedTaskDto;
     }
 
+    /// <summary>
+    /// Gets a single task by id using the TaskRepository
+    /// </summary>
+    /// <param name="taskId"></param>
+    /// <returns>The wanted task as TaskDto</returns>
     public TaskDto GetTaskById(Guid taskId)
     {
         return _taskRepository.GetTaskById(taskId);
     }
     
+    /// <summary>
+    /// Gets all tasks using the TaskRepository
+    /// </summary>
+    /// <returns>A List of all tasks as TaskDto</returns>
     public List<TaskDto> GetAllTasks()
     {
         try
@@ -79,21 +110,40 @@ public class TaskService : ITaskService
         }
     }
     
+    /// <summary>
+    /// Deletes a task by id using the TaskRepository
+    /// </summary>
+    /// <param name="taskId"></param>
     public void DeleteTask(Guid taskId)
     {
         _taskRepository.DeleteTask(taskId);
     } 
     
+    /// <summary>
+    /// Sorts the tasks in a List alphabetically by their title
+    /// </summary>
+    /// <param name="tasks"></param>
+    /// <returns>The sorted List of TaskDtos</returns>
     public List<TaskDto> SortTasksByTitle(List<TaskDto> tasks)
     {
        return _taskSortingManager.SortBySingleAttribute(tasks, task => task.Title).ToList();
     }
-   
+    
+    /// <summary>
+    /// Filters the tasks in a List by their TaskStatus
+    /// </summary>
+    /// <param name="tasks"></param>
+    /// <param name="status"></param>
+    /// <returns>The filtered List of TaskDtos</returns>
     public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status)
     {
        return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
     }
     
+    /// <summary>
+    /// Creates a Task with random values and saves it to the database
+    /// </summary>
+    /// <param name="status"></param>
     public void AddRandomTask(string status)
     {
         var newTask = new TaskModel

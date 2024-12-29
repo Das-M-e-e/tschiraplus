@@ -13,12 +13,19 @@ public class DatabaseService
         _dbConfig = new PetaPocoConfig($"Data Source={databasePath}");
     }
 
+    /// <summary>
+    /// Initializes the database using the SQL-queries specified in DatabaseInitializer
+    /// </summary>
     public void InitializeDatabase()
     {
         var dbInitializer = new DatabaseInitializer(_dbConfig);
         dbInitializer.InitializeDatabase();
     }
     
+    /// <summary>
+    /// Gets the apps database
+    /// </summary>
+    /// <returns>A PetaPoco Database</returns>
     public Database GetDatabase()
     {
         return _dbConfig.GetDatabase();

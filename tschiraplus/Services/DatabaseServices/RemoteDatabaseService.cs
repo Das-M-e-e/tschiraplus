@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Diagnostics;
+using System.Net.Http.Headers;
+using Services.UserServices;
 
 namespace Services.DatabaseServices;
 
@@ -6,8 +8,10 @@ public class RemoteDatabaseService
 {
     private readonly HttpClient _httpClient = new();
 
+    private const string BaseAddress = "http://dasmee.ddns.net:8080/api";
+
     /// <summary>
-    /// Sends an HTTP-request to the api
+    /// Sends an HTTP-request to the host
     /// to post an object (data) to the corresponding table (endpoint)
     /// </summary>
     /// <param name="endpoint"></param>
@@ -20,8 +24,9 @@ public class RemoteDatabaseService
             // HTTP-POST message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                $"http://localhost:8080/api/{endpoint}"
+                $"{BaseAddress}/{endpoint}"
                 );
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
             
             request.Headers.Add("accept", "text/plain");
             request.Content = new StringContent(data);
@@ -41,7 +46,7 @@ public class RemoteDatabaseService
     }
 
     /// <summary>
-    /// Sends an HTTP-request to the api
+    /// Sends an HTTP-request to the host
     /// to get all elements in a specific table (endpoint)
     /// </summary>
     /// <param name="endpoint"></param>
@@ -53,9 +58,11 @@ public class RemoteDatabaseService
             // HTTP-GET message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"http://localhost:8080/api/{endpoint}"
+                $"{BaseAddress}/{endpoint}"
                 );
 
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
             response.EnsureSuccessStatusCode();
@@ -70,7 +77,39 @@ public class RemoteDatabaseService
     }
 
     /// <summary>
-    /// Sends an HTTP-request to the api
+    /// Sends an HTTP-request to the host
+    /// to get a specific entry by id
+    /// </summary>
+    /// <param name="endpoint"></param>
+    /// <param name="id"></param>
+    /// <returns>A json string containing the wanted object</returns>
+    public async Task<string> GetByIdAsync(string endpoint, Guid id)
+    {
+        try
+        {
+            // HTTP-GET message to send to host
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                $"{BaseAddress}/{endpoint}/{id}"
+            );
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            
+            // HTTP response received from host
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            return await response.Content.ReadAsStringAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    /// <summary>
+    /// Sends an HTTP-request to the host
     /// to delete an entry in a specific table (endpoint) with a specific id (id)
     /// </summary>
     /// <param name="endpoint"></param>
@@ -83,8 +122,9 @@ public class RemoteDatabaseService
             // HTTP-DELETE message to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Delete,
-                $"http://localhost:8080/api/{endpoint}/{id}"
+                $"{BaseAddress}/{endpoint}/{id}"
                 );
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
 
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
@@ -96,6 +136,74 @@ public class RemoteDatabaseService
         {
             Console.WriteLine(e);
             return false;
+        }
+    }
+
+    /// <summary>
+    /// Sends an HTTP-request to the host
+    /// to register a new user
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns>true or false</returns>
+    public async Task<bool> RegisterUserAsync(string data)
+    {
+        try
+        {
+            // HTTP-POST message to send to host
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"{BaseAddress}/Auth/Register"
+                );
+            
+            request.Headers.Add("accept", "text/plain");
+            request.Content = new StringContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            // HTTP response received from host
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            Debug.WriteLine("Registration successful");
+            
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"An error occured while trying to register user: {e.Message}");
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Sends an HTTP-request to the host
+    /// to log in an existing user
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns>The HttpResponseMessage that the host returns</returns>
+    public async Task<HttpResponseMessage> LoginUserAsync(string data)
+    {
+        try
+        {
+            // HTTP-POST message to send to host
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"{BaseAddress}/Auth/Login"
+            );
+            
+            request.Headers.Add("accept", "text/plain");
+            request.Content = new StringContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            // HTTP response received from host
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            return response;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"An error occured while trying to log in user: {e.Message}");
+            throw;
         }
     }
 }

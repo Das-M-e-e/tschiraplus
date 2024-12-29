@@ -5,12 +5,12 @@ namespace Services.Repositories;
 
 public interface IProjectRepository
 {
-    public void AddProject(ProjectModel project);
-    public ProjectModel GetProjectById(Guid projectId);
-    public List<ProjectDTO> GetAllProjects();
-    public void DeleteProject(Guid projectId);
-    public Task<bool> PostProjectAsync(ProjectModel project);
-    public Task<List<ProjectModel>> GetAllProjectsAsync();
-    public Task<bool> DeleteAsync(Guid projectId);
-    public Task SyncProjectsAsync();
+    void AddProject(ProjectModel project);
+    ProjectModel GetProjectById(Guid projectId);
+    List<ProjectDto> GetAllProjects();
+    void DeleteProject(Guid projectId);
+    Task<bool> PostProjectAsync(ProjectModel project);
+    Task<List<ProjectModel>> GetAllProjectsAsync();
+    Task<bool> DeleteAsync(Guid projectId);
+    Task SyncProjectsAsync();
 }
