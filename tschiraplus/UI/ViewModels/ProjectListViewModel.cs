@@ -32,7 +32,7 @@ public class ProjectListViewModel
 
         Projects = new ObservableCollection<ProjectViewModel>();
         
-        CreateNewProjectCommand = new AsyncRelayCommand(CreateNewProject);
+        CreateNewProjectCommand = new RelayCommand(CreateNewProject);
         OpenProjectCommand = new RelayCommand<Guid>(OpenProject);
 
         LoadProjects();
@@ -41,12 +41,8 @@ public class ProjectListViewModel
     /// <summary>
     /// Gets all projects from the host using the _projectService and updates the Projects list
     /// </summary>
-    private async Task LoadProjects()
+    private void LoadProjects()
     {
-        if (_appState.IsOnline)
-        {
-            await _projectService.SyncProjects();
-        }
         var allProjects = _projectService.GetAllProjects();
         UpdateProjectList(allProjects);
     }
@@ -67,10 +63,10 @@ public class ProjectListViewModel
     /// <summary>
     /// Uses the _projectService to create a new project, then updates the Projects list
     /// </summary>
-    private async Task CreateNewProject()
+    private void CreateNewProject()
     {
         _projectService.CreateTestProject(_appState.IsOnline);
-        await LoadProjects();
+        LoadProjects();
     }
 
     /// <summary>
@@ -89,6 +85,6 @@ public class ProjectListViewModel
     public async Task DeleteProject(Guid projectId)
     {
         await _projectService.DeleteProject(projectId, _appState.IsOnline);
-        await LoadProjects();
+        LoadProjects();
     }
 }

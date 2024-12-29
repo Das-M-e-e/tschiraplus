@@ -100,12 +100,4 @@ public class ProjectService : IProjectService
             _projectRepository.DeleteProject(projectId);
         }
     }
-
-    /// <summary>
-    /// Synchronizes the local database with the remote database
-    /// </summary>
-    public async Task SyncProjects()
-    {
-        await _projectRepository.SyncProjectsAsync();
-    }
 }

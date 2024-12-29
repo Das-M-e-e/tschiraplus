@@ -1,4 +1,6 @@
-﻿using ReactiveUI;
+﻿using System;
+using System.Threading.Tasks;
+using ReactiveUI;
 using Services;
 using Services.DatabaseServices;
 using Services.Repositories;
@@ -11,6 +13,7 @@ public class WrapperViewModel : ViewModelBase
 {
     // Services
     private readonly ApplicationState _appState;
+    private readonly ISyncService _syncService;
 
     // Bindings
     private object _currentView;
@@ -23,6 +26,11 @@ public class WrapperViewModel : ViewModelBase
     public WrapperViewModel(ApplicationState appState)
     {
         _appState = appState;
+        _syncService = new SyncService(
+            new ProjectUserRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
+            new ProjectRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
+            new UserRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
+            _appState);
 
         if (_appState.CurrentUser != null)
         {
@@ -37,8 +45,10 @@ public class WrapperViewModel : ViewModelBase
     /// <summary>
     /// Sets the current view (content) of the wrapper to be the MainMenuView
     /// </summary>
-    public void NavigateToMainMenu()
+    public async Task NavigateToMainMenu()
     {
+        await Sync();
+        
         CurrentView = new MainMenuView
         {
             DataContext = new MainMenuViewModel(
@@ -74,5 +84,17 @@ public class WrapperViewModel : ViewModelBase
                     _appState),
                 this)
         };
+    }
+
+    private async Task Sync()
+    {
+        try
+        {
+            await _syncService.SyncAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Synchronization failed: {e.Message}");
+        }
     }
 }

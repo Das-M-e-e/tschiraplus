@@ -10,11 +10,13 @@ public class ProjectRepository : IProjectRepository
 {
     private readonly Database _db;
     private readonly RemoteDatabaseService _remoteDb;
+    private readonly IProjectUserRepository _projectUserRepository;
 
     public ProjectRepository(Database db, RemoteDatabaseService remoteDb)
     {
         _db = db;
         _remoteDb = remoteDb;
+        _projectUserRepository = new ProjectUserRepository(_db, _remoteDb);
     }
 
     //****** LOCAL DB ******//
@@ -25,6 +27,15 @@ public class ProjectRepository : IProjectRepository
     public void AddProject(ProjectModel project)
     {
         _db.Insert("Projects", "ProjectId", project);
+
+        var projectUser = new ProjectUserModel
+        {
+            ProjectUserId = Guid.NewGuid(),
+            ProjectId = project.ProjectId,
+            UserId = project.OwnerId,
+            AssignedAt = DateTime.Now
+        };
+        _projectUserRepository.AddProjectUser(projectUser);
     }
 
     /// <summary>
@@ -32,7 +43,7 @@ public class ProjectRepository : IProjectRepository
     /// </summary>
     /// <param name="projectId"></param>
     /// <returns>The ProjectModel of the wanted project</returns>
-    public ProjectModel GetProjectById(Guid projectId)
+    public ProjectModel? GetProjectById(Guid projectId)
     {
         return _db.SingleOrDefault<ProjectModel>("SELECT * FROM Projects WHERE ProjectId=@0", projectId);
     }
@@ -71,7 +82,6 @@ public class ProjectRepository : IProjectRepository
     public async Task<List<ProjectModel>> GetAllProjectsAsync()
     {
         var jsonString = await _remoteDb.GetAllAsync("Projects");
-
         var projectList = JsonConvert.DeserializeObject<List<ProjectModel>>(jsonString);
 
         if (projectList == null)
@@ -81,13 +91,32 @@ public class ProjectRepository : IProjectRepository
 
         return projectList;
     }
+
+    /// <summary>
+    /// Gets a project by id from the remote database
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns>The ProjectModel of the wanted project</returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<ProjectModel> GetProjectByIdAsync(Guid projectId)
+    {
+        var jsonString = await _remoteDb.GetByIdAsync("Projects", projectId);
+        var project = JsonConvert.DeserializeObject<ProjectModel>(jsonString);
+        
+        if (project == null)
+        {
+            throw new InvalidOperationException("Failed to deserialize JSON to ProjectModel.");
+        }
+        
+        return project;
+    }
     
     /// <summary>
     /// Saves a project to the remote database
     /// </summary>
     /// <param name="project"></param>
     /// <returns>true or false</returns>
-    public async Task<bool> PostProjectAsync(ProjectModel project)
+    public async Task PostProjectAsync(ProjectModel project)
     {
         var jsonData = $"{{\"projectId\":\"{project.ProjectId}\"," +
                        $"\"ownerId\":\"{project.OwnerId}\"," +
@@ -100,7 +129,22 @@ public class ProjectRepository : IProjectRepository
                        $"\"dueDate\":\"{project.DueDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"," +
                        $"\"lastUpdated\":\"{project.LastUpdated:yyyy-MM-ddTHH:mm:ss.fffZ}\"}}";
         
-        return await _remoteDb.PostAsync("Projects", jsonData);
+        await _remoteDb.PostAsync("Projects", jsonData);
+        
+        var projectUser = new ProjectUserModel
+        {
+            ProjectUserId = Guid.NewGuid(),
+            ProjectId = project.ProjectId,
+            UserId = project.OwnerId,
+            AssignedAt = DateTime.Now
+        };
+
+        var projectUserJsonData = $"{{\"ProjectUserId\":\"{projectUser.ProjectUserId}\"," +
+                                  $"\"ProjectId\":\"{projectUser.ProjectId}\"," +
+                                  $"\"UserId\":\"{projectUser.UserId}\"," +
+                                  $"\"AssignedAt\":\"{projectUser.AssignedAt:yyyy-MM-ddTHH:mm:ss.fffZ}\"}}";
+        
+        await _remoteDb.PostAsync("ProjectUsers", projectUserJsonData);
     }
 
     /// <summary>
@@ -115,34 +159,13 @@ public class ProjectRepository : IProjectRepository
     
     //****** HELPER ******//
     /// <summary>
-    /// Synchronizes the local database to the remote database
-    /// </summary>
-    public async Task SyncProjectsAsync()
-    {
-        try
-        {
-            var remoteProjects = await GetAllProjectsAsync();
-
-            foreach (var remoteProject in remoteProjects.Where(remoteProject => !LocalDatabaseContainsProject(remoteProject.ProjectId)))
-            {
-                AddProject(remoteProject);
-            }
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-
-    /// <summary>
     /// Checks if the local database contains a project by id
     /// </summary>
     /// <param name="projectId"></param>
     /// <returns>true or false</returns>
-    private bool LocalDatabaseContainsProject(Guid projectId)
+    public bool ProjectExists(Guid projectId)
     {
-        var existingProject = _db.SingleOrDefault<ProjectModel>("SELECT * FROM Projects WHERE ProjectId=@0", projectId);
+        var existingProject = GetProjectById(projectId);
         return existingProject != null;
     }
 }
