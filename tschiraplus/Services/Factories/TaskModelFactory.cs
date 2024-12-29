@@ -1,50 +1,43 @@
 ﻿using Core.Enums;
+using Core.Models;
 using TaskStatus = Core.Enums.TaskStatus;
 
-namespace Services;
-using Core.Models;
-using Services.Repositories;
+namespace Services.Factories;
 
 public class TaskModelFactory
 {
-    public TaskModel CreateTaskModel( //stellt ein TaskModel her
-        Guid taskId
-        ,string title
-        ,string description
-        ,string status
-        ,string priority
-        ,DateTime creationDate
-        ,DateTime dueDate
-        ,DateTime completionDate
-        //,List<GuId> assignes
-        //,List<Strings> tags
-        ,Guid sprintId
-        ,Guid projectId
-        ,TimeSpan estimatedTime
-        ,TimeSpan actualTimeSpend
-        //,List<Guid> attachments
-        //,List<Guid> comments
-        //,List<Guid> dependencies
+    public TaskModel CreateTaskModel(
+        Guid taskId,
+        Guid projectId,
+        Guid? sprintId,
+        Guid authorId,
+        string? title,
+        string? description,
+        string? status,
+        string? priority,
+        DateTime creationDate,
+        DateTime? dueDate,
+        DateTime? completionDate,
+        DateTime lastUpdated,
+        TimeSpan? estimatedTime,
+        TimeSpan? actualTimeSpend
     )
     {
         return new TaskModel {
             TaskId = taskId,
-            Title = title,
-            Description = description,
-            Status = Enum.TryParse(status, out TaskStatus statusEnum) ? statusEnum : Core.Enums.TaskStatus.Backlog,
-            Priority = Enum.TryParse(priority, out TaskPriority priorityEnum) ? priorityEnum : Core.Enums.TaskPriority.Low,
-            CreationDate = creationDate,
-            DueDate = dueDate,
-            CompletionDate = completionDate,
-            //Assignes = assignes,
-            //Tags = tags,
-            SprintId = sprintId,
             ProjectId = projectId,
-            EstimatedTime = estimatedTime,
-            ActualTimeSpent = actualTimeSpend,
-            //Attachments = attachments,
-            //Comments = comments,
-            //Dependencies = dependencies,
+            SprintId = sprintId ?? null,
+            AuthorId = authorId,
+            Title = title ?? string.Empty,
+            Description = description ?? string.Empty,
+            Status = Enum.TryParse(status, out TaskStatus statusEnum) ? statusEnum : TaskStatus.Backlog,
+            Priority = Enum.TryParse(priority, out TaskPriority priorityEnum) ? priorityEnum : TaskPriority.Low,
+            CreationDate = creationDate,
+            DueDate = dueDate ?? null,
+            CompletionDate = completionDate ?? null,
+            LastUpdated = lastUpdated,
+            EstimatedTime = estimatedTime ?? null,
+            ActualTimeSpent = actualTimeSpend ?? null
         };
     }
     

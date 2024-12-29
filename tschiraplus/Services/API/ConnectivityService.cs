@@ -13,7 +13,7 @@ public class ConnectivityService : IConnectivityService
             using var client = new HttpClient();
             
             // ping the hosts url
-            var result = client.GetAsync("http://localhost:8080").Result;
+            var result = client.GetAsync("http://dasmee.ddns.net:8080").Result;
             return result.IsSuccessStatusCode;
         }
         catch

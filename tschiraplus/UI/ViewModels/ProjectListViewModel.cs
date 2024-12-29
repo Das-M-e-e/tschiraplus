@@ -12,12 +12,15 @@ namespace UI.ViewModels;
 
 public class ProjectListViewModel
 {
+    // Services
     private readonly IProjectService _projectService;
     private readonly MainMenuViewModel _mainMenuViewModel;
     private readonly ApplicationState _appState;
     
+    // Bindings
     public ObservableCollection<ProjectViewModel> Projects { get; set; }
     
+    // Commands
     public ICommand CreateNewProjectCommand { get; }
     public ICommand OpenProjectCommand { get; }
 
@@ -29,12 +32,15 @@ public class ProjectListViewModel
 
         Projects = new ObservableCollection<ProjectViewModel>();
         
-        CreateNewProjectCommand = new RelayCommand(CreateNewProject);
+        CreateNewProjectCommand = new AsyncRelayCommand(CreateNewProject);
         OpenProjectCommand = new RelayCommand<Guid>(OpenProject);
 
         LoadProjects();
     }
 
+    /// <summary>
+    /// Gets all projects from the host using the _projectService and updates the Projects list
+    /// </summary>
     private async Task LoadProjects()
     {
         if (_appState.IsOnline)
@@ -45,7 +51,11 @@ public class ProjectListViewModel
         UpdateProjectList(allProjects);
     }
 
-    private void UpdateProjectList(IEnumerable<ProjectDTO> projectDtos)
+    /// <summary>
+    /// Updates the Projects list using the given list of ProjectDtos
+    /// </summary>
+    /// <param name="projectDtos"></param>
+    private void UpdateProjectList(IEnumerable<ProjectDto> projectDtos)
     {
         Projects.Clear();
         foreach (var projectDto in projectDtos)
@@ -54,20 +64,31 @@ public class ProjectListViewModel
         }
     }
 
-    private void CreateNewProject()
+    /// <summary>
+    /// Uses the _projectService to create a new project, then updates the Projects list
+    /// </summary>
+    private async Task CreateNewProject()
     {
         _projectService.CreateTestProject(_appState.IsOnline);
-        LoadProjects();
+        await LoadProjects();
     }
 
+    /// <summary>
+    /// Opens a project via the _mainMenuViewModel
+    /// </summary>
+    /// <param name="projectId"></param>
     public void OpenProject(Guid projectId)
     {
         _mainMenuViewModel.OpenProjectCommand.Execute(projectId);
     }
 
-    public async void DeleteProject(Guid projectId)
+    /// <summary>
+    /// Deletes a project using the _projectService
+    /// </summary>
+    /// <param name="projectId"></param>
+    public async Task DeleteProject(Guid projectId)
     {
         await _projectService.DeleteProject(projectId, _appState.IsOnline);
-        LoadProjects();
+        await LoadProjects();
     }
 }

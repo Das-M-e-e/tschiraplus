@@ -4,6 +4,7 @@ namespace UI.ViewModels;
 
 public class TabItemViewModel : ViewModelBase
 {
+    // Bindings
     public string Header { get; }
     public UserControl Content { get; }
     public object Tag { get; set; }

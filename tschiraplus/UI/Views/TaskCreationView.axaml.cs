@@ -2,7 +2,7 @@
 
 namespace UI.Views;
 
-public partial class TaskCreationView : Window
+public partial class TaskCreationView : UserControl
 {
     public TaskCreationView()
     {

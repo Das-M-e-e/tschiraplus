@@ -18,21 +18,34 @@ public class ProjectRepository : IProjectRepository
     }
 
     //****** LOCAL DB ******//
+    /// <summary>
+    /// Saves a project to the local database
+    /// </summary>
+    /// <param name="project"></param>
     public void AddProject(ProjectModel project)
     {
         _db.Insert("Projects", "ProjectId", project);
     }
 
+    /// <summary>
+    /// Gets a project by id from the local database
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns>The ProjectModel of the wanted project</returns>
     public ProjectModel GetProjectById(Guid projectId)
     {
         return _db.SingleOrDefault<ProjectModel>("SELECT * FROM Projects WHERE ProjectId=@0", projectId);
     }
 
-    public List<ProjectDTO> GetAllProjects()
+    /// <summary>
+    /// Gets all projects saved in the local database
+    /// </summary>
+    /// <returns>A List of all projects as ProjectDto</returns>
+    public List<ProjectDto> GetAllProjects()
     {
         var projects = _db.Fetch<ProjectModel>("SELECT * FROM Projects");
 
-        return projects.Select(project => new ProjectDTO
+        return projects.Select(project => new ProjectDto
         {
             ProjectId = project.ProjectId,
             Name = project.Name,
@@ -40,12 +53,21 @@ public class ProjectRepository : IProjectRepository
         }).ToList();
     }
 
+    /// <summary>
+    /// Deletes a project by id from the local database
+    /// </summary>
+    /// <param name="projectId"></param>
     public void DeleteProject(Guid projectId)
     {
         _db.Execute("DELETE FROM Projects WHERE ProjectId=@0", projectId);
     }
     
     //****** REMOTE DB ******//
+    /// <summary>
+    /// Gets all saved projects from the remote database
+    /// </summary>
+    /// <returns>A List of all projects as ProjectModel</returns>
+    /// <exception cref="InvalidOperationException"></exception>
     public async Task<List<ProjectModel>> GetAllProjectsAsync()
     {
         var jsonString = await _remoteDb.GetAllAsync("Projects");
@@ -60,6 +82,11 @@ public class ProjectRepository : IProjectRepository
         return projectList;
     }
     
+    /// <summary>
+    /// Saves a project to the remote database
+    /// </summary>
+    /// <param name="project"></param>
+    /// <returns>true or false</returns>
     public async Task<bool> PostProjectAsync(ProjectModel project)
     {
         var jsonData = $"{{\"projectId\":\"{project.ProjectId}\"," +
@@ -76,12 +103,20 @@ public class ProjectRepository : IProjectRepository
         return await _remoteDb.PostAsync("Projects", jsonData);
     }
 
+    /// <summary>
+    /// Deletes a project by id from the remote database
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns>true or false</returns>
     public async Task<bool> DeleteAsync(Guid projectId)
     {
         return await _remoteDb.DeleteAsync("Projects", projectId);
     }
     
     //****** HELPER ******//
+    /// <summary>
+    /// Synchronizes the local database to the remote database
+    /// </summary>
     public async Task SyncProjectsAsync()
     {
         try
@@ -100,6 +135,11 @@ public class ProjectRepository : IProjectRepository
         }
     }
 
+    /// <summary>
+    /// Checks if the local database contains a project by id
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns>true or false</returns>
     private bool LocalDatabaseContainsProject(Guid projectId)
     {
         var existingProject = _db.SingleOrDefault<ProjectModel>("SELECT * FROM Projects WHERE ProjectId=@0", projectId);

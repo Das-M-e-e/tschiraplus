@@ -1,30 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reactive;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using Avalonia.Controls;
-using Avalonia.Interactivity;
 using CommunityToolkit.Mvvm.Input;
 using Services.DTOs;
 using Services.Repositories;
 using Services.TaskServices;
-using ReactiveUI;
 
 namespace UI.ViewModels;
 
 public class TaskCreationViewModel : ViewModelBase
 {
+    // Services
     private readonly ITaskRepository _taskRepository;
     private readonly ITaskService _taskService;
 
+    // Bindings
     private bool _isLowPrio {get; set;}
     private bool _isHighPrio {get; set;}
     private bool _isMediumPrio {get; set;}
     private String _title {get; set;}
     private String _description {get; set;}
-   
+    
+    // Commands
     public ICommand CreateTaskCommand { get; }
     
     public TaskCreationViewModel(ITaskRepository taskRepository, ITaskService taskService)
@@ -33,6 +29,10 @@ public class TaskCreationViewModel : ViewModelBase
         CreateTaskCommand = new RelayCommand(CreateTask);
     }
     
+    /// <summary>
+    /// Creates a new TaskDto
+    /// </summary>
+    /// <returns>The TaskDto</returns>
     private TaskDto CreateTaskDTO()
     {
         TaskDto dto = new TaskDto()
@@ -47,6 +47,9 @@ public class TaskCreationViewModel : ViewModelBase
         return dto;
     }
 
+    /// <summary>
+    /// Uses the _taskService to create a new task
+    /// </summary>
     private void CreateTask()
     {
         TaskDto dto = _taskService.CreateTaskDto(
