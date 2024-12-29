@@ -28,6 +28,7 @@ public class ProjectRepository : IProjectRepository
     {
         _db.Insert("Projects", "ProjectId", project);
 
+        // Create the ProjectUser for the owner of the project
         var projectUser = new ProjectUserModel
         {
             ProjectUserId = Guid.NewGuid(),
@@ -158,6 +159,7 @@ public class ProjectRepository : IProjectRepository
         
         await _remoteDb.PostAsync("Projects", jsonData);
         
+        // Create the ProjectUser for the owner of the project
         var projectUser = new ProjectUserModel
         {
             ProjectUserId = Guid.NewGuid(),

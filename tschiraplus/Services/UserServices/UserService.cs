@@ -93,6 +93,7 @@ public class UserService : IUserService
 
         try
         {
+            // HTTP-request to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
                 "http://dasmee.ddns.net:8080/api/Auth/VerifyToken");
@@ -100,6 +101,7 @@ public class UserService : IUserService
             request.Content = new StringContent(jsonData);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             
+            // HTTP-response received from host
             var response = await client.SendAsync(request);
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(jsonResponse);

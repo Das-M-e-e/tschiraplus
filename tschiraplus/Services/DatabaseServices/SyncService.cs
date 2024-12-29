@@ -19,6 +19,9 @@ public class SyncService : ISyncService
         _appState = appState;
     }
 
+    /// <summary>
+    /// Synchronizes the local db to the remote db
+    /// </summary>
     public async Task SyncAsync()
     {
         var projectUsers = await GetAllProjectUsersForCurrentUser();
@@ -36,15 +39,20 @@ public class SyncService : ISyncService
         AddProjectUsersToLocalDbIfNotExists(projectUsers);
     }
 
+    /// <summary>
+    /// Gets all ProjectUsers for the logged-in user from the remote database
+    /// </summary>
+    /// <returns>A List of all ProjectUsers where the UserId = CurrentUser.UserId</returns>
     private async Task<List<ProjectUserModel>?> GetAllProjectUsersForCurrentUser()
     {
-        Console.WriteLine(_appState.CurrentUser.UserId);
-        var projectUsers = await _projectUserRepository.GetAllProjectUsersByUserIdAsync(_appState.CurrentUser!.UserId);
-        
-        Console.WriteLine(projectUsers.Count);
-        return projectUsers;
+        return await _projectUserRepository.GetAllProjectUsersByUserIdAsync(_appState.CurrentUser!.UserId);
     }
 
+    /// <summary>
+    /// Gets all Projects the logged-in user is part of
+    /// </summary>
+    /// <param name="projectUsers"></param>
+    /// <returns>A List of all Projects the user is part of</returns>
     private async Task<List<ProjectModel>?> GetAllProjectsForCurrentUser(List<ProjectUserModel>? projectUsers)
     {
         if (projectUsers == null) return null;
@@ -58,6 +66,10 @@ public class SyncService : ISyncService
         return projects;
     }
 
+    /// <summary>
+    /// Adds all the given ProjectUsers to the local database if they aren't already in there
+    /// </summary>
+    /// <param name="projectUsers"></param>
     private void AddProjectUsersToLocalDbIfNotExists(List<ProjectUserModel>? projectUsers)
     {
         if (projectUsers == null) return;
@@ -68,6 +80,10 @@ public class SyncService : ISyncService
         }
     }
 
+    /// <summary>
+    /// Adds all the given Projects to the local database if they aren't already in there
+    /// </summary>
+    /// <param name="projects"></param>
     private void AddProjectsToLocalDbIfNotExists(List<ProjectModel>? projects)
     {
         if (projects == null) return;
@@ -78,6 +94,10 @@ public class SyncService : ISyncService
         }
     }
 
+    /// <summary>
+    /// Adds all the given Users to the local database if they aren't already in there
+    /// </summary>
+    /// <param name="userIds"></param>
     private async Task AddUsersToLocalDbIfNotExists(List<Guid>? userIds)
     {
         if (userIds == null) return;

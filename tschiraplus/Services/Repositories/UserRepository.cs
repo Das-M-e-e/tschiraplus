@@ -83,7 +83,7 @@ public class UserRepository : IUserRepository
         return user;
     }
     
-    //****** HELPERS ******//
+    //****** HELPER ******//
     /// <summary>
     /// Checks if a user exists in the local database by id
     /// </summary>
