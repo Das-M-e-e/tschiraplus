@@ -100,7 +100,7 @@ public class UserService : IUserService
             // HTTP-request to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                "http://dasmee.ddns.net:8080/api/Auth/VerifyToken");
+                "http://api.tschira.plus:42069/api/Auth/VerifyToken");
             request.Headers.Add("accept", "text/plain");
             request.Content = new StringContent(jsonData);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
