@@ -60,7 +60,7 @@ public class UserService : IUserService
                 };
 
                 var user = await _userRepository.GetUserByIdAsync(response.User.UserId);
-                if (_userRepository.UserExists(user.UserId))
+                if (!_userRepository.UserExists(user.UserId))
                 {
                     _userRepository.AddUser(user);
                 }
@@ -79,7 +79,11 @@ public class UserService : IUserService
     /// <returns>true or false</returns>
     public async Task<bool> AuthenticateWithTokenAsync(string token)
     {
-        if (string.IsNullOrEmpty(token)) return false;
+        if (string.IsNullOrEmpty(token))
+        {
+            Console.WriteLine("Token is empty");
+            return false;
+        }
 
         var tokenVerificationRequest = new TokenVerificationRequest
         {
@@ -104,6 +108,7 @@ public class UserService : IUserService
             // HTTP-response received from host
             var response = await client.SendAsync(request);
             var jsonResponse = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(jsonResponse);
             var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(jsonResponse);
             if (response.IsSuccessStatusCode)
             {
