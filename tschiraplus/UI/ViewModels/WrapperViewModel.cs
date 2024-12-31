@@ -86,6 +86,9 @@ public class WrapperViewModel : ViewModelBase
         };
     }
 
+    /// <summary>
+    /// Starts the synchronization process
+    /// </summary>
     private async Task Sync()
     {
         try

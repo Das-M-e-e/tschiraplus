@@ -57,6 +57,16 @@ public class ProjectUserRepository : IProjectUserRepository
     }
 
     /// <summary>
+    /// Gets a List of all ProjectUsers by userId from the local database
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns>A List of all ProjectUsers where the UserId = userId</returns>
+    public List<ProjectUserModel>? GetAllProjectUsersByUserId(Guid userId)
+    {
+        return _db.Fetch<ProjectUserModel>("SELECT * FROM ProjectUsers WHERE UserId = @0", userId);
+    }
+
+    /// <summary>
     /// Deletes a ProjectUser by id from the local database
     /// </summary>
     /// <param name="projectUserId"></param>
@@ -99,11 +109,22 @@ public class ProjectUserRepository : IProjectUserRepository
         return projectUsers;
     }
 
+    /// <summary>
+    /// Deletes a ProjectUser from the remote database
+    /// </summary>
+    /// <param name="projectUserId"></param>
+    /// <returns>true or false</returns>
     public async Task<bool> DeleteProjectUserAsync(Guid projectUserId)
     {
         return await _remoteDb.DeleteAsync("ProjectUsers", projectUserId);
     }
 
+    //****** HELPER ******//
+    /// <summary>
+    /// Checks if a ProjectUser exists in the local database
+    /// </summary>
+    /// <param name="projectUserId"></param>
+    /// <returns>true or false</returns>
     public bool ProjectUserExists(Guid projectUserId)
     {
         var projectUser = GetProjectUserById(projectUserId);

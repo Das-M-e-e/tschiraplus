@@ -67,7 +67,7 @@ public class ProjectService : IProjectService
     /// <returns>A List of ProjectDTOs</returns>
     public List<ProjectDto> GetAllProjects()
     {
-        return _projectRepository.GetAllProjects();
+        return _projectRepository.GetProjectsByUserId(_currentUser.UserId) ?? [];
     }
 
     /// <summary>
