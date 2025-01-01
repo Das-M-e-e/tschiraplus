@@ -8,7 +8,7 @@ public class RemoteDatabaseService
 {
     private readonly HttpClient _httpClient = new();
 
-    private const string BaseAddress = "http://dasmee.ddns.net:8080/api";
+    private const string BaseAddress = "http://api.tschira.plus:42069/api";
 
     /// <summary>
     /// Sends an HTTP-request to the host
