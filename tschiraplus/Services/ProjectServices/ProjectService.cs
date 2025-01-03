@@ -16,30 +16,6 @@ public class ProjectService : IProjectService
         _currentUser = currentUser;
     }
 
-    // Todo: Temporary, will remove when project creation is implemented
-    public void CreateTestProject(bool isOnline)
-    {
-        Guid projectId = Guid.NewGuid();
-        
-        var newProject = new ProjectModel
-        {
-            ProjectId = projectId,
-            OwnerId = _currentUser.UserId,
-            Name = "Test_Project-" + projectId,
-            Description = "No description provided",
-            CreationDate = DateTime.Now,
-            Status = ProjectStatus.NotStarted,
-            Priority = ProjectPriority.Low,
-            LastUpdated = DateTime.Now,
-            DueDate = DateTime.MaxValue,
-            StartDate = DateTime.Today
-        };
-
-        if (!isOnline) return;
-        _projectRepository.AddProject(newProject);
-        _projectRepository.PostProjectAsync(newProject);
-    }
-
     /// <summary>
     /// Creates a new project from a ProjectDto and saves it to the database and host
     /// </summary>
