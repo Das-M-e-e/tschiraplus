@@ -1,41 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using ReactiveUI;
 using Services;
 using Services.DTOs;
 using Services.ProjectServices;
 
 namespace UI.ViewModels;
 
-public class ProjectListViewModel
+public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
 {
     // Services
+    public ViewModelActivator Activator { get; }
     private readonly IProjectService _projectService;
     private readonly MainMenuViewModel _mainMenuViewModel;
     private readonly ApplicationState _appState;
     
     // Bindings
-    public ObservableCollection<ProjectViewModel> Projects { get; set; }
+    public ObservableCollection<ProjectViewModel> Projects { get; set; } = [];
     
     // Commands
     public ICommand CreateNewProjectCommand { get; }
-    public ICommand OpenProjectCommand { get; }
 
     public ProjectListViewModel(IProjectService projectService, MainMenuViewModel mainMenuViewModel, ApplicationState appState)
     {
         _projectService = projectService;
         _mainMenuViewModel = mainMenuViewModel;
         _appState = appState;
-
-        Projects = new ObservableCollection<ProjectViewModel>();
         
         CreateNewProjectCommand = new RelayCommand(CreateNewProject);
-        OpenProjectCommand = new RelayCommand<Guid>(OpenProject);
 
-        LoadProjects();
+        Activator = new ViewModelActivator();
+        this.WhenActivated((CompositeDisposable disposables) =>
+        {
+            LoadProjects();
+        });
     }
 
     /// <summary>
@@ -65,8 +68,7 @@ public class ProjectListViewModel
     /// </summary>
     private void CreateNewProject()
     {
-        _projectService.CreateTestProject(_appState.IsOnline);
-        LoadProjects();
+        _mainMenuViewModel.CreateNewProjectCommand.Execute(null);
     }
 
     /// <summary>

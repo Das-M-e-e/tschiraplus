@@ -49,11 +49,13 @@ public class ProjectService : IProjectService
         var newProject = new ProjectModel
         {
             ProjectId = projectDto.ProjectId,
+            OwnerId = _currentUser.UserId,
             Name = projectDto.Name,
-            Description = projectDto.Description,
-            CreationDate = DateTime.Now,
+            Description = projectDto.Description ?? null,
             Status = ProjectStatus.NotStarted,
-            LastUpdated = DateTime.Now
+            Priority = Enum.TryParse<ProjectPriority>(projectDto.ProjectPriority, out var priority) ? priority : ProjectPriority.Low,
+            CreationDate = DateTime.Now,
+            LastUpdated = DateTime.Now,
         };
         
           _projectRepository.AddProject(newProject);

@@ -35,6 +35,8 @@ public class MainMenuViewModel : ObservableObject
     // Commands
     public ICommand OpenProjectCommand { get; }
     public ICommand LogoutUserCommand { get; }
+    public ICommand CreateNewProjectCommand { get; }
+    
 
     private TabItemViewModel? _currentProjectTab;
     
@@ -62,6 +64,7 @@ public class MainMenuViewModel : ObservableObject
 
         OpenProjectCommand = new RelayCommand<Guid>(OpenProject);
         LogoutUserCommand = new AsyncRelayCommand(LogoutUser);
+        CreateNewProjectCommand = new RelayCommand(CreateNewProject);
     }
 
     /// <summary>
@@ -78,6 +81,11 @@ public class MainMenuViewModel : ObservableObject
                 return;
             }
 
+            Tabs.Remove(_currentProjectTab);
+        }
+
+        if (_currentProjectTab is { CanClose: true })
+        {
             Tabs.Remove(_currentProjectTab);
         }
 
@@ -121,5 +129,28 @@ public class MainMenuViewModel : ObservableObject
     {
         await _authService.LogoutAsync();
         _wrapper.NavigateToLogin();
+    }
+
+    private void CreateNewProject()
+    {
+        Tabs.Remove(_currentProjectTab);
+        _currentProjectTab = new TabItemViewModel(
+            "Create New Project",
+            new CreateNewProjectView
+            {
+                DataContext = new CreateNewProjectViewModel(
+                    new ProjectService(
+                        new ProjectRepository(
+                            _dbService.GetDatabase(),
+                            new RemoteDatabaseService()),
+                        _appState.CurrentUser),
+                    this
+                )
+            })
+        {
+            CanClose = true
+        };
+        Tabs.Add(_currentProjectTab);
+        NavigateToTab(_currentProjectTab);
     }
 }

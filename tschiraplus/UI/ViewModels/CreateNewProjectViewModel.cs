@@ -10,6 +10,7 @@ public class CreateNewProjectViewModel
 {
     // Services
     private readonly IProjectService _projectService;
+    private readonly MainMenuViewModel _mainMenuViewModel;
     
     // Bindings
     public string Name { get; set; }
@@ -19,9 +20,11 @@ public class CreateNewProjectViewModel
     // Commands
     public ICommand CreateProjectCommand { get; set; }
     
-    public CreateNewProjectViewModel(IProjectService projectService)
+    public CreateNewProjectViewModel(IProjectService projectService, MainMenuViewModel mainMenuViewModel)
     {
         _projectService = projectService;
+        _mainMenuViewModel = mainMenuViewModel;
+        
         CreateProjectCommand = new RelayCommand(CreateProject);
     }
     
@@ -40,5 +43,7 @@ public class CreateNewProjectViewModel
         };
         
         _projectService.CreateProject(newProjectDto);
+        
+        _mainMenuViewModel.OpenProjectCommand.Execute(projectId);
     }
 }
