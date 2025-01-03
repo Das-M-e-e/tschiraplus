@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using DynamicData;
 using Services.DTOs;
 using Services.ProjectServices;
 
@@ -19,6 +20,7 @@ public class CreateNewProjectViewModel
     
     // Commands
     public ICommand CreateProjectCommand { get; set; }
+    public ICommand CancelCommand { get; set; }
     
     public CreateNewProjectViewModel(IProjectService projectService, MainMenuViewModel mainMenuViewModel)
     {
@@ -26,6 +28,7 @@ public class CreateNewProjectViewModel
         _mainMenuViewModel = mainMenuViewModel;
         
         CreateProjectCommand = new RelayCommand(CreateProject);
+        CancelCommand = new RelayCommand(Cancel);
     }
     
     /// <summary>
@@ -45,5 +48,14 @@ public class CreateNewProjectViewModel
         _projectService.CreateProject(newProjectDto);
         
         _mainMenuViewModel.OpenProjectCommand.Execute(projectId);
+    }
+
+    /// <summary>
+    /// Cancels the project creation and switches back to the ProjectListView
+    /// </summary>
+    private void Cancel()
+    {
+        _mainMenuViewModel.SelectedTabIndex = 0;
+        _mainMenuViewModel.CloseCurrentTab();
     }
 }

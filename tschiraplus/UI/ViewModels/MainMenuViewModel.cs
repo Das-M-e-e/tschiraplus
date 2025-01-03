@@ -131,6 +131,9 @@ public class MainMenuViewModel : ObservableObject
         _wrapper.NavigateToLogin();
     }
 
+    /// <summary>
+    /// Navigates to the CreateNewProjectView
+    /// </summary>
     private void CreateNewProject()
     {
         Tabs.Remove(_currentProjectTab);
@@ -152,5 +155,13 @@ public class MainMenuViewModel : ObservableObject
         };
         Tabs.Add(_currentProjectTab);
         NavigateToTab(_currentProjectTab);
+    }
+
+    /// <summary>
+    /// Closes the currently set tab (project or project/task creation)
+    /// </summary>
+    public void CloseCurrentTab()
+    {
+        Tabs.Remove(_currentProjectTab);
     }
 }
