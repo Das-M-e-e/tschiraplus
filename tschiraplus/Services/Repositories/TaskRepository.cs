@@ -23,7 +23,6 @@ public class TaskRepository : ITaskRepository
     /// <param name="task"></param>
     public void AddTask(TaskModel task)
     {
-        Console.WriteLine($"Adding task: {task.Title}");
         _db.Insert("Tasks", "TaskId", task);
     }
     
