@@ -14,7 +14,7 @@ public class ProjectViewModel
     // Bindings
     public Guid ProjectId { get; }
     public string Name { get; }
-    public string Description { get; }
+    public string? Description { get; }
 
     // Commands
     public ICommand OpenProjectCommand { get; }

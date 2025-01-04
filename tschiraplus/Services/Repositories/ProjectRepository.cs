@@ -73,22 +73,13 @@ public class ProjectRepository : IProjectRepository
     public List<ProjectDto>? GetProjectsByUserId(Guid userId)
     {
         var projectUsers = _projectUserRepository.GetAllProjectUsersByUserId(userId);
-        if (projectUsers == null) return null;
-        var projectDtos = new List<ProjectDto>();
-        foreach (var projectUser in projectUsers)
-        {
-            var project = GetProjectById(projectUser.ProjectId);
-            if (project == null) continue;
-            var projectDto = new ProjectDto
+        return projectUsers?.Select(projectUser => GetProjectById(projectUser.ProjectId))
+            .OfType<ProjectModel>()
+            .Select(project => new ProjectDto
             {
-                ProjectId = project.ProjectId,
-                Name = project.Name,
-                Description = project.Description ?? string.Empty,
-                ProjectPriority = project.Priority.ToString(),
-            };
-            projectDtos.Add(projectDto);
-        }
-        return projectDtos;
+                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, ProjectPriority = project.Priority.ToString(),
+            })
+            .ToList();
     }
 
     /// <summary>
@@ -146,16 +137,35 @@ public class ProjectRepository : IProjectRepository
     /// <returns>true or false</returns>
     public async Task PostProjectAsync(ProjectModel project)
     {
-        var jsonData = $"{{\"projectId\":\"{project.ProjectId}\"," +
-                       $"\"ownerId\":\"{project.OwnerId}\"," +
-                       $"\"name\":\"{project.Name}\"," +
-                       $"\"description\":\"{project.Description}\"," +
-                       $"\"status\":{(int)project.Status}," +
-                       $"\"priority\":{(int)project.Priority}," +
-                       $"\"creationDate\":\"{project.CreationDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"," +
-                       $"\"startDate\":\"{project.StartDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"," +
-                       $"\"dueDate\":\"{project.DueDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"," +
-                       $"\"lastUpdated\":\"{project.LastUpdated:yyyy-MM-ddTHH:mm:ss.fffZ}\"}}";
+        var jsonParts = new List<string>
+        {
+            $"\"projectId\":\"{project.ProjectId}\"",
+            $"\"ownerId\":\"{project.OwnerId}\"",
+            $"\"name\":\"{project.Name}\"",
+            $"\"status\":{(int)project.Status}",
+            $"\"priority\":{(int)project.Priority}",
+            $"\"creationDate\":\"{project.CreationDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"",
+            $"\"lastUpdated\":\"{project.LastUpdated:yyyy-MM-ddTHH:mm:ss.fffZ}\""
+        };
+
+        if (!string.IsNullOrEmpty(project.Description))
+        {
+            jsonParts.Add($"\"description\":\"{project.Description}\"");
+        }
+
+        if (project.StartDate.HasValue)
+        {
+            jsonParts.Add($"\"startDate\":\"{project.StartDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
+        }
+
+        if (project.DueDate.HasValue)
+        {
+            jsonParts.Add($"\"dueDate\":\"{project.DueDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
+        }
+        
+        var jsonData = "{" + string.Join(",", jsonParts) + "}";
+        
+        Console.WriteLine(jsonData);
         
         await _remoteDb.PostAsync("Projects", jsonData);
         

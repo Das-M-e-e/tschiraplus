@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,9 +18,9 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     private readonly ITaskService _taskService;
     
     // Bindings
-    public ObservableCollection<TaskViewModel> Tasks { get; } = new();
-    public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = new();
-    private List<TaskDto> AllTasks { get; set; } = new();
+    public ObservableCollection<TaskViewModel> Tasks { get; } = [];
+    public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = [];
+    private List<TaskDto> AllTasks { get; set; } = [];
     
     // Commands
     public ICommand AddRandomTaskCommand { get; }

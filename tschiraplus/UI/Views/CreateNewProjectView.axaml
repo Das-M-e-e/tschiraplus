@@ -135,7 +135,7 @@
             <!--Buttons-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,30,20,0">
                 <Button Name="CancelButton" Content="Cancel" Width="68" Margin="20,0,20,0" CornerRadius="15" 
-                        Background="White"></Button>
+                        Background="White" Command="{Binding CancelCommand}"></Button>
                 <Button Name="SaveButton" Content="Save" Width="55" Margin="0,0,10,0" CornerRadius="15"
                         Background="CornflowerBlue" Command="{Binding CreateProjectCommand}"></Button>
                 
