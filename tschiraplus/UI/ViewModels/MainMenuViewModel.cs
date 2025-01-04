@@ -85,7 +85,7 @@ public class MainMenuViewModel : ObservableObject
         _appState.CurrentProjectId = projectId;
         var taskService = new TaskService(taskRepository, new TaskSortingManager(), _appState);
         
-        var mainTabViewModel = new MainTabViewModel(taskService);
+        var mainTabViewModel = new MainTabViewModel(taskService, projectId);
 
         _currentProjectTab = new TabItemViewModel($"{projectId}", new MainTabView { DataContext = mainTabViewModel })
         {

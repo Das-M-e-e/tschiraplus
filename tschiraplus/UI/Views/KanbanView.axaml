@@ -99,8 +99,9 @@
                                     </ItemsControl>
                                 </ScrollViewer>
                                 <Button 
-                                    Grid.Row="2" 
-                                    Command="{Binding AddRandomTaskCommand}" 
+                                    Grid.Row="2"
+                                    Command="{Binding OpenTaskCreationCommand}"
+                                    CommandParameter="{Binding Status}"
                                     Background="Transparent" 
                                     BorderBrush="Transparent" 
                                     FontSize="12" 
@@ -132,7 +133,7 @@
         <!-- Bottom bar -->
         <Grid Grid.Row="3" Background="snow" ColumnDefinitions="Auto, Auto, *">
             <Button Grid.Column="0" CornerRadius="15" Margin="10,10,5,10"> Exit </Button>
-            <Button Grid.Column="1" Command="{Binding AddRandomTaskCommand}" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
+            <Button Grid.Column="1" Command="{Binding OpenTaskCreationCommand}" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
             <Grid.Styles>
                 <Style Selector="Button">
                     <Setter Property="Background" Value="#98acd0"></Setter>
