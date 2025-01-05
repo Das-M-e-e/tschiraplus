@@ -6,8 +6,16 @@ name: .NET
 on:
   push:
     branches: [ "develop" ]
+    paths:
+      - '**/*.cs'
+      - '**/*.csproj'
+      - 'tschiraplus/tschiraplus.sln'
+    paths-ignore:
+      - '**/*.md'
+      - '.github/**'
   pull_request:
     branches: [ "develop" ]
+  workflow_dispatch:
 
 jobs:
   build:
