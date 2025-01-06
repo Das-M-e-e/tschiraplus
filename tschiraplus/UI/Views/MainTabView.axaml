@@ -7,7 +7,7 @@
         x:Class="UI.Views.MainTabView"
         x:DataType="vm:MainTabViewModel">
         
-        <TabControl ItemsSource="{Binding Tabs}" Padding="0">
+        <TabControl ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" Padding="0">
                 <TabControl.ItemTemplate>
                         <DataTemplate>
                                 <TextBlock Text="{Binding Header}" />

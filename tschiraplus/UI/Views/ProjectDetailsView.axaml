@@ -38,7 +38,7 @@
         <Grid Grid.Row="1" RowDefinitions="Auto, Auto, *, Auto" >
             <Grid Grid.Row="0">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Tschiraplus" FontWeight="SemiBold" FontSize="30" Padding="20" Foreground="Black"></TextBlock>
+                    <TextBlock Text="tschiraplus" FontWeight="SemiBold" FontSize="30" Padding="20" Foreground="Black"></TextBlock>
                     <Border CornerRadius="3" Width="80" Height="20" Background="#fff5cd" HorizontalAlignment="Left" Margin="20,-17,0,0">
                         <TextBlock Foreground="#dcb100" Text="In Progress" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold"  FontSize="12"></TextBlock>
                     </Border>

@@ -153,7 +153,7 @@
                                 Width="165"
                                 HorizontalAlignment="Left"
                                 BorderBrush="LightBlue"
-                                Command="{Binding AddRandomTaskCommand}">+ Add new Task</Button>
+                                Command="{Binding OpenTaskCreationCommand}">+ Add new Task</Button>
                     
                             </Grid>
                         </Grid>

@@ -16,6 +16,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     // Services
     public ViewModelActivator Activator { get; }
     private readonly ITaskService _taskService;
+    private readonly MainTabViewModel _mainTabViewModel;
     
     // Bindings
     public ObservableCollection<TaskViewModel> Tasks { get; } = [];
@@ -23,15 +24,16 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     private List<TaskDto> AllTasks { get; set; } = [];
     
     // Commands
-    public ICommand AddRandomTaskCommand { get; }
+    public ICommand OpenTaskCreationCommand { get; }
     public ICommand SortTasksByTitleCommand { get; }
     public ICommand FilterTasksByStatusCommand { get; }
 
-    public TaskListViewModel(ITaskService taskService)
+    public TaskListViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel)
     {
         _taskService = taskService;
+        _mainTabViewModel = mainTabViewModel;
 
-        AddRandomTaskCommand = new RelayCommand(AddRandomTask);
+        OpenTaskCreationCommand = new RelayCommand<string>(OpenTaskCreation, CanOpenTaskCreation);
         SortTasksByTitleCommand = new RelayCommand(SortTasksByTitle);
         FilterTasksByStatusCommand = new RelayCommand(FilterTasksByStatus);
         
@@ -49,17 +51,17 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     /// </summary>
     private void InitializeKanbanColumns()
     {
-        KanbanColumns.Add(new KanbanColumnViewModel("Backlog", "Backlog", "LightSteelBlue", "#ECF3FF", _taskService, this));
-        KanbanColumns.Add(new KanbanColumnViewModel("Ready", "Ready", "MistyRose", "#FFF9F8", _taskService, this));
-        KanbanColumns.Add(new KanbanColumnViewModel("In Progress", "InProgress", "#FFF5CD", "#FFFCF0", _taskService, this));
-        KanbanColumns.Add(new KanbanColumnViewModel("In Review", "InReview", "Bisque", "#FFFAF4", _taskService, this));
-        KanbanColumns.Add(new KanbanColumnViewModel("Done", "Done", "#B7DAA8", "#E6FFF1", _taskService, this));
+        KanbanColumns.Add(new KanbanColumnViewModel("Backlog", "Backlog", "LightSteelBlue", "#ECF3FF", this));
+        KanbanColumns.Add(new KanbanColumnViewModel("Ready", "Ready", "MistyRose", "#FFF9F8", this));
+        KanbanColumns.Add(new KanbanColumnViewModel("In Progress", "InProgress", "#FFF5CD", "#FFFCF0", this));
+        KanbanColumns.Add(new KanbanColumnViewModel("In Review", "InReview", "Bisque", "#FFFAF4", this));
+        KanbanColumns.Add(new KanbanColumnViewModel("Done", "Done", "#B7DAA8", "#E6FFF1", this));
     }
 
     /// <summary>
     /// Loads all tasks from the database
     /// </summary>
-    public void LoadTasks()
+    private void LoadTasks()
     {
         AllTasks = _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
@@ -85,11 +87,17 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         }
     }
 
-    // Todo: Remove when custom task creation is implemented @Das_M_e_e_
-    private void AddRandomTask()
+    /// <summary>
+    /// Uses the _mainTabViewModel to navigate to the TaskCreationView
+    /// </summary>
+    private void OpenTaskCreation(string? status)
     {
-        _taskService.AddRandomTask("Backlog");
-        LoadTasks();
+        _mainTabViewModel.CreateNewTask(status);
+    }
+
+    private bool CanOpenTaskCreation(string status)
+    {
+        return true;
     }
 
     /// <summary>

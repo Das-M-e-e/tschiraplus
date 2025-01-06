@@ -1,6 +1,7 @@
 ﻿using Core.Models;
 using Services.DTOs;
 using Services.Repositories;
+using TaskStatus = Core.Enums.TaskStatus;
 
 namespace Services.TaskServices;
 
@@ -21,7 +22,7 @@ public class TaskService : ITaskService
     /// Saves a task using the TaskRepository
     /// </summary>
     /// <param name="task"></param>
-    public void TaskCreation(TaskDto task)
+    public void CreateTask(TaskDto task)
     {
         _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
     }
@@ -36,7 +37,7 @@ public class TaskService : ITaskService
     /// <returns>The newly created TaskDto</returns>
     public TaskDto CreateTaskDto(string title, string description, string status, DateTime creationDate)
     {
-        var dto = new TaskDto()
+        var dto = new TaskDto
         {
             TaskId = Guid.NewGuid(),
             Title = title,
@@ -57,10 +58,13 @@ public class TaskService : ITaskService
         var convertedTaskModel = new TaskModel
         {
             TaskId = taskDto.TaskId,
-            CreationDate = taskDto.CreationDate,
+            ProjectId = _appState.CurrentProjectId ?? throw new ArgumentNullException(nameof(_appState.CurrentProjectId)),
+            AuthorId = _appState.CurrentUser!.UserId,
             Title = taskDto.Title,
             Description = taskDto.Description,
-            Status = Enum.Parse<Core.Enums.TaskStatus>(taskDto.Status)
+            Status = Enum.TryParse(taskDto.Status, out TaskStatus status) ? status : TaskStatus.Backlog,
+            CreationDate = DateTime.Now,
+            LastUpdated = DateTime.Now
         };
         return convertedTaskModel;
     }
@@ -138,25 +142,5 @@ public class TaskService : ITaskService
     public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status)
     {
        return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
-    }
-    
-    /// <summary>
-    /// Creates a Task with random values and saves it to the database
-    /// </summary>
-    /// <param name="status"></param>
-    public void AddRandomTask(string status)
-    {
-        var newTask = new TaskModel
-        {
-            TaskId = Guid.NewGuid(),
-            ProjectId = (Guid)_appState.CurrentProjectId!,
-            AuthorId = _appState.CurrentUser.UserId,
-            Title = "Random Task " + new Random().Next(100),
-            Description = "This is a randomly generated task.",
-            Status = Enum.Parse<Core.Enums.TaskStatus>(status),
-            CreationDate = DateTime.Now
-        };
-        
-        _taskRepository.AddTask(newTask);
     }
 }
