@@ -10,9 +10,6 @@ on:
       - '**/*.cs'
       - '**/*.csproj'
       - 'tschiraplus/tschiraplus.sln'
-    paths-ignore:
-      - '**/*.md'
-      - '.github/**'
   pull_request:
     branches: [ "develop" ]
   workflow_dispatch:
