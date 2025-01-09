@@ -25,6 +25,7 @@ public class TaskService : ITaskService
     public void CreateTask(TaskDto task)
     {
         _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
+        _taskRepository.PostTask(ConvertTaskDtoToTaskModel(task));
     }
     
     /// <summary>
