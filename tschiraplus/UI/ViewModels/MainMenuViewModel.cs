@@ -56,6 +56,9 @@ public class MainMenuViewModel : ObservableObject
                         new ProjectRepository(
                             _dbService.GetDatabase(),
                             new RemoteDatabaseService()),
+                        new ProjectUserRepository(
+                            _dbService.GetDatabase(),
+                            new RemoteDatabaseService()),
                         _appState.CurrentUser),
                     this,
                     _appState)
@@ -144,6 +147,9 @@ public class MainMenuViewModel : ObservableObject
                 DataContext = new CreateNewProjectViewModel(
                     new ProjectService(
                         new ProjectRepository(
+                            _dbService.GetDatabase(),
+                            new RemoteDatabaseService()),
+                        new ProjectUserRepository(
                             _dbService.GetDatabase(),
                             new RemoteDatabaseService()),
                         _appState.CurrentUser),
