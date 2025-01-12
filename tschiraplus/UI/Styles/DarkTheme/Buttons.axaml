@@ -1,0 +1,128 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <!-- LogIn View -->
+    <Style Selector="Button.SignInButton"> <!-- actionButton ist die Klasse, die im Element angegeben wird -->
+        <Setter Property="Background" Value="{DynamicResource SignInButtonBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource SignInButtonForeground}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Width" Value="270" />
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+        <Setter Property="Margin" Value="0,25,0,0"></Setter>
+    </Style>
+    <Style Selector="Button.SignInButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="#E9C2D7"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+    </Style>
+    <Style Selector="Button.SignInLinks">
+        <Setter Property="Foreground" Value="{DynamicResource DarkThemeLinksForeground}"></Setter>
+        <Setter Property="Background" Value="{DynamicResource DarkThemeLinksBackground}"></Setter>
+    </Style>
+    <Style Selector="Button.SignInLinks:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource DarkThemeLinksBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource DarkThemeLinksHoverForeground}"></Setter>
+    </Style>
+    <!-- TaskDetails View -->
+    <Style Selector="Button.EditIcon">
+        <Setter Property="Width" Value="18" />
+        <Setter Property="Margin" Value="10,0,-5,0" />
+        <Setter Property="Opacity" Value="0.45" />
+        <Setter Property="ContentTemplate">
+            <Template>
+                <Image Source="{DynamicResource EditIcon}" Stretch="Uniform" />
+            </Template>
+        </Setter>
+    </Style>
+    <Style Selector="Button.Invite">
+        <Setter Property="Background" Value="{DynamicResource TaskDetailsButtonBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskDetailsButtonForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Margin" Value="0,-1,0,15"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="Width" Value="60"></Setter>
+        <Setter Property="Height" Value="23"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="CornerRadius" Value="5"></Setter>
+    </Style>
+    <Style Selector="Button.Invite:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonHoverBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskDetailsButtonForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+    <Style Selector="Button.Comment">
+        <Setter Property="Background" Value="{DynamicResource TaskDetailsButtonBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskDetailsButtonForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Width" Value="85"></Setter>
+        <Setter Property="Height" Value="30"></Setter>
+        <Setter Property="Margin" Value="414,10,0,15"></Setter>
+        <Setter Property="CornerRadius" Value="5"></Setter>
+    </Style>
+    <Style Selector="Button.Comment:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonHoverBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskDetailsButtonForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+    <Style Selector="Button.DownloadAllLink">
+        <Setter Property="Background" Value="{DynamicResource DarkThemeLinksBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource DarkThemeLinksForeground}"></Setter>
+    </Style>
+    <Style Selector="Button.DownloadAllLink:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource DarkThemeLinksBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource DarkThemeLinksForeground}"></Setter>
+    </Style>
+    <!-- Kanban View -->
+    <Style Selector="Button.Exit">
+        <Setter Property="Background" Value="{DynamicResource TaskDetailsButtonBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskDetailsButtonForeground}"></Setter>
+        <Setter Property="Content" Value="Exit"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+        <Setter Property="Height" Value="30"></Setter>
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Margin" Value="10,10,5,10"></Setter>
+        <Setter Property="CornerRadius" Value="20"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+    </Style>
+    <Style Selector="Button.Exit:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonHoverBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskDetailsButtonForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+    <Style Selector="Button.NewTask">
+        <Setter Property="Background" Value="{DynamicResource TaskProgressBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskProgressForeground}"></Setter>
+        <Setter Property="Content" Value="New Task"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+        <Setter Property="Height" Value="30"></Setter>
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource TaskBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Margin" Value="8,10,8,10"></Setter>
+        <Setter Property="CornerRadius" Value="20"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+    </Style>
+    <Style Selector="Button.NewTask:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource NewTaskHoverBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskProgressForeground}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource TaskBorderBrush}"></Setter>
+    </Style>
+</Styles>

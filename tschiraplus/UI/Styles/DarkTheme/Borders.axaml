@@ -1,0 +1,68 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <!-- TaskDetails View -->
+    <Style Selector="Border.TaskPrimaryTag">
+        <Setter Property="Background" Value="{DynamicResource TaskPrimaryTagBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource TaskPrimaryTagBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="CornerRadius" Value="25"></Setter>
+        <Setter Property="Width" Value="34"></Setter>
+        <Setter Property="Height" Value="19"></Setter>
+        <Setter Property="Margin" Value="0,0,5,0"></Setter>
+    </Style>
+    <Style Selector="Border.TaskSecondaryTag">
+        <Setter Property="Background" Value="{DynamicResource TaskSecondaryTagBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource TaskSecondaryTagBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="CornerRadius" Value="25"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="Width" Value="70"></Setter>
+        <Setter Property="Height" Value="19"></Setter>
+    </Style>
+    <Style Selector="Border.TaskStatus">
+        <Setter Property="Background" Value="{DynamicResource TaskProgressBackground}"></Setter>
+        <Setter Property="CornerRadius" Value="25"></Setter>
+        <Setter Property="Width" Value="80"></Setter>
+        <Setter Property="Height" Value="30"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource TaskBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+    
+    <Style Selector="Border.TopBarBorder">
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+    </Style>
+    <!-- ProjectDetails View -->
+    <Style Selector="Border.ProjectStatus">
+        <Setter Property="Background" Value="{DynamicResource ProjectProgressBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource ProjectProgressBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="CornerRadius" Value="4"></Setter>
+        <Setter Property="Width" Value="90"></Setter>
+        <Setter Property="Height" Value="25"></Setter>
+    </Style>
+    <Style Selector="Border.Priority">
+        <Setter Property="Background" Value="{DynamicResource PriorityBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource PriorityBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="CornerRadius" Value="25"></Setter>
+        <Setter Property="Width" Value="42"></Setter>
+        <Setter Property="Height" Value="19"></Setter>
+    </Style>
+    <!-- Kanban View -->
+    <Style Selector="Border.ProjectsDisplay">
+        <Setter Property="Background" Value="{DynamicResource DarkThemeBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>
+        <Setter Property="Width" Value="112"></Setter>
+    </Style>
+</Styles>

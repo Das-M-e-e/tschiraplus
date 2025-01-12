@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Styles\**"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -35,7 +36,7 @@
       <Compile Update="Views\CreateNewProject.axaml.cs">
         <DependentUpon>CreateNewProject.axaml</DependentUpon>
       </Compile>
-      <Compile Update="Views\TaskDetailView.axaml.cs">
+      <Compile Update="Views\TaskDetailsView.axaml.cs">
         <DependentUpon>TaskDetailView.axaml</DependentUpon>
       </Compile>
       <Compile Update="Views\ProjectDetailsView.axaml.cs">
