@@ -11,5 +11,10 @@
   
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://UI/Styles/DarkTheme/GlobalStyles.axaml" />
+        <StyleInclude Source="avares://UI/Styles/DarkTheme/Buttons.axaml" />
+        <StyleInclude Source="avares://UI/Styles/DarkTheme/TextBlocks.axaml" />
+        <StyleInclude Source="avares://UI/Styles/DarkTheme/TextBoxes.axaml" />
+        <StyleInclude Source="avares://UI/Styles/DarkTheme/Borders.axaml" />
     </Application.Styles>
 </Application>

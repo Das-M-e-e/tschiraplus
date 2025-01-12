@@ -8,7 +8,7 @@
         x:DataType="vm:TaskCreationViewModel">
     
     <ScrollViewer>
-    <StackPanel Orientation="Vertical" Background="#1a1c20" >
+    <StackPanel Orientation="Vertical" >
         <Border CornerRadius="20" Background="#9b84bc"  Margin="10,10,10,0">
             <StackPanel Orientation="Horizontal" >
                 <Label Margin="15,24, 15, 0" >Priority:</Label>

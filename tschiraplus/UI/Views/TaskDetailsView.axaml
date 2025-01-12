@@ -1,46 +1,36 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+﻿<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
-             x:Class="UI.Views.ProjectDetailsView">
-    <Grid RowDefinitions="Auto,*,Auto"> 
-        <!-- title bar -->
+             x:Class="UI.Views.TaskDetailsView">
+    <Grid  RowDefinitions="Auto,*,Auto">
+         <!-- Top Bar -->
         <Border Grid.Row="0" Classes="TopBarBorder">
-            <Grid Grid.Row="0" Classes="TopBar" ColumnDefinitions="Auto, *, Auto">
+            <Grid Classes="TopBar" ColumnDefinitions="Auto, *, Auto">
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock  Classes="ProjectName"></TextBlock>
+                    <TextBlock Classes="TaskName" ></TextBlock>
                 </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120">
+                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment = "Right">
                     <Button>
-                        <Image Source="avares://UI/Assets/edit_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="40,0,-5,0"></Image>
-                    </Button>
-                    <Button>
-                        <Image Source="avares://UI/Assets/share_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="0,0,-5,0"></Image>
+                        <Image Source="avares://UI/Assets/share_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="0,0,10,0"></Image>
                     </Button>
                 </StackPanel>
-                <Grid.Styles>
-                    <Style Selector="TextBlock">
-                        <Setter Property="Foreground" Value="Black"></Setter>
-                    </Style>
-                    <Style Selector="Button">
-                        <Setter Property="Background" Value="Transparent"></Setter>
-                    </Style>
-                    <Style Selector="Button:pointerover /template/ ContentPresenter">
-                        <Setter Property="Background" Value="Transparent"></Setter>
-                        <Setter Property="Opacity" Value="0.5"></Setter>
-                    </Style>
-                </Grid.Styles>
-        </Grid>
+    </Grid>
         </Border>
-        <!-- main -->
-        <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto">
+        <!-- MAIN -->
+        <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto"  >
             <Grid Grid.Row="0">
-                <TextBlock Classes="TaskDetailsTextBlocks" Text="Tschiraplus" FontWeight="SemiBold" FontSize="30" Padding="15,20,20,40"></TextBlock>
+                <TextBlock Classes="TaskDetailsTextBlocks" Text="Task Name" FontWeight="SemiBold" FontSize="30" Padding="15,20,20,40"></TextBlock>
                 <StackPanel  Margin="20,60,50,0" Orientation="Horizontal" >
-                    <Border Classes="ProjectStatus">
-                        <TextBlock Classes="ProjectStatusText"></TextBlock>
+                    <Border Classes="TaskStatus">
+                        <TextBlock Classes="TaskStatusText"></TextBlock>
                     </Border>
+                </StackPanel>
+                <StackPanel Margin="10, 10, 50, 0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+                    <Button>
+                        <Image Source="avares://UI/Assets/edit_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="10,0,-5,0"></Image>
+                    </Button>
                 </StackPanel>
                 <Grid.Styles>
                     <Style Selector="Button">
@@ -70,11 +60,11 @@
                                     </StackPanel>
                                     <StackPanel Grid.Row="2" Margin="22,1,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/start_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5"></Image>
-                                        <TextBlock Classes="TaskDetailsStartDate" Text="Start date"></TextBlock>
+                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="Start date" Opacity="0.85" FontWeight="SemiBold" FontSize="13"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Grid.Row="3" Margin="23,1,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/due_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11"></Image>
-                                        <TextBlock Classes="TaskDetailsEndDate" Text="End date"></TextBlock>
+                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="End date" Opacity="0.85" FontWeight="SemiBold" FontSize="13"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Grid.Row="4" Margin="21,0,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/contributors_icon.png" Margin="0,0,4,0" Opacity="0.45" Stretch="Uniform" Width="13"></Image>
@@ -92,10 +82,10 @@
                                 </Border>
                             </StackPanel>
                                     <StackPanel Grid.Row="2" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Classes="TaskDetailsStartDate"></TextBlock>
+                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="October 14, 2024" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Grid.Row="3" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Classes="TaskDetailsEndDate"></TextBlock>
+                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="-" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                                     </StackPanel>
                             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
                                 <Border Margin="0,-1,5,15" HorizontalAlignment="Left" Width="55" Height="20" Background="#9198a1" CornerRadius="20">
@@ -118,11 +108,11 @@
                                 </Button>
                             </StackPanel>
                             <StackPanel Grid.Row="5" Margin="0,-1,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Border Classes="PrimaryTag">
-                                    <TextBlock Classes="PrimaryTagText"></TextBlock>
+                                <Border Classes="TaskPrimaryTag">
+                                    <TextBlock Classes="TaskPrimaryTagText"></TextBlock>
                                 </Border>
-                                <Border Classes="SecondaryTag">
-                                    <TextBlock Classes="SecondaryTagText"></TextBlock>
+                                <Border Classes="TaskSecondaryTag">
+                                    <TextBlock Classes="TaskSecondaryTagText"></TextBlock>
                                 </Border>
                             </StackPanel>
                         </Grid>

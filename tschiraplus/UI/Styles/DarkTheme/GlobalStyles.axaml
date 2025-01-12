@@ -1,0 +1,36 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+    
+    <!-- DarkThemeBackground-->
+    <Style Selector="Grid">
+        <Setter Property="Background" Value="{DynamicResource DarkThemeBackground}"></Setter>
+    </Style>
+    <Style Selector="Window">
+        <Setter Property="Background" Value="{DynamicResource DarkThemeBackground}"></Setter>
+    </Style>
+    <!-- DetailsView -->
+    <Style Selector="Grid.TopBar">
+        <Setter Property="Background" Value="{DynamicResource DarkThemeBarBackground}"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+    </Style>
+    <Style Selector="Grid.BottomBar">
+        <Setter Property="Background" Value="{DynamicResource DarkThemeBarBackground}"></Setter>
+        <Setter Property="Height" Value="60"></Setter>
+        <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+    </Style>
+    <Style Selector="Border.Divider">
+        <Setter Property="Background" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Height" Value="1.5"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="Margin" Value="20,10,50,30"></Setter>
+        
+    </Style>
+</Styles>
