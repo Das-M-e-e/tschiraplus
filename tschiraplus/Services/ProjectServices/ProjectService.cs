@@ -8,36 +8,14 @@ namespace Services.ProjectServices;
 public class ProjectService : IProjectService
 {
     private readonly IProjectRepository _projectRepository;
+    private readonly IProjectUserRepository _projectUserRepository;
     private readonly UserDto _currentUser;
 
-    public ProjectService(IProjectRepository projectRepository, UserDto currentUser)
+    public ProjectService(IProjectRepository projectRepository, IProjectUserRepository projectUserRepository, UserDto currentUser)
     {
         _projectRepository = projectRepository;
+        _projectUserRepository = projectUserRepository;
         _currentUser = currentUser;
-    }
-
-    // Todo: Temporary, will remove when project creation is implemented
-    public void CreateTestProject(bool isOnline)
-    {
-        Guid projectId = Guid.NewGuid();
-        
-        var newProject = new ProjectModel
-        {
-            ProjectId = projectId,
-            OwnerId = _currentUser.UserId,
-            Name = "Test_Project-" + projectId,
-            Description = "No description provided",
-            CreationDate = DateTime.Now,
-            Status = ProjectStatus.NotStarted,
-            Priority = ProjectPriority.Low,
-            LastUpdated = DateTime.Now,
-            DueDate = DateTime.MaxValue,
-            StartDate = DateTime.Today
-        };
-
-        if (!isOnline) return;
-        _projectRepository.AddProject(newProject);
-        _projectRepository.PostProjectAsync(newProject);
     }
 
     /// <summary>
@@ -49,15 +27,27 @@ public class ProjectService : IProjectService
         var newProject = new ProjectModel
         {
             ProjectId = projectDto.ProjectId,
+            OwnerId = _currentUser.UserId,
             Name = projectDto.Name,
-            Description = projectDto.Description,
-            CreationDate = DateTime.Now,
+            Description = projectDto.Description ?? null,
             Status = ProjectStatus.NotStarted,
-            LastUpdated = DateTime.Now
+            Priority = Enum.TryParse<ProjectPriority>(projectDto.ProjectPriority, out var priority) ? priority : ProjectPriority.Low,
+            CreationDate = DateTime.Now,
+            LastUpdated = DateTime.Now,
+        };
+
+        // Create the ProjectUser for the owner of the project
+        var ownerProjectUser = new ProjectUserModel
+        {
+            ProjectUserId = Guid.NewGuid(),
+            ProjectId = projectDto.ProjectId,
+            UserId = _currentUser.UserId,
+            AssignedAt = DateTime.Now
         };
         
-          _projectRepository.AddProject(newProject);
-          _projectRepository.PostProjectAsync(newProject);
+        _projectRepository.AddProject(newProject);
+        _projectUserRepository.AddProjectUser(ownerProjectUser);
+        _projectRepository.PostProjectAsync(newProject);
     }
     
     
@@ -67,7 +57,7 @@ public class ProjectService : IProjectService
     /// <returns>A List of ProjectDTOs</returns>
     public List<ProjectDto> GetAllProjects()
     {
-        return _projectRepository.GetAllProjects();
+        return _projectRepository.GetProjectsByUserId(_currentUser.UserId) ?? [];
     }
 
     /// <summary>
@@ -99,13 +89,5 @@ public class ProjectService : IProjectService
             await _projectRepository.DeleteAsync(projectId);
             _projectRepository.DeleteProject(projectId);
         }
-    }
-
-    /// <summary>
-    /// Synchronizes the local database with the remote database
-    /// </summary>
-    public async Task SyncProjects()
-    {
-        await _projectRepository.SyncProjectsAsync();
     }
 }

@@ -4,12 +4,12 @@
         x:Class="UI.Views.MainMenuView"
         x:DataType="vm:MainMenuViewModel">
     
-    <StackPanel Orientation="Vertical" Spacing="10">
-        <StackPanel Orientation="Horizontal">
+    <Grid RowDefinitions="Auto,*">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Content="Logout" Command="{Binding LogoutUserCommand}" />
         </StackPanel>
         
-        <TabControl ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" TabStripPlacement="Left">
+        <TabControl Grid.Row="1" ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" TabStripPlacement="Left">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Header}" MaxWidth="150" TextTrimming="CharacterEllipsis"/>
@@ -21,6 +21,6 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-    </StackPanel>
+    </Grid>
     
 </UserControl>

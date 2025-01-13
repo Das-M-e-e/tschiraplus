@@ -1,11 +1,9 @@
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
-using PetaPoco;
 using Services;
 using Services.API;
 using Services.DatabaseServices;
@@ -62,6 +60,12 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
+    /// <summary>
+    /// Checks if the saved token (if there is one) is valid.
+    /// If so, the user that belongs to the token gets logged in automatically.
+    /// </summary>
+    /// <param name="appState"></param>
+    /// <param name="wrapperViewModel"></param>
     private async Task PerformTokenCheckAsync(ApplicationState appState, WrapperViewModel wrapperViewModel)
     {
         try
@@ -80,7 +84,7 @@ public partial class App : Application
                 if (isAuthenticated)
                 {
                     Console.WriteLine("User logged in with saved token.");
-                    wrapperViewModel.NavigateToMainMenu();
+                    await wrapperViewModel.NavigateToMainMenu();
                 }
                 else
                 {

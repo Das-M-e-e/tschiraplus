@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using Services.DTOs;
-using Services.Repositories;
 using Services.TaskServices;
 
 namespace UI.ViewModels;
@@ -10,41 +8,26 @@ namespace UI.ViewModels;
 public class TaskCreationViewModel : ViewModelBase
 {
     // Services
-    private readonly ITaskRepository _taskRepository;
     private readonly ITaskService _taskService;
+    private readonly MainTabViewModel _mainTabViewModel;
 
     // Bindings
-    private bool _isLowPrio {get; set;}
-    private bool _isHighPrio {get; set;}
-    private bool _isMediumPrio {get; set;}
-    private String _title {get; set;}
-    private String _description {get; set;}
+    public bool IsLowPrio {get; set;}
+    public bool IsHighPrio {get; set;}
+    public bool IsMediumPrio {get; set;}
+    public string Title {get; set;}
+    public string Description {get; set;}
+    
+    public string InitialStatus {get; set;}
     
     // Commands
     public ICommand CreateTaskCommand { get; }
     
-    public TaskCreationViewModel(ITaskRepository taskRepository, ITaskService taskService)
+    public TaskCreationViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel)
     {
         _taskService = taskService;
+        _mainTabViewModel = mainTabViewModel;
         CreateTaskCommand = new RelayCommand(CreateTask);
-    }
-    
-    /// <summary>
-    /// Creates a new TaskDto
-    /// </summary>
-    /// <returns>The TaskDto</returns>
-    private TaskDto CreateTaskDTO()
-    {
-        TaskDto dto = new TaskDto()
-        {
-            TaskId = Guid.NewGuid(),
-            Title = string.Empty,
-            Description = string.Empty,
-            Status = string.Empty,
-            CreationDate = DateTime.Today
-        };
-        
-        return dto;
     }
 
     /// <summary>
@@ -52,11 +35,13 @@ public class TaskCreationViewModel : ViewModelBase
     /// </summary>
     private void CreateTask()
     {
-        TaskDto dto = _taskService.CreateTaskDto(
-            _title,
-            _description,
-            _isLowPrio ? "Low" : _isMediumPrio ? "Medium" : "High",
+        var dto = _taskService.CreateTaskDto(
+            Title,
+            Description,
+            InitialStatus,
             DateTime.Today);
-        _taskService.TaskCreation(dto);
+        _taskService.CreateTask(dto);
+        _mainTabViewModel.SelectedTabIndex = 0;
+        _mainTabViewModel.CloseCurrentTab();
     }
 }

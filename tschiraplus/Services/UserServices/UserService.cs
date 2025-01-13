@@ -60,7 +60,7 @@ public class UserService : IUserService
                 };
 
                 var user = await _userRepository.GetUserByIdAsync(response.User.UserId);
-                if (_userRepository.UserExists(user.UserId))
+                if (!_userRepository.UserExists(user.UserId))
                 {
                     _userRepository.AddUser(user);
                 }
@@ -79,7 +79,11 @@ public class UserService : IUserService
     /// <returns>true or false</returns>
     public async Task<bool> AuthenticateWithTokenAsync(string token)
     {
-        if (string.IsNullOrEmpty(token)) return false;
+        if (string.IsNullOrEmpty(token))
+        {
+            Console.WriteLine("Token is empty");
+            return false;
+        }
 
         var tokenVerificationRequest = new TokenVerificationRequest
         {
@@ -93,15 +97,18 @@ public class UserService : IUserService
 
         try
         {
+            // HTTP-request to send to host
             var request = new HttpRequestMessage(
                 HttpMethod.Post,
-                "http://dasmee.ddns.net:8080/api/Auth/VerifyToken");
+                "http://api.tschira.plus:42069/api/Auth/VerifyToken");
             request.Headers.Add("accept", "text/plain");
             request.Content = new StringContent(jsonData);
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
             
+            // HTTP-response received from host
             var response = await client.SendAsync(request);
             var jsonResponse = await response.Content.ReadAsStringAsync();
+            Console.WriteLine(jsonResponse);
             var tokenResponse = JsonConvert.DeserializeObject<TokenResponse>(jsonResponse);
             if (response.IsSuccessStatusCode)
             {
@@ -115,7 +122,7 @@ public class UserService : IUserService
                 };
                 _appState.CurrentUser = userDto;
                 // if user doesn't exist in local db, add them
-                if (_userRepository.UserExists(user.UserId))
+                if (!_userRepository.UserExists(user.UserId))
                 {
                     _userRepository.AddUser(user);
                 }

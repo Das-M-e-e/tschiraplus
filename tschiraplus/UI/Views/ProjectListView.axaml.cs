@@ -1,8 +1,9 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia.ReactiveUI;
+using UI.ViewModels;
 
 namespace UI.Views;
 
-public partial class ProjectListView : UserControl
+public partial class ProjectListView : ReactiveUserControl<ProjectListViewModel>
 {
     public ProjectListView()
     {

@@ -35,6 +35,8 @@ public class MainMenuViewModel : ObservableObject
     // Commands
     public ICommand OpenProjectCommand { get; }
     public ICommand LogoutUserCommand { get; }
+    public ICommand CreateNewProjectCommand { get; }
+    
 
     private TabItemViewModel? _currentProjectTab;
     
@@ -54,6 +56,9 @@ public class MainMenuViewModel : ObservableObject
                         new ProjectRepository(
                             _dbService.GetDatabase(),
                             new RemoteDatabaseService()),
+                        new ProjectUserRepository(
+                            _dbService.GetDatabase(),
+                            new RemoteDatabaseService()),
                         _appState.CurrentUser),
                     this,
                     _appState)
@@ -62,6 +67,7 @@ public class MainMenuViewModel : ObservableObject
 
         OpenProjectCommand = new RelayCommand<Guid>(OpenProject);
         LogoutUserCommand = new AsyncRelayCommand(LogoutUser);
+        CreateNewProjectCommand = new RelayCommand(CreateNewProject);
     }
 
     /// <summary>
@@ -81,11 +87,16 @@ public class MainMenuViewModel : ObservableObject
             Tabs.Remove(_currentProjectTab);
         }
 
+        if (_currentProjectTab is { CanClose: true })
+        {
+            Tabs.Remove(_currentProjectTab);
+        }
+
         var taskRepository = new TaskRepository(_dbService.GetDatabase(), projectId);
         _appState.CurrentProjectId = projectId;
         var taskService = new TaskService(taskRepository, new TaskSortingManager(), _appState);
         
-        var mainTabViewModel = new MainTabViewModel(taskService);
+        var mainTabViewModel = new MainTabViewModel(taskService, projectId);
 
         _currentProjectTab = new TabItemViewModel($"{projectId}", new MainTabView { DataContext = mainTabViewModel })
         {
@@ -121,5 +132,42 @@ public class MainMenuViewModel : ObservableObject
     {
         await _authService.LogoutAsync();
         _wrapper.NavigateToLogin();
+    }
+
+    /// <summary>
+    /// Navigates to the CreateNewProjectView
+    /// </summary>
+    private void CreateNewProject()
+    {
+        Tabs.Remove(_currentProjectTab);
+        _currentProjectTab = new TabItemViewModel(
+            "Create New Project",
+            new CreateNewProjectView
+            {
+                DataContext = new CreateNewProjectViewModel(
+                    new ProjectService(
+                        new ProjectRepository(
+                            _dbService.GetDatabase(),
+                            new RemoteDatabaseService()),
+                        new ProjectUserRepository(
+                            _dbService.GetDatabase(),
+                            new RemoteDatabaseService()),
+                        _appState.CurrentUser),
+                    this
+                )
+            })
+        {
+            CanClose = true
+        };
+        Tabs.Add(_currentProjectTab);
+        NavigateToTab(_currentProjectTab);
+    }
+
+    /// <summary>
+    /// Closes the currently set tab (project or project/task creation)
+    /// </summary>
+    public void CloseCurrentTab()
+    {
+        Tabs.Remove(_currentProjectTab);
     }
 }
