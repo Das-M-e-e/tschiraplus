@@ -8,6 +8,7 @@ public class TabItemViewModel : ViewModelBase
     public string Header { get; }
     public UserControl Content { get; }
     public object Tag { get; set; }
+    public bool CanClose { get; set; } = false;
 
     public TabItemViewModel(string header, UserControl content)
     {

@@ -12,24 +12,21 @@
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment = "Right">
             <Button>
-                <Image Source="avares://UI/Assets/share_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="0,0,-5,0"></Image>
-            </Button>
-            <Button>
-                <Image Source="avares://UI/Assets/close_icon.png" Opacity="0.45" Stretch="Uniform" Width="13" Margin="5,0,0,0"></Image>
+                <Image Source="avares://UI/Assets/share_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="0,0,10,0"></Image>
             </Button>
         </StackPanel>
-        <Grid.Styles>
-            <Style Selector="TextBlock">
-                <Setter Property="Foreground" Value="Black"></Setter>
-            </Style>
-            <Style Selector="Button">
-                <Setter Property="Background" Value="Transparent"></Setter>
-            </Style>
-            <Style Selector="Button:pointerover /template/ ContentPresenter">
-                <Setter Property="Background" Value="Transparent"></Setter>
-                <Setter Property="Opacity" Value="0.5"></Setter>
-            </Style>
-        </Grid.Styles>
+            <Grid.Styles>
+                <Style Selector="TextBlock">
+                    <Setter Property="Foreground" Value="Black"></Setter>
+                </Style>
+                <Style Selector="Button">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                </Style>
+                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"></Setter>
+                    <Setter Property="Opacity" Value="0.5"></Setter>
+                </Style>
+            </Grid.Styles>
     </Grid>
         <!-- MAIN -->
         <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto"  >
@@ -66,24 +63,24 @@
                 
                 <StackPanel Orientation="Horizontal">
                     <Grid ColumnDefinitions="Auto,Auto">
-                        <Grid Grid.Column="0"  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Width="130">
-                                    <StackPanel Grid.Row="0" Margin="22,0,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Grid Grid.Column="0"  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Width="130" Margin="0,5,0,0">
+                                    <StackPanel Grid.Row="1" Margin="22,-3,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/priority_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5"></Image>
                                         <TextBlock Text="Priority" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                                     </StackPanel>
-                                    <StackPanel Grid.Row="1" Margin="22,0,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <StackPanel Grid.Row="2" Margin="22,1,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/start_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5"></Image>
                                         <TextBlock Text="Start date" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                                     </StackPanel>
-                                    <StackPanel Grid.Row="2" Margin="23,0,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                    <StackPanel Grid.Row="3" Margin="23,1,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/due_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11"></Image>
                                         <TextBlock Text="End date" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                                     </StackPanel>
-                                    <StackPanel Grid.Row="3" Margin="21,0,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <Image Source="avares://UI/Assets/contributors_icon.png" Margin="0,0,4,0" Opacity="0.45" Stretch="Uniform" Width="13"></Image>
-                                        <TextBlock Text="Assignee" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
-                                    </StackPanel>
                                     <StackPanel Grid.Row="4" Margin="21,0,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                                        <Image Source="avares://UI/Assets/contributors_icon.png" Margin="0,0,4,0" Opacity="0.45" Stretch="Uniform" Width="13"></Image>
+                                        <TextBlock Text="Contributors" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Grid.Row="5" Margin="21,2,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/tag_icon.png" Margin="0,-0.5,2,0" Opacity="0.45" Stretch="Uniform" Width="16"></Image>
                                         <TextBlock Text="Tags" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                                     </StackPanel>
@@ -94,55 +91,54 @@
                             </Grid.Styles>
                         </Grid>
                         <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Width="315" HorizontalAlignment="Left">
-                            
-                                    <StackPanel Grid.Row="0" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                                <Border CornerRadius="25" Width="30" Height="15" Background="#ff9b9b">
-                                                    <TextBlock Foreground="#810000" Text="High" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="10"></TextBlock>
-                                                </Border>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="1" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="October 14, 2024" FontWeight="SemiBold" Opacity="0.5" FontSize="11"></TextBlock>
-                                    </StackPanel>
+                            <StackPanel Grid.Row="0" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border CornerRadius="25" Width="30" MinWidth="35" Height="18" Background="#ff9b9b">
+                                    <TextBlock Foreground="#810000" Text="High" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="11"></TextBlock>
+                                </Border>
+                            </StackPanel>
                                     <StackPanel Grid.Row="2" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="-" FontWeight="SemiBold" Opacity="0.5" FontSize="11"></TextBlock>
+                                        <TextBlock Text="October 14, 2024" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                                     </StackPanel>
-                                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
-                                        <Border Margin="0,-1,5,15" HorizontalAlignment="Left" Width="45" Height="20" Background="LightGray" CornerRadius="20">
+                                    <StackPanel Grid.Row="3" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="-" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
+                                    </StackPanel>
+                            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Border Margin="0,-1,5,15" HorizontalAlignment="Left" Width="55" Height="20" Background="LightGray" CornerRadius="20">
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
                                         <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                        <TextBlock Text="Sofia" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9"></TextBlock>
+                                        <TextBlock Text="Sofia" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="11"></TextBlock>
                                     </StackPanel>
                                 </Border>
-                                <Border Margin="0,-1,5,15" HorizontalAlignment="Left" Width="49" Height="20" Background="LightGray" CornerRadius="20">
+                                <Border Margin="0,-1,5,15" HorizontalAlignment="Left" Width="60" Height="20" Background="LightGray" CornerRadius="20">
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
                                         <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                        <TextBlock Text="Franzi" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="9"></TextBlock>
+                                        <TextBlock Text="Franzi" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="11"></TextBlock>
                                     </StackPanel>
                                 </Border>
-                                <Button Margin="0,-1,0,15" VerticalAlignment="Center" HorizontalAlignment="Center" Width="45" Height="19" Background="Snow" BorderBrush="#dfe3e8" CornerRadius="5">
+                                <Button x:Name="InviteButton" Margin="0,-1,0,15" VerticalAlignment="Center" HorizontalAlignment="Center" Width="55" Height="25" Background="Snow" BorderBrush="#dfe3e8" CornerRadius="5">
                                     <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-6,0,0,0">
                                         <Image Source="avares://UI/Assets/user_add_icon.png" Stretch="Uniform" Margin="0,0,0,0" Height="12"></Image>
-                                        <TextBlock Text="Invite" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" FontWeight="Medium" FontSize="8"></TextBlock>
+                                        <TextBlock Text="Invite" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" FontWeight="Medium" FontSize="10"></TextBlock>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
-                                    <StackPanel Grid.Row="5" Margin="0,-1,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <Border CornerRadius="25" Width="30" Height="15" Background="#f6f8fa" Margin="0,0,5,0">
-                                            <TextBlock Foreground="#868c9b" Text="Tag1" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="9"></TextBlock>
-                                        </Border>
-                                        <Border CornerRadius="25" Width="30" Height="15" Background="#f6f8fa">
-                                            <TextBlock Foreground="#868c9b" Text="Tag2" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="9"></TextBlock>
-                                        </Border>
-                                    </StackPanel>
+                            <StackPanel Grid.Row="5" Margin="0,-1,0,15" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Border CornerRadius="25" Width="40" Height="15" Background="#f6f8fa" Margin="0,0,5,0">
+                                    <TextBlock Foreground="#868c9b" Text="Tag1" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="11"></TextBlock>
+                                </Border>
+                                <Border CornerRadius="25" Width="40" Height="15" Background="#f6f8fa">
+                                    <TextBlock Foreground="#868c9b" Text="Tag2" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="11"></TextBlock>
+                                </Border>
+                            </StackPanel>
                             <Grid.Styles>
                                 <Style Selector="TextBlock">
                                     <Setter Property="Foreground" Value="Black"></Setter>
                                 </Style>
-                                <Style Selector="Button">
+                                <Style Selector="Button#InviteButton">
                                     <Setter Property="Background" Value="Transparent"></Setter>
                                     <Setter Property="BorderBrush" Value="#dfe3e8"></Setter>
                                 </Style>
-                                <Style Selector="Button:pointerover /template/ ContentPresenter">
+                                <Style Selector="Button#InviteButton:pointerover /template/ ContentPresenter">
                                     <Setter Property="Background" Value="Snow"></Setter>
                                     <Setter Property="BorderBrush" Value="#dfe3e8"></Setter>
                                 </Style>
@@ -159,40 +155,35 @@
                     <TextBlock Text="Description" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                 </StackPanel>
                 <TextBox CornerRadius="6" FontSize="13" HorizontalAlignment="Left" Margin="0,8,0,15" Height="100" Width="500" BorderThickness="1.5" BorderBrush="#dfe3e8"></TextBox>
-                <Button Name="CommentButton" Content="Comment" Width="100" Height="30" Margin="400,0,0,15" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Gray" Opacity="0.5" CornerRadius="5">
-                </Button>
-                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Image Source="avares://UI/Assets/attachment_icon.png" Margin="0,-1,5,10" Opacity="0.45" Stretch="Uniform" Width="14"></Image>
-                    <TextBlock Text="Attachments" FontWeight="SemiBold" Opacity="0.5" FontSize="11"></TextBlock>
-                    <StackPanel Margin="-10, 0, 70, 0" Orientation="Horizontal">
-                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                                <Image Source="avares://UI/Assets/download_icon.png" Margin="50,-1,5,10" Opacity="0.45" Stretch="Uniform" HorizontalAlignment="Right" VerticalAlignment="Center" Width="12"></Image>
-                                <Button Margin="0,0,0,0" Width="100" Height="25" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                    <TextBlock Text="Download All"  FontWeight="SemiBold" Opacity="0.5" FontSize="10"></TextBlock>
-                                </Button>
-                            </StackPanel>
+                <Button Name="CommentButton" FontWeight="Medium" Content="Comment" Width="85" Height="30" Margin="400,10,0,15" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="Black" Background="LightGray"  CornerRadius="5"></Button>
+                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,15,0,0">
+                    <Image Source="avares://UI/Assets/attachment_icon.png" Margin="0,-1,4,0" Opacity="0.45" Stretch="Uniform" Width="14"></Image>
+                    <TextBlock Text="Attachments" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
+                    <StackPanel Margin="-10" Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="avares://UI/Assets/download_icon.png" Margin="250,-1,-1,0" Opacity="0.45" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="15"></Image>
+                            <Button x:Name="DownloadAll" Margin="0,0,0,0" Width="100" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                <TextBlock Text="Download All"  FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
+                            </Button>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
             <Grid.Styles>
-                <Style Selector="Button">
+                <Style Selector="Button#DownloadAll">
                     <Setter Property="Background" Value="Transparent"></Setter>
-                    <Setter Property="Foreground" Value="#0000EE"></Setter>
+                    <Setter Property="Foreground" Value="MediumBlue"></Setter>
                 </Style>
-                <Style Selector="Button:pointerover /template/ ContentPresenter">
-                    <Setter Property="Foreground" Value="#0000EE"></Setter>
+                <Style Selector="Button#DownloadAll:pointerover /template/ ContentPresenter">
                     <Setter Property="Background" Value="Transparent"></Setter>
+                    <Setter Property="Foreground" Value="MediumBlue"></Setter>
                 </Style>
                 <Style Selector="Button#CommentButton">
-                    <Setter Property="FontWeight" Value="SemiBold"></Setter>
-                    <Setter Property="FontSize" Value="13"></Setter>
+                    <Setter Property="Background" Value="LightGray"></Setter>
                     <Setter Property="Foreground" Value="Black"></Setter>
                 </Style>
-                <Style Selector="Button#CommentButton:pointerover">
-                    <Setter Property="Background" Value="#e0e0e0"></Setter>
-                    <Setter Property="Foreground" Value="Black"></Setter>
-                </Style>
-                <Style Selector="TextBlock">
+                <Style Selector="Button#CommentButton:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="LightGray"></Setter>
                     <Setter Property="Foreground" Value="Black"></Setter>
                 </Style>
             </Grid.Styles>

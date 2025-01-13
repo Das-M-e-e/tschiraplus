@@ -59,7 +59,7 @@ public class UserRepository : IUserRepository
     /// <returns></returns>
     private UserModel? GetUserById(Guid userId)
     {
-        return _db.SingleOrDefault<UserModel>($"SELECT * FROM Users WHERE Username = @0", userId);
+        return _db.SingleOrDefault<UserModel>($"SELECT * FROM Users WHERE UserId = @0", userId);
     }
     
     //****** REMOTE DB ******//
@@ -83,7 +83,7 @@ public class UserRepository : IUserRepository
         return user;
     }
     
-    //****** HELPERS ******//
+    //****** HELPER ******//
     /// <summary>
     /// Checks if a user exists in the local database by id
     /// </summary>

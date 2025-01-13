@@ -1,22 +1,89 @@
-﻿<UserControl xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:UI.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
              x:Class="UI.Views.LoginView"
              x:DataType="vm:LoginViewModel">
     
-    <StackPanel Spacing="10" Margin="20">
-        <TextBlock Text="Login" FontSize="20" HorizontalAlignment="Center" />
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto" Background="White">
+        <!-- Headline -->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15">
+            <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Image Source="avares://UI/Assets/final_logo.png" Stretch="Uniform" Width="350" />
+                    <TextBlock Text="Welcome back!" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,20,0,10" FontSize="40" Foreground="Black" />
+                </StackPanel>
+            </Grid>
+        </Grid>
         
-        <TextBox Text="{Binding UsernameOrEmail}" />
-        <TextBox Text="{Binding Password}" PasswordChar="*" />
+        <!-- Login Form -->
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Vertical" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!-- Username or Email field -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="Black" Text="Username" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12" />
+                    <TextBlock Foreground="Red" Text="*" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12"/>
+                </StackPanel>
+                <TextBox Text="{Binding UsernameOrEmail}" Width="270" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                <!-- Password field -->
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Foreground="Black" Text="Password" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12" Margin="0,30,140,0" />
+                    <TextBlock Foreground="Red" Text="*" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12"  Margin="-140,30,0,0" />
+                </StackPanel>
+                <TextBox Text="{Binding Password}" PasswordChar="*" Width="270" HorizontalAlignment="Center" Margin="0,8,0,0" />
+                <!-- Error message -->
+                <TextBlock Text="{Binding ErrorMessage}" FontSize="10" Foreground="Red" />
+                <!-- Forgot Password button -->
+                <Button x:Name="ForgotPass" Width="113" HorizontalAlignment="Center" Margin="160,2,0,0">
+                    <TextBlock Text="Forgot password?" FontSize="11" FontWeight="Medium" Foreground="#0000EE" />
+                </Button>
+            </StackPanel>
+        </Grid>
         
-        <TextBlock Text="{Binding ErrorMessage}" FontSize="10" Foreground="Red" />
-        
-        <Button Content="Login" Command="{Binding LoginCommand}" />
-        <Button Content="Register" Command="{Binding NavigateToRegisterCommand}" />
-    </StackPanel>
+        <!-- Login Buttons -->
+        <Grid Grid.Row="3">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!-- Login -->
+                <Button Command="{Binding LoginCommand}" x:Name="SignIn" Width="270" Background="#A64275" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,25,0,0">
+                    <TextBlock Text="Sign in" Foreground="White" FontWeight="Medium" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Button>
+                <!-- Go to Register -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 8,30,0,0">
+                    <TextBlock Text="Not a member?" FontSize="11" Foreground="Gray" />
+                    <Button Command="{Binding NavigateToRegisterCommand}" x:Name="CreateProfile" Width="115" Height="25" Margin="-5,-7,0,0">
+                        <TextBlock Text="Create an account" FontSize="11" FontWeight="Medium" Foreground="#0000EE" />
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+       <Grid.Styles>
+           <Style Selector="Button#ForgotPass">
+               <Setter Property="Background" Value="Transparent"></Setter>
+               <Setter Property="Foreground" Value="#0000EE"></Setter>
+           </Style>
+           <Style Selector="Button#ForgotPass:pointerover /template/ ContentPresenter">
+               <Setter Property="Background" Value="Transparent"></Setter>
+               <Setter Property="Foreground" Value="#0000EE"></Setter>
+           </Style>
+           <Style Selector="Button#SignIn">
+               <Setter Property="Background" Value="#A64275"></Setter>
+               <Setter Property="Foreground" Value="White"></Setter>
+           </Style>
+           <Style Selector="Button#SignIn:pointerover /template/ ContentPresenter">
+               <Setter Property="Background" Value="#E9C2D7"></Setter>
+               <Setter Property="Foreground" Value="White"></Setter>
+           </Style>
+           <Style Selector="Button#CreateProfile">
+               <Setter Property="Background" Value="Transparent"></Setter>
+               <Setter Property="Foreground" Value="#0000EE"></Setter>
+           </Style>
+           <Style Selector="Button#CreateProfile:pointerover /template/ ContentPresenter">
+               <Setter Property="Background" Value="Transparent"></Setter>
+               <Setter Property="Foreground" Value="#0000EE"></Setter>
+           </Style>
+       </Grid.Styles>
+    </Grid>
     
 </UserControl>
