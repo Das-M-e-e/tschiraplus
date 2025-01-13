@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using Avalonia.Collections;
+using ReactiveUI;
 using Services.TaskServices;
 using UI.Views;
 
@@ -7,11 +10,10 @@ namespace UI.ViewModels;
 public class MainTabViewModel : ViewModelBase
 {
     // Services
-    private ITaskService _taskService;
-    
+    private readonly ITaskService _taskService;
     // Bindings
     public ObservableCollection<TabItemViewModel> Tabs { get; }
-
+    
     public MainTabViewModel(ITaskService taskService)
     {
         _taskService = taskService;

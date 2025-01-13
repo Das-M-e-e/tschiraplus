@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
@@ -22,19 +23,22 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     public ObservableCollection<TaskViewModel> Tasks { get; } = new();
     public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = new();
     private List<TaskDto> AllTasks { get; set; } = new();
+    public string UserInput { get; set; } 
     
     // Commands
     public ICommand AddRandomTaskCommand { get; }
     public ICommand SortTasksByTitleCommand { get; }
     public ICommand FilterTasksByStatusCommand { get; }
+    
+    public ICommand ManipulateTasksCommand { get; }
 
     public TaskListViewModel(ITaskService taskService)
     {
         _taskService = taskService;
-
         AddRandomTaskCommand = new RelayCommand(AddRandomTask);
         SortTasksByTitleCommand = new RelayCommand(SortTasksByTitle);
         FilterTasksByStatusCommand = new RelayCommand(FilterTasksByStatus);
+        ManipulateTasksCommand = new RelayCommand(ManipulateTasks);
         
         InitializeKanbanColumns();
 
@@ -86,7 +90,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         }
     }
 
-    // Todo: Remove when custom task creation is implemented @Das_M_e_e_
+    // Todo: Remove when custom task creation is implemented @Das_M_e_e_ 
     private void AddRandomTask()
     {
         _taskService.AddRandomTask("Backlog");
@@ -103,7 +107,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         LoadTasks();
     }
 
-    // Todo: Remove when generic sorting/filtering is implemented @Das_M_e_e_
+    // Todo: Remove when generic sorting/filtering is implemented @Das_M_e_e_ // remove = error
     private void SortTasksByTitle()
     {
         var taskDtos = Tasks.Select(task => new TaskDto
@@ -119,10 +123,16 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         UpdateTaskList(sortedTaskDtos);
     }
 
-    // Todo: Remove when generic sorting/filtering is implemented @Das_M_e_e_
+    // Todo: Remove when generic sorting/filtering is implemented @Das_M_e_e_ // remove = error
     private void FilterTasksByStatus()
     {
         var filteredTasks = _taskService.FilterTasksByStatus(AllTasks, "Backlog");
         UpdateTaskList(filteredTasks);
+    }
+
+    private void ManipulateTasks()
+    {
+        var manipulatedTask  = _taskService.ProcessUserInput(UserInput, AllTasks);
+        UpdateTaskList(manipulatedTask);
     }
 }

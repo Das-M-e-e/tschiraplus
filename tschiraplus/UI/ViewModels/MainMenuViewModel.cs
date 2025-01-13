@@ -11,7 +11,6 @@ using Services.Repositories;
 using Services.TaskServices;
 using Services.UserServices;
 using UI.Views;
-
 namespace UI.ViewModels;
 
 public class MainMenuViewModel : ObservableObject
@@ -79,12 +78,18 @@ public class MainMenuViewModel : ObservableObject
             }
 
             Tabs.Remove(_currentProjectTab);
+            if (Tabs.Contains(_currentProjectTab))
+            {
+                Tabs.Remove(_currentProjectTab);
+            }
         }
 
         var taskRepository = new TaskRepository(_dbService.GetDatabase(), projectId);
         _appState.CurrentProjectId = projectId;
-        var taskService = new TaskService(taskRepository, new TaskSortingManager(), _appState);
-        
+        var taskSortingManager = new TaskSortingManager(taskRepository, _appState);
+        var userInputParser = new UserInputParser();
+        var taskService = new TaskService(taskRepository, taskSortingManager, _appState, userInputParser);
+
         var mainTabViewModel = new MainTabViewModel(taskService);
 
         _currentProjectTab = new TabItemViewModel($"{projectId}", new MainTabView { DataContext = mainTabViewModel })
@@ -95,7 +100,6 @@ public class MainMenuViewModel : ObservableObject
         Tabs.Add(_currentProjectTab);
         NavigateToTab(_currentProjectTab);
     }
-
     /// <summary>
     /// Navigates to the selected tab
     /// </summary>
