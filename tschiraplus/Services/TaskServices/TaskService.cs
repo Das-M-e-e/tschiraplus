@@ -1,4 +1,7 @@
-﻿using Core.Models;
+﻿using System.Collections;
+using System.Reflection;
+using Core.Enums;
+using Core.Models;
 using Services.DTOs;
 using Services.Repositories;
 using TaskStatus = Core.Enums.TaskStatus;
@@ -10,13 +13,68 @@ public class TaskService : ITaskService
     private readonly ITaskRepository _taskRepository;
     private readonly ITaskSortingManager _taskSortingManager;
     private readonly ApplicationState _appState;
+    private readonly IUserInputParser _userInputParser;
 
-    public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState)
+    public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState, UserInputParser userInputParser)
     {
         _taskRepository = taskRepository;
         _taskSortingManager = taskSortingManager;
         _appState = appState;
+        _userInputParser = userInputParser;
+        
     }
+
+    public IEnumerable<TaskDto> ProcessUserInput(string userInput, IEnumerable<TaskDto> tasks)
+    {
+        var commands = _userInputParser.Parse(userInput);
+        foreach (var command in commands)
+        {
+            tasks = command.Type switch
+            {
+                CommandType.Sort => SortTasks(tasks, command.Parameters),
+                CommandType.Filter => FilterTasks(tasks, command.Parameters),
+                _ => tasks // Unbekannter Typ: Aufgaben unverändert lassen
+            };
+        }
+
+        return tasks;
+    }
+
+    private IEnumerable<TaskDto> SortTasks(IEnumerable<TaskDto> tasks, string sortAttribute)
+    {
+        return sortAttribute.ToLower() switch
+        {
+            "name" => _taskSortingManager.SortBySingleAttribute(tasks, t => t.Title),
+            "duedate" => _taskSortingManager.SortBySingleAttribute(tasks, t => t.DueDate ?? DateTime.MinValue),
+            _ => tasks // Unknown attribute -> return original list
+        };
+    }
+
+    private IEnumerable<TaskDto> FilterTasks(IEnumerable<TaskDto> tasks, string filterExpression)
+    {
+        var parts = filterExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length < 2) return tasks;
+        var attribute = parts[0].ToLower();
+        var value = parts[1];
+        return attribute switch
+        {
+            "name" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.Title.Contains(value, StringComparison.OrdinalIgnoreCase)),
+
+            "status" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.Status == value),
+            
+            "creationdate" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.CreationDate.Date == DateTime.Parse(value).Date),
+            
+            "priority" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.DueDate == DateTime.Parse(value).Date),
+            
+            _ => tasks,
+            
+        };
+    }
+    
 
     /// <summary>
     /// Saves a task using the TaskRepository
