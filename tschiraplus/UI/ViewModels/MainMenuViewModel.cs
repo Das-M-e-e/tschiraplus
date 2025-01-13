@@ -98,7 +98,7 @@ public class MainMenuViewModel : ObservableObject
         var userInputParser = new UserInputParser();
         var taskService = new TaskService(taskRepository, taskSortingManager, _appState, userInputParser);
 
-        var mainTabViewModel = new MainTabViewModel(taskService);
+        var mainTabViewModel = new MainTabViewModel(taskService, projectId);
 
         _currentProjectTab = new TabItemViewModel($"{projectId}", new MainTabView { DataContext = mainTabViewModel })
         {
