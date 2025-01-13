@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Services.TaskServices;
@@ -23,13 +24,17 @@ public class TaskCreationViewModel : ViewModelBase
     // Commands
     public ICommand CreateTaskCommand { get; }
     
+    public ICommand ApplyTagCommand { get; }
+    
     public TaskCreationViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel)
     {
         _taskService = taskService;
         _mainTabViewModel = mainTabViewModel;
-        CreateTaskCommand = new RelayCommand(CreateTask);
+        CreateTaskCommand = new RelayCommand(CreateTask); 
+        ApplyTagCommand= new RelayCommand(ApplyTag);
     }
-
+    
+    
     /// <summary>
     /// Uses the _taskService to create a new task
     /// </summary>
@@ -44,4 +49,17 @@ public class TaskCreationViewModel : ViewModelBase
         _mainTabViewModel.SelectedTabIndex = 0;
         _mainTabViewModel.CloseCurrentTab();
     }
+
+    private void ApplyTag()
+    {
+        var dto = _taskService.ApplyTagDto(
+            Title,
+            Description,
+            ColorCode );
+        _taskService.ApplyTag(dto);
+        
+    }
+    
+    public ObservableCollection<TaskCreationViewModel> SelectedTags { get; } = [];
+    public ObservableCollection<TaskCreationViewModel> AvailableTags { get; } = [];
 }
