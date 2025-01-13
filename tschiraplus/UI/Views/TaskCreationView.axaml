@@ -55,7 +55,7 @@
         <Border CornerRadius="20" Background="#9b84bc"  Margin="10,10,10,0">
             <StackPanel Orientation="Horizontal">
                 <Label Margin="15,15">Tag:</Label>
-                <Button Background="#Baa8d6">+</Button>
+                <Button Background="#Baa8d6" Command="{Binding Path=ApplyTagCommand}">+</Button>
             </StackPanel>
         </Border>
         
