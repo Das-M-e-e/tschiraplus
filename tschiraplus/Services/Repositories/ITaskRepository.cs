@@ -10,7 +10,9 @@ public interface ITaskRepository
     void DeleteTask(Guid taskId);
     TaskDto? GetTaskById(Guid taskId);
     List<TaskDto> GetTasksByProjectId(Guid projectId);
-    Task PostTask(TaskModel task);
+    Task PostTaskAsync(TaskModel task);
     bool TaskExists(Guid taskId);
     Task<List<TaskModel>?> GetTasksByProjectIdAsync(Guid projectId);
+    Task<bool> DeleteAsync(Guid taskId);
+    Task UpdateTaskAsync(TaskModel task);
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -5,6 +6,7 @@ using System.Reactive.Disposables;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
+using Services;
 using Services.DTOs;
 using Services.TaskServices;
 
@@ -17,6 +19,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     public ViewModelActivator Activator { get; }
     private readonly ITaskService _taskService;
     private readonly MainTabViewModel _mainTabViewModel;
+    private readonly ApplicationState _appState;
     
     // Bindings
     public ObservableCollection<TaskViewModel> Tasks { get; } = [];
@@ -28,10 +31,11 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     public ICommand SortTasksByTitleCommand { get; }
     public ICommand FilterTasksByStatusCommand { get; }
 
-    public TaskListViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel)
+    public TaskListViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel, ApplicationState appState)
     {
         _taskService = taskService;
         _mainTabViewModel = mainTabViewModel;
+        _appState = appState;
 
         OpenTaskCreationCommand = new RelayCommand<string>(OpenTaskCreation, CanOpenTaskCreation);
         SortTasksByTitleCommand = new RelayCommand(SortTasksByTitle);
@@ -106,7 +110,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     /// <param name="task"></param>
     public void DeleteTask(TaskViewModel task)
     {
-        _taskService.DeleteTask(task.TaskId);
+        _taskService.DeleteTask(task.TaskId, _appState.IsOnline);
         LoadTasks();
     }
 
@@ -132,4 +136,14 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         var filteredTasks = _taskService.FilterTasksByStatus(AllTasks, "Backlog");
         UpdateTaskList(filteredTasks);
     }
+
+    /// <summary>
+    /// Opens the TaskDetail View in a new Tab
+    /// </summary>
+    /// <param name="taskId"></param>
+    public void OpenTaskDetailsView(Guid taskId)
+    {
+        _mainTabViewModel.OpenTaskDetails(taskId);
+    }
+    
 }

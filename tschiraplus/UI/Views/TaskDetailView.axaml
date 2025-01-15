@@ -2,8 +2,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
-             x:Class="UI.Views.TaskDetailView">
+             x:Class="UI.Views.TaskDetailView"
+             x:DataType="vm:TaskDetailViewModel">
+            
     <Grid  RowDefinitions="Auto,*,Auto" Background="Snow">
          <!-- Top Bar -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Height="40" Background="#f3f3f3">
@@ -31,14 +34,17 @@
         <!-- MAIN -->
         <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto"  >
             <Grid Grid.Row="0">
-                <TextBlock Text="Task Name" FontWeight="SemiBold" FontSize="30" Padding="20" Foreground="Black"></TextBlock>
+                <Button IsVisible="{Binding IsEditingTitle, Converter={StaticResource InverseBoolConverter}}" Command="{Binding StartEditingTitleCommand}">
+                    <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="30" Padding="20" Foreground="Black"></TextBlock>
+                    </Button>
+                <TextBox Text="{Binding Title}" IsVisible="{Binding IsEditingTitle}" Margin="0, 20, 100,10"></TextBox>
                 <StackPanel  Margin="20,60,50,0" Orientation="Horizontal" >
                     <Border CornerRadius="3" Width="80" Height="20" Background="#fff5cd">
                         <TextBlock Foreground="#dcb100" Text="In Progress" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold"  FontSize="12"></TextBlock>
                     </Border>
                 </StackPanel>
                 <StackPanel Margin="10, 10, 50, 0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
-                    <Button>
+                    <Button Command="{Binding SaveTitleCommand}" IsVisible="{Binding IsEditingTitle}">
                         <Image Source="avares://UI/Assets/edit_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="10,0,-5,0"></Image>
                     </Button>
                 </StackPanel>

@@ -54,7 +54,7 @@ public class TaskRepository : ITaskRepository
     /// <returns>The wanted task as TaskDto</returns>
     public TaskDto? GetTaskById(Guid taskId)
     {
-        var task = _db.SingleOrDefault<TaskModel>("WHERE TaskId = @0", taskId);
+        var task = _db.SingleOrDefault<TaskModel>("SELECT * FROM Tasks WHERE TaskId = @0", taskId);
         if (task is null)
         {
             return null;
@@ -95,7 +95,70 @@ public class TaskRepository : ITaskRepository
     /// </summary>
     /// <param name="task"></param>
     /// <returns>true or false</returns>
-    public async Task PostTask(TaskModel task)
+    public async Task PostTaskAsync(TaskModel task)
+    {
+        var jsonData = CreateJsonStringTaskModel(task);
+        await _remoteDb.PostAsync("Tasks", jsonData);
+    }
+    
+    /// <summary>
+    /// Updates a task to the remote database
+    /// </summary>
+    /// <param name="task"></param>
+    public async Task UpdateTaskAsync(TaskModel task)
+    {
+        var jsonData = CreateJsonStringTaskModel(task);
+        await _remoteDb.UpdateAsync("Tasks", task.TaskId, jsonData);
+    }
+
+    /// <summary>
+    /// Get the List of Tasks that belong to a specific Project by id
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns>List of TaskModels</returns>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task<List<TaskModel>?> GetTasksByProjectIdAsync(Guid projectId)
+    {
+        var jsonString = await _remoteDb.GetByIdAsync("Tasks/ByProjectId", projectId);
+        
+        var tasks = JsonConvert.DeserializeObject<List<TaskModel>>(jsonString);
+
+        if (tasks == null)
+        {
+            throw new InvalidOperationException("Failed to deserialize JSON to List<TaskModel>.");
+        }
+        
+        return tasks;
+    }
+    
+    /// <summary>
+    /// Deletes a Task from the remote database
+    /// </summary>
+    /// <param name="taskId"></param>
+    /// <returns>true or false</returns>
+    public async Task<bool> DeleteAsync(Guid taskId)
+    {
+        return await _remoteDb.DeleteAsync("Tasks", taskId);
+    }
+    
+    //****** HELPER ******//
+    /// <summary>
+    /// Checks if a Task exists in the local database
+    /// </summary>
+    /// <param name="taskId"></param>
+    /// <returns>true or false</returns>
+    public bool TaskExists(Guid taskId)
+    {
+        var existingTask = GetTaskById(taskId);
+        return existingTask != null;
+    }
+
+    /// <summary>
+    /// Creates a String in Json Format from a TaskModel
+    /// </summary>
+    /// <param name="task"></param>
+    /// <returns>TaskModel as String</returns>
+    private string CreateJsonStringTaskModel(TaskModel task)
     {
         var jsonParts = new List<string>
         {
@@ -103,7 +166,7 @@ public class TaskRepository : ITaskRepository
             $"\"projectId\":\"{task.ProjectId}\"",
             $"\"authorId\":\"{task.AuthorId}\"",
             $"\"creationDate\":\"{task.CreationDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"",
-            $"\"lastUpdated\":\"{task.LastUpdated:yyyy-MM-ddTHH:mm:ss.fffZ}\"",
+            $"\"lastUpdated\":\"{task.LastUpdated:yyyy-MM-ddTHH:mm:ss.fffZ}\""
         };
 
         if (task.SprintId.HasValue)
@@ -141,31 +204,7 @@ public class TaskRepository : ITaskRepository
             jsonParts.Add($"\"completionDate\":\"{task.CompletionDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
         }
         
-        var jsonData = "{" + string.Join(",", jsonParts) + "}";
-        
-        Console.WriteLine(jsonData);
-        
-        await _remoteDb.PostAsync("Tasks", jsonData);
-    }
-
-    public async Task<List<TaskModel>?> GetTasksByProjectIdAsync(Guid projectId)
-    {
-        var jsonString = await _remoteDb.GetByIdAsync("Tasks/ByProjectId", projectId);
-        
-        var tasks = JsonConvert.DeserializeObject<List<TaskModel>>(jsonString);
-
-        if (tasks == null)
-        {
-            throw new InvalidOperationException("Failed to deserialize JSON to List<TaskModel>.");
-        }
-        
-        return tasks;
-    }
-    
-    public bool TaskExists(Guid taskId)
-    {
-        var existingTask = GetTaskById(taskId);
-        return existingTask != null;
+        return "{" + string.Join(",", jsonParts) + "}";
     }
     
 }

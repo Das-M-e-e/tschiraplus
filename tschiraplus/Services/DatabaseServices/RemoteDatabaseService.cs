@@ -107,7 +107,39 @@ public class RemoteDatabaseService
             throw;
         }
     }
-
+    /// <summary>
+    /// Sends an HTTP-request to the host
+    /// to update an object
+    /// </summary>
+    /// <param name="endpoint"></param>
+    /// <param name="id"></param>
+    /// <param name="data"></param>
+    /// <returns>true</returns>
+    public async Task<bool> UpdateAsync(string endpoint, Guid id, string data)
+    {
+        try
+        {
+            var request = new HttpRequestMessage(
+                HttpMethod.Put,
+                $"{BaseAddress}/{endpoint}/{id}");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+           
+            request.Headers.Add("accept", "text/plain");
+            request.Content = new StringContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
+    }
+    
     /// <summary>
     /// Sends an HTTP-request to the host
     /// to delete an entry in a specific table (endpoint) with a specific id (id)

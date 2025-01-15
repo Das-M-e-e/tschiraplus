@@ -19,6 +19,7 @@ public class TaskViewModel
     
     // Commands
     public ICommand DeleteTaskCommand { get; }
+    public ICommand OpenTaskDetailsViewCommand { get; }
 
     public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel) //Konstruktor
     {
@@ -30,6 +31,7 @@ public class TaskViewModel
 
         _taskListViewModel = taskListViewModel;
         DeleteTaskCommand = new RelayCommand(DeleteTask);
+        OpenTaskDetailsViewCommand = new RelayCommand(OpenTaskDetails);
     }
 
     /// <summary>
@@ -38,5 +40,13 @@ public class TaskViewModel
     private void DeleteTask()
     {
         _taskListViewModel.DeleteTask(this);
+    }
+
+    /// <summary>
+    /// Uses the _taskListViewModel to open the TaskDetailView
+    /// </summary>
+    private void OpenTaskDetails()
+    {
+        _taskListViewModel.OpenTaskDetailsView(TaskId);
     }
 }

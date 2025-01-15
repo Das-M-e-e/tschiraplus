@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Services;
 using Services.TaskServices;
 using UI.Views;
 
@@ -11,6 +13,7 @@ public class MainTabViewModel : ObservableObject
     // Services
     private readonly ITaskService _taskService;
     private readonly Guid _projectId;
+    private readonly ApplicationState _appState;
     
     // Bindings
     public ObservableCollection<TabItemViewModel> Tabs { get; }
@@ -23,11 +26,13 @@ public class MainTabViewModel : ObservableObject
     
     private TabItemViewModel? _currentTab;
 
-    public MainTabViewModel(ITaskService taskService, Guid projectId)
+    public MainTabViewModel(ITaskService taskService, Guid projectId, ApplicationState appState)
     {
         _taskService = taskService;
         _projectId = projectId;
-        var taskListViewModel = new TaskListViewModel(_taskService, this);
+        _appState = appState;
+        
+        var taskListViewModel = new TaskListViewModel(_taskService, this, _appState);
         
         Tabs = new ObservableCollection<TabItemViewModel>
         {
@@ -59,6 +64,7 @@ public class MainTabViewModel : ObservableObject
     /// </summary>
     public void CreateNewTask(string? status)
     {
+        CloseCurrentTab();
         _currentTab = new TabItemViewModel(
             "New Task",
             new TaskCreationView
@@ -74,12 +80,49 @@ public class MainTabViewModel : ObservableObject
         Tabs.Add(_currentTab);
         NavigateToTab(_currentTab);
     }
-
+    
+    /// <summary>
+    /// Closes the Tab if possible to avoid duplicates
+    /// </summary>
     public void CloseCurrentTab()
     {
+        if (_currentTab == null) return;
+        
         if (_currentTab!.CanClose)
         {
             Tabs.Remove(_currentTab);
         }
+    }
+
+    /// <summary>
+    /// Opens new Tab containing the TaskDetailView
+    /// </summary>
+    /// <param name="taskId"></param>
+    public void OpenTaskDetails(Guid taskId)
+    {
+        if (_currentTab is { Tag: Guid currentTaskId })
+        {
+            if (currentTaskId == taskId)
+            {
+                NavigateToTab(_currentTab);  
+                return;
+            }
+            CloseCurrentTab();
+        }
+
+        if (_currentTab is { CanClose: true})
+        {
+            CloseCurrentTab();
+        }
+
+        _currentTab = new TabItemViewModel($"{taskId}", new TaskDetailView
+        {
+            DataContext = new TaskDetailViewModel(_taskService, taskId)
+        })
+        {
+            CanClose = true
+        };
+        Tabs.Add(_currentTab);
+        NavigateToTab(_currentTab);
     }
 }

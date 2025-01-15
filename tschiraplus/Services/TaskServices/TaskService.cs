@@ -25,7 +25,7 @@ public class TaskService : ITaskService
     public void CreateTask(TaskDto task)
     {
         _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
-        _taskRepository.PostTask(ConvertTaskDtoToTaskModel(task));
+        _taskRepository.PostTaskAsync(ConvertTaskDtoToTaskModel(task));
     }
     
     /// <summary>
@@ -119,10 +119,24 @@ public class TaskService : ITaskService
     /// Deletes a task by id using the TaskRepository
     /// </summary>
     /// <param name="taskId"></param>
-    public void DeleteTask(Guid taskId)
+    public async Task DeleteTask(Guid taskId, bool isOnline )
     {
-        _taskRepository.DeleteTask(taskId);
-    } 
+        if (isOnline)
+        {
+            await _taskRepository.DeleteAsync(taskId);
+            _taskRepository.DeleteTask(taskId);
+        } 
+    }
+ 
+    /// <summary>
+    /// Update the task using TaskRepository 
+    /// </summary>
+    /// <param name="taskDto"></param>
+    public void UpdateTask(TaskDto taskDto)
+    {
+        _taskRepository.UpdateTask(ConvertTaskDtoToTaskModel(taskDto));
+        _taskRepository.UpdateTaskAsync(ConvertTaskDtoToTaskModel(taskDto));
+    }
     
     /// <summary>
     /// Sorts the tasks in a List alphabetically by their title
