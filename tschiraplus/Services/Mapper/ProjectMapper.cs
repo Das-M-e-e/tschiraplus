@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.Enums;
+using Core.Models;
 using Services.DTOs;
 
 namespace Services.Mapper;
@@ -28,7 +29,7 @@ public class ProjectMapper
             OwnerId = user.UserId,
             Name = dto.Name,
             Description = dto.Description,
-            //TODO muss noch geparsed werden Status = dto.ProjectStatus,
+            Priority = Enum.TryParse(dto.ProjectPriority, out ProjectPriority projectPriority)? projectPriority : ProjectPriority.Low,
             CreationDate = DateTime.Now,
             // TODO soll das noch in die UI eingearbeitet werden?? StartDate = 
             // TODO DueDate noch in UI einarbeiten 
