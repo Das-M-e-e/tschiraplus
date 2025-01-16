@@ -117,7 +117,7 @@ public class MainTabViewModel : ObservableObject
 
         _currentTab = new TabItemViewModel($"{taskId}", new TaskDetailView
         {
-            DataContext = new TaskDetailViewModel(_taskService, taskId)
+            DataContext = new TaskDetailViewModel(_taskService, taskId, this )
         })
         {
             CanClose = true

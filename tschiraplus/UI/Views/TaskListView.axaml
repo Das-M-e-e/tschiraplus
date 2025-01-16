@@ -71,7 +71,7 @@
                     <ItemsControl ItemsSource="{Binding Tasks}" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:TaskViewModel">
-                                <Button Command="{Binding OpenTaskDetailsViewCommand}">
+                                <Button Command="{Binding OpenTaskDetailsViewCommand}" HorizontalAlignment="Stretch">
                                     <Border BorderBrush="Gray"
                                             BorderThickness="1"
                                             Margin="10"
