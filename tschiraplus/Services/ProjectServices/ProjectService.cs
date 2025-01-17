@@ -31,7 +31,7 @@ public class ProjectService : IProjectService
             Name = projectDto.Name,
             Description = projectDto.Description ?? null,
             Status = ProjectStatus.NotStarted,
-            Priority = Enum.TryParse<ProjectPriority>(projectDto.ProjectPriority, out var priority) ? priority : ProjectPriority.Low,
+            Priority = Enum.TryParse<ProjectPriority>(projectDto.Priority, out var priority) ? priority : ProjectPriority.Low,
             CreationDate = DateTime.Now,
             LastUpdated = DateTime.Now,
         };

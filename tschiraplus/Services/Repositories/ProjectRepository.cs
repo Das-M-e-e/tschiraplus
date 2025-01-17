@@ -67,7 +67,7 @@ public class ProjectRepository : IProjectRepository
             .OfType<ProjectModel>()
             .Select(project => new ProjectDto
             {
-                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, ProjectPriority = project.Priority.ToString(),
+                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, Priority = project.Priority.ToString(),
             })
             .ToList();
     }

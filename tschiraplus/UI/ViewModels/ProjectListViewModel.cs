@@ -9,6 +9,7 @@ using ReactiveUI;
 using Services;
 using Services.DTOs;
 using Services.ProjectServices;
+using UI.Views;
 
 namespace UI.ViewModels;
 
@@ -22,6 +23,20 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
     
     // Bindings
     public ObservableCollection<ProjectViewModel> Projects { get; set; } = [];
+
+    private bool _isProjectDetailsOpen;
+    public bool IsProjectDetailsOpen
+    {
+        get => _isProjectDetailsOpen;
+        set => this.RaiseAndSetIfChanged(ref _isProjectDetailsOpen, value);
+    }
+
+    private object _projectDetailsFlyout;
+    public object ProjectDetailsFlyout
+    {
+        get => _projectDetailsFlyout;
+        set => this.RaiseAndSetIfChanged(ref _projectDetailsFlyout, value);
+    }
     
     // Commands
     public ICommand CreateNewProjectCommand { get; }
@@ -88,5 +103,17 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
     {
         await _projectService.DeleteProject(projectId, _appState.IsOnline);
         LoadProjects();
+    }
+
+    public void OpenProjectDetails(Guid projectId)
+    {
+        var project = _projectService.GetProjectById(projectId);
+        
+        ProjectDetailsFlyout = new ProjectDetailsView
+        {
+            DataContext = new ProjectDetailsViewModel(
+                project,
+                _projectService)
+        };
     }
 }
