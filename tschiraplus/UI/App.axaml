@@ -8,13 +8,14 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
     <Application.Styles>
         <FluentTheme />
-        <StyleInclude Source="avares://UI/Styles/DarkTheme/GlobalStyles.axaml" />
-        <StyleInclude Source="avares://UI/Styles/DarkTheme/Buttons.axaml" />
-        <StyleInclude Source="avares://UI/Styles/DarkTheme/TextBlocks.axaml" />
-        <StyleInclude Source="avares://UI/Styles/DarkTheme/TextBoxes.axaml" />
-        <StyleInclude Source="avares://UI/Styles/DarkTheme/Borders.axaml" />
+        <StyleInclude Source="avares://UI/Styles/LightTheme/GlobalStyles.axaml" />
+        <StyleInclude Source="avares://UI/Styles/LightTheme/Buttons.axaml" />
+        <StyleInclude Source="avares://UI/Styles/LightTheme/TextBlocks.axaml" />
+        <StyleInclude Source="avares://UI/Styles/LightTheme/TextBoxes.axaml" />
+        <StyleInclude Source="avares://UI/Styles/LightTheme/Borders.axaml" />
+        <StyleInclude Source="avares://UI/Styles/LightTheme/Other.axaml" />
+        <StyleInclude Source="avares://UI/Styles/LightTheme/Calender.axaml" />
     </Application.Styles>
 </Application>

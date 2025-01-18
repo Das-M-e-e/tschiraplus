@@ -3,19 +3,13 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+                <MergeResourceInclude Source="LightThemeDictionary.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
     
     <!-- Standard Border Style -->
     <Style Selector="Border">
-        <Setter Property="Background" Value="{DynamicResource BorderBackground}"></Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
-        <Setter Property="BorderThickness" Value="1"></Setter>
-        <Setter Property="CornerRadius" Value="15"></Setter>
-    </Style>
-    <Style Selector="Border:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource BorderBackground}"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
@@ -57,7 +51,7 @@
         <Setter Property="CornerRadius" Value="25"></Setter>
         <Setter Property="Width" Value="80"></Setter>
         <Setter Property="Height" Value="30"></Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource NewTaskBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource NewTaskBorderBrush}"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
     </Style>
     
@@ -81,8 +75,8 @@
     
     <!-- Kanban View -->
     <Style Selector="Border.ProjectsDisplay">
-        <Setter Property="Background" Value="{DynamicResource Background}"></Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Background" Value="#e0e0e0"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
         <Setter Property="BorderThickness" Value="0,0,0,2"></Setter>
         <Setter Property="Width" Value="112"></Setter>
         <Setter Property="CornerRadius" Value="0"></Setter>

@@ -1,0 +1,18 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="LightThemeDictionary.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+    
+    <!-- Standard Calendar Style -->
+    <Style Selector="Calendar">
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="10"></Setter>
+        <Setter Property="CornerRadius" Value="10"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+    </Style>
+</Styles>

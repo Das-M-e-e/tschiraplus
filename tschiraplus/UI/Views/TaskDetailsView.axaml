@@ -9,10 +9,10 @@
         <Border Grid.Row="0" Classes="TopBarBorder">
             <Grid Classes="TopBar" ColumnDefinitions="Auto, *, Auto">
                 <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock Classes="TaskName" ></TextBlock>
+                    <TextBlock Text="Projects / Tschiraplus / Task Name" Width="315" FontWeight="Medium" Margin="15,4.5,0,0"></TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment = "Right">
-                    <Button>
+                    <Button Classes="Icons">
                         <Image Source="avares://UI/Assets/share_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="0,0,10,0"></Image>
                     </Button>
                 </StackPanel>
@@ -21,58 +21,46 @@
         <!-- MAIN -->
         <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto"  >
             <Grid Grid.Row="0">
-                <TextBlock Classes="TaskDetailsTextBlocks" Text="Task Name" FontWeight="SemiBold" FontSize="30" Padding="15,20,20,40"></TextBlock>
-                <StackPanel  Margin="20,60,50,0" Orientation="Horizontal" >
+                <StackPanel Orientation="Vertical">
+                <TextBlock Text="Task Name" FontSize="30" Padding="15,20,20,0"></TextBlock>
+                <StackPanel  Margin="20,10,50,10" Orientation="Horizontal" >
                     <Border Classes="TaskStatus">
                         <TextBlock Classes="TaskStatusText"></TextBlock>
                     </Border>
                 </StackPanel>
-                <StackPanel Margin="10, 10, 50, 0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
-                    <Button>
-                        <Image Source="avares://UI/Assets/edit_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="10,0,-5,0"></Image>
-                    </Button>
-                </StackPanel>
-                <Grid.Styles>
-                    <Style Selector="Button">
-                        <Setter Property="Background" Value="Transparent"></Setter>
-                    </Style>
-                    <Style Selector="Button:pointerover /template/ ContentPresenter">
-                        <Setter Property="Background" Value="Transparent"></Setter>
-                        <Setter Property="Opacity" Value="0.5"></Setter>
-                    </Style>
-                </Grid.Styles>
-            </Grid>
-            
-            <Grid Grid.Row="1"  >
-                <StackPanel Orientation="Vertical">
                     <Border Classes="Divider"/>
                 </StackPanel>
+                <StackPanel Margin="10, 10, 50, 0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+                    <Button Classes="Icons">
+                        <Image Source="avares://UI/Assets/edit_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="10,0,-5,40"></Image>
+                    </Button>
+                </StackPanel>
             </Grid>
             
-            <Grid Grid.Row="2" Height="180" VerticalAlignment="Top">
+            <Grid Grid.Row="1" Height="200" VerticalAlignment="Bottom">
                 
                 <StackPanel Orientation="Horizontal">
                     <Grid ColumnDefinitions="Auto,Auto">
                         <Grid Grid.Column="0"  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Width="130" Margin="0,5,0,0">
                                     <StackPanel Grid.Row="1" Margin="22,-3,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/priority_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5"></Image>
-                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="Priority" Opacity="0.85" FontWeight="SemiBold" FontSize="13"></TextBlock>
+                                        <TextBlock Text="Priority" Opacity="0.95" FontSize="13"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Grid.Row="2" Margin="22,1,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/start_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5"></Image>
-                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="Start date" Opacity="0.85" FontWeight="SemiBold" FontSize="13"></TextBlock>
+                                        <TextBlock Text="Start date" Opacity="0.95" FontSize="13"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Grid.Row="3" Margin="23,1,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/due_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11"></Image>
-                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="End date" Opacity="0.85" FontWeight="SemiBold" FontSize="13"></TextBlock>
+                                        <TextBlock Text="End date" Opacity="0.95" FontSize="13"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Grid.Row="4" Margin="21,0,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/contributors_icon.png" Margin="0,0,4,0" Opacity="0.45" Stretch="Uniform" Width="13"></Image>
-                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="Contributors" Opacity="0.85" FontWeight="SemiBold" FontSize="13"></TextBlock>
+                                        <TextBlock Text="Contributors" Opacity="0.95" FontSize="13"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Grid.Row="5" Margin="21,2,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/tag_icon.png" Margin="0,-0.5,2,0" Opacity="0.45" Stretch="Uniform" Width="16"></Image>
-                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="Tags" Opacity="0.85" FontWeight="SemiBold" FontSize="13"></TextBlock>
+                                        <TextBlock Text="Tags" Opacity="0.95" FontSize="13"></TextBlock>
                                     </StackPanel>
                         </Grid>
                         <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Width="315" HorizontalAlignment="Left">
@@ -82,32 +70,32 @@
                                 </Border>
                             </StackPanel>
                                     <StackPanel Grid.Row="2" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="October 14, 2024" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
+                                        <TextBlock Text="October 14, 2024" Opacity="0.65" FontSize="13"></TextBlock>
                                     </StackPanel>
                                     <StackPanel Grid.Row="3" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Classes="TaskDetailsTextBlocks" Text="-" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
+                                        <TextBlock Text="-" Opacity="0.65" FontSize="13"></TextBlock>
                                     </StackPanel>
                             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
-                                <Border Margin="0,-1,5,15" HorizontalAlignment="Left" Width="55" Height="20" Background="#9198a1" CornerRadius="20">
+                                <Border Classes="PrimaryUserProfileTag" >
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                        <TextBlock Text="Sofia" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="11"></TextBlock>
+                                        <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Height="15"></Image>
+                                        <TextBlock Classes="PrimaryUserProfileTagText"></TextBlock>
                                     </StackPanel>
                                 </Border>
-                                <Border Margin="0,-1,5,15" HorizontalAlignment="Left" Width="60" Height="20" Background="#9198a1" CornerRadius="20">
+                                <Border Classes="SecondaryUserProfileTag">
                                     <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Margin="0,0,0,0" Height="15"></Image>
-                                        <TextBlock Text="Franzi" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="11"></TextBlock>
+                                        <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Height="15"></Image>
+                                        <TextBlock Classes="SecondaryUserProfileTagText"></TextBlock>
                                     </StackPanel>
                                 </Border>
-                                <Button Classes="Invite">
+                                <Button Classes="SecondaryActions" Margin="0,-1,0,15" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="23" CornerRadius="5">
                                     <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-6,0,0,0">
                                         <Image Source="avares://UI/Assets/user_add_icon.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" Margin="0,0,0,0" Height="12"></Image>
-                                        <TextBlock Classes="InviteText"></TextBlock>
+                                        <TextBlock Text="Invite" FontWeight="Medium" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0"></TextBlock>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
-                            <StackPanel Grid.Row="5" Margin="0,-1,0,15" Orientation="Horizontal" VerticalAlignment="Center">
+                            <StackPanel Grid.Row="5" Margin="0,-2,0,15" Orientation="Horizontal" VerticalAlignment="Center">
                                 <Border Classes="TaskPrimaryTag">
                                     <TextBlock Classes="TaskPrimaryTagText"></TextBlock>
                                 </Border>
@@ -124,21 +112,20 @@
             <StackPanel Orientation="Vertical">
                 <StackPanel   Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Image Source="avares://UI/Assets/description_icon.png" Margin="0,-1,4,0" Opacity="0.45" Stretch="Uniform" Width="14"></Image>
-                    <TextBlock Classes="TaskDetailsTextBlocks" Text="Description" FontWeight="SemiBold"  FontSize="13"></TextBlock>
+                    <TextBlock Text="Description" Opacity="0.95" FontSize="13"></TextBlock>
                 </StackPanel>
                 <TextBox Classes="TaskDetailsBoxes"></TextBox>
-                <Button Classes="Comment">
-                    <TextBlock Classes="CommentText">
+                <Button Classes="SecondaryActions" Width="85" Height="30" Margin="414,10,0,15" CornerRadius="5">
+                    <TextBlock Text="Comment" FontWeight="Medium" HorizontalAlignment="Center" VerticalAlignment="Center">
                     </TextBlock>
                 </Button>
                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,15,0,0">
                     <Image Source="avares://UI/Assets/attachment_icon.png" Margin="0,-1,4,0" Opacity="0.45" Stretch="Uniform" Width="14"></Image>
-                    <TextBlock Classes="TaskDetailsTextBlocks" Text="Attachments" FontWeight="SemiBold" FontSize="13"></TextBlock>
+                    <TextBlock Text="Attachments" Opacity="0.95" FontSize="13"></TextBlock>
                     <StackPanel Margin="-10" Orientation="Horizontal">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                             <Image Source="avares://UI/Assets/download_icon.png" Margin="250,-1,-1,0" Opacity="0.45" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="15"></Image>
-                            <Button Classes="DownloadAllLink" Margin="0,0,0,0" Width="100" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <TextBlock Classes="DownloadAllLink" Text="Download All"  FontWeight="SemiBold" FontSize="13"></TextBlock>
+                            <Button Classes="Links" Content="Download All" FontSize="13">
                             </Button>
                         </StackPanel>
                     </StackPanel>
@@ -146,7 +133,8 @@
             </StackPanel>
         </Grid>
         <!-- Bottom bar -->
-        <Grid Grid.Row="3" Classes="BottomBar"></Grid>
+        <Grid Grid.Row="3" Classes="BottomBar">
+        </Grid>
         </Grid>
     </Grid>
 </UserControl>

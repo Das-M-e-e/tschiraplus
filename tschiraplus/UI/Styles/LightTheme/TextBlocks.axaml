@@ -3,7 +3,7 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+                <MergeResourceInclude Source="LightThemeDictionary.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
@@ -17,10 +17,11 @@
     
     <!-- ProjectName TextBlock Style -->
     <Style Selector="TextBlock.ProjectName">
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundExceptionColor}"></Setter>
         <Setter Property="FontSize" Value="15"></Setter>
         <Setter Property="FontWeight" Value="Bold"></Setter>
         <Setter Property="Margin" Value="10,5,5,5"></Setter>
-</Style>    
+    </Style>    
     
     <!-- Error and MandatoryInput Text -->
     <Style Selector="TextBlock.MandatoryInput">
@@ -47,6 +48,7 @@
         <Setter Property="FontWeight" Value="DemiBold"></Setter>
         <Setter Property="FontSize" Value="13"></Setter>
     </Style>
+    
     <!-- Progress Style Text-->
     <Style Selector="TextBlock.ProjectStatusText">
         <Setter Property="Text" Value="In Progress"></Setter>
@@ -74,12 +76,6 @@
         <Setter Property="Foreground" Value="{DynamicResource PriorityForeground}"></Setter>
     </Style>
     
-    <!-- SecondaryActions Text -->
-    <Style Selector="TextBlock.Delete">
-        <Setter Property="Text" Value="Delete"></Setter>
-        <Setter Property="FontSize" Value="13"></Setter>
-        <Setter Property="FontWeight" Value="Medium"></Setter>
-    </Style>
    <!-- TaskManagement Text -->
     <Style Selector="TextBlock.NewTask">
         <Setter Property="Text" Value="+ Add a new task"></Setter>

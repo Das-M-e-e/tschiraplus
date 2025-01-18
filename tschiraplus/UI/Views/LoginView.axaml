@@ -3,61 +3,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:UI.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
              x:Class="UI.Views.LoginView"
              x:DataType="vm:LoginViewModel">
     
-    <Grid RowDefinitions="Auto, Auto, Auto, Auto">
+    <Grid RowDefinitions="Auto, *">
         <!-- Headline -->
-        <Grid Grid.Row="1" ColumnDefinitions="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15">
+        <Grid Grid.Row="0" ColumnDefinitions="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15">
             <Grid Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,100,0,0">
                     <Image Source="avares://UI/Assets/final_logo.png" Stretch="Uniform" Width="350" />
-                    <TextBlock Classes="SignInBoxes" Text="Welcome back!" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Margin="0,20,0,10" FontSize="40" />
+                    <TextBlock Text="Welcome back!" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,40,0,10" FontSize="40" />
                 </StackPanel>
             </Grid>
         </Grid>
         
         <!-- Login Form -->
-        <Grid Grid.Row="2">
-            <StackPanel Orientation="Vertical" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical" Margin="0,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <!-- Username or Email field -->
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Classes="SignInBoxes" Text="Username" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12" />
-                    <TextBlock Foreground="Red" Text="*" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12"/>
+                    <TextBlock Text="Username" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12" />
+                    <TextBlock Classes="MandatoryInput" Text="*" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="12"/>
                 </StackPanel>
-                <TextBox Classes="SignInBoxes" Text="{Binding UsernameOrEmail}" Width="270" HorizontalAlignment="Center" Margin="0,8,2,0" />
+                <TextBox Text="{Binding UsernameOrEmail}" Width="270" HorizontalAlignment="Center" Margin="0,8,0,0" />
                 <!-- Password field -->
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Classes="SignInTextBlocks" Text="Password" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12" Margin="0,30,140,0" />
-                    <TextBlock Foreground="Red" Text="*" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12"  Margin="-140,30,0,0" />
+                    <TextBlock Text="Password" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12" Margin="0,30,140,0" />
+                    <TextBlock Classes="MandatoryInput" Text="*" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="DemiBold" FontSize="12"  Margin="-140,30,0,0" />
                 </StackPanel>
-                <TextBox Classes="SignInBoxes" Text="{Binding Password}" PasswordChar="*" Width="270" HorizontalAlignment="Center" Margin="0,8,2,0" />
+                <TextBox Text="{Binding Password}" PasswordChar="*" Width="270" HorizontalAlignment="Center" Margin="0,8,0,0" />
                 <!-- Error message -->
-                <TextBlock Text="{Binding ErrorMessage}" FontSize="10" Foreground="Red" />
+                <TextBlock Classes="MandatoryInput" Text="{Binding ErrorMessage}" />
                 <!-- Forgot Password button -->
-                <Button Classes="SignInLinks" Width="113" HorizontalAlignment="Center" Margin="160,2,0,0">
-                    <TextBlock Text="Forgot password?" FontSize="11" FontWeight="Medium" />
+                <Button Classes="Links" Content="Forgot Password?"  HorizontalAlignment="Center" Margin="160,2,0,0">
                 </Button>
-            </StackPanel>
-        </Grid>
-        
-        <!-- Login Buttons -->
-        <Grid Grid.Row="3">
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <!-- Login -->
-                <Button Command="{Binding LoginCommand}" Classes="SignInButton">
-                    <TextBlock Text="Sign in" FontWeight="Medium" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                </Button>
-                <!-- Go to Register -->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 8,30,0,0">
-                    <TextBlock Text="Not a member?" FontSize="11" Foreground="Gray" />
-                    <Button Classes="SignInLinks" Command="{Binding NavigateToRegisterCommand}" x:Name="CreateProfile" Width="115" Height="25" Margin="-5,-7,0,0">
-                        <TextBlock Text="Create an account" FontSize="11" FontWeight="Medium" />
+                <!-- Login Buttons -->
+                <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,30,0,0">
+                    <!-- Login -->
+                    <Button x:Name="SignInButton" Content="Sign in" FontSize="13" HorizontalContentAlignment="Center" Margin="0,25,0,0" Width="270"  FontWeight="Medium" HorizontalAlignment="Center" VerticalAlignment="Center" Command="{Binding LoginCommand}" Classes="SignInButton">
                     </Button>
+                    <!-- Go to Register -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin=" 8,30,0,0">
+                        <TextBlock Text="Not a member?" Foreground="Gray" />
+                        <Button x:Name="CreateAccountButton" Classes="Links" Content="Create an account" Command="{Binding NavigateToRegisterCommand}" Margin="-5,-7,0,0">
+                        </Button>
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
+            </Grid>
         </Grid>
-    </Grid>
-    
 </UserControl>

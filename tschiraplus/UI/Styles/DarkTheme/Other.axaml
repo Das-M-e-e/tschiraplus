@@ -1,0 +1,120 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+    
+    
+    <!-- Standard Checkbox Style -->
+    <Style Selector="CheckBox">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+    </Style>
+    
+    <!-- Standard RadioButton Style -->
+    <Style Selector="RadioButton">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+    </Style>
+    <Style Selector="RadioButton Grid">
+        <Setter Property="Background" Value="Transparent"></Setter>
+    </Style>
+    
+    <!-- CreateProjectGrid Style -->
+    <Style Selector="Grid.CreateProjectGrid">
+        <Setter Property="Background" Value="{DynamicResource CreateProjectGrid}"></Setter>
+    </Style>
+    
+    <!-- Standard ComboBox Style -->
+    <Style Selector="ComboBox">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="FontSize" Value="20"></Setter>
+    </Style>
+    <Style Selector="ComboBox Grid">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="ComboBox TextBlock">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}" />
+    </Style>
+    <Style Selector="ComboBox:pressed">
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+    <Style Selector="ComboBox:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+    <Style Selector="ComboBox:dropdownopen">
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+    
+    <!-- Standard DatePicker Style -->
+    <Style Selector="DatePicker">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}" />
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+        <Setter Property="CornerRadius" Value="20"></Setter>
+    </Style>
+    <Style Selector="DatePicker Button">
+        <Setter Property="CornerRadius" Value="20"></Setter>
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+    </Style>
+   <Style Selector="DatePicker TextBlock">
+       <Setter Property="FontSize" Value="20" />
+       <Setter Property="Foreground" Value="{DynamicResource Foreground}" />
+       <Setter Property="VerticalAlignment" Value="Center" />
+       <Setter Property="HorizontalAlignment" Value="Center" />
+   </Style>
+    <Style Selector="DatePicker CalendarButton">
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+    </Style>
+    <Style Selector="DatePicker CalendarItem">
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+    </Style>
+    <Style Selector="DatePicker Grid">
+        <Setter Property="Background" Value="Transparent" /> 
+    </Style>
+    <Style Selector="DatePicker CalendarDatePicker">
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+    </Style>
+    <Style Selector="DatePicker:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="FontSize" Value="20"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="3"></Setter>
+    </Style>
+    <Style Selector="DatePicker:hover">
+        <Setter Property="Background" Value="{DynamicResource OtherBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="FontSize" Value="20"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="3"></Setter>
+    </Style>
+</Styles>

@@ -3,12 +3,12 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+                <MergeResourceInclude Source="LightThemeDictionary.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
     
-    <!-- DarkThemeBackground-->
+    <!-- Background-->
     <Style Selector="Grid">
         <Setter Property="Background" Value="{DynamicResource Background}"></Setter>
     </Style>

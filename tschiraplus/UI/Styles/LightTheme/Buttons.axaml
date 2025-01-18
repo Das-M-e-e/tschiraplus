@@ -3,7 +3,7 @@
     <Styles.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+                <MergeResourceInclude Source="LightThemeDictionary.axaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Styles.Resources>
@@ -30,16 +30,14 @@
         <Setter Property="Background" Value="{DynamicResource ProjectBorder}"></Setter>
         <Setter Property="BorderThickness" Value="3"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource Black}"></Setter>
     </Style>
     <Style Selector="Button.Projects:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource ProjectBorderHoverBackground}"></Setter>
-        <Setter Property="BorderThickness" Value="3"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource Black}"></Setter>
-</Style>
+        <Setter Property="BorderThickness" Value="3"></Setter>
+    </Style>
     
-    <!-- Link Buttons -->
+    <!-- All Link Buttons -->
     <Style Selector="Button.Links">
         <Setter Property="Background" Value="{DynamicResource LinksBackground}"></Setter>
         <Setter Property="Foreground" Value="{DynamicResource LinksForeground}"></Setter>
@@ -71,20 +69,20 @@
     <!-- TaskManagement Buttons -->
     <Style Selector="Button.NewTask">
         <Setter Property="Background" Value="{DynamicResource NewTaskBackground}"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource NewTaskForeground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskForeground}"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource NewTaskBorderBrush}"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
         <Setter Property="CornerRadius" Value="20"></Setter>
     </Style>
     <Style Selector="Button.NewTask:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource NewTaskHoverBackground}"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource NewTaskForeground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskForeground}"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource NewTaskBorderBrush}"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
     </Style>
     <Style Selector="Button.KanbanColumnsAddNewTask:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource Black}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="FontSize" Value="11"></Setter>
         <Setter Property="FontWeight" Value="SemiBold"></Setter>

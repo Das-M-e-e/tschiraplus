@@ -1,45 +1,64 @@
 <ResourceDictionary xmlns="https://github.com/avaloniaui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
     <!-- Global Colors -->
-    <SolidColorBrush x:Key="DarkThemeBackground" Color="#131921" />
+    <SolidColorBrush x:Key="Background" Color="#131921" />
     <SolidColorBrush x:Key="DividerColor" Color="#3d444d" />
-    <SolidColorBrush x:Key="DarkThemeForeground" Color="White" />
-    <SolidColorBrush x:Key="DarkThemeBarBackground" Color="#0d1117" />
-    <Bitmap x:Key="EditIcon">avares://tschiraplus/UI/Assets/edit_icon_darkmode.png</Bitmap>
-    <Bitmap x:Key="ShareIcon">avares://tschiraplus/UI/Assets/share_icon_darkmode.png</Bitmap>
-    <SolidColorBrush x:Key="DarkThemeLinksForeground" Color="#4493f8" />
-    <SolidColorBrush x:Key="DarkThemeLinksBackground" Color="Transparent" />
-    <SolidColorBrush x:Key="DarkThemeLinksHoverForeground" Color="#4493f8" />
+    <SolidColorBrush x:Key="Foreground" Color="White" />
+    <SolidColorBrush x:Key="BarBackground" Color="#0d1117" />
+    <SolidColorBrush x:Key="LinksForeground" Color="#4493f8" />
+    <SolidColorBrush x:Key="LinksBackground" Color="Transparent" />
     
+    <!-- StandardStyle Colors-->
+    <SolidColorBrush x:Key="TextBoxBackground" Color="Gray" />
+    <SolidColorBrush x:Key="ButtonBackground" Color="#1f6feb" />
     <SolidColorBrush x:Key="ButtonForeground" Color="White" />
-    <SolidColorBrush x:Key="ButtonHoverBackground" Color="#2f3740" />
-    <SolidColorBrush x:Key="NewTaskHoverBackground" Color="#2e9a40" />
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="#5f9af5" />
+    <SolidColorBrush x:Key="ButtonHoverBackground" Color="#367deb" />
+    <SolidColorBrush x:Key="BorderBackground" Color="#2d343f" />
+    <SolidColorBrush x:Key="BorderBrush" Color="#576474" />
     
+    <!-- ActionStyles Colors -->
     <SolidColorBrush x:Key="SignInButtonBackground" Color="#A64275" />
     <SolidColorBrush x:Key="SignInButtonForeground" Color="White" />
+    <SolidColorBrush x:Key="SignInButtonBrush" Color="#872d5b" />
+    <SolidColorBrush x:Key="SignInButtonHoverBackground" Color="#c75d93" />
     <SolidColorBrush x:Key="TaskDetailsButtonBackground" Color="#2a323b" />
     <SolidColorBrush x:Key="TaskDetailsButtonForeground" Color="#f0f6fc" />
+    <SolidColorBrush x:Key="TaskDetailsButtonHoverBackground" Color="#2f3740" />
     <SolidColorBrush x:Key="ProjectProgressBackground" Color="#343726" />
     <SolidColorBrush x:Key="ProjectProgressForeground" Color="#e5e566" />
     <SolidColorBrush x:Key="ProjectProgressBorderBrush" Color="#696c39" />
-    <SolidColorBrush x:Key="TaskBorderBrush" Color="#5acc6d" />
-    <SolidColorBrush x:Key="TaskProgressBackground" Color="#238636" />
-    <SolidColorBrush x:Key="TaskProgressForeground" Color="#f8fdff" />
-    <SolidColorBrush x:Key="TaskProgressBorderBrush" Color="White" />
+    <SolidColorBrush x:Key="NewTaskBorderBrush" Color="#5acc6d" />
+    <SolidColorBrush x:Key="NewTaskBackground" Color="#238636" />
+    <SolidColorBrush x:Key="NewTaskForeground" Color="#f8fdff" />
+    <SolidColorBrush x:Key="NewTaskHoverBackground" Color="#219137" />
     <SolidColorBrush x:Key="PriorityBackground" Color="#321820" />
     <SolidColorBrush x:Key="PriorityForeground" Color="#e0949a" />
     <SolidColorBrush x:Key="PriorityBorderBrush" Color="#684048" />
-    <SolidColorBrush x:Key="TaskPrimaryTagBackground" Color="#142f21" />
-    <SolidColorBrush x:Key="TaskPrimaryTagBorderBrush" Color="#155c20" />
-    <SolidColorBrush x:Key="TaskPrimaryTagForeground" Color="#18dd22" />
-    <SolidColorBrush x:Key="TaskSecondaryTagBackground" Color="#112339" />
-    <SolidColorBrush x:Key="TaskSecondaryTagBorderBrush" Color="#254874" />
-    <SolidColorBrush x:Key="TaskSecondaryTagForeground" Color="#4e9ffc" />
     
-    <SolidColorBrush x:Key="ProjectPrimaryTagBackground" Color="#142f21" />
-    <SolidColorBrush x:Key="ProjectPrimaryTagBorderBrush" Color="#155c20" />
-    <SolidColorBrush x:Key="ProjectPrimaryTagForeground" Color="#18dd22" />
-    <SolidColorBrush x:Key="ProjectSecondaryTagBackground" Color="#112339" />
-    <SolidColorBrush x:Key="ProjectSecondaryTagBorderBrush" Color="#254874" />
-    <SolidColorBrush x:Key="ProjectSecondaryTagForeground" Color="#4e9ffc" />
+    <!-- Error&MandatoryInputStyle Colors -->
+    <SolidColorBrush x:Key="ErrorForeground" Color="Red" />
+   
+    <!-- TagStyleColors -->
+    <SolidColorBrush x:Key="TaskPrimaryTagBackground" Color="#0e2717" />
+    <SolidColorBrush x:Key="TaskPrimaryTagBorderBrush" Color="#105e1a" />
+    <SolidColorBrush x:Key="TaskPrimaryTagForeground" Color="#18e01f" />
+    <SolidColorBrush x:Key="TaskSecondaryTagBackground" Color="#32233c" />
+    <SolidColorBrush x:Key="TaskSecondaryTagBorderBrush" Color="#633f6f" />
+    <SolidColorBrush x:Key="TaskSecondaryTagForeground" Color="#d97eca" />
+    <SolidColorBrush x:Key="UserTagBackground" Color="#313240" />
+    <SolidColorBrush x:Key="UserTagForeground" Color="#c8c3f9" />
+    <SolidColorBrush x:Key="UserTagBorderBrush" Color="#615d77" />
+
+    <!-- Other Colors -->
+    <SolidColorBrush x:Key="OtherBackground" Color="#181c24" />
+    <SolidColorBrush x:Key="CreateProjectGrid" Color="#2d343f" />
+    <SolidColorBrush x:Key="Project" Color="#788194" />
+    <SolidColorBrush x:Key="ProjectBorder" Color="#4d5669" />
+    <SolidColorBrush x:Key="ProjectBorderHoverBackground" Color="#565f73" />
+    
+    
+    <!-- <Bitmap x:Key="EditIcon">avares://tschiraplus/UI/Assets/edit_icon_darkmode.png</Bitmap>
+        <Bitmap x:Key="ShareIcon">avares://tschiraplus/UI/Assets/share_icon_darkmode.png</Bitmap> -->
 </ResourceDictionary>
