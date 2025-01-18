@@ -14,7 +14,7 @@ public class TaskDetailViewModel : ViewModelBase
     // Services
     private readonly ITaskService _taskService;
     private TaskDto _taskDto;
-    private readonly MainTabViewModel _mainTabViewModel;
+    private readonly TaskListViewModel _taskListViewModel;
     
     //Bindings
     private string? _title;
@@ -41,26 +41,39 @@ public class TaskDetailViewModel : ViewModelBase
         get => _status;
         set => this.RaiseAndSetIfChanged(ref _status, value);
     }
+    
+    private SelectionItemViewModel _priority;
+
+    public SelectionItemViewModel Priority
+    {
+        get => _priority;
+        set => this.RaiseAndSetIfChanged(ref _priority, value);
+    }
+    
 
     public ObservableCollection<SelectionItemViewModel> StatusList { get; set; } = [];
+    
+    public ObservableCollection<SelectionItemViewModel> PriorityList { get; set; } = [];
     
     // Commands
     
     public ICommand StartEditingTitleCommand { get; set; }
     public ICommand SaveTitleCommand { get; set; }
-    public ICommand CloseTabCommand { get; set; }
+    
+    public ICommand CloseFlyoutCommand { get; set; }
     
     
-    public TaskDetailViewModel(ITaskService taskService, Guid taskId, MainTabViewModel mainTabViewModel)
+    public TaskDetailViewModel(ITaskService taskService, Guid taskId, TaskListViewModel taskListViewModel)
     {
         _taskService = taskService;
-        _mainTabViewModel = mainTabViewModel;
+        _taskListViewModel = taskListViewModel;
         LoadStatusList();
+        LoadPriorityList();
         LoadTask(taskId);
         
         StartEditingTitleCommand = new RelayCommand(StartEditingTitle);
         SaveTitleCommand = new RelayCommand(SaveTitle);
-        CloseTabCommand = new RelayCommand(CloseTab);
+        CloseFlyoutCommand = new RelayCommand(CloseFlyout);
 
     }
 
@@ -72,7 +85,11 @@ public class TaskDetailViewModel : ViewModelBase
     {
         _taskDto = _taskService.GetTaskById(taskId);
         Title = _taskDto.Title;
-        Status = StatusList.First(s => (string)s.Tag! == _taskDto.Status);
+        Status = StatusList.FirstOrDefault(s => (string)s.Tag! == _taskDto.Status)
+            ?? StatusList.First();
+        Priority = PriorityList.FirstOrDefault(s => (string)s.Tag! == _taskDto.Priority)
+            ?? PriorityList.First();
+        
     }
 
     /// <summary>
@@ -105,6 +122,15 @@ public class TaskDetailViewModel : ViewModelBase
         StatusList.Add(new SelectionItemViewModel{Name = "Done", Tag ="Done", ColorCode = "#32cd32"});
     }
 
+    private void LoadPriorityList() 
+    {
+        PriorityList.Add(new SelectionItemViewModel{Name = "Not Set", Tag ="NotSet", ColorCode = "#d3d3d3"});
+        PriorityList.Add(new SelectionItemViewModel{Name = "Low", Tag ="Low", ColorCode = "#95D8A1"});
+        PriorityList.Add(new SelectionItemViewModel{Name = "Medium", Tag ="Medium", ColorCode = "#8FCDF3"});
+        PriorityList.Add(new SelectionItemViewModel{Name = "High", Tag ="High", ColorCode = "#EBA29A"});
+        PriorityList.Add(new SelectionItemViewModel{Name = "Critical", Tag ="Critical", ColorCode = "#DD5550"});
+    }
+
     public void SetStatus(string? status)
     {
         Status = StatusList.First(s => s.Name == status);
@@ -112,9 +138,16 @@ public class TaskDetailViewModel : ViewModelBase
         _taskService.UpdateTask(_taskDto);
     }
 
-    private void CloseTab()
+    public void SetPriority(string? priority)
     {
-        _mainTabViewModel.CloseCurrentTab();
+        Priority = PriorityList.First(s => s.Name == priority);
+        _taskDto.Priority = Priority.Name.Replace(" ","");
+        _taskService.UpdateTask(_taskDto);
+    }
+
+    private void CloseFlyout()
+    {
+        _taskListViewModel.CloseFlyout();
     }
     
 }

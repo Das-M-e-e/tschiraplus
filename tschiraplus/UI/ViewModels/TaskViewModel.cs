@@ -15,23 +15,26 @@ public class TaskViewModel
     public string Title { get; }
     public string Description { get; }
     public string? Status { get; }
+    
+    public string? Priority { get; }
     public DateTime CreationDate { get; }
     
     // Commands
     public ICommand DeleteTaskCommand { get; }
-    public ICommand OpenTaskDetailsViewCommand { get; }
+    public ICommand OpenTaskDetailCommand { get; }
 
-    public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel) //Konstruktor
+    public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel) 
     {
         TaskId = task.TaskId;
         Title = task.Title;
         Description = task.Description;
         Status = task.Status;
+        Priority = task.Priority;
         CreationDate = task.CreationDate;
 
         _taskListViewModel = taskListViewModel;
         DeleteTaskCommand = new RelayCommand(DeleteTask);
-        OpenTaskDetailsViewCommand = new RelayCommand(OpenTaskDetails);
+        OpenTaskDetailCommand = new RelayCommand(OpenTaskDetails);
     }
 
     /// <summary>
@@ -47,6 +50,6 @@ public class TaskViewModel
     /// </summary>
     private void OpenTaskDetails()
     {
-        _taskListViewModel.OpenTaskDetailsView(TaskId);
+        _taskListViewModel.OpenTaskDetails(TaskId);
     }
 }

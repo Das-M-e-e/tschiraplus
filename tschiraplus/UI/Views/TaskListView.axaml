@@ -4,7 +4,17 @@
         x:Class="UI.Views.TaskListView"
         x:DataType="vm:TaskListViewModel">
     
-    <Grid RowDefinitions="Auto, Auto, *, Auto">
+    <UserControl.Styles>
+        <Style Selector="FlyoutPresenter.taskDetailFlyout">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
+            <Setter Property="MaxWidth" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay}"/>
+            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
+            <Setter Property="MaxHeight" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay}"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Name="RootGrid">
         
         <!-- Top Bar -->
         <Grid Grid.Row="0" Background="#1a1c20">
@@ -64,14 +74,12 @@
         <!-- Main Area -->
         <Grid Grid.Row="2" Background="#1a1c20">
             <Grid ColumnDefinitions="Auto,*">
-                <!-- Select Area -->
-                
                 <!-- Tasks Area -->
                 <ScrollViewer Grid.Column="1">
                     <ItemsControl ItemsSource="{Binding Tasks}" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:TaskViewModel">
-                                <Button Command="{Binding OpenTaskDetailsViewCommand}" HorizontalAlignment="Stretch">
+                                <Button Command="{Binding OpenTaskDetailCommand}" HorizontalAlignment="Stretch" Click="OnEditButtonPressed">
                                     <Border BorderBrush="Gray"
                                             BorderThickness="1"
                                             Margin="10"
@@ -79,7 +87,6 @@
                                         <StackPanel TextElement.Foreground="Snow">
                                             <TextBlock Text="{Binding Title}"></TextBlock>
                                             <TextBlock Text="{Binding Description}"></TextBlock>
-                                            <Button Command="{Binding DeleteTaskCommand}" Content="Delete"></Button>
                                         </StackPanel>
                                     </Border>
                                 </Button>
@@ -112,6 +119,12 @@
             <Button Command="{Binding OpenTaskCreationCommand}" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
         </Border>
        
+        <Grid.ContextFlyout>
+            <Flyout Placement="Center" FlyoutPresenterClasses="taskDetailFlyout">
+                <ContentControl Content="{Binding TaskDetailFlyout}"/>
+            </Flyout>
+        </Grid.ContextFlyout>
+        
     </Grid>
 
 </UserControl>

@@ -4,6 +4,7 @@ using PetaPoco;
 using Services.DatabaseServices;
 using Services.DTOs;
 using TaskStatus = Core.Enums.TaskStatus;
+using TaskPriority = Core.Enums.TaskPriority;
 
 namespace Services.Repositories;
 
@@ -66,6 +67,7 @@ public class TaskRepository : ITaskRepository
             Title = task.Title ?? "Unnamed",
             Description = task.Description ?? "No description provided...",
             Status = task.Status.ToString() ?? TaskStatus.Backlog.ToString(),
+            Priority = task.Priority.ToString() ?? TaskPriority.NotSet.ToString(),
             CreationDate = task.CreationDate
         };
     }
@@ -85,6 +87,7 @@ public class TaskRepository : ITaskRepository
             Title = task.Title ?? "Unnamed task",
             Description = task.Description ?? "No description provided",
             Status = task.Status.ToString(),
+            Priority = task.Priority.ToString(),
             CreationDate = task.CreationDate
         }).ToList();
     }

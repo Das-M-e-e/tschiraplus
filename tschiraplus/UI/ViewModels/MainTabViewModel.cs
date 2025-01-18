@@ -93,36 +93,4 @@ public class MainTabViewModel : ObservableObject
             Tabs.Remove(_currentTab);
         }
     }
-
-    /// <summary>
-    /// Opens new Tab containing the TaskDetailView
-    /// </summary>
-    /// <param name="taskId"></param>
-    public void OpenTaskDetails(Guid taskId)
-    {
-        if (_currentTab is { Tag: Guid currentTaskId })
-        {
-            if (currentTaskId == taskId)
-            {
-                NavigateToTab(_currentTab);  
-                return;
-            }
-            CloseCurrentTab();
-        }
-
-        if (_currentTab is { CanClose: true})
-        {
-            CloseCurrentTab();
-        }
-
-        _currentTab = new TabItemViewModel($"{taskId}", new TaskDetailView
-        {
-            DataContext = new TaskDetailViewModel(_taskService, taskId, this )
-        })
-        {
-            CanClose = true
-        };
-        Tabs.Add(_currentTab);
-        NavigateToTab(_currentTab);
-    }
 }

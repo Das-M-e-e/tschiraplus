@@ -2,6 +2,7 @@
 using Services.DTOs;
 using Services.Repositories;
 using TaskStatus = Core.Enums.TaskStatus;
+using TaskPriority = Core.Enums.TaskPriority;
 
 namespace Services.TaskServices;
 
@@ -36,7 +37,7 @@ public class TaskService : ITaskService
     /// <param name="status"></param>
     /// <param name="creationDate"></param>
     /// <returns>The newly created TaskDto</returns>
-    public TaskDto CreateTaskDto(string title, string description, string status, DateTime creationDate)
+    public TaskDto CreateTaskDto(string title, string description, string status, string priority, DateTime creationDate)
     {
         var dto = new TaskDto
         {
@@ -44,6 +45,7 @@ public class TaskService : ITaskService
             Title = title,
             Description = description,
             Status = status,
+            Priority = priority,
             CreationDate = creationDate
         };
         return dto;
@@ -64,6 +66,7 @@ public class TaskService : ITaskService
             Title = taskDto.Title,
             Description = taskDto.Description,
             Status = Enum.TryParse(taskDto.Status, out TaskStatus status) ? status : TaskStatus.Backlog,
+            Priority = Enum.TryParse(taskDto.Priority, out TaskPriority priority) ? priority : TaskPriority.High,
             CreationDate = DateTime.Now,
             LastUpdated = DateTime.Now
         };
@@ -83,7 +86,8 @@ public class TaskService : ITaskService
             CreationDate = taskModel.CreationDate,
             Description = taskModel.Description,
             Title = taskModel.Title,
-            Status = taskModel.Status.ToString()
+            Status = taskModel.Status.ToString(),
+            Priority = taskModel.Priority.ToString()
         };
         return convertedTaskDto;
     }
