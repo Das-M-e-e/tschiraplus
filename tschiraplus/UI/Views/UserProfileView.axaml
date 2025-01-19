@@ -4,104 +4,131 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
              x:Class="UI.Views.TaskDetailView">
+    
+    
+    
     <Grid  RowDefinitions="Auto,*,Auto" Background="Snow">
-         <!-- Top Bar -->
+        
+        
+        <!-- Top Bar -->
         <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Height="40" Background="#f3f3f3">
-        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="Project / UserName" FontSize="11" Width="315" Margin="10,4.5,0,0" ></TextBlock>
-        </StackPanel>
-    </Grid>
+            
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Project / UserName" FontSize="11" Width="315" Margin="10,4.5,0,0" ></TextBlock>
+            </StackPanel>
+        </Grid>
         
          
         <!-- MAIN -->
-        <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto"  >
+        <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto">
+            
+            
             <Grid Grid.Row="0">
+                
                 <TextBlock Text="UserName"></TextBlock>
-                <StackPanel Margin="10, 10, 50, 0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right" >
+                
+                <StackPanel Margin="10, 10, 50, 0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    
                     <Button>
                         <Image Source="avares://UI/Assets/edit_icon.png" Opacity="0.45" Stretch="Uniform" Width="18"></Image>
                     </Button>
+                    
                 </StackPanel>
+                
             </Grid>
             
-            <Grid Grid.Row="1"  >
+            <Grid Grid.Row="1">
+                
                 <StackPanel Orientation="Vertical">
                     <Border Height="1" Background="Black"/>
                 </StackPanel>
+                
             </Grid>
             
-            <Grid Grid.Row="2">
+            
+            
+            <Grid Grid.Row="2" VerticalAlignment="Center">
+                
                 
                 <StackPanel Orientation="Horizontal">
-                    <Grid ColumnDefinitions="Auto,Auto">
-                        <Grid Grid.Column="0"  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Width="130">
-                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    
+                    
+                    <Grid ColumnDefinitions="Auto,Auto,Auto">
+                        
+                        <Grid Grid.Column="0" RowDefinitions="Auto" Width="150">
+                
+                            <StackPanel>
+                                <Image Source="avares://UI/Assets/contributors_icon.png" Stretch="Uniform" Width="150"></Image>
+                            </StackPanel>
+                            
+                        </Grid>
+                        
+                        <Grid Grid.Column="1"  RowDefinitions="Auto,Auto,Auto" Width="150">
+                            
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/priority_icon.png" Stretch="Uniform" Width="11.5"></Image>
-                                        <TextBlock Text="Priority"></TextBlock>
+                                        <TextBlock Text="Username"></TextBlock>
                                     </StackPanel>
-                                    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/start_date_icon.png" Stretch="Uniform" Width="11.5"></Image>
-                                        <TextBlock Text="Start date"></TextBlock>
+                                        <TextBlock Text="Name"></TextBlock>
                                     </StackPanel>
-                                    <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                                         <Image Source="avares://UI/Assets/due_date_icon.png" Stretch="Uniform" Width="11"></Image>
-                                        <TextBlock Text="End date"></TextBlock>
+                                        <TextBlock Text="E-Mail"></TextBlock>
                                     </StackPanel>
-                                    <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <Image Source="avares://UI/Assets/contributors_icon.png" Stretch="Uniform" Width="13"></Image>
-                                        <TextBlock Text="Contributors"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <Image Source="avares://UI/Assets/tag_icon.png" Stretch="Uniform" Width="16"></Image>
-                                        <TextBlock Text="Tags"></TextBlock>
-                                    </StackPanel>
-                           
+                                    
                         </Grid>
-                        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" Width="315" HorizontalAlignment="Left">
+                        
+                        
+                        <Grid Grid.Column="2" RowDefinitions="Auto,Auto,Auto" Width="150" HorizontalAlignment="Left">
                             
-                            <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="test"></TextBlock>
-                            </StackPanel>
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+                                         <TextBlock Text="Jemand123"></TextBlock>
+                                    </StackPanel>
                             
-                            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="TestTextResponse"></TextBlock>
-                            </StackPanel>
+                                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                         <TextBlock Text="Jemand"></TextBlock>
+                                    </StackPanel>
                             
-                            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center">
-                                <TextBlock Text="-" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
-                            </StackPanel>
-                            
-                            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
-                                <TextBlock Text="Irgendwas"></TextBlock>
-                            </StackPanel>
-                            
-                            <StackPanel Grid.Row="5" Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock Text="Tag1"></TextBlock>
-                            </StackPanel>
-                            
+                                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                                         <TextBlock Text="Irgendwas"></TextBlock>
+                                    </StackPanel>
                             
                         </Grid>
+                        
+                        
+                        
+                        
                     </Grid>
                 </StackPanel>
             </Grid>
             
             
             
+            
             <!-- Description -->
         <Grid Grid.Row="3">
             <StackPanel Orientation="Vertical">
+                
                 <StackPanel   Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top">
                     <Image Source="avares://UI/Assets/description_icon.png" Stretch="Uniform" Width="14"></Image>
                     <TextBlock Text="Description"></TextBlock>
                 </StackPanel>
-                <Border>
+                
+                <StackPanel>
                     <TextBlock Text="SomeThing Something"></TextBlock>
-                </Border>
+                </StackPanel>
+                
+               
                 
             </StackPanel>
             
-           
         </Grid>
+            
+            
         <!-- Bottom bar -->
         <Grid Grid.Row="3" ColumnDefinitions="Auto" Background="#1A1C20" Height="30" VerticalAlignment="Bottom">
             
