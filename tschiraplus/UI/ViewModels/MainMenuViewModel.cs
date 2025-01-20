@@ -56,6 +56,9 @@ public class MainMenuViewModel : ObservableObject
                         new ProjectRepository(
                             _dbService.GetDatabase(),
                             new RemoteDatabaseService()),
+                        new ProjectUserRepository(
+                            _dbService.GetDatabase(),
+                            new RemoteDatabaseService()),
                         _appState.CurrentUser),
                     this,
                     _appState)
@@ -91,8 +94,10 @@ public class MainMenuViewModel : ObservableObject
 
         var taskRepository = new TaskRepository(_dbService.GetDatabase(), projectId);
         _appState.CurrentProjectId = projectId;
-        var taskService = new TaskService(taskRepository, new TaskSortingManager(), _appState);
-        
+        var taskSortingManager = new TaskSortingManager(taskRepository, _appState);
+        var userInputParser = new UserInputParser();
+        var taskService = new TaskService(taskRepository, taskSortingManager, _appState, userInputParser);
+
         var mainTabViewModel = new MainTabViewModel(taskService, projectId);
 
         _currentProjectTab = new TabItemViewModel($"{projectId}", new MainTabView { DataContext = mainTabViewModel })
@@ -144,6 +149,9 @@ public class MainMenuViewModel : ObservableObject
                 DataContext = new CreateNewProjectViewModel(
                     new ProjectService(
                         new ProjectRepository(
+                            _dbService.GetDatabase(),
+                            new RemoteDatabaseService()),
+                        new ProjectUserRepository(
                             _dbService.GetDatabase(),
                             new RemoteDatabaseService()),
                         _appState.CurrentUser),

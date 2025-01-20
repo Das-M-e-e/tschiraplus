@@ -8,11 +8,13 @@ namespace Services.ProjectServices;
 public class ProjectService : IProjectService
 {
     private readonly IProjectRepository _projectRepository;
+    private readonly IProjectUserRepository _projectUserRepository;
     private readonly UserDto _currentUser;
 
-    public ProjectService(IProjectRepository projectRepository, UserDto currentUser)
+    public ProjectService(IProjectRepository projectRepository, IProjectUserRepository projectUserRepository, UserDto currentUser)
     {
         _projectRepository = projectRepository;
+        _projectUserRepository = projectUserRepository;
         _currentUser = currentUser;
     }
 
@@ -33,9 +35,19 @@ public class ProjectService : IProjectService
             CreationDate = DateTime.Now,
             LastUpdated = DateTime.Now,
         };
+
+        // Create the ProjectUser for the owner of the project
+        var ownerProjectUser = new ProjectUserModel
+        {
+            ProjectUserId = Guid.NewGuid(),
+            ProjectId = projectDto.ProjectId,
+            UserId = _currentUser.UserId,
+            AssignedAt = DateTime.Now
+        };
         
-          _projectRepository.AddProject(newProject);
-          _projectRepository.PostProjectAsync(newProject);
+        _projectRepository.AddProject(newProject);
+        _projectUserRepository.AddProjectUser(ownerProjectUser);
+        _projectRepository.PostProjectAsync(newProject);
     }
     
     
