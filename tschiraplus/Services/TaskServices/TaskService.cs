@@ -201,4 +201,6 @@ public class TaskService : ITaskService
     {
        return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
     }
+
+    public void ApplyTag(List<TagDto> tags){}
 }
