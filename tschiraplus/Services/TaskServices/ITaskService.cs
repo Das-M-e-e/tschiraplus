@@ -12,4 +12,5 @@ public interface ITaskService
     public List<TaskDto> SortTasksByTitle(List<TaskDto> tasks);
     public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status);
     IEnumerable<TaskDto> ProcessUserInput(string userInput, IEnumerable<TaskDto> tasks);
+    public TagDto ApplyTag(List<TagDto> tags);
 }
