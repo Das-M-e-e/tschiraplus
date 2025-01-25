@@ -29,9 +29,9 @@ public class SyncService : ISyncService
         if (projects == null) return;
         
         var users = new List<Guid>();
-        foreach (var project in projects.Where(project => !users.Contains(project.OwnerId)))
+        foreach (var project in projects.Where(project => !users.Contains(project.Owner.UserId)))
         {
-            users.Add(project.OwnerId);
+            users.Add(project.Owner.UserId);
         }
         
         await AddUsersToLocalDbIfNotExists(users);

@@ -49,18 +49,10 @@ public class TaskRepository : ITaskRepository
     /// </summary>
     /// <param name="taskId"></param>
     /// <returns>The wanted task as TaskDto</returns>
-    public TaskDto GetTaskById(Guid taskId)
+    public TaskModel GetTaskById(Guid taskId)
     {
-        var task = _db.SingleOrDefault<TaskModel>("WHERE TaskId = @0", taskId);
-
-        return new TaskDto
-        {
-            TaskId = task.TaskId,
-            Title = task.Title ?? "Unnamed",
-            Description = task.Description ?? "No description provided...",
-            Status = task.Status.ToString() ?? TaskStatus.Backlog.ToString(),
-            CreationDate = task.CreationDate
-        };
+        return _db.SingleOrDefault<TaskModel>("WHERE TaskId = @0", taskId);
+        
     }
 
     /// <summary>
@@ -78,7 +70,7 @@ public class TaskRepository : ITaskRepository
             Title = task.Title ?? "Unnamed task",
             Description = task.Description ?? "No description provided",
             Status = task.Status.ToString(),
-            CreationDate = task.CreationDate
+            StartDate = task.CreationDate
         }).ToList();
     }
 }

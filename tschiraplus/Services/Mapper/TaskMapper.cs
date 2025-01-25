@@ -1,12 +1,23 @@
 ﻿using System.Data;
+using Core.Enums;
 using Core.Models;
 using Services.DTOs;
+using Services.Repositories;
+using TaskStatus = Core.Enums.TaskStatus;
 
 namespace Services.Mapper;
 
 public class TaskMapper
 {
-    public static TaskDto ToDto(TaskModel model)
+    
+    private readonly ITaskRepository _taskRepository;
+
+    public TaskMapper(ITaskRepository taskRepository)
+    {
+        _taskRepository = taskRepository;
+    }
+
+    public TaskDto ToDto(TaskModel model)
     {
         var taskDto = new TaskDto()
         {
@@ -14,7 +25,9 @@ public class TaskMapper
           Title = model.Title,
           Description = model.Description,
           Status = model.Status.ToString(),
-          CreationDate = model.CreationDate
+          Priority = model.Priority.ToString(),
+          StartDate = model.StartDate,
+          DueDate = model.DueDate
         };
 
         return taskDto;
@@ -22,27 +35,20 @@ public class TaskMapper
 
 
 
-    public static TaskModel ToModel(TaskDto dto, UserModel owner)
+    public TaskModel ToModel(TaskDto dto)
     {
-        var taskModel = new TaskModel()
+        var taskModel = _taskRepository.GetTaskById(dto.TaskId);
+        if (taskModel == null)
         {
-            TaskId = dto.TaskId,
-            Title = dto.Title,
-            //TODO get information from somewhere ProjectId = ,
-            //TODO get information from somewhere SprintID = ,
-            //TODO get information from somewhere AuthorID = ,
-            Description = dto.Description,
-            // DoDO parse Status = dto.Status ,
-            //TODO get information from somewhere Priority??? = ,
-            CreationDate = dto.CreationDate
-            //TODO get information from somewhere DueDate = ,
-            //TODO get information from somewhere CompletionDate = ,
-            //TODO get information from somewhere LastUpdated = ,
-            //TODO get information from somewhere EstimatedTime = ,
-            //TODO get information from somewhere ActualTimeSpent = ,
-            
-            
-        };
+            throw new NullReferenceException("Task not found");
+        }
+        
+        taskModel.Title = dto.Title;
+        taskModel.Description = dto.Description;
+        taskModel.Status = Enum.TryParse(dto.Status, out TaskStatus status) ? status : TaskStatus.Backlog;
+        taskModel.Priority = Enum.TryParse(dto.Priority, out TaskPriority priority) ? priority : TaskPriority.Low;
+        taskModel.StartDate = dto.StartDate;
+        taskModel.DueDate = dto.DueDate;
         
         return taskModel;
     }

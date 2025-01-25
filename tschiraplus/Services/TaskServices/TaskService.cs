@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using Services.DTOs;
+using Services.Mapper;
 using Services.Repositories;
 using TaskStatus = Core.Enums.TaskStatus;
 
@@ -10,12 +11,14 @@ public class TaskService : ITaskService
     private readonly ITaskRepository _taskRepository;
     private readonly ITaskSortingManager _taskSortingManager;
     private readonly ApplicationState _appState;
+    private TaskMapper _taskMapper;
 
     public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState)
     {
         _taskRepository = taskRepository;
         _taskSortingManager = taskSortingManager;
         _appState = appState;
+        _taskMapper = new TaskMapper(_taskRepository);
     }
 
     /// <summary>
@@ -24,7 +27,7 @@ public class TaskService : ITaskService
     /// <param name="task"></param>
     public void CreateTask(TaskDto task)
     {
-        _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
+        _taskRepository.AddTask(_taskMapper.ToModel(task));
     }
     
     /// <summary>
@@ -43,49 +46,10 @@ public class TaskService : ITaskService
             Title = title,
             Description = description,
             Status = status,
-            CreationDate = creationDate
+            StartDate = creationDate
         };
         return dto;
     }    
-
-    /// <summary>
-    /// Converts a TaskDto to a TaskModel
-    /// </summary>
-    /// <param name="taskDto"></param>
-    /// <returns>The TaskModel</returns>
-    private TaskModel ConvertTaskDtoToTaskModel(TaskDto taskDto)
-    {
-        var convertedTaskModel = new TaskModel
-        {
-            TaskId = taskDto.TaskId,
-            ProjectId = _appState.CurrentProjectId ?? throw new ArgumentNullException(nameof(_appState.CurrentProjectId)),
-            AuthorId = _appState.CurrentUser!.UserId,
-            Title = taskDto.Title,
-            Description = taskDto.Description,
-            Status = Enum.TryParse(taskDto.Status, out TaskStatus status) ? status : TaskStatus.Backlog,
-            CreationDate = DateTime.Now,
-            LastUpdated = DateTime.Now
-        };
-        return convertedTaskModel;
-    }
-
-    /// <summary>
-    /// Converts a TaskModel to a TaskDto
-    /// </summary>
-    /// <param name="taskModel"></param>
-    /// <returns>The TaskDto</returns>
-    private TaskDto ConvertTaskModelToTaskDto(TaskModel taskModel)
-    {
-        var convertedTaskDto = new TaskDto
-        {
-            TaskId = taskModel.TaskId,
-            CreationDate = taskModel.CreationDate,
-            Description = taskModel.Description,
-            Title = taskModel.Title,
-            Status = taskModel.Status.ToString()
-        };
-        return convertedTaskDto;
-    }
 
     /// <summary>
     /// Gets a single task by id using the TaskRepository
@@ -94,7 +58,7 @@ public class TaskService : ITaskService
     /// <returns>The wanted task as TaskDto</returns>
     public TaskDto GetTaskById(Guid taskId)
     {
-        return _taskRepository.GetTaskById(taskId);
+        return _taskMapper.ToDto(_taskRepository.GetTaskById(taskId));
     }
     
     /// <summary>

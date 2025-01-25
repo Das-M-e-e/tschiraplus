@@ -15,7 +15,7 @@ public class TaskViewModel
     public string Title { get; }
     public string Description { get; }
     public string? Status { get; }
-    public DateTime CreationDate { get; }
+    public DateTime? StartDate { get; }
     
     // Commands
     public ICommand DeleteTaskCommand { get; }
@@ -26,7 +26,7 @@ public class TaskViewModel
         Title = task.Title;
         Description = task.Description;
         Status = task.Status;
-        CreationDate = task.CreationDate;
+        StartDate = task.StartDate;
 
         _taskListViewModel = taskListViewModel;
         DeleteTaskCommand = new RelayCommand(DeleteTask);

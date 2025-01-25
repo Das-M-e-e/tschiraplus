@@ -33,7 +33,7 @@ public class ProjectRepository : IProjectRepository
         {
             ProjectUserId = Guid.NewGuid(),
             ProjectId = project.ProjectId,
-            UserId = project.OwnerId,
+            UserId = project.Owner.UserId,
             AssignedAt = DateTime.Now
         };
         _projectUserRepository.AddProjectUser(projectUser);
@@ -77,7 +77,7 @@ public class ProjectRepository : IProjectRepository
             .OfType<ProjectModel>()
             .Select(project => new ProjectDto
             {
-                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, ProjectPriority = project.Priority.ToString(),
+                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, Priority = project.Priority.ToString(),
             })
             .ToList();
     }
@@ -140,7 +140,7 @@ public class ProjectRepository : IProjectRepository
         var jsonParts = new List<string>
         {
             $"\"projectId\":\"{project.ProjectId}\"",
-            $"\"ownerId\":\"{project.OwnerId}\"",
+            $"\"ownerId\":\"{project.Owner.UserId}\"",
             $"\"name\":\"{project.Name}\"",
             $"\"status\":{(int)project.Status}",
             $"\"priority\":{(int)project.Priority}",
@@ -174,7 +174,7 @@ public class ProjectRepository : IProjectRepository
         {
             ProjectUserId = Guid.NewGuid(),
             ProjectId = project.ProjectId,
-            UserId = project.OwnerId,
+            UserId = project.Owner.UserId,
             AssignedAt = DateTime.Now
         };
 

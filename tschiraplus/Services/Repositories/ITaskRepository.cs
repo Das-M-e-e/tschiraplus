@@ -8,6 +8,6 @@ public interface ITaskRepository
     void AddTask(TaskModel task);
     void UpdateTask(TaskModel task);
     void DeleteTask(Guid taskId);
-    TaskDto GetTaskById(Guid taskId);
+    TaskModel GetTaskById(Guid taskId);
     List<TaskDto> GetTasksByProjectId(Guid projectId);
 }

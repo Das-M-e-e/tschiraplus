@@ -42,7 +42,7 @@ public class CreateNewProjectViewModel
             ProjectId = projectId,
             Name = Name,
             Description = Description,
-            ProjectPriority = ProjectPriority
+            Priority = ProjectPriority
         };
         
         _projectService.CreateProject(newProjectDto);

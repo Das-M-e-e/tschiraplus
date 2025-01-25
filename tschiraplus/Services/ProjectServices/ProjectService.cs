@@ -1,6 +1,7 @@
 ﻿using Core.Enums;
 using Core.Models;
 using Services.DTOs;
+using Services.Mapper;
 using Services.Repositories;
 
 namespace Services.ProjectServices;
@@ -9,11 +10,13 @@ public class ProjectService : IProjectService
 {
     private readonly IProjectRepository _projectRepository;
     private readonly UserDto _currentUser;
+    private ProjectMapper _projectMapper;
 
     public ProjectService(IProjectRepository projectRepository, UserDto currentUser)
     {
         _projectRepository = projectRepository;
         _currentUser = currentUser;
+        _projectMapper = new ProjectMapper(_projectRepository);
     }
 
     /// <summary>
@@ -22,20 +25,8 @@ public class ProjectService : IProjectService
     /// <param name="projectDto"></param>
     public void CreateProject(ProjectDto projectDto)
     {
-        var newProject = new ProjectModel
-        {
-            ProjectId = projectDto.ProjectId,
-            OwnerId = _currentUser.UserId,
-            Name = projectDto.Name,
-            Description = projectDto.Description ?? null,
-            Status = ProjectStatus.NotStarted,
-            Priority = Enum.TryParse<ProjectPriority>(projectDto.ProjectPriority, out var priority) ? priority : ProjectPriority.Low,
-            CreationDate = DateTime.Now,
-            LastUpdated = DateTime.Now,
-        };
-        
-          _projectRepository.AddProject(newProject);
-          _projectRepository.PostProjectAsync(newProject);
+          _projectRepository.AddProject(_projectMapper.ToModel(projectDto));
+          _projectRepository.PostProjectAsync(_projectMapper.ToModel(projectDto));
     }
     
     
@@ -57,12 +48,7 @@ public class ProjectService : IProjectService
     {
         var projectModel = _projectRepository.GetProjectById(projectId);
 
-        return new ProjectDto
-        {
-            ProjectId = projectModel.ProjectId,
-            Name = projectModel.Name,
-            Description = projectModel.Description ?? "No description provided"
-        };
+        return _projectMapper.ToDto(projectModel);
     }
 
     /// <summary>

@@ -119,7 +119,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
             Title = task.Title,
             Description = task.Description,
             Status = task.Status,
-            CreationDate = task.CreationDate
+            StartDate = task.StartDate
         }).ToList();
         
         var sortedTaskDtos = _taskService.SortTasksByTitle(taskDtos);
