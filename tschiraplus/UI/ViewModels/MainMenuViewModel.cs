@@ -94,7 +94,7 @@ public class MainMenuViewModel : ObservableObject
 
         var taskRepository = new TaskRepository(_dbService.GetDatabase(), projectId);
         _appState.CurrentProjectId = projectId;
-        var taskSortingManager = new TaskSortingManager(taskRepository, _appState);
+        var taskSortingManager = new TaskSortingManager();
         var userInputParser = new UserInputParser();
         var taskService = new TaskService(taskRepository, taskSortingManager, _appState, userInputParser);
 

@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Services.UserServices;
 
-public class TokenStorageService
+public static class TokenStorageService
 {
     private const string FileName = "authToken.txt";
     private static readonly string FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FileName);

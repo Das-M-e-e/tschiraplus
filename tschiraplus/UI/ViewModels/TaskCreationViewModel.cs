@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using Services.DTOs;
 using Services.TaskServices;
 
 namespace UI.ViewModels;
@@ -35,11 +36,12 @@ public class TaskCreationViewModel : ViewModelBase
     /// </summary>
     private void CreateTask()
     {
-        var dto = _taskService.CreateTaskDto(
-            Title,
-            Description,
-            InitialStatus,
-            DateTime.Today);
+        var dto = new TaskDto
+        {
+            Title = Title,
+            Description = Description,
+            Status = InitialStatus
+        };
         _taskService.CreateTask(dto);
         _mainTabViewModel.SelectedTabIndex = 0;
         _mainTabViewModel.CloseCurrentTab();

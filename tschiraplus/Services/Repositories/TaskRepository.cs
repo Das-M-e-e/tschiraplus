@@ -64,7 +64,7 @@ public class TaskRepository : ITaskRepository
     {
         var tasks = _db.Fetch<TaskModel>("SELECT * FROM Tasks WHERE ProjectId = @0", projectId);
 
-        return tasks.Select(task => new TaskDto
+        return tasks.Select(task => new TaskDto // Todo: put in TaskService using the mapper
         {
             TaskId = task.TaskId,
             Title = task.Title ?? "Unnamed task",

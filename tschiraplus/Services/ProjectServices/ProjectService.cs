@@ -1,5 +1,4 @@
-﻿using Core.Enums;
-using Core.Models;
+﻿using Core.Models;
 using Services.DTOs;
 using Services.Mapper;
 using Services.Repositories;
@@ -11,7 +10,7 @@ public class ProjectService : IProjectService
     private readonly IProjectRepository _projectRepository;
     private readonly IProjectUserRepository _projectUserRepository;
     private readonly UserDto _currentUser;
-    private ProjectMapper _projectMapper;
+    private readonly ProjectMapper _projectMapper;
 
     public ProjectService(IProjectRepository projectRepository, IProjectUserRepository projectUserRepository, UserDto currentUser)
     {

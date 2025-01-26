@@ -11,7 +11,7 @@ public class TaskService : ITaskService
     private readonly ITaskSortingManager _taskSortingManager;
     private readonly ApplicationState _appState;
     private readonly IUserInputParser _userInputParser;
-    private TaskMapper _taskMapper;
+    private readonly TaskMapper _taskMapper;
 
     public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState, UserInputParser userInputParser)
     {
@@ -85,27 +85,6 @@ public class TaskService : ITaskService
     {
         _taskRepository.AddTask(_taskMapper.ToModel(task));
     }
-    
-    /// <summary>
-    /// Creates a TaskDto from relevant attributes
-    /// </summary>
-    /// <param name="title"></param>
-    /// <param name="description"></param>
-    /// <param name="status"></param>
-    /// <param name="creationDate"></param>
-    /// <returns>The newly created TaskDto</returns>
-    public TaskDto CreateTaskDto(string title, string description, string status, DateTime creationDate)
-    {
-        var dto = new TaskDto
-        {
-            TaskId = Guid.NewGuid(),
-            Title = title,
-            Description = description,
-            Status = status,
-            StartDate = creationDate
-        };
-        return dto;
-    }    
 
     /// <summary>
     /// Gets a single task by id using the TaskRepository
