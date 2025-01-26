@@ -46,7 +46,7 @@ public class TaskService : ITaskService
             Description = description,
             Status = status,
             Priority = priority,
-            CreationDate = creationDate
+            StartDate = null
         };
         return dto;
     }    
@@ -83,7 +83,7 @@ public class TaskService : ITaskService
         var convertedTaskDto = new TaskDto
         {
             TaskId = taskModel.TaskId,
-            CreationDate = taskModel.CreationDate,
+            StartDate = taskModel.StartDate,
             Description = taskModel.Description,
             Title = taskModel.Title,
             Status = taskModel.Status.ToString(),

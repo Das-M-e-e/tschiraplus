@@ -65,6 +65,7 @@ public class DatabaseInitializer
                     Status INTEGER,
                     Priority INTEGER,
                     CreationDate TIMESTAMP,
+                    StartDate TIMESTAMP,
                     DueDate TIMESTAMP,
                     CompletionDate TIMESTAMP,
                     LastUpdated TIMESTAMP,

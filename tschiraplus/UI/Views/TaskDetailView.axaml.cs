@@ -1,8 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Avalonia.Animation;
+using Avalonia.Animation.Easings;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.LogicalTree;
+using Avalonia.Media;
+using Avalonia.Styling;
 using UI.ViewModels;
 
 namespace UI.Views;
@@ -54,7 +60,50 @@ public partial class TaskDetailView : UserControl
         var flyout = SetPriorityBorder.ContextFlyout;
         flyout?.Hide();
     }
+    
+    public async void OnCommentSaveButtonClick(object? sender,  Avalonia.Interactivity.RoutedEventArgs args)
+    {
+        var normalColor = DescriptionTextBox.BorderBrush;
 
+        if (DescriptionTextBox.Text != "")
+        {
+
+
+
+            DescriptionTextBox.BorderBrush = Brushes.PaleGreen;
+
+
+            await Task.Delay(800);
+
+
+            var animation = new Animation
+            {
+                Duration = TimeSpan.FromSeconds(1),
+                Easing = new CubicEaseInOut(),
+                Children =
+                {
+                    new KeyFrame
+                    {
+                        Cue = new Cue(0),
+                        Setters = { new Setter(TextBox.BorderBrushProperty, Brushes.PaleGreen) }
+                    },
+                    new KeyFrame
+                    {
+                        Cue = new Cue(1),
+                        Setters =
+                        {
+                            new Setter(TextBox.BorderBrushProperty, new SolidColorBrush(Color.Parse("#dfe3e8")))
+                        }
+                    }
+                }
+            };
+
+
+            await animation.RunAsync(DescriptionTextBox);
+            DescriptionTextBox.BorderBrush = normalColor;
+        }
+    }
+    
     public void OnCloseButtonClicked(object sender, RoutedEventArgs args)
     {
         var parent = this.GetLogicalAncestors().OfType<TaskListView>().FirstOrDefault();

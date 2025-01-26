@@ -27,7 +27,6 @@ public class TaskDetailViewModel : ViewModelBase
     }
 
     private bool _isEditingTitle;
-
     public bool IsEditingTitle
     {
         get => _isEditingTitle;
@@ -35,7 +34,6 @@ public class TaskDetailViewModel : ViewModelBase
     }
 
     private SelectionItemViewModel _status;
-
     public SelectionItemViewModel Status
     {
         get => _status;
@@ -43,25 +41,39 @@ public class TaskDetailViewModel : ViewModelBase
     }
     
     private SelectionItemViewModel _priority;
-
     public SelectionItemViewModel Priority
     {
         get => _priority;
         set => this.RaiseAndSetIfChanged(ref _priority, value);
     }
-    
 
-    public ObservableCollection<SelectionItemViewModel> StatusList { get; set; } = [];
+    private string? _startDate;
+    public string StartDate
+    {
+        get => _startDate ?? string.Empty;
+        set => this.RaiseAndSetIfChanged(ref _startDate, value);
+    }
     
+    private bool _isEditingStartDate;
+    public bool IsEditingStartDate
+    {
+        get => _isEditingStartDate;
+        set => this.RaiseAndSetIfChanged(ref _isEditingStartDate, value);
+    }
+    
+        
+    public string? Description {get; set;}
+    
+    public ObservableCollection<SelectionItemViewModel> StatusList { get; set; } = [];
     public ObservableCollection<SelectionItemViewModel> PriorityList { get; set; } = [];
     
     // Commands
     
     public ICommand StartEditingTitleCommand { get; set; }
+    public ICommand StartEditingStartDateCommand { get; set; }
     public ICommand SaveTitleCommand { get; set; }
-    
+    public ICommand SaveDescriptionCommand { get; set; }
     public ICommand CloseFlyoutCommand { get; set; }
-    
     
     public TaskDetailViewModel(ITaskService taskService, Guid taskId, TaskListViewModel taskListViewModel)
     {
@@ -72,9 +84,11 @@ public class TaskDetailViewModel : ViewModelBase
         LoadTask(taskId);
         
         StartEditingTitleCommand = new RelayCommand(StartEditingTitle);
+        SaveDescriptionCommand = new RelayCommand(SaveDescription);
         SaveTitleCommand = new RelayCommand(SaveTitle);
+        StartEditingStartDateCommand = new RelayCommand(StartEditingStartDate);
         CloseFlyoutCommand = new RelayCommand(CloseFlyout);
-
+        
     }
 
     /// <summary>
@@ -89,6 +103,7 @@ public class TaskDetailViewModel : ViewModelBase
             ?? StatusList.First();
         Priority = PriorityList.FirstOrDefault(s => (string)s.Tag! == _taskDto.Priority)
             ?? PriorityList.First();
+        Description = _taskDto.Description;
         
     }
 
@@ -112,7 +127,7 @@ public class TaskDetailViewModel : ViewModelBase
         }
         IsEditingTitle = false;
     }
-
+    
     private void LoadStatusList()
     {
         StatusList.Add(new SelectionItemViewModel{Name = "Backlog", Tag ="Backlog", ColorCode = "#d3d3d3"});
@@ -145,6 +160,20 @@ public class TaskDetailViewModel : ViewModelBase
         _taskService.UpdateTask(_taskDto);
     }
 
+    private void StartEditingStartDate()
+    {
+        IsEditingStartDate = true;
+    }
+
+    private void SaveDescription()
+    {
+        if (_taskDto.Description != Description)
+        {
+            _taskDto.Description = Description;
+            _taskService.UpdateTask(_taskDto);
+        }
+    }
+    
     private void CloseFlyout()
     {
         _taskListViewModel.CloseFlyout();
