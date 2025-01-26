@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Reflection;
-using Core.Enums;
-using Core.Models;
+﻿using Core.Enums;
 using Services.DTOs;
 using Services.Mapper;
 using Services.Repositories;
-using TaskStatus = Core.Enums.TaskStatus;
 
 namespace Services.TaskServices;
 
@@ -48,7 +44,9 @@ public class TaskService : ITaskService
         return sortAttribute.ToLower() switch
         {
             "name" => _taskSortingManager.SortBySingleAttribute(tasks, t => t.Title),
+            
             "duedate" => _taskSortingManager.SortBySingleAttribute(tasks, t => t.DueDate ?? DateTime.MinValue),
+            
             _ => tasks // Unknown attribute -> return original list
         };
     }
@@ -67,13 +65,13 @@ public class TaskService : ITaskService
             "status" => _taskSortingManager.FilterByPredicate(tasks,
                 t => t.Status == value),
             
-            "creationdate" => _taskSortingManager.FilterByPredicate(tasks,
-                t => t.CreationDate.Date == DateTime.Parse(value).Date),
+            "startdate" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.StartDate == DateTime.Parse(value).Date),
             
             "priority" => _taskSortingManager.FilterByPredicate(tasks,
-                t => t.DueDate == DateTime.Parse(value).Date),
+                t => t.Priority == value),
             
-            _ => tasks,
+            _ => tasks // Unknown attribute -> return original list
             
         };
     }
