@@ -1,6 +1,4 @@
-﻿using Avalonia.Controls;
-using Avalonia.Input;
-using Avalonia.Interactivity;
+﻿using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 using UI.ViewModels;
 
@@ -18,5 +16,10 @@ public partial class ProjectListView : ReactiveUserControl<ProjectListViewModel>
         var grid = RootGrid;
         var flyout = grid.ContextFlyout;
         flyout?.ShowAt(grid);
+    }
+
+    public void OnCloseButtonPressed()
+    {
+        RootGrid.ContextFlyout?.Hide();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.Enums;
+using Core.Models;
 using Newtonsoft.Json;
 using PetaPoco;
 using Services.DatabaseServices;
@@ -27,6 +28,20 @@ public class ProjectRepository : IProjectRepository
     public void AddProject(ProjectModel project)
     {
         _db.Insert("Projects", "ProjectId", project);
+    }
+
+    public void UpdateProject(ProjectDto projectDto)
+    {
+        // get the project from database and check if it exists
+        var project = GetProjectById(projectDto.ProjectId);
+        if (project == null) return;
+        // update fields
+        project.Name = projectDto.Name;
+        project.Description = projectDto.Description;
+        project.Status = Enum.TryParse(projectDto.Status, out ProjectStatus status) ? status : ProjectStatus.NotStarted;
+        project.Priority = Enum.TryParse(projectDto.Priority, out ProjectPriority priority) ? priority : ProjectPriority.Low;
+        // put the updated project back in the database
+        _db.Update("Projects", "ProjectId", project);
     }
 
     /// <summary>

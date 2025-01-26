@@ -31,8 +31,8 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
         set => this.RaiseAndSetIfChanged(ref _isProjectDetailsOpen, value);
     }
 
-    private object _projectDetailsFlyout;
-    public object ProjectDetailsFlyout
+    private object? _projectDetailsFlyout;
+    public object? ProjectDetailsFlyout
     {
         get => _projectDetailsFlyout;
         set => this.RaiseAndSetIfChanged(ref _projectDetailsFlyout, value);
@@ -112,8 +112,15 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
         ProjectDetailsFlyout = new ProjectDetailsView
         {
             DataContext = new ProjectDetailsViewModel(
-                project,
-                _projectService)
+                _projectService,
+                this,
+                project.ProjectId)
         };
+    }
+
+    public void CloseFlyout()
+    {
+        ProjectDetailsFlyout = null;
+        LoadProjects();
     }
 }

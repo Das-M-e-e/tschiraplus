@@ -90,4 +90,9 @@ public class ProjectService : IProjectService
             _projectRepository.DeleteProject(projectId);
         }
     }
+
+    public void UpdateProject(ProjectDto projectDto)
+    {
+        _projectRepository.UpdateProject(projectDto);
+    }
 }
