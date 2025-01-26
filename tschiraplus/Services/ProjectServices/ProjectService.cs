@@ -9,12 +9,14 @@ namespace Services.ProjectServices;
 public class ProjectService : IProjectService
 {
     private readonly IProjectRepository _projectRepository;
+    private readonly IProjectUserRepository _projectUserRepository;
     private readonly UserDto _currentUser;
     private ProjectMapper _projectMapper;
 
-    public ProjectService(IProjectRepository projectRepository, UserDto currentUser)
+    public ProjectService(IProjectRepository projectRepository, IProjectUserRepository projectUserRepository, UserDto currentUser)
     {
         _projectRepository = projectRepository;
+        _projectUserRepository = projectUserRepository;
         _currentUser = currentUser;
         _projectMapper = new ProjectMapper(_projectRepository);
     }
@@ -27,6 +29,17 @@ public class ProjectService : IProjectService
     {
           _projectRepository.AddProject(_projectMapper.ToModel(projectDto));
           _projectRepository.PostProjectAsync(_projectMapper.ToModel(projectDto));
+          
+          // Create the ProjectUser for the owner of the project
+          var ownerProjectUser = new ProjectUserModel
+          {
+              ProjectUserId = Guid.NewGuid(),
+              ProjectId = projectDto.ProjectId,
+              UserId = _currentUser.UserId,
+              AssignedAt = DateTime.Now
+          };
+          
+          _projectUserRepository.AddProjectUser(ownerProjectUser);
     }
     
     
