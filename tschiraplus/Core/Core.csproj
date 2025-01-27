@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.2.3" />
+    </ItemGroup>
+
 </Project>

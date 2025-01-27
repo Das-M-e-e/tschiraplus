@@ -26,6 +26,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     public ObservableCollection<TaskViewModel> Tasks { get; } = [];
     public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = [];
     private List<TaskDto> AllTasks { get; set; } = [];
+    public string UserInput { get; set; } 
 
     private object _taskDetailFlyout;
 
@@ -37,6 +38,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     
     // Commands
     public ICommand OpenTaskCreationCommand { get; }
+    public ICommand ManipulateTasksCommand { get; }
 
     public TaskListViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel, ApplicationState appState)
     {
@@ -45,6 +47,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         _appState = appState;
 
         OpenTaskCreationCommand = new RelayCommand<string>(OpenTaskCreation, CanOpenTaskCreation);
+        ManipulateTasksCommand = new RelayCommand(ManipulateTasks);
         
         InitializeKanbanColumns();
 
@@ -136,5 +139,10 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         TaskDetailFlyout = null;
         LoadTasks();
     }
-    
+
+    private void ManipulateTasks()
+    {
+        var manipulatedTask  = _taskService.ProcessUserInput(UserInput, AllTasks);
+        UpdateTaskList(manipulatedTask);
+    }
 }

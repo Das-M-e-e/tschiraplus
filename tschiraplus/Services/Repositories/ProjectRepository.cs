@@ -27,16 +27,6 @@ public class ProjectRepository : IProjectRepository
     public void AddProject(ProjectModel project)
     {
         _db.Insert("Projects", "ProjectId", project);
-
-        // Create the ProjectUser for the owner of the project
-        var projectUser = new ProjectUserModel
-        {
-            ProjectUserId = Guid.NewGuid(),
-            ProjectId = project.ProjectId,
-            UserId = project.OwnerId,
-            AssignedAt = DateTime.Now
-        };
-        _projectUserRepository.AddProjectUser(projectUser);
     }
 
     /// <summary>
