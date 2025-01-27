@@ -24,7 +24,6 @@ public partial class TaskListView : ReactiveUserControl<TaskListViewModel>
     {
         RootGrid.ContextFlyout?.Hide();
     }
-}
 
     private void SearchBar_KeyDown(object? sender, KeyEventArgs e)
     {

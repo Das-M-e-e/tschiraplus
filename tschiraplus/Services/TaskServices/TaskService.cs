@@ -65,8 +65,8 @@ public class TaskService : ITaskService
             "status" => _taskSortingManager.FilterByPredicate(tasks,
                 t => t.Status == value),
             
-            "creationdate" => _taskSortingManager.FilterByPredicate(tasks,
-                t => t.CreationDate.Date == DateTime.Parse(value).Date),
+            "startdate" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.StartDate == DateTime.Parse(value).Date),
             
             "priority" => _taskSortingManager.FilterByPredicate(tasks,
                 t => t.DueDate == DateTime.Parse(value).Date),
