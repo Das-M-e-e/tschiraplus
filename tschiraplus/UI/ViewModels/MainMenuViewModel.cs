@@ -1,178 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Services;
-using Services.DatabaseServices;
+using Services.DTOs;
 using Services.ProjectServices;
-using Services.Repositories;
-using Services.TaskServices;
-using Services.UserServices;
-using UI.Views;
 
 namespace UI.ViewModels;
 
-public class MainMenuViewModel : ObservableObject
+public class MainMenuViewModel
 {
     // Services
-    private readonly DatabaseService _dbService;
-    private readonly ApplicationState _appState;
-    private readonly IAuthService _authService;
-    private readonly WrapperViewModel _wrapper;
+    private readonly MainViewModel _mainViewModel;
+    private readonly IProjectService _projectService;
     
     // Bindings
-    public ObservableCollection<TabItemViewModel> Tabs { get; }
-    
-    private int _selectedTabIndex;
-    public int SelectedTabIndex
-    {
-        get => _selectedTabIndex;
-        set => SetProperty(ref _selectedTabIndex, value);
-    }
+    public ObservableCollection<MenuProjectViewModel> Projects { get; set; } = [];
     
     // Commands
-    public ICommand OpenProjectCommand { get; }
-    public ICommand LogoutUserCommand { get; }
-    public ICommand CreateNewProjectCommand { get; }
-    
+    public ICommand OpenProjectListCommand { get; set; }
 
-    private TabItemViewModel? _currentProjectTab;
-    
-    public MainMenuViewModel(DatabaseService dbService, ApplicationState appState, IAuthService authService, WrapperViewModel wrapper)
+    public MainMenuViewModel(MainViewModel mainViewModel, IProjectService projectService)
     {
-        _dbService = dbService;
-        _appState = appState;
-        _authService = authService;
-        _wrapper = wrapper;
+        _mainViewModel = mainViewModel;
+        _projectService = projectService;
 
-        Tabs = new ObservableCollection<TabItemViewModel>
-        {
-            new("Projects", new ProjectListView
-            {
-                DataContext = new ProjectListViewModel(
-                    new ProjectService(
-                        new ProjectRepository(
-                            _dbService.GetDatabase(),
-                            new RemoteDatabaseService()),
-                        new ProjectUserRepository(
-                            _dbService.GetDatabase(),
-                            new RemoteDatabaseService()),
-                        _appState.CurrentUser),
-                    this,
-                    _appState)
-            })
-        };
-
-        OpenProjectCommand = new RelayCommand<Guid>(OpenProject);
-        LogoutUserCommand = new AsyncRelayCommand(LogoutUser);
-        CreateNewProjectCommand = new RelayCommand(CreateNewProject);
-    }
-
-    /// <summary>
-    /// Opens the selected project in a new tab
-    /// </summary>
-    /// <param name="projectId"></param>
-    private void OpenProject(Guid projectId)
-    {
-        if (_currentProjectTab is { Tag: Guid currentProjectId })
-        {
-            if (currentProjectId == projectId)
-            {
-                NavigateToTab(_currentProjectTab);
-                return;
-            }
-
-            Tabs.Remove(_currentProjectTab);
-        }
-
-        if (_currentProjectTab is { CanClose: true })
-        {
-            Tabs.Remove(_currentProjectTab);
-        }
-
-        var taskRepository = new TaskRepository(_dbService.GetDatabase(), new RemoteDatabaseService())
-        {
-            ProjectId = projectId
-        };
-        _appState.CurrentProjectId = projectId;
-        var taskSortingManager = new TaskSortingManager(taskRepository, _appState);
-        var userInputParser = new UserInputParser();
-        var taskService = new TaskService(taskRepository, taskSortingManager, _appState, userInputParser);
-
-        var mainTabViewModel = new MainTabViewModel(taskService, projectId, _appState);
-
-        _currentProjectTab = new TabItemViewModel($"{projectId}", new MainTabView { DataContext = mainTabViewModel })
-        {
-            Tag = projectId
-        };
+        OpenProjectListCommand = new RelayCommand(OpenProjectList);
         
-        Tabs.Add(_currentProjectTab);
-        NavigateToTab(_currentProjectTab);
+        LoadProjects();
     }
 
-    /// <summary>
-    /// Navigates to the selected tab
-    /// </summary>
-    /// <param name="tab"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    private void NavigateToTab(TabItemViewModel tab)
+    private void LoadProjects()
     {
-        var tabIndex = Tabs.IndexOf(tab);
-        if (tabIndex >= 0)
+        var allProjects = _projectService.GetAllProjects();
+        UpdateProjectList(allProjects);
+    }
+    
+    private void UpdateProjectList(IEnumerable<ProjectDto> projectDtos)
+    {
+        Projects.Clear();
+        foreach (var projectDto in projectDtos)
         {
-            SelectedTabIndex = tabIndex;
-        }
-        else
-        {
-            throw new InvalidOperationException("Tab not found in Tabs collection.");
+            Projects.Add(new MenuProjectViewModel(projectDto.ProjectId, projectDto.Name, this));
         }
     }
 
-    /// <summary>
-    /// Uses the _authService to log out a user
-    /// </summary>
-    private async Task LogoutUser()
+    private void OpenProjectList()
     {
-        await _authService.LogoutAsync();
-        _wrapper.NavigateToLogin();
+        _mainViewModel.OpenProjectList();
     }
 
-    /// <summary>
-    /// Navigates to the CreateNewProjectView
-    /// </summary>
-    private void CreateNewProject()
+    public void OpenProject(Guid projectId)
     {
-        Tabs.Remove(_currentProjectTab);
-        _currentProjectTab = new TabItemViewModel(
-            "Create New Project",
-            new CreateNewProjectView
-            {
-                DataContext = new CreateNewProjectViewModel(
-                    new ProjectService(
-                        new ProjectRepository(
-                            _dbService.GetDatabase(),
-                            new RemoteDatabaseService()),
-                        new ProjectUserRepository(
-                            _dbService.GetDatabase(),
-                            new RemoteDatabaseService()),
-                        _appState.CurrentUser),
-                    this
-                )
-            })
-        {
-            CanClose = true
-        };
-        Tabs.Add(_currentProjectTab);
-        NavigateToTab(_currentProjectTab);
-    }
-
-    /// <summary>
-    /// Closes the currently set tab (project or project/task creation)
-    /// </summary>
-    public void CloseCurrentTab()
-    {
-        Tabs.Remove(_currentProjectTab);
+        _mainViewModel.OpenProject(projectId);
     }
 }

@@ -49,13 +49,13 @@ public class WrapperViewModel : ViewModelBase
     public async Task NavigateToMainMenu()
     {
         await Sync();
-        
-        CurrentView = new MainMenuView
+
+        CurrentView = new MainView
         {
-            DataContext = new MainMenuViewModel(
+            DataContext = new MainViewModel(
                 new DatabaseService("localDatabase.db"),
-                _appState,
                 new AuthService(new RemoteDatabaseService()),
+                _appState,
                 this)
         };
     }

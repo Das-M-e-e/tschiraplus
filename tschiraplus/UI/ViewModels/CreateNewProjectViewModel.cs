@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using DynamicData;
 using Services.DTOs;
 using Services.ProjectServices;
 
@@ -11,24 +10,22 @@ public class CreateNewProjectViewModel
 {
     // Services
     private readonly IProjectService _projectService;
-    private readonly MainMenuViewModel _mainMenuViewModel;
+    private readonly ProjectListViewModel _projectListViewModel;
     
     // Bindings
     public string Name { get; set; }
     public string Description { get; set; }
-    public string ProjectPriority { get; set; }
+    public string Priority { get; set; }
     
     // Commands
     public ICommand CreateProjectCommand { get; set; }
-    public ICommand CancelCommand { get; set; }
     
-    public CreateNewProjectViewModel(IProjectService projectService, MainMenuViewModel mainMenuViewModel)
+    public CreateNewProjectViewModel(IProjectService projectService, ProjectListViewModel projectListViewModel)
     {
         _projectService = projectService;
-        _mainMenuViewModel = mainMenuViewModel;
+        _projectListViewModel = projectListViewModel;
         
         CreateProjectCommand = new RelayCommand(CreateProject);
-        CancelCommand = new RelayCommand(Cancel);
     }
     
     /// <summary>
@@ -42,20 +39,15 @@ public class CreateNewProjectViewModel
             ProjectId = projectId,
             Name = Name,
             Description = Description,
-            ProjectPriority = ProjectPriority
+            ProjectPriority = Priority
         };
         
         _projectService.CreateProject(newProjectDto);
-        
-        _mainMenuViewModel.OpenProjectCommand.Execute(projectId);
+        CloseFlyout();
     }
 
-    /// <summary>
-    /// Cancels the project creation and switches back to the ProjectListView
-    /// </summary>
-    private void Cancel()
+    private void CloseFlyout()
     {
-        _mainMenuViewModel.SelectedTabIndex = 0;
-        _mainMenuViewModel.CloseCurrentTab();
+        _projectListViewModel.CloseFlyout();
     }
 }
