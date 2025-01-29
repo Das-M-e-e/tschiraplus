@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Avalonia.Controls;
-using UI.ViewModels;
+﻿using Avalonia.Controls;
 
 namespace UI.Views;
 
@@ -11,13 +9,8 @@ public partial class MainTabView : UserControl
         InitializeComponent();
     }
 
-    public async void OnCloseButtonPressed()
+    public void OnCloseButtonPressed()
     {
         Root.ContextFlyout?.Hide();
-        if (DataContext is MainTabViewModel viewModel)
-        {
-            await Task.Delay(20);
-            viewModel.CloseFlyout();
-        }
     }
 }

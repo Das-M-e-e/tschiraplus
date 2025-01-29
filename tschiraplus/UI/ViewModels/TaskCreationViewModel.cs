@@ -9,6 +9,7 @@ public class TaskCreationViewModel : ViewModelBase
 {
     // Services
     private readonly ITaskService _taskService;
+    private readonly TaskListViewModel _taskListViewModel;
 
     // Bindings
     public bool IsLowPrio {get; set;}
@@ -22,9 +23,11 @@ public class TaskCreationViewModel : ViewModelBase
     // Commands
     public ICommand CreateTaskCommand { get; }
     
-    public TaskCreationViewModel(ITaskService taskService)
+    public TaskCreationViewModel(ITaskService taskService, TaskListViewModel taskListViewModel)
     {
         _taskService = taskService;
+        _taskListViewModel = taskListViewModel;
+        
         CreateTaskCommand = new RelayCommand(CreateTask);
     }
 
@@ -40,5 +43,6 @@ public class TaskCreationViewModel : ViewModelBase
             "NotSet",
             DateTime.Today);
         _taskService.CreateTask(dto);
+        _taskListViewModel.LoadTasks();
     }
 }

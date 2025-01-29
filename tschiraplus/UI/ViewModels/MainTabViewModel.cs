@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Services;
-using Avalonia.Collections;
 using Avalonia.Controls;
 using ReactiveUI;
 using Services.TaskServices;
@@ -61,7 +57,7 @@ public class MainTabViewModel : ViewModelBase
     {
         var view = new TaskCreationView
         {
-            DataContext = new TaskCreationViewModel(_taskService)
+            DataContext = new TaskCreationViewModel(_taskService, _taskListViewModel)
             {
                 InitialStatus = status ?? "Backlog"
             }
@@ -83,10 +79,5 @@ public class MainTabViewModel : ViewModelBase
     private void SetFlyoutContent(UserControl content)
     {
         SelectedFlyout = content;
-    }
-
-    public void CloseFlyout()
-    {
-        _taskListViewModel.LoadTasks();
     }
 }
