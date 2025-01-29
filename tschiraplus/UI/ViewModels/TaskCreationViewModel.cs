@@ -9,7 +9,6 @@ public class TaskCreationViewModel : ViewModelBase
 {
     // Services
     private readonly ITaskService _taskService;
-    private readonly MainTabViewModel _mainTabViewModel;
 
     // Bindings
     public bool IsLowPrio {get; set;}
@@ -23,10 +22,9 @@ public class TaskCreationViewModel : ViewModelBase
     // Commands
     public ICommand CreateTaskCommand { get; }
     
-    public TaskCreationViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel)
+    public TaskCreationViewModel(ITaskService taskService)
     {
         _taskService = taskService;
-        _mainTabViewModel = mainTabViewModel;
         CreateTaskCommand = new RelayCommand(CreateTask);
     }
 
@@ -42,7 +40,5 @@ public class TaskCreationViewModel : ViewModelBase
             "NotSet",
             DateTime.Today);
         _taskService.CreateTask(dto);
-        _mainTabViewModel.SelectedTabIndex = 0;
-        _mainTabViewModel.CloseCurrentTab();
     }
 }

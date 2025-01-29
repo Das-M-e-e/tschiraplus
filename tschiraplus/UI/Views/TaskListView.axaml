@@ -102,12 +102,6 @@
                 Height="45">
             <Button Command="{Binding OpenTaskCreationCommand}" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
         </Border>
-       
-        <Grid.ContextFlyout>
-            <Flyout Placement="Center" FlyoutPresenterClasses="taskDetailFlyout">
-                <ContentControl Content="{Binding TaskDetailFlyout}"/>
-            </Flyout>
-        </Grid.ContextFlyout>
         
     </Grid>
 

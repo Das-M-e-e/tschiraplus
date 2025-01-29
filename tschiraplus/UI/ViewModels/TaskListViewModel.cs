@@ -9,7 +9,6 @@ using ReactiveUI;
 using Services;
 using Services.DTOs;
 using Services.TaskServices;
-using UI.Views;
 
 namespace UI.ViewModels;
 
@@ -29,7 +28,6 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     public string UserInput { get; set; } 
 
     private object _taskDetailFlyout;
-
     public object TaskDetailFlyout
     {
         get => _taskDetailFlyout;
@@ -73,7 +71,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     /// <summary>
     /// Loads all tasks from the database
     /// </summary>
-    private void LoadTasks()
+    public void LoadTasks()
     {
         AllTasks = _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
@@ -124,14 +122,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
 
     public void OpenTaskDetails(Guid taskId)
     {
-        var task = AllTasks.FirstOrDefault(t => t.TaskId == taskId);
-        TaskDetailFlyout = new TaskDetailView
-        {
-            DataContext = new TaskDetailViewModel(
-                _taskService,
-                taskId, 
-                this)
-        };
+        _mainTabViewModel.ShowTaskDetails(taskId);
     }
 
     public void CloseFlyout()

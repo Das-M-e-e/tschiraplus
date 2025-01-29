@@ -14,7 +14,6 @@ public class TaskDetailViewModel : ViewModelBase
     // Services
     private readonly ITaskService _taskService;
     private TaskDto _taskDto;
-    private readonly TaskListViewModel _taskListViewModel;
     
     //Bindings
     private string? _title;
@@ -73,12 +72,10 @@ public class TaskDetailViewModel : ViewModelBase
     public ICommand StartEditingStartDateCommand { get; set; }
     public ICommand SaveTitleCommand { get; set; }
     public ICommand SaveDescriptionCommand { get; set; }
-    public ICommand CloseFlyoutCommand { get; set; }
     
-    public TaskDetailViewModel(ITaskService taskService, Guid taskId, TaskListViewModel taskListViewModel)
+    public TaskDetailViewModel(ITaskService taskService, Guid taskId)
     {
         _taskService = taskService;
-        _taskListViewModel = taskListViewModel;
         LoadStatusList();
         LoadPriorityList();
         LoadTask(taskId);
@@ -87,8 +84,6 @@ public class TaskDetailViewModel : ViewModelBase
         SaveDescriptionCommand = new RelayCommand(SaveDescription);
         SaveTitleCommand = new RelayCommand(SaveTitle);
         StartEditingStartDateCommand = new RelayCommand(StartEditingStartDate);
-        CloseFlyoutCommand = new RelayCommand(CloseFlyout);
-        
     }
 
     /// <summary>
@@ -173,10 +168,4 @@ public class TaskDetailViewModel : ViewModelBase
             _taskService.UpdateTask(_taskDto);
         }
     }
-    
-    private void CloseFlyout()
-    {
-        _taskListViewModel.CloseFlyout();
-    }
-    
 }
