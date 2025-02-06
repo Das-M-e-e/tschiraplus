@@ -21,7 +21,12 @@
             
             <!-- Title -->
             <StackPanel Grid.Row="2" Spacing="4" Margin="4,10,4,0">
-                <TextBlock Text="Title *" HorizontalAlignment="Left" FontSize="11" />
+                <StackPanel Spacing="16" Orientation="Horizontal">
+                    <TextBlock Text="Title *" HorizontalAlignment="Left" FontSize="11" />
+                    <TextBlock Text="{Binding TitleErrorMessage}"
+                               IsVisible="{Binding IsTitleErrorMessageVisible}"
+                               Foreground="Red" FontSize="11" />
+                </StackPanel>
                 <TextBox Text="{Binding Title}"/>
             </StackPanel>
             
@@ -33,9 +38,36 @@
             
             <!-- Priority -->
             <StackPanel Grid.Row="4">
-                <TextBlock Text="Priority (optional)" HorizontalAlignment="Left" FontSize="11" />
-                <Border CornerRadius="8" Background="Gray">
-                    <TextBlock Text="Choose..." />
+                <TextBlock Text="Priority (optional)"
+                           HorizontalAlignment="Left"
+                           FontSize="11"
+                           Margin="0,8" />
+                <Border Name="SelectPriorityBorder"
+                        PointerPressed="OnSelectPriorityList"
+                        Background="{Binding Priority.ColorCode}"
+                        CornerRadius="8"
+                        Padding="5,2"
+                        HorizontalAlignment="Left">
+                    <TextBlock Text="{Binding Priority.Name}" />
+                    
+                    <Border.ContextFlyout>
+                        <Flyout ShowMode="TransientWithDismissOnPointerMoveAway"
+                                Placement="BottomEdgeAlignedLeft"
+                                FlyoutPresenterClasses="">
+                            <ItemsControl ItemsSource="{Binding PriorityList}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{Binding ColorCode}"
+                                                PointerPressed="OnPrioritySelected"
+                                                Padding="5, 2,5,2"
+                                                Margin="0,1,0,4">
+                                            <TextBlock Text="{Binding Name}" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Flyout>
+                    </Border.ContextFlyout>
                 </Border>
             </StackPanel>
             
@@ -43,14 +75,14 @@
             <StackPanel Grid.Row="5" Spacing="4" Margin="4,10,4,0">
                 <TextBlock Text="Add people (optional)" HorizontalAlignment="Left" FontSize="11" />
                 <StackPanel Orientation="Horizontal" Spacing="4">
-                    <Border CornerRadius="8" Background="SlateGray">
+                    <Border CornerRadius="8" Background="SlateGray" Padding="4">
                         <TextBlock Text="Franzii" />
                     </Border>
-                    <Border CornerRadius="8" Background="SlateGray">
+                    <Border CornerRadius="8" Background="SlateGray" Padding="4">
                         <TextBlock Text="Isaak" />
                     </Border>
                     <Button Padding="0" Background="Transparent">
-                        <Border CornerRadius="8" Background="SlateGray">
+                        <Border CornerRadius="8" Background="SlateGray" Padding="4">
                             <TextBlock Text="+" />
                         </Border>
                     </Button>
@@ -69,8 +101,7 @@
                 <Button Content="Cancel"
                         Click="OnCloseButtonPressed" />
                 <Button Content="Create task"
-                        Command="{Binding CreateTaskCommand}"
-                        Click="OnCloseButtonPressed"
+                        Click="OnCreateTaskButtonPressed"
                         Background="ForestGreen" />
             </StackPanel>
         </Grid>

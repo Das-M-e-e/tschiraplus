@@ -104,7 +104,6 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
 
     public void CloseFlyout()
     {
-        CreateProjectFlyout = null;
         LoadProjects();
     }
 }

@@ -34,14 +34,16 @@
         </StackPanel>
         <!-- User Profile -->
         <Button Grid.Row="2" HorizontalAlignment="Stretch"
-                Background="Transparent">
+                Background="Transparent"
+                Command="{Binding OpenUserDetailsCommand}">
             <Border CornerRadius="8">
                 <TextBlock Text="User Profile" />
             </Border>
         </Button>
         <!-- Settings -->
         <Button Grid.Row="3" HorizontalAlignment="Stretch"
-                Background="Transparent">
+                Background="Transparent"
+                Command="{Binding OpenSettingsCommand}">
             <Border CornerRadius="8">
                 <TextBlock Text="Settings" />
             </Border>

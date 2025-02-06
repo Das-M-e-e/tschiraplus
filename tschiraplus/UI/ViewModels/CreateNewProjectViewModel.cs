@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
+using ReactiveUI;
 using Services.DTOs;
 using Services.ProjectServices;
 
 namespace UI.ViewModels;
 
-public class CreateNewProjectViewModel
+public class CreateNewProjectViewModel : ViewModelBase
 {
     // Services
     private readonly IProjectService _projectService;
@@ -16,23 +17,37 @@ public class CreateNewProjectViewModel
     public string Name { get; set; }
     public string Description { get; set; }
     public string Priority { get; set; }
-    
-    // Commands
-    public ICommand CreateProjectCommand { get; set; }
+    private string _titleErrorMessage;
+    public string TitleErrorMessage
+    {
+        get => _titleErrorMessage;
+        set => this.RaiseAndSetIfChanged(ref _titleErrorMessage, value);
+    }
+    private bool _isTitleErrorMessageVisible;
+    public bool IsTitleErrorMessageVisible
+    {
+        get => _isTitleErrorMessageVisible;
+        set => this.RaiseAndSetIfChanged(ref _isTitleErrorMessageVisible, value);
+    }
     
     public CreateNewProjectViewModel(IProjectService projectService, ProjectListViewModel projectListViewModel)
     {
         _projectService = projectService;
         _projectListViewModel = projectListViewModel;
-        
-        CreateProjectCommand = new RelayCommand(CreateProject);
     }
     
     /// <summary>
     /// Uses the _projectService to create a new project
     /// </summary>
-    private void CreateProject()
+    public bool CreateProject()
     {
+        if (string.IsNullOrWhiteSpace(Name))
+        {
+            TitleErrorMessage = "Name can't be empty!";
+            IsTitleErrorMessageVisible = true;
+            return false;
+        }
+        
         var projectId = Guid.NewGuid();
         var newProjectDto = new ProjectDto
         {
@@ -41,9 +56,12 @@ public class CreateNewProjectViewModel
             Description = Description,
             ProjectPriority = Priority
         };
-        
+
+        IsTitleErrorMessageVisible = false;
         _projectService.CreateProject(newProjectDto);
         CloseFlyout();
+
+        return true;
     }
 
     private void CloseFlyout()

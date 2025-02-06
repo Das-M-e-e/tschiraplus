@@ -109,4 +109,14 @@ public class MainViewModel : ViewModelBase
         
         _appState.CurrentProjectId = projectId;
     }
+
+    public void OpenUserDetails()
+    {
+        CurrentContent = new UserDetailsView();
+    }
+
+    public void OpenSettings()
+    {
+        CurrentContent = new SettingsView();
+    }
 }

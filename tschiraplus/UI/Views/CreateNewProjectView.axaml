@@ -21,7 +21,12 @@
         
             <!-- Title -->
             <StackPanel Grid.Row="2" Spacing="4" Margin="4,10,4,0">
-                <TextBlock Text="Project name *" HorizontalAlignment="Left" FontSize="11" />
+                <StackPanel Spacing="16" Orientation="Horizontal">
+                    <TextBlock Text="Project name *" HorizontalAlignment="Left" FontSize="11" />
+                    <TextBlock Text="{Binding TitleErrorMessage}"
+                               IsVisible="{Binding IsTitleErrorMessageVisible}"
+                               Foreground="Red" FontSize="11" />
+                </StackPanel>
                 <TextBox Text="{Binding Name}"/>
             </StackPanel>
             
@@ -56,12 +61,12 @@
             <StackPanel Grid.Row="6"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Right"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Spacing="8">
                 <Button Content="Cancel"
                         Click="OnCloseButtonPressed" />
                 <Button Content="Create project"
-                        Command="{Binding CreateProjectCommand}"
-                        Click="OnCloseButtonPressed"
+                        Click="OnCreateProjectButtonPressed"
                         Background="ForestGreen" />
             </StackPanel>
         </Grid>

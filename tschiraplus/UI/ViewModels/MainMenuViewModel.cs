@@ -19,6 +19,8 @@ public class MainMenuViewModel
     
     // Commands
     public ICommand OpenProjectListCommand { get; set; }
+    public ICommand OpenUserDetailsCommand { get; set; }
+    public ICommand OpenSettingsCommand { get; set; }
 
     public MainMenuViewModel(MainViewModel mainViewModel, IProjectService projectService)
     {
@@ -26,6 +28,8 @@ public class MainMenuViewModel
         _projectService = projectService;
 
         OpenProjectListCommand = new RelayCommand(OpenProjectList);
+        OpenUserDetailsCommand = new RelayCommand(OpenUserDetails);
+        OpenSettingsCommand = new RelayCommand(OpenSettings);
         
         LoadProjects();
     }
@@ -53,5 +57,15 @@ public class MainMenuViewModel
     public void OpenProject(Guid projectId)
     {
         _mainViewModel.OpenProject(projectId);
+    }
+
+    public void OpenUserDetails()
+    {
+        _mainViewModel.OpenUserDetails();
+    }
+
+    public void OpenSettings()
+    {
+        _mainViewModel.OpenSettings();
     }
 }
