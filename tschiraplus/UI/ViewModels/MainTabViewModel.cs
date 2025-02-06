@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
 using Services;
-using Avalonia.Collections;
+using Avalonia.Controls;
 using ReactiveUI;
 using Services.TaskServices;
 using UI.Views;
 
 namespace UI.ViewModels;
 
-public class MainTabViewModel : ObservableObject
+public class MainTabViewModel : ViewModelBase
 {
     // Services
     private readonly ITaskService _taskService;
@@ -19,14 +17,23 @@ public class MainTabViewModel : ObservableObject
     
     // Bindings
     public ObservableCollection<TabItemViewModel> Tabs { get; }
+    private TabItemViewModel? _currentTab;
+    
     private int _selectedTabIndex;
     public int SelectedTabIndex
     {
         get => _selectedTabIndex;
-        set => SetProperty(ref _selectedTabIndex, value);
+        set => this.RaiseAndSetIfChanged(ref _selectedTabIndex, value);
     }
     
-    private TabItemViewModel? _currentTab;
+    private UserControl _selectedFlyout;
+    public UserControl SelectedFlyout
+    {
+        get => _selectedFlyout;
+        set => this.RaiseAndSetIfChanged(ref _selectedFlyout, value);
+    }
+
+    private TaskListViewModel _taskListViewModel;
 
     public MainTabViewModel(ITaskService taskService, Guid projectId, ApplicationState appState)
     {
@@ -34,31 +41,13 @@ public class MainTabViewModel : ObservableObject
         _projectId = projectId;
         _appState = appState;
         
-        var taskListViewModel = new TaskListViewModel(_taskService, this, _appState);
+        _taskListViewModel = new TaskListViewModel(_taskService, this, _appState);
         
         Tabs = new ObservableCollection<TabItemViewModel>
         {
-            new("KanbanView", new KanbanView { DataContext = taskListViewModel }),
-            new("TaskListView", new TaskListView{ DataContext = taskListViewModel })
+            new("KanbanView", new KanbanView { DataContext = _taskListViewModel }),
+            new("TaskListView", new TaskListView{ DataContext = _taskListViewModel })
         };
-    }
-
-    /// <summary>
-    /// Navigates to a given tab
-    /// </summary>
-    /// <param name="tab"></param>
-    /// <exception cref="InvalidOperationException"></exception>
-    private void NavigateToTab(TabItemViewModel tab)
-    {
-        var tabIndex = Tabs.IndexOf(tab);
-        if (tabIndex >= 0)
-        {
-            SelectedTabIndex = tabIndex;
-        }
-        else
-        {
-            throw new InvalidOperationException("Tab not found in Tabs collection.");
-        }
     }
 
     /// <summary>
@@ -66,33 +55,29 @@ public class MainTabViewModel : ObservableObject
     /// </summary>
     public void CreateNewTask(string? status)
     {
-        CloseCurrentTab();
-        _currentTab = new TabItemViewModel(
-            "New Task",
-            new TaskCreationView
+        var view = new TaskCreationView
+        {
+            DataContext = new TaskCreationViewModel(_taskService, _taskListViewModel)
             {
-                DataContext = new TaskCreationViewModel(_taskService, this)
-                {
-                    InitialStatus = status ?? "Backlog"
-                }
-            })
-        {
-            CanClose = true
+                InitialStatus = status ?? "Backlog"
+            }
         };
-        Tabs.Add(_currentTab);
-        NavigateToTab(_currentTab);
+        SetFlyoutContent(view);
     }
-    
-    /// <summary>
-    /// Closes the Tab if possible to avoid duplicates
-    /// </summary>
-    public void CloseCurrentTab()
+
+    public void ShowTaskDetails(Guid taskId)
     {
-        if (_currentTab == null) return;
-        
-        if (_currentTab!.CanClose)
+        var view = new TaskDetailView
         {
-            Tabs.Remove(_currentTab);
-        }
+            DataContext = new TaskDetailViewModel(
+                _taskService,
+                taskId)
+        };
+        SetFlyoutContent(view);
+    }
+
+    private void SetFlyoutContent(UserControl content)
+    {
+        SelectedFlyout = content;
     }
 }

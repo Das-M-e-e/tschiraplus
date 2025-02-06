@@ -61,21 +61,16 @@ public partial class TaskDetailView : UserControl
         flyout?.Hide();
     }
     
-    public async void OnCommentSaveButtonClick(object? sender,  Avalonia.Interactivity.RoutedEventArgs args)
+    public async void OnCommentSaveButtonClick(object? sender,  RoutedEventArgs args)
     {
         var normalColor = DescriptionTextBox.BorderBrush;
 
         if (DescriptionTextBox.Text != "")
         {
-
-
-
             DescriptionTextBox.BorderBrush = Brushes.PaleGreen;
-
-
+            
             await Task.Delay(800);
-
-
+            
             var animation = new Animation
             {
                 Duration = TimeSpan.FromSeconds(1),
@@ -85,20 +80,19 @@ public partial class TaskDetailView : UserControl
                     new KeyFrame
                     {
                         Cue = new Cue(0),
-                        Setters = { new Setter(TextBox.BorderBrushProperty, Brushes.PaleGreen) }
+                        Setters = { new Setter(BorderBrushProperty, Brushes.PaleGreen) }
                     },
                     new KeyFrame
                     {
                         Cue = new Cue(1),
                         Setters =
                         {
-                            new Setter(TextBox.BorderBrushProperty, new SolidColorBrush(Color.Parse("#dfe3e8")))
+                            new Setter(BorderBrushProperty, new SolidColorBrush(Color.Parse("#dfe3e8")))
                         }
                     }
                 }
             };
-
-
+            
             await animation.RunAsync(DescriptionTextBox);
             DescriptionTextBox.BorderBrush = normalColor;
         }
@@ -106,7 +100,7 @@ public partial class TaskDetailView : UserControl
     
     public void OnCloseButtonClicked(object sender, RoutedEventArgs args)
     {
-        var parent = this.GetLogicalAncestors().OfType<TaskListView>().FirstOrDefault();
+        var parent = this.GetLogicalAncestors().OfType<MainTabView>().FirstOrDefault();
         parent?.OnCloseButtonPressed();
     }
 }

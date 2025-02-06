@@ -7,12 +7,22 @@
              x:Class="UI.Views.ProjectListView"
              x:DataType="vm:ProjectListViewModel">
     
-    <Grid RowDefinitions="*,Auto">
+    <UserControl.Styles>
+        <Style Selector="FlyoutPresenter.createProjectFlyout">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
+            <Setter Property="MaxWidth" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay}"/>
+            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
+            <Setter Property="MaxHeight" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay}"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid Name="RootGrid" RowDefinitions="*,Auto">
         <ScrollViewer Grid.Row="0">
             <ItemsControl ItemsSource="{Binding Projects}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:ProjectViewModel">
-                        <Button Command="{Binding OpenProjectCommand}">
+                        <Button Command="{Binding OpenProjectCommand}" HorizontalAlignment="Center">
                             <Border MinWidth="600">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding Name}" />
@@ -25,7 +35,18 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <Button Grid.Row="1" HorizontalAlignment="Center" Margin="0,10" Command="{Binding CreateNewProjectCommand}" Content="Create New Project" />
+        <Button Grid.Row="1"
+                HorizontalAlignment="Center"
+                Margin="0,10"
+                Command="{Binding CreateNewProjectCommand}"
+                Click="OnCreateProjectButtonPressed"
+                Content="Create New Project" />
+        
+        <Grid.ContextFlyout>
+            <Flyout Placement="Center" FlyoutPresenterClasses="createProjectFlyout">
+                <ContentControl Content="{Binding CreateProjectFlyout}" />
+            </Flyout>
+        </Grid.ContextFlyout>
     </Grid>
     
 </UserControl>

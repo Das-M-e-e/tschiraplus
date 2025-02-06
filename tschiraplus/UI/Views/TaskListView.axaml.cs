@@ -1,6 +1,7 @@
-using Avalonia.Controls;
+using System.Linq;
 using Avalonia.Interactivity;
 using Avalonia.Input;
+using Avalonia.LogicalTree;
 using Avalonia.ReactiveUI;
 using UI.ViewModels;
 
@@ -15,14 +16,10 @@ public partial class TaskListView : ReactiveUserControl<TaskListViewModel>
 
     public void OnEditButtonPressed(object? sender, RoutedEventArgs args)
     {
-        var grid = RootGrid;
-        var flyout = grid.ContextFlyout;
-        flyout?.ShowAt(grid);
-    }
-
-    public void OnCloseButtonPressed()
-    {
-        RootGrid.ContextFlyout?.Hide();
+        var parent = this.GetLogicalAncestors().OfType<MainTabView>().FirstOrDefault();
+        var tabView = parent?.Root;
+        var flyout = tabView?.ContextFlyout;
+        flyout?.ShowAt(tabView!);
     }
 
     private void SearchBar_KeyDown(object? sender, KeyEventArgs e)

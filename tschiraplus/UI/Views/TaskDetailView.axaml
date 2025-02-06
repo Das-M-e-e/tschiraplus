@@ -16,7 +16,6 @@
             <Setter Property="Background" Value="#aae1e1e1"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
-        
     </UserControl.Styles>
             
     <Grid  RowDefinitions="Auto,*,Auto" Background="Snow">
@@ -26,8 +25,7 @@
             <TextBlock Text="Project / Project name" FontSize="11" Width="315" Margin="10,4.5,0,0" ></TextBlock>
         </StackPanel>
         <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment = "Right">
-            <Button Command="{Binding CloseFlyoutCommand}" 
-                    Click="OnCloseButtonClicked">
+            <Button Click="OnCloseButtonClicked">
                 <Image Source="avares://UI/Assets/close_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="0,0,10,0"></Image>
             </Button>
         </StackPanel>

@@ -4,9 +4,9 @@ using Avalonia.Markup.Xaml;
 
 namespace UI.Views;
 
-public partial class MainMenuView : UserControl
+public partial class UserDetailsView : UserControl
 {
-    public MainMenuView()
+    public UserDetailsView()
     {
         InitializeComponent();
     }
