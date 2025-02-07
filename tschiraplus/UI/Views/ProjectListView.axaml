@@ -27,7 +27,7 @@
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="{Binding Name}" />
                                     <TextBlock Text="{Binding Description}" />
-                                    <Button Content="Delete" Command="{Binding DeleteProjectCommand}"></Button>
+                                    <Button Content="Details" Command="{Binding OpenProjectDetailsCommand}" Click="OnCreateProjectButtonPressed"></Button>
                                 </StackPanel>
                             </Border>
                         </Button>

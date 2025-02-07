@@ -238,4 +238,41 @@ public class RemoteDatabaseService
             throw;
         }
     }
+
+    /// <summary>
+    /// Sends an HTTP-request to the host
+    /// to send Project-Invitation to another User
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns>true or false</returns>
+    public async Task<bool> SendInvitationAsync(string data)
+    {
+        try
+        {
+            // HTTP-POST message to send to host
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"{BaseAddress}/ProjectInvitation/SendInvitation"
+            );
+            
+            request.Headers.Add("accept", "text/plain");
+            request.Content = new StringContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            // HTTP response received from host
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            return response.IsSuccessStatusCode;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
+    }
+    
+    
 }
