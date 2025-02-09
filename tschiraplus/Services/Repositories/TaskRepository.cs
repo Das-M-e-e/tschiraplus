@@ -210,4 +210,18 @@ public class TaskRepository : ITaskRepository
         return "{" + string.Join(",", jsonParts) + "}";
     }
     
+    
+    public async Task<bool> AddTaskUserAsync(string username, Guid inviterId, Guid taskId)
+    {
+        var data = new TaskInvitationDto()
+        {
+            InviterId = inviterId,
+            Username = username,
+            TaskId = taskId
+        };
+        
+        return await _remoteDb.PostAsync("TaskUsers/AddTaskUser", JsonConvert.SerializeObject(data));
+    }
+    
+    
 }

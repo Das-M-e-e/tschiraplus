@@ -15,6 +15,8 @@ public class TaskService : ITaskService
     private readonly ITaskSortingManager _taskSortingManager;
     private readonly ApplicationState _appState;
     private readonly IUserInputParser _userInputParser;
+    private readonly UserDto _currentUser;
+
 
     public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState, UserInputParser userInputParser)
     {
@@ -219,5 +221,11 @@ public class TaskService : ITaskService
     public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status)
     {
        return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
+    }
+    
+    public async Task AddUserToTask(string username, Guid taskId)
+    {
+        await _taskRepository.AddTaskUserAsync(username, _currentUser.UserId, taskId );
+        
     }
 }

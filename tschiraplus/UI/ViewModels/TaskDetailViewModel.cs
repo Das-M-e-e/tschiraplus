@@ -60,6 +60,7 @@ public class TaskDetailViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isEditingStartDate, value);
     }
     
+    public string Username { get; set; }
         
     public string? Description {get; set;}
     
@@ -72,6 +73,7 @@ public class TaskDetailViewModel : ViewModelBase
     public ICommand StartEditingStartDateCommand { get; set; }
     public ICommand SaveTitleCommand { get; set; }
     public ICommand SaveDescriptionCommand { get; set; }
+    public ICommand AddTaskUserCommand { get; set; }
     
     public TaskDetailViewModel(ITaskService taskService, Guid taskId)
     {
@@ -84,6 +86,7 @@ public class TaskDetailViewModel : ViewModelBase
         SaveDescriptionCommand = new RelayCommand(SaveDescription);
         SaveTitleCommand = new RelayCommand(SaveTitle);
         StartEditingStartDateCommand = new RelayCommand(StartEditingStartDate);
+        AddTaskUserCommand = new RelayCommand(AddTaskUser);
     }
 
     /// <summary>
@@ -167,5 +170,11 @@ public class TaskDetailViewModel : ViewModelBase
             _taskDto.Description = Description;
             _taskService.UpdateTask(_taskDto);
         }
+    }
+    
+    private void AddTaskUser()
+    {
+        Console.WriteLine($"Adding task user");
+        //_taskService.AddUserToTask(Username, _taskDto.TaskId);
     }
 }
