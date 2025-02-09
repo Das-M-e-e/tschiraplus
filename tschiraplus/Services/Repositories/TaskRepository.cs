@@ -68,7 +68,7 @@ public class TaskRepository : ITaskRepository
             Description = task.Description ?? "No description provided...",
             Status = task.Status.ToString() ?? TaskStatus.Backlog.ToString(),
             Priority = task.Priority.ToString() ?? TaskPriority.NotSet.ToString(),
-            StartDate = task.CreationDate
+            StartDate = task.StartDate
         };
     }
 
@@ -200,6 +200,11 @@ public class TaskRepository : ITaskRepository
         if (task.DueDate.HasValue)
         {
             jsonParts.Add($"\"dueDate\":\"{task.DueDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
+        }
+        
+        if (task.StartDate.HasValue)
+        {
+            jsonParts.Add($"\"startDate\":\"{task.StartDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
         }
 
         if (task.CompletionDate.HasValue)

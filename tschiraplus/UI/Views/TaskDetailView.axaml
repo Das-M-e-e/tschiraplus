@@ -153,10 +153,15 @@
                             
                             <Button Grid.Column="1" 
                                     IsVisible="{Binding IsEditingStartDate, Converter={StaticResource InverseBoolConverter}}" Command="{Binding StartEditingStartDateCommand}"
-                                    Margin="0,0,0,15" VerticalAlignment="Center">
+                                    VerticalAlignment="Center">
                                 <TextBlock Text="{Binding StartDate}" FontWeight="SemiBold" Opacity="0.5" FontSize="13"></TextBlock>
                             </Button>
-                            <DatePicker Grid.Column="1" Name="StartDatePicker" IsVisible="{Binding IsEditingStartDate}" Width="300" Margin="70,10,0,0" CornerRadius="15"/>
+                            <DatePicker Grid.Column="1" 
+                                        Name="StartDatePicker" 
+                                        IsVisible="{Binding IsEditingStartDate}" 
+                                        SelectedDate="{Binding StartDate}"
+                                        SelectedDateChanged="OnSelectDate"
+                                        Width="300" CornerRadius="8"/>
                             
                         </Grid>
                         <Grid Grid.Row="3" ColumnDefinitions="130, *">

@@ -46,10 +46,10 @@ public class TaskDetailViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _priority, value);
     }
 
-    private string? _startDate;
-    public string StartDate
+    private DateTimeOffset? _startDate;
+    public DateTimeOffset? StartDate
     {
-        get => _startDate ?? string.Empty;
+        get => _startDate;
         set => this.RaiseAndSetIfChanged(ref _startDate, value);
     }
     
@@ -98,6 +98,7 @@ public class TaskDetailViewModel : ViewModelBase
             ?? StatusList.First();
         Priority = PriorityList.FirstOrDefault(s => (string)s.Tag! == _taskDto.Priority)
             ?? PriorityList.First();
+        StartDate = _taskDto.StartDate;
         Description = _taskDto.Description;
         
     }
@@ -158,6 +159,13 @@ public class TaskDetailViewModel : ViewModelBase
     private void StartEditingStartDate()
     {
         IsEditingStartDate = true;
+    }
+
+    public void EditStartDate()
+    {
+        _taskDto.StartDate = StartDate.Value.DateTime;
+        _taskService.UpdateTask(_taskDto);
+        IsEditingStartDate = false;
     }
 
     private void SaveDescription()

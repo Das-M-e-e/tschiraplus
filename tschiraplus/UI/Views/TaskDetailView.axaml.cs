@@ -60,6 +60,14 @@ public partial class TaskDetailView : UserControl
         var flyout = SetPriorityBorder.ContextFlyout;
         flyout?.Hide();
     }
+
+    public void OnSelectDate(object sender, DatePickerSelectedValueChangedEventArgs args)
+    {
+        if (DataContext is TaskDetailViewModel viewModel)
+        {
+            viewModel.EditStartDate();
+        }
+    }
     
     public async void OnCommentSaveButtonClick(object? sender,  RoutedEventArgs args)
     {

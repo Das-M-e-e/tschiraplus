@@ -126,7 +126,8 @@ public class TaskService : ITaskService
             Status = Enum.TryParse(taskDto.Status, out TaskStatus status) ? status : TaskStatus.Backlog,
             Priority = Enum.TryParse(taskDto.Priority, out TaskPriority priority) ? priority : TaskPriority.High,
             CreationDate = DateTime.Now,
-            LastUpdated = DateTime.Now
+            LastUpdated = DateTime.Now,
+            StartDate = taskDto.StartDate ?? DateTime.MaxValue
         };
         return convertedTaskModel;
     }
