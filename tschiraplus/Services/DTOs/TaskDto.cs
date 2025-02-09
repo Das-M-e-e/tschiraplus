@@ -8,5 +8,5 @@ public class TaskDto
     public string Status { get; set; } = string.Empty;
     public string Priority { get; set; } = string.Empty;
     public DateTime? StartDate { get; set; }
-    public DateTime? DueDate { get; }
+    public DateTime? DueDate { get; set; }
 }

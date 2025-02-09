@@ -104,7 +104,8 @@ public class TaskService : ITaskService
             Description = description,
             Status = status,
             Priority = priority,
-            StartDate = null
+            StartDate = null,
+            DueDate = null
         };
         return dto;
     }    
@@ -127,7 +128,8 @@ public class TaskService : ITaskService
             Priority = Enum.TryParse(taskDto.Priority, out TaskPriority priority) ? priority : TaskPriority.High,
             CreationDate = DateTime.Now,
             LastUpdated = DateTime.Now,
-            StartDate = taskDto.StartDate ?? DateTime.MaxValue
+            StartDate = taskDto.StartDate,
+            DueDate = taskDto.DueDate
         };
         return convertedTaskModel;
     }

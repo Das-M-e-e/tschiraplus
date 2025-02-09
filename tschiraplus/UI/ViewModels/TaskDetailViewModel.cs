@@ -53,11 +53,33 @@ public class TaskDetailViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _startDate, value);
     }
     
+    private DateTimeOffset? _dueDate;
+
+    public DateTimeOffset? DueDate
+    {
+        get => _dueDate;
+        set => this.RaiseAndSetIfChanged(ref _dueDate, value);
+    }
+    
     private bool _isEditingStartDate;
     public bool IsEditingStartDate
     {
         get => _isEditingStartDate;
         set => this.RaiseAndSetIfChanged(ref _isEditingStartDate, value);
+    }
+    
+    private bool _isEditingDueDate;
+    public bool IsEditingDueDate
+    {
+        get => _isEditingDueDate;
+        set => this.RaiseAndSetIfChanged(ref _isEditingDueDate, value);
+    }
+    
+    private bool _isEditingDescription;
+    public bool IsEditingDescription
+    {
+        get => _isEditingDescription;
+        set => this.RaiseAndSetIfChanged(ref _isEditingDescription, value);
     }
     
         
@@ -70,6 +92,7 @@ public class TaskDetailViewModel : ViewModelBase
     
     public ICommand StartEditingTitleCommand { get; set; }
     public ICommand StartEditingStartDateCommand { get; set; }
+    public ICommand StartEditingDueDateCommand { get; set; }
     public ICommand SaveTitleCommand { get; set; }
     public ICommand SaveDescriptionCommand { get; set; }
     
@@ -80,10 +103,11 @@ public class TaskDetailViewModel : ViewModelBase
         LoadPriorityList();
         LoadTask(taskId);
         
-        StartEditingTitleCommand = new RelayCommand(StartEditingTitle);
+        StartEditingTitleCommand = new RelayCommand(() => IsEditingTitle = true);
         SaveDescriptionCommand = new RelayCommand(SaveDescription);
         SaveTitleCommand = new RelayCommand(SaveTitle);
-        StartEditingStartDateCommand = new RelayCommand(StartEditingStartDate);
+        StartEditingStartDateCommand = new RelayCommand(() => IsEditingStartDate = true);
+        StartEditingDueDateCommand = new RelayCommand(() => IsEditingDueDate = true);
     }
 
     /// <summary>
@@ -98,17 +122,10 @@ public class TaskDetailViewModel : ViewModelBase
             ?? StatusList.First();
         Priority = PriorityList.FirstOrDefault(s => (string)s.Tag! == _taskDto.Priority)
             ?? PriorityList.First();
-        StartDate = _taskDto.StartDate;
+        StartDate = _taskDto.StartDate ?? null;
+        DueDate = _taskDto.DueDate ?? null;
         Description = _taskDto.Description;
         
-    }
-
-    /// <summary>
-    /// Sets the Visibility of the Title
-    /// </summary>
-    private void StartEditingTitle()
-    {
-        IsEditingTitle = true;
     }
 
     /// <summary>
@@ -124,6 +141,9 @@ public class TaskDetailViewModel : ViewModelBase
         IsEditingTitle = false;
     }
     
+    /// <summary>
+    /// Fills the StatusList with preset status options for the UI
+    /// </summary>
     private void LoadStatusList()
     {
         StatusList.Add(new SelectionItemViewModel{Name = "Backlog", Tag ="Backlog", ColorCode = "#d3d3d3"});
@@ -133,6 +153,9 @@ public class TaskDetailViewModel : ViewModelBase
         StatusList.Add(new SelectionItemViewModel{Name = "Done", Tag ="Done", ColorCode = "#32cd32"});
     }
 
+    /// <summary>
+    /// Fills the PriorityList with preset priorities options for the UI
+    /// </summary>
     private void LoadPriorityList() 
     {
         PriorityList.Add(new SelectionItemViewModel{Name = "Not Set", Tag ="NotSet", ColorCode = "#d3d3d3"});
@@ -141,7 +164,11 @@ public class TaskDetailViewModel : ViewModelBase
         PriorityList.Add(new SelectionItemViewModel{Name = "High", Tag ="High", ColorCode = "#EBA29A"});
         PriorityList.Add(new SelectionItemViewModel{Name = "Critical", Tag ="Critical", ColorCode = "#DD5550"});
     }
-
+    
+    /// <summary>
+    /// Sets the task status based on the given status name, updates the task DTO, and triggers an update in the task service
+    /// </summary>
+    /// <param name="status"></param>
     public void SetStatus(string? status)
     {
         Status = StatusList.First(s => s.Name == status);
@@ -149,6 +176,10 @@ public class TaskDetailViewModel : ViewModelBase
         _taskService.UpdateTask(_taskDto);
     }
 
+    /// <summary>
+    /// Sets the task priority based on the given priority name, updates the task DTO, and triggers an update in the task service
+    /// </summary>
+    /// <param name="priority"></param>
     public void SetPriority(string? priority)
     {
         Priority = PriorityList.First(s => s.Name == priority);
@@ -156,18 +187,39 @@ public class TaskDetailViewModel : ViewModelBase
         _taskService.UpdateTask(_taskDto);
     }
 
-    private void StartEditingStartDate()
+    /// <summary>
+    /// Updates the task's start date and saves the changes, sets visibility on false
+    /// </summary>
+    public void EditStartDate(DateTime newDate)
     {
-        IsEditingStartDate = true;
-    }
-
-    public void EditStartDate()
-    {
-        _taskDto.StartDate = StartDate.Value.DateTime;
+        _taskDto.StartDate = newDate;
         _taskService.UpdateTask(_taskDto);
         IsEditingStartDate = false;
     }
-
+    
+    /// <summary>
+    /// Updates the task's due date and triggers an update in the task service
+    /// </summary>
+    /// <param name="newDate"></param>
+    public void EditDueDate(DateTime newDate)
+    {
+        _taskDto.DueDate = newDate;
+        _taskService.UpdateTask(_taskDto);
+        IsEditingDueDate = false;
+    }
+    
+    /// <summary>
+    /// Sets the flags for editing start and due dates to false when the date picker is closed
+    /// </summary>
+    public void CloseDatePicker()
+    {
+        IsEditingStartDate = false;
+        IsEditingDueDate = false;
+    }
+    
+    /// <summary>
+    /// Saves the task description if it has changed and updates the task
+    /// </summary>
     private void SaveDescription()
     {
         if (_taskDto.Description != Description)
@@ -175,5 +227,13 @@ public class TaskDetailViewModel : ViewModelBase
             _taskDto.Description = Description;
             _taskService.UpdateTask(_taskDto);
         }
+    }
+
+    /// <summary>
+    /// Toggles the editing state of the description by switching the IsEditingDescription flag
+    /// </summary>
+    public void ToggleDescriptionButton()
+    {
+        IsEditingDescription = !IsEditingDescription;   
     }
 }

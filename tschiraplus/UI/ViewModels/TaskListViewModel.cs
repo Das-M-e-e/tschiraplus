@@ -120,17 +120,15 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         LoadTasks();
     }
 
+    /// <summary>
+    /// Uses the _mainTabViewModel to navigate to the TaskDetailView
+    /// </summary>
+    /// <param name="taskId"></param>
     public void OpenTaskDetails(Guid taskId)
     {
         _mainTabViewModel.ShowTaskDetails(taskId);
     }
-
-    public void CloseFlyout()
-    {
-        TaskDetailFlyout = null;
-        LoadTasks();
-    }
-
+    
     private void ManipulateTasks()
     {
         var manipulatedTask  = _taskService.ProcessUserInput(UserInput, AllTasks);

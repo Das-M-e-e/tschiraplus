@@ -80,4 +80,12 @@ public class MainTabViewModel : ViewModelBase
     {
         SelectedFlyout = content;
     }
+
+    /// <summary>
+    /// Updates the task list by reloading the tasks from the view model
+    /// </summary>
+    public void UpdateTaskList()
+    {
+        _taskListViewModel.LoadTasks();
+    }
 }

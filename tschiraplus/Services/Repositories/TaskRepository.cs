@@ -68,7 +68,8 @@ public class TaskRepository : ITaskRepository
             Description = task.Description ?? "No description provided...",
             Status = task.Status.ToString() ?? TaskStatus.Backlog.ToString(),
             Priority = task.Priority.ToString() ?? TaskPriority.NotSet.ToString(),
-            StartDate = task.StartDate
+            StartDate = task.StartDate,
+            DueDate = task.DueDate,
         };
     }
 
@@ -88,7 +89,8 @@ public class TaskRepository : ITaskRepository
             Description = task.Description ?? "No description provided",
             Status = task.Status.ToString(),
             Priority = task.Priority.ToString(),
-            StartDate = task.StartDate
+            StartDate = task.StartDate,
+            DueDate = task.DueDate
         }).ToList();
     }
     
