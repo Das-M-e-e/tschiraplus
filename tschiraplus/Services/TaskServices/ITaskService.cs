@@ -4,11 +4,12 @@ namespace Services.TaskServices;
 
 public interface ITaskService
 {
-    public void CreateTask(TaskDto task);
-    public TaskDto GetTaskById(Guid taskId);
-    public List<TaskDto> GetAllTasks();
-    public void DeleteTask(Guid taskId);
-    public List<TaskDto> SortTasksByTitle(List<TaskDto> tasks);
-    public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status);
+    void CreateTask(TaskDto task);
+    TaskDto CreateTaskDto(string title, string description, string status, string priority, DateTime creationDate);
+    TaskDto GetTaskById(Guid taskId);
+    List<TaskDto> GetAllTasks();
+    Task DeleteTask(Guid taskId, bool isOnline);
+    void UpdateTask(TaskDto taskDto);
     IEnumerable<TaskDto> ProcessUserInput(string userInput, IEnumerable<TaskDto> tasks);
+    Task AddUserToTask(string username, Guid taskId);
 }

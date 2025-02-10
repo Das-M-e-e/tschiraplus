@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using Services.DTOs;
+using ReactiveUI;
 using Services.TaskServices;
 
 namespace UI.ViewModels;
@@ -10,40 +12,82 @@ public class TaskCreationViewModel : ViewModelBase
 {
     // Services
     private readonly ITaskService _taskService;
-    private readonly MainTabViewModel _mainTabViewModel;
+    private readonly TaskListViewModel _taskListViewModel;
 
     // Bindings
-    public bool IsLowPrio {get; set;}
-    public bool IsHighPrio {get; set;}
-    public bool IsMediumPrio {get; set;}
-    public string Title {get; set;}
-    public string Description {get; set;}
+    private string _title;
+    public string Title
+    {
+        get => _title;
+        set => this.RaiseAndSetIfChanged(ref _title, value);
+    }
+    private string _description;
+    public string Description
+    {
+        get => _description;
+        set => this.RaiseAndSetIfChanged(ref _description, value);
+    }
+    private SelectionItemViewModel _priority;
+    public SelectionItemViewModel Priority
+    {
+        get => _priority;
+        set => this.RaiseAndSetIfChanged(ref _priority, value);
+    }
+    private string _titleErrorMessage;
+    public string TitleErrorMessage
+    {
+        get => _titleErrorMessage;
+        set => this.RaiseAndSetIfChanged(ref _titleErrorMessage, value);
+    }
+    private bool _isTitleErrorMessageVisible;
+    public bool IsTitleErrorMessageVisible
+    {
+        get => _isTitleErrorMessageVisible;
+        set => this.RaiseAndSetIfChanged(ref _isTitleErrorMessageVisible, value);
+    }
+    public string InitialStatus { get; set; }
+
+    public ObservableCollection<SelectionItemViewModel> PriorityList { get; set; } = [];
     
-    public string InitialStatus {get; set;}
-    
-    // Commands
-    public ICommand CreateTaskCommand { get; }
-    
-    public TaskCreationViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel)
+    public TaskCreationViewModel(ITaskService taskService, TaskListViewModel taskListViewModel)
     {
         _taskService = taskService;
-        _mainTabViewModel = mainTabViewModel;
-        CreateTaskCommand = new RelayCommand(CreateTask);
+        _taskListViewModel = taskListViewModel;
+
+        Priority = new SelectionItemViewModel { Name = "Choose...", ColorCode = "#323232" };
+        LoadPriorityList();
+    }
+
+    private void LoadPriorityList()
+    {
+        PriorityList.Add(new SelectionItemViewModel{Name = "Low", Tag ="Low", ColorCode = "#95D8A1"});
+        PriorityList.Add(new SelectionItemViewModel{Name = "Medium", Tag ="Medium", ColorCode = "#8FCDF3"});
+        PriorityList.Add(new SelectionItemViewModel{Name = "High", Tag ="High", ColorCode = "#EBA29A"});
+        PriorityList.Add(new SelectionItemViewModel{Name = "Critical", Tag ="Critical", ColorCode = "#DD5550"});
     }
 
     /// <summary>
     /// Uses the _taskService to create a new task
     /// </summary>
-    private void CreateTask()
+    public bool CreateTask()
     {
-        var dto = new TaskDto
+        if (string.IsNullOrWhiteSpace(Title))
         {
-            Title = Title,
-            Description = Description,
-            Status = InitialStatus
-        };
+            TitleErrorMessage = "Title can't be empty!";
+            IsTitleErrorMessageVisible = true;
+            return false;
+        }
+        
+        var dto = _taskService.CreateTaskDto(
+            Title,
+            Description,
+            InitialStatus,
+            Priority.Tag?.ToString() ?? "NotSet",
+            DateTime.Today);
         _taskService.CreateTask(dto);
-        _mainTabViewModel.SelectedTabIndex = 0;
-        _mainTabViewModel.CloseCurrentTab();
+        _taskListViewModel.LoadTasks();
+
+        IsTitleErrorMessageVisible = false;
+        return true;
     }
 }

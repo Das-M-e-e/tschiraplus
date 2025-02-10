@@ -8,14 +8,16 @@ public class SyncService : ISyncService
     private readonly IProjectUserRepository _projectUserRepository;
     private readonly IProjectRepository _projectRepository;
     private readonly IUserRepository _userRepository;
+    private readonly ITaskRepository _taskRepository;
     private readonly ApplicationState _appState;
 
     public SyncService(IProjectUserRepository projectUserRepository, IProjectRepository projectRepository,
-        IUserRepository userRepository, ApplicationState appState)
+        IUserRepository userRepository, ITaskRepository taskRepository, ApplicationState appState)
     {
         _projectUserRepository = projectUserRepository;
         _projectRepository = projectRepository;
         _userRepository = userRepository;
+        _taskRepository = taskRepository;
         _appState = appState;
     }
 
@@ -33,10 +35,13 @@ public class SyncService : ISyncService
         {
             users.Add(project.Owner.UserId);
         }
+
+        var tasks = await GetAllTasksForProject(projects);
         
         await AddUsersToLocalDbIfNotExists(users);
         AddProjectsToLocalDbIfNotExists(projects);
         AddProjectUsersToLocalDbIfNotExists(projectUsers);
+        AddTasksToLocalDbIfNotExists(tasks);
     }
 
     /// <summary>
@@ -64,6 +69,17 @@ public class SyncService : ISyncService
         }
         
         return projects;
+    }
+
+    private async Task<List<TaskModel>?> GetAllTasksForProject(List<ProjectModel> projects)
+    {
+        var tasks = new List<TaskModel>();
+        foreach (var project in projects)
+        {
+            tasks.AddRange(await _taskRepository.GetTasksByProjectIdAsync(project.ProjectId));
+        }
+
+        return tasks;
     }
 
     /// <summary>
@@ -108,4 +124,15 @@ public class SyncService : ISyncService
             _userRepository.AddUser(user);
         }
     }
+    
+    private void AddTasksToLocalDbIfNotExists(List<TaskModel>? tasks)
+    {
+        if (tasks == null) return;
+
+        foreach (var task in tasks.Where(task => !_taskRepository.TaskExists(task.TaskId)))
+        {
+            _taskRepository.AddTask(task);
+        }
+    }
+    
 }

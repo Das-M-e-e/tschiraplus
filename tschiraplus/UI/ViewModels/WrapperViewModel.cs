@@ -29,7 +29,8 @@ public class WrapperViewModel : ViewModelBase
         _syncService = new SyncService(
             new ProjectUserRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
             new ProjectRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
-            new UserRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
+            new UserRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()), 
+            new TaskRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
             _appState);
 
         if (_appState.CurrentUser != null)
@@ -48,13 +49,13 @@ public class WrapperViewModel : ViewModelBase
     public async Task NavigateToMainMenu()
     {
         await Sync();
-        
-        CurrentView = new MainMenuView
+
+        CurrentView = new MainView
         {
-            DataContext = new MainMenuViewModel(
+            DataContext = new MainViewModel(
                 new DatabaseService("localDatabase.db"),
-                _appState,
                 new AuthService(new RemoteDatabaseService()),
+                _appState,
                 this)
         };
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -5,6 +6,7 @@ using System.Reactive.Disposables;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
+using Services;
 using Services.DTOs;
 using Services.TaskServices;
 
@@ -17,28 +19,32 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     public ViewModelActivator Activator { get; }
     private readonly ITaskService _taskService;
     private readonly MainTabViewModel _mainTabViewModel;
+    private readonly ApplicationState _appState;
     
     // Bindings
     public ObservableCollection<TaskViewModel> Tasks { get; } = [];
     public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = [];
     private List<TaskDto> AllTasks { get; set; } = [];
     public string UserInput { get; set; } 
+
+    private object _taskDetailFlyout;
+    public object TaskDetailFlyout
+    {
+        get => _taskDetailFlyout;
+        set => this.RaiseAndSetIfChanged(ref _taskDetailFlyout, value);
+    }
     
     // Commands
     public ICommand OpenTaskCreationCommand { get; }
-    public ICommand SortTasksByTitleCommand { get; }
-    public ICommand FilterTasksByStatusCommand { get; }
-    
     public ICommand ManipulateTasksCommand { get; }
 
-    public TaskListViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel)
+    public TaskListViewModel(ITaskService taskService, MainTabViewModel mainTabViewModel, ApplicationState appState)
     {
         _taskService = taskService;
         _mainTabViewModel = mainTabViewModel;
+        _appState = appState;
 
         OpenTaskCreationCommand = new RelayCommand<string>(OpenTaskCreation, CanOpenTaskCreation);
-        SortTasksByTitleCommand = new RelayCommand(SortTasksByTitle);
-        FilterTasksByStatusCommand = new RelayCommand(FilterTasksByStatus);
         ManipulateTasksCommand = new RelayCommand(ManipulateTasks);
         
         InitializeKanbanColumns();
@@ -65,7 +71,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     /// <summary>
     /// Loads all tasks from the database
     /// </summary>
-    private void LoadTasks()
+    public void LoadTasks()
     {
         AllTasks = _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
@@ -110,31 +116,19 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     /// <param name="task"></param>
     public void DeleteTask(TaskViewModel task)
     {
-        _taskService.DeleteTask(task.TaskId);
+        _taskService.DeleteTask(task.TaskId, _appState.IsOnline);
         LoadTasks();
     }
 
-    // Todo: Remove when generic sorting/filtering is implemented @Das_M_e_e_ // remove = error
-    private void SortTasksByTitle()
+    public void OpenTaskDetails(Guid taskId)
     {
-        var taskDtos = Tasks.Select(task => new TaskDto
-        {
-            TaskId = task.TaskId,
-            Title = task.Title,
-            Description = task.Description,
-            Status = task.Status,
-            StartDate = task.StartDate
-        }).ToList();
-        
-        var sortedTaskDtos = _taskService.SortTasksByTitle(taskDtos);
-        UpdateTaskList(sortedTaskDtos);
+        _mainTabViewModel.ShowTaskDetails(taskId);
     }
 
-    // Todo: Remove when generic sorting/filtering is implemented @Das_M_e_e_ // remove = error
-    private void FilterTasksByStatus()
+    public void CloseFlyout()
     {
-        var filteredTasks = _taskService.FilterTasksByStatus(AllTasks, "Backlog");
-        UpdateTaskList(filteredTasks);
+        TaskDetailFlyout = null;
+        LoadTasks();
     }
 
     private void ManipulateTasks()

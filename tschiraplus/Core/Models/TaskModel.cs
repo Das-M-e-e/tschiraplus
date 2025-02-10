@@ -13,8 +13,8 @@ public class TaskModel
     public string? Description { get; set; }
     public TaskStatus? Status { get; set; }
     public TaskPriority? Priority { get; set; }
-    public DateTime CreationDate { get; init; }
-    public DateTime? StartDate { get; set; }
+    public DateTime CreationDate { get; init; } 
+    public DateTime? StartDate { get; set; } 
     public DateTime? DueDate { get; set; }
     public DateTime? CompletionDate { get; set; }
     public DateTime LastUpdated { get; set; }

@@ -2,6 +2,8 @@
 using Services.DTOs;
 using Services.Mapper;
 using Services.Repositories;
+using TaskStatus = Core.Enums.TaskStatus;
+using TaskPriority = Core.Enums.TaskPriority;
 
 namespace Services.TaskServices;
 
@@ -12,6 +14,8 @@ public class TaskService : ITaskService
     private readonly ApplicationState _appState;
     private readonly IUserInputParser _userInputParser;
     private readonly TaskMapper _taskMapper;
+    private readonly UserDto _currentUser;
+
 
     public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState, UserInputParser userInputParser)
     {
@@ -44,9 +48,7 @@ public class TaskService : ITaskService
         return sortAttribute.ToLower() switch
         {
             "name" => _taskSortingManager.SortBySingleAttribute(tasks, t => t.Title),
-            
             "duedate" => _taskSortingManager.SortBySingleAttribute(tasks, t => t.DueDate ?? DateTime.MinValue),
-            
             _ => tasks // Unknown attribute -> return original list
         };
     }
@@ -93,7 +95,7 @@ public class TaskService : ITaskService
     /// <returns>The wanted task as TaskDto</returns>
     public TaskDto GetTaskById(Guid taskId)
     {
-        return _taskMapper.ToDto(_taskRepository.GetTaskById(taskId));
+        return _taskRepository.GetTaskById(taskId);
     }
     
     /// <summary>
@@ -117,10 +119,24 @@ public class TaskService : ITaskService
     /// Deletes a task by id using the TaskRepository
     /// </summary>
     /// <param name="taskId"></param>
-    public void DeleteTask(Guid taskId)
+    public async Task DeleteTask(Guid taskId, bool isOnline )
     {
-        _taskRepository.DeleteTask(taskId);
-    } 
+        if (isOnline)
+        {
+            await _taskRepository.DeleteAsync(taskId);
+            _taskRepository.DeleteTask(taskId);
+        } 
+    }
+ 
+    /// <summary>
+    /// Update the task using TaskRepository 
+    /// </summary>
+    /// <param name="taskDto"></param>
+    public void UpdateTask(TaskDto taskDto)
+    {
+        _taskRepository.UpdateTask(_taskMapper.ToModel(taskDto));
+        _taskRepository.UpdateTaskAsync(_taskMapper.ToModel(taskDto));
+    }
     
     /// <summary>
     /// Sorts the tasks in a List alphabetically by their title
@@ -141,5 +157,11 @@ public class TaskService : ITaskService
     public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status)
     {
        return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
+    }
+    
+    public async Task AddUserToTask(string username, Guid taskId)
+    {
+        await _taskRepository.AddTaskUserAsync(username, _currentUser.UserId, taskId );
+        
     }
 }
