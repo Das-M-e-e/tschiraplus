@@ -1,61 +1,71 @@
 ﻿using System;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
-using DynamicData;
+using ReactiveUI;
 using Services.DTOs;
 using Services.ProjectServices;
 
 namespace UI.ViewModels;
 
-public class CreateNewProjectViewModel
+public class CreateNewProjectViewModel : ViewModelBase
 {
     // Services
     private readonly IProjectService _projectService;
-    private readonly MainMenuViewModel _mainMenuViewModel;
+    private readonly ProjectListViewModel _projectListViewModel;
     
     // Bindings
     public string Name { get; set; }
     public string Description { get; set; }
-    public string ProjectPriority { get; set; }
+    public string Priority { get; set; }
+    private string _titleErrorMessage;
+    public string TitleErrorMessage
+    {
+        get => _titleErrorMessage;
+        set => this.RaiseAndSetIfChanged(ref _titleErrorMessage, value);
+    }
+    private bool _isTitleErrorMessageVisible;
+    public bool IsTitleErrorMessageVisible
+    {
+        get => _isTitleErrorMessageVisible;
+        set => this.RaiseAndSetIfChanged(ref _isTitleErrorMessageVisible, value);
+    }
     
-    // Commands
-    public ICommand CreateProjectCommand { get; set; }
-    public ICommand CancelCommand { get; set; }
-    
-    public CreateNewProjectViewModel(IProjectService projectService, MainMenuViewModel mainMenuViewModel)
+    public CreateNewProjectViewModel(IProjectService projectService, ProjectListViewModel projectListViewModel)
     {
         _projectService = projectService;
-        _mainMenuViewModel = mainMenuViewModel;
-        
-        CreateProjectCommand = new RelayCommand(CreateProject);
-        CancelCommand = new RelayCommand(Cancel);
+        _projectListViewModel = projectListViewModel;
     }
     
     /// <summary>
     /// Uses the _projectService to create a new project
     /// </summary>
-    private void CreateProject()
+    public bool CreateProject()
     {
+        if (string.IsNullOrWhiteSpace(Name))
+        {
+            TitleErrorMessage = "Name can't be empty!";
+            IsTitleErrorMessageVisible = true;
+            return false;
+        }
+        
         var projectId = Guid.NewGuid();
         var newProjectDto = new ProjectDto
         {
             ProjectId = projectId,
             Name = Name,
             Description = Description,
-            ProjectPriority = ProjectPriority
+            ProjectPriority = Priority
         };
-        
+
+        IsTitleErrorMessageVisible = false;
         _projectService.CreateProject(newProjectDto);
-        
-        _mainMenuViewModel.OpenProjectCommand.Execute(projectId);
+        CloseFlyout();
+
+        return true;
     }
 
-    /// <summary>
-    /// Cancels the project creation and switches back to the ProjectListView
-    /// </summary>
-    private void Cancel()
+    private void CloseFlyout()
     {
-        _mainMenuViewModel.SelectedTabIndex = 0;
-        _mainMenuViewModel.CloseCurrentTab();
+        _projectListViewModel.CloseFlyout();
     }
 }

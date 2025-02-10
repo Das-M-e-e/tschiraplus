@@ -14,4 +14,5 @@ public interface IProjectUserRepository
     Task<List<ProjectUserModel>?> GetAllProjectUsersByUserIdAsync(Guid userId);
     Task<bool> DeleteProjectUserAsync(Guid projectUserId);
     bool ProjectUserExists(Guid projectUserId);
+    Task<bool> AddProjectUserAsync(string username, Guid inviterId, Guid projectId);
 }

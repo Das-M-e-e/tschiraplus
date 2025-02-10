@@ -1,7 +1,11 @@
-﻿using Core.Models;
+﻿using System.Collections;
+using System.Reflection;
+using Core.Enums;
+using Core.Models;
 using Services.DTOs;
 using Services.Repositories;
 using TaskStatus = Core.Enums.TaskStatus;
+using TaskPriority = Core.Enums.TaskPriority;
 
 namespace Services.TaskServices;
 
@@ -10,13 +14,70 @@ public class TaskService : ITaskService
     private readonly ITaskRepository _taskRepository;
     private readonly ITaskSortingManager _taskSortingManager;
     private readonly ApplicationState _appState;
+    private readonly IUserInputParser _userInputParser;
+    private readonly UserDto _currentUser;
 
-    public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState)
+
+    public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState, UserInputParser userInputParser)
     {
         _taskRepository = taskRepository;
         _taskSortingManager = taskSortingManager;
         _appState = appState;
+        _userInputParser = userInputParser;
+        
     }
+
+    public IEnumerable<TaskDto> ProcessUserInput(string userInput, IEnumerable<TaskDto> tasks)
+    {
+        var commands = _userInputParser.Parse(userInput);
+        foreach (var command in commands)
+        {
+            tasks = command.Type switch
+            {
+                CommandType.Sort => SortTasks(tasks, command.Parameters),
+                CommandType.Filter => FilterTasks(tasks, command.Parameters),
+                _ => tasks // Unbekannter Typ: Aufgaben unverändert lassen
+            };
+        }
+
+        return tasks;
+    }
+
+    private IEnumerable<TaskDto> SortTasks(IEnumerable<TaskDto> tasks, string sortAttribute)
+    {
+        return sortAttribute.ToLower() switch
+        {
+            "name" => _taskSortingManager.SortBySingleAttribute(tasks, t => t.Title),
+            "duedate" => _taskSortingManager.SortBySingleAttribute(tasks, t => t.DueDate ?? DateTime.MinValue),
+            _ => tasks // Unknown attribute -> return original list
+        };
+    }
+
+    private IEnumerable<TaskDto> FilterTasks(IEnumerable<TaskDto> tasks, string filterExpression)
+    {
+        var parts = filterExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length < 2) return tasks;
+        var attribute = parts[0].ToLower();
+        var value = parts[1];
+        return attribute switch
+        {
+            "name" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.Title.Contains(value, StringComparison.OrdinalIgnoreCase)),
+
+            "status" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.Status == value),
+            
+            "startdate" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.StartDate == DateTime.Parse(value).Date),
+            
+            "priority" => _taskSortingManager.FilterByPredicate(tasks,
+                t => t.DueDate == DateTime.Parse(value).Date),
+            
+            _ => tasks,
+            
+        };
+    }
+    
 
     /// <summary>
     /// Saves a task using the TaskRepository
@@ -25,6 +86,7 @@ public class TaskService : ITaskService
     public void CreateTask(TaskDto task)
     {
         _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
+        _taskRepository.PostTaskAsync(ConvertTaskDtoToTaskModel(task));
     }
     
     /// <summary>
@@ -35,7 +97,7 @@ public class TaskService : ITaskService
     /// <param name="status"></param>
     /// <param name="creationDate"></param>
     /// <returns>The newly created TaskDto</returns>
-    public TaskDto CreateTaskDto(string title, string description, string status, DateTime creationDate)
+    public TaskDto CreateTaskDto(string title, string description, string status, string priority, DateTime creationDate)
     {
         var dto = new TaskDto
         {
@@ -43,7 +105,8 @@ public class TaskService : ITaskService
             Title = title,
             Description = description,
             Status = status,
-            CreationDate = creationDate
+            Priority = priority,
+            StartDate = null
         };
         return dto;
     }    
@@ -63,6 +126,7 @@ public class TaskService : ITaskService
             Title = taskDto.Title,
             Description = taskDto.Description,
             Status = Enum.TryParse(taskDto.Status, out TaskStatus status) ? status : TaskStatus.Backlog,
+            Priority = Enum.TryParse(taskDto.Priority, out TaskPriority priority) ? priority : TaskPriority.High,
             CreationDate = DateTime.Now,
             LastUpdated = DateTime.Now
         };
@@ -79,10 +143,11 @@ public class TaskService : ITaskService
         var convertedTaskDto = new TaskDto
         {
             TaskId = taskModel.TaskId,
-            CreationDate = taskModel.CreationDate,
+            StartDate = taskModel.StartDate,
             Description = taskModel.Description,
             Title = taskModel.Title,
-            Status = taskModel.Status.ToString()
+            Status = taskModel.Status.ToString(),
+            Priority = taskModel.Priority.ToString()
         };
         return convertedTaskDto;
     }
@@ -118,10 +183,24 @@ public class TaskService : ITaskService
     /// Deletes a task by id using the TaskRepository
     /// </summary>
     /// <param name="taskId"></param>
-    public void DeleteTask(Guid taskId)
+    public async Task DeleteTask(Guid taskId, bool isOnline )
     {
-        _taskRepository.DeleteTask(taskId);
-    } 
+        if (isOnline)
+        {
+            await _taskRepository.DeleteAsync(taskId);
+            _taskRepository.DeleteTask(taskId);
+        } 
+    }
+ 
+    /// <summary>
+    /// Update the task using TaskRepository 
+    /// </summary>
+    /// <param name="taskDto"></param>
+    public void UpdateTask(TaskDto taskDto)
+    {
+        _taskRepository.UpdateTask(ConvertTaskDtoToTaskModel(taskDto));
+        _taskRepository.UpdateTaskAsync(ConvertTaskDtoToTaskModel(taskDto));
+    }
     
     /// <summary>
     /// Sorts the tasks in a List alphabetically by their title
@@ -142,5 +221,11 @@ public class TaskService : ITaskService
     public List<TaskDto> FilterTasksByStatus(List<TaskDto> tasks, string status)
     {
        return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
+    }
+    
+    public async Task AddUserToTask(string username, Guid taskId)
+    {
+        await _taskRepository.AddTaskUserAsync(username, _currentUser.UserId, taskId );
+        
     }
 }
