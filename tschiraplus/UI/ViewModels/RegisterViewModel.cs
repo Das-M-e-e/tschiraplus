@@ -7,12 +7,19 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
 using Services.DTOs;
+using Services.ProjectServices;
 using Services.UserServices;
 
 namespace UI.ViewModels;
 
 public partial class RegisterViewModel : ViewModelBase
 {
+    private readonly IValidationService _validationService;
+
+    public RegisterViewModel(IValidationService validationService)
+    {
+        _validationService = validationService;
+    }
     // Services
     private readonly IUserService _userService;
     private readonly WrapperViewModel _wrapper;
