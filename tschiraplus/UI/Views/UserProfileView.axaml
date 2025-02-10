@@ -3,7 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
-             x:Class="UI.Views.TaskDetailView">
+             x:Class="UI.Views.UserProfileView">
     
     
     
@@ -92,13 +92,9 @@
                         <Image Source="avares://UI/Assets/priority_icon.png" Stretch="Uniform" Width="11.5"></Image>
                         <TextBlock Text="Username"></TextBlock>
                     </StackPanel>
+                    
                             
                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Image Source="avares://UI/Assets/start_date_icon.png" Stretch="Uniform" Width="11.5"></Image>
-                        <TextBlock Text="Name"></TextBlock>
-                    </StackPanel>
-                            
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                         <Image Source="avares://UI/Assets/due_date_icon.png" Stretch="Uniform" Width="11"></Image>
                         <TextBlock Text="E-Mail"></TextBlock>
                     </StackPanel>
@@ -111,11 +107,7 @@
                         <TextBlock Text="Jemand123"></TextBlock>
                     </StackPanel>
                             
-                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Jemand"></TextBlock>
-                    </StackPanel>
-                            
-                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
                         <TextBlock Text="Irgendwas"></TextBlock>
                     </StackPanel>
                             
