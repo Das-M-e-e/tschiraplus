@@ -53,23 +53,9 @@ public class TaskRepository : ITaskRepository
     /// </summary>
     /// <param name="taskId"></param>
     /// <returns>The wanted task as TaskDto</returns>
-    public TaskDto? GetTaskById(Guid taskId)
+    public TaskModel? GetTaskById(Guid taskId)
     {
-        var task = _db.SingleOrDefault<TaskModel>("SELECT * FROM Tasks WHERE TaskId = @0", taskId);
-        if (task is null)
-        {
-            return null;
-        }
-
-        return new TaskDto
-        {
-            TaskId = task.TaskId,
-            Title = task.Title ?? "Unnamed",
-            Description = task.Description ?? "No description provided...",
-            Status = task.Status.ToString() ?? TaskStatus.Backlog.ToString(),
-            Priority = task.Priority.ToString() ?? TaskPriority.NotSet.ToString(),
-            StartDate = task.CreationDate
-        };
+        return _db.SingleOrDefault<TaskModel>("SELECT * FROM Tasks WHERE TaskId = @0", taskId);
     }
 
     /// <summary>

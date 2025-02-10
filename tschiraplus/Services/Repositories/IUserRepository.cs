@@ -11,4 +11,5 @@ public interface IUserRepository
     Task<UserModel> GetUserByIdAsync(Guid id);
     bool UserExists(Guid userId);
     Task<bool> SendInvitationAsync(ProjectInvitationModel invitation);
+    UserModel? GetUserById(Guid userId);
 }

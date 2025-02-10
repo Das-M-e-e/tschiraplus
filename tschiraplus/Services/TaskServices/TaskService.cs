@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Reflection;
-using Core.Enums;
-using Core.Models;
+﻿using Core.Enums;
 using Services.DTOs;
+using Services.Mapper;
 using Services.Repositories;
 using TaskStatus = Core.Enums.TaskStatus;
 using TaskPriority = Core.Enums.TaskPriority;
@@ -15,6 +13,7 @@ public class TaskService : ITaskService
     private readonly ITaskSortingManager _taskSortingManager;
     private readonly ApplicationState _appState;
     private readonly IUserInputParser _userInputParser;
+    private readonly TaskMapper _taskMapper;
     private readonly UserDto _currentUser;
 
 
@@ -23,6 +22,7 @@ public class TaskService : ITaskService
         _taskRepository = taskRepository;
         _taskSortingManager = taskSortingManager;
         _appState = appState;
+        _taskMapper = new TaskMapper(_taskRepository);
         _userInputParser = userInputParser;
         
     }
@@ -71,9 +71,9 @@ public class TaskService : ITaskService
                 t => t.StartDate == DateTime.Parse(value).Date),
             
             "priority" => _taskSortingManager.FilterByPredicate(tasks,
-                t => t.DueDate == DateTime.Parse(value).Date),
+                t => t.Priority == value),
             
-            _ => tasks,
+            _ => tasks // Unknown attribute -> return original list
             
         };
     }
@@ -85,71 +85,7 @@ public class TaskService : ITaskService
     /// <param name="task"></param>
     public void CreateTask(TaskDto task)
     {
-        _taskRepository.AddTask(ConvertTaskDtoToTaskModel(task));
-        _taskRepository.PostTaskAsync(ConvertTaskDtoToTaskModel(task));
-    }
-    
-    /// <summary>
-    /// Creates a TaskDto from relevant attributes
-    /// </summary>
-    /// <param name="title"></param>
-    /// <param name="description"></param>
-    /// <param name="status"></param>
-    /// <param name="creationDate"></param>
-    /// <returns>The newly created TaskDto</returns>
-    public TaskDto CreateTaskDto(string title, string description, string status, string priority, DateTime creationDate)
-    {
-        var dto = new TaskDto
-        {
-            TaskId = Guid.NewGuid(),
-            Title = title,
-            Description = description,
-            Status = status,
-            Priority = priority,
-            StartDate = null
-        };
-        return dto;
-    }    
-
-    /// <summary>
-    /// Converts a TaskDto to a TaskModel
-    /// </summary>
-    /// <param name="taskDto"></param>
-    /// <returns>The TaskModel</returns>
-    private TaskModel ConvertTaskDtoToTaskModel(TaskDto taskDto)
-    {
-        var convertedTaskModel = new TaskModel
-        {
-            TaskId = taskDto.TaskId,
-            ProjectId = _appState.CurrentProjectId ?? throw new ArgumentNullException(nameof(_appState.CurrentProjectId)),
-            AuthorId = _appState.CurrentUser!.UserId,
-            Title = taskDto.Title,
-            Description = taskDto.Description,
-            Status = Enum.TryParse(taskDto.Status, out TaskStatus status) ? status : TaskStatus.Backlog,
-            Priority = Enum.TryParse(taskDto.Priority, out TaskPriority priority) ? priority : TaskPriority.High,
-            CreationDate = DateTime.Now,
-            LastUpdated = DateTime.Now
-        };
-        return convertedTaskModel;
-    }
-
-    /// <summary>
-    /// Converts a TaskModel to a TaskDto
-    /// </summary>
-    /// <param name="taskModel"></param>
-    /// <returns>The TaskDto</returns>
-    private TaskDto ConvertTaskModelToTaskDto(TaskModel taskModel)
-    {
-        var convertedTaskDto = new TaskDto
-        {
-            TaskId = taskModel.TaskId,
-            StartDate = taskModel.StartDate,
-            Description = taskModel.Description,
-            Title = taskModel.Title,
-            Status = taskModel.Status.ToString(),
-            Priority = taskModel.Priority.ToString()
-        };
-        return convertedTaskDto;
+        _taskRepository.AddTask(_taskMapper.ToModel(task));
     }
 
     /// <summary>
@@ -159,7 +95,7 @@ public class TaskService : ITaskService
     /// <returns>The wanted task as TaskDto</returns>
     public TaskDto GetTaskById(Guid taskId)
     {
-        return _taskRepository.GetTaskById(taskId);
+        return _taskMapper.ToDto(_taskRepository.GetTaskById(taskId));
     }
     
     /// <summary>
@@ -198,8 +134,8 @@ public class TaskService : ITaskService
     /// <param name="taskDto"></param>
     public void UpdateTask(TaskDto taskDto)
     {
-        _taskRepository.UpdateTask(ConvertTaskDtoToTaskModel(taskDto));
-        _taskRepository.UpdateTaskAsync(ConvertTaskDtoToTaskModel(taskDto));
+        _taskRepository.UpdateTask(_taskMapper.ToModel(taskDto));
+        _taskRepository.UpdateTaskAsync(_taskMapper.ToModel(taskDto));
     }
     
     /// <summary>

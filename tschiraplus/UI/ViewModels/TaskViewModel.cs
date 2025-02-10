@@ -15,7 +15,7 @@ public class TaskViewModel
     public string Title { get; }
     public string Description { get; }
     public string? Status { get; }
-    
+    public DateTime? StartDate { get; }
     public string? Priority { get; }
     
     // Commands
@@ -28,6 +28,7 @@ public class TaskViewModel
         Title = task.Title;
         Description = task.Description;
         Status = task.Status;
+        StartDate = task.StartDate;
         Priority = task.Priority;
 
         _taskListViewModel = taskListViewModel;

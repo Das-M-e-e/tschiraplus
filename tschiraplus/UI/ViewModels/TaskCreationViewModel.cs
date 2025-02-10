@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
+using Services.DTOs;
 using Services.TaskServices;
 
 namespace UI.ViewModels;
@@ -77,14 +78,15 @@ public class TaskCreationViewModel : ViewModelBase
             IsTitleErrorMessageVisible = true;
             return false;
         }
-        
-        var dto = _taskService.CreateTaskDto(
-            Title,
-            Description,
-            InitialStatus,
-            Priority.Tag?.ToString() ?? "NotSet",
-            DateTime.Today);
-        _taskService.CreateTask(dto);
+
+        var task = new TaskDto
+        {
+            Title = Title,
+            Description = Description,
+            Priority = Priority.Tag?.ToString() ?? "NotSet",
+            Status = InitialStatus
+        };
+        _taskService.CreateTask(task);
         _taskListViewModel.LoadTasks();
 
         IsTitleErrorMessageVisible = false;

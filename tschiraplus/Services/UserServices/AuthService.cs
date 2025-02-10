@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using Newtonsoft.Json;
 using Services.DatabaseServices;
 using Services.DTOs;
@@ -91,7 +90,7 @@ public class AuthService : IAuthService
     /// <summary>
     /// Removes the saved token
     /// </summary>
-    private static void RemoveToken()
+    private void RemoveToken()
     {
         TokenStorageService.RemoveToken();
     }
