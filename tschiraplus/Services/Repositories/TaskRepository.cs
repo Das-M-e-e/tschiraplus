@@ -220,7 +220,7 @@ public class TaskRepository : ITaskRepository
             TaskId = taskId
         };
         
-        return await _remoteDb.PostAsync("TaskUsers/AddTaskUser", JsonConvert.SerializeObject(data));
+        return await _remoteDb.PostAsync("Tasks/AssignUser", JsonConvert.SerializeObject(data));
     }
     
     

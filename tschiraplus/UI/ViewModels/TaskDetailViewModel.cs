@@ -175,6 +175,6 @@ public class TaskDetailViewModel : ViewModelBase
     private void AddTaskUser()
     {
         Console.WriteLine($"Adding task user");
-        //_taskService.AddUserToTask(Username, _taskDto.TaskId);
+        _taskService.AddUserToTask(Username, _taskDto.TaskId);
     }
 }
