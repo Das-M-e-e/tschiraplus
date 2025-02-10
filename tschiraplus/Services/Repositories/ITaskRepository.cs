@@ -15,4 +15,5 @@ public interface ITaskRepository
     Task<List<TaskModel>?> GetTasksByProjectIdAsync(Guid projectId);
     Task<bool> DeleteAsync(Guid taskId);
     Task UpdateTaskAsync(TaskModel task);
+    Task<bool> AddTaskUserAsync(string username, Guid inviterId, Guid taskId);
 }

@@ -90,4 +90,11 @@ public class ProjectService : IProjectService
             _projectRepository.DeleteProject(projectId);
         }
     }
+
+    public async Task AddUserToProject(string username, Guid projectId)
+    {
+        await _projectUserRepository.AddProjectUserAsync(username, _currentUser.UserId, projectId);
+        
+    }
+    
 }
