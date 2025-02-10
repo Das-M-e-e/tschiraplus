@@ -57,7 +57,7 @@ public class UserRepository : IUserRepository
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    private UserModel? GetUserById(Guid userId)
+    public UserModel? GetUserById(Guid userId)
     {
         return _db.SingleOrDefault<UserModel>($"SELECT * FROM Users WHERE UserId = @0", userId);
     }

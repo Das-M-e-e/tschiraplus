@@ -22,8 +22,9 @@ public class ProjectMapper
             Name = model.Name,
             Description = model.Description,
             Priority = model.Priority.ToString(),
-            Status = model.Status.ToString()
-        
+            Status = model.Status.ToString(),
+            StartDate= model.StartDate,
+            DueDate = model.DueDate
         };
 
         return projectDto;
@@ -43,6 +44,9 @@ public class ProjectMapper
         projectModel.Description = dto.Description;
         projectModel.Priority = Enum.TryParse(dto.Priority, out ProjectPriority priority) ? priority : ProjectPriority.Low;
         projectModel.Status = Enum.TryParse(dto.Status, out ProjectStatus status) ? status : ProjectStatus.NotStarted;
+        projectModel.StartDate = dto.StartDate;
+        projectModel.DueDate = dto.DueDate;
+        
         
         return projectModel;
     }
