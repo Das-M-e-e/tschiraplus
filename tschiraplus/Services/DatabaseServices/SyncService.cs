@@ -31,9 +31,9 @@ public class SyncService : ISyncService
         if (projects == null) return;
         
         var users = new List<Guid>();
-        foreach (var project in projects.Where(project => !users.Contains(project.Owner.UserId)))
+        foreach (var project in projects.Where(project => !users.Contains(project.OwnerId)))
         {
-            users.Add(project.Owner.UserId);
+            users.Add(project.OwnerId);
         }
 
         var tasks = await GetAllTasksForProject(projects);

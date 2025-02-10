@@ -95,7 +95,7 @@ public class TaskService : ITaskService
     /// <returns>The wanted task as TaskDto</returns>
     public TaskDto GetTaskById(Guid taskId)
     {
-        return _taskRepository.GetTaskById(taskId);
+        return _taskMapper.ToDto(_taskRepository.GetTaskById(taskId));
     }
     
     /// <summary>

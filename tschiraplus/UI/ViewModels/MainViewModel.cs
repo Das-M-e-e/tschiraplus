@@ -99,7 +99,7 @@ public class MainViewModel : ViewModelBase
         {
             ProjectId = projectId
         };
-        var taskSortingManager = new TaskSortingManager(taskRepository, _appState);
+        var taskSortingManager = new TaskSortingManager();
         var userInputParser = new UserInputParser();
         var taskService = new TaskService(taskRepository, taskSortingManager, _appState, userInputParser);
 

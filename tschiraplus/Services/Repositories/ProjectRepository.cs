@@ -130,7 +130,7 @@ public class ProjectRepository : IProjectRepository
         var jsonParts = new List<string>
         {
             $"\"projectId\":\"{project.ProjectId}\"",
-            $"\"ownerId\":\"{project.Owner.UserId}\"",
+            $"\"ownerId\":\"{project.OwnerId}\"",
             $"\"name\":\"{project.Name}\"",
             $"\"status\":{(int)project.Status}",
             $"\"priority\":{(int)project.Priority}",
@@ -164,7 +164,7 @@ public class ProjectRepository : IProjectRepository
         {
             ProjectUserId = Guid.NewGuid(),
             ProjectId = project.ProjectId,
-            UserId = project.Owner.UserId,
+            UserId = project.OwnerId,
             AssignedAt = DateTime.Now
         };
 

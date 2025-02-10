@@ -8,7 +8,7 @@ public class TaskModel
     public Guid TaskId { get; init; }
     public Guid ProjectId { get; set; }
     public Guid? SprintId { get; set; }
-    public UserModel Author { get; set; }
+    public Guid AuthorId { get; set; }
     public string Title { get; set; }
     public string? Description { get; set; }
     public TaskStatus? Status { get; set; }
@@ -20,7 +20,5 @@ public class TaskModel
     public DateTime LastUpdated { get; set; }
     public TimeSpan? EstimatedTime { get; set; } //Coming Soon
     public TimeSpan? ActualTimeSpent { get; set; } //Coming Soon
-    public List<UserModel> Assignees { get; set; }
-    public List<TagModel> Tags { get; set; }
     
 }

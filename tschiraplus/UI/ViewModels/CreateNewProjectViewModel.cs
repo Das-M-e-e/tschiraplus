@@ -54,7 +54,7 @@ public class CreateNewProjectViewModel : ViewModelBase
             ProjectId = projectId,
             Name = Name,
             Description = Description,
-            ProjectPriority = Priority
+            Priority = Priority
         };
 
         IsTitleErrorMessageVisible = false;
