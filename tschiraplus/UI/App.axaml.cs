@@ -70,7 +70,7 @@ public partial class App : Application
     {
         try
         {
-            var savedToken = TokenStorageService.LoadToken();
+            var savedToken = new TokenStorageService().LoadToken();
             if (savedToken != null)
             {
                 var userService = new UserService(
