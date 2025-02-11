@@ -12,6 +12,8 @@ public class TaskSortingManager : ITaskSortingManager
         _taskRepository = taskRepository;
         _appState = appState;
     }
+    
+
     /// <summary>
     /// Generic sorting method.
     /// Sorts a List of objects by a single attribute

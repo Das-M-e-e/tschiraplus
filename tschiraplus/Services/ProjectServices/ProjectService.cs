@@ -5,7 +5,8 @@ using Services.Repositories;
 
 namespace Services.ProjectServices;
 
-public class ProjectService : IProjectService
+public class 
+    ProjectService : IProjectService
 {
     private readonly IProjectRepository _projectRepository;
     private readonly IProjectUserRepository _projectUserRepository;
