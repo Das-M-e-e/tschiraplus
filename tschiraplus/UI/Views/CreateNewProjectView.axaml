@@ -7,141 +7,69 @@
              xmlns:vm="clr-namespace:UI.ViewModels"
              x:DataType="vm:CreateNewProjectViewModel">
     
-    <!--Scroll and Size-->
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-    
-    <Border 
-            Background="LightSteelBlue"
-            CornerRadius= "15" 
-            Margin = "20"
-            Width = "700" Height="500">
-        
-        <!--ProjectName-->
-        <StackPanel Margin="50,40,0,0">
-            <Grid>
-                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Vertical" Spacing="35" Margin="20">
-                    <TextBlock Text="Projectname:" VerticalAlignment="Center"/>
-                    <TextBlock Text="Members:" VerticalAlignment="Center"/>
-                    <TextBlock Text="Description:" VerticalAlignment="Center"/>
-                    <TextBlock Text="Prio:" VerticalAlignment="Center"/>
-                </StackPanel>
-                
-                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Spacing="10" Margin="10,0,0,0">
-                    <TextBox Name="ProjectnameTextBox" Width="300" Height="40" Margin="0,10,0,0" CornerRadius="15" Text="{Binding Name}">
-                        <TextBox.Styles>
-                            <Style Selector="TextBox">
-                                <Setter Property="Background" Value="White"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Opacity" Value="0.5"/>
-                            </Style>
-                            <Style Selector="TextBox:focus">
-                                <Setter Property="Opacity" Value="1"/>
-                            </Style>
-                        </TextBox.Styles>
-                    </TextBox>
-                   
-                    <TextBox Name="NumberOfPerson" Width="300" Height="40"  CornerRadius="15">
-                        <TextBox.Styles>
-                            <Style Selector="TextBox">
-                                <Setter Property="Background" Value="White"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Opacity" Value="0.5"/>
-                            </Style>
-                            <Style Selector="TextBox:focus">
-                                <Setter Property="Opacity" Value="1"/>
-                            </Style>
-                    </TextBox.Styles>
-                    </TextBox>
-                   
-                    <TextBox Name="Description" Width="300" Height="45" Margin= "0,0,0,0" CornerRadius="15" Text="{Binding Description}">
-                        <TextBox.Styles>
-                            <Style Selector="TextBox">
-                                <Setter Property="Background" Value="White"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Opacity" Value="0.5"/>
-                            </Style>
-                            <Style Selector="TextBox:focus">
-                                <Setter Property="Opacity" Value="1"/>
-                            </Style>
-                        </TextBox.Styles>
-                    </TextBox>
-                   
-                    <ComboBox Name="PrioBox" Width="300" Margin=" 170,0,0,10" CornerRadius="15" SelectedItem="{Binding ProjectPriority}" >
-                        <ComboBox.Styles>
-                            <Style Selector="ComboBox">
-                                <Setter Property="Background" Value="White"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Opacity" Value="0.5"/>
-                            </Style>
-                            <Style Selector="ComboBox:focus">
-                                <Setter Property="Opacity" Value="1"/>
-                            </Style>
-                        </ComboBox.Styles>
-                            <ComboBoxItem Content="High"></ComboBoxItem>
-                            <ComboBoxItem Content="Medium"></ComboBoxItem>
-                            <ComboBoxItem Content="Low"></ComboBoxItem>
-                    </ComboBox>
-                </StackPanel> 
+    <ScrollViewer>
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto">
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="0,8">
+                <TextBlock Text="Create a new project" FontSize="24" HorizontalAlignment="Left" />
+                <Button HorizontalAlignment="Right" Click="OnCloseButtonPressed">
+                    <Image Source="avares://UI/Assets/close_icon.png" Width="18" />
+                </Button>
             </Grid>
             
-           
-            <!--ProjectStart-->
-            <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Vertical" Spacing="10" Margin="20,0,0,0">
-                <StackPanel Orientation="Horizontal" Spacing="20">
-                    <TextBlock Text="StartDate:" VerticalAlignment="Center" Margin="0,10,0,0"></TextBlock>
-                    <DatePicker Name="StartDatePicker" Width="300" Margin="70,10,0,0" CornerRadius="15">
-                        <DatePicker.Styles>
-                            <Style Selector="DatePicker">
-                                <Setter Property="Background" Value="White"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Opacity" Value="0.7"/>
-                            </Style>
-                            <Style Selector="DatePicker:focus">
-                                <Setter Property="Opacity" Value="1"/>
-                            </Style>
-                        </DatePicker.Styles>
-                    </DatePicker>
+            <Separator Grid.Row="1" Height="1" Background="Gray" />
+        
+            <!-- Title -->
+            <StackPanel Grid.Row="2" Spacing="4" Margin="4,10,4,0">
+                <StackPanel Spacing="16" Orientation="Horizontal">
+                    <TextBlock Text="Project name *" HorizontalAlignment="Left" FontSize="11" />
+                    <TextBlock Text="{Binding TitleErrorMessage}"
+                               IsVisible="{Binding IsTitleErrorMessageVisible}"
+                               Foreground="Red" FontSize="11" />
                 </StackPanel>
-            <!--ProjectEnds-->
-                <StackPanel Orientation="Horizontal" Spacing="20">
-                    <TextBlock Text="EndDate:"  VerticalAlignment="Center" Margin="0,-15,0,0"></TextBlock>
-                    <DatePicker Name="EndDatePicker" Width="300" Margin="80,-10,0,0" CornerRadius="15">
-                        <DatePicker.Styles>
-                            <Style Selector="DatePicker">
-                                <Setter Property="Background" Value="White"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="Padding" Value="10"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Opacity" Value="0.7"/>
-                            </Style>
-                            <Style Selector="DatePicker:focus">
-                                <Setter Property="Opacity" Value="1"/>
-                            </Style>
-                        </DatePicker.Styles>
-                    </DatePicker>
+                <TextBox Text="{Binding Name}"/>
+            </StackPanel>
+            
+            <!-- Description -->
+            <StackPanel Grid.Row="3" Spacing="4" Margin="4,10,4,0">
+                <TextBlock Text="Description (optional)" HorizontalAlignment="Left" FontSize="11" />
+                <TextBox Text="{Binding Description}"/>
+            </StackPanel>
+            
+            <!-- Add People -->
+            <StackPanel Grid.Row="4" Spacing="4" Margin="4,10,4,0">
+                <TextBlock Text="Add people (optional)" HorizontalAlignment="Left" FontSize="11" />
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <Border CornerRadius="8" Background="SlateGray">
+                        <TextBlock Text="Franzii" />
+                    </Border>
+                    <Border CornerRadius="8" Background="SlateGray">
+                        <TextBlock Text="Isaak" />
+                    </Border>
+                    <Button Padding="0" Background="Transparent">
+                        <Border CornerRadius="8" Background="SlateGray">
+                            <TextBlock Text="+" />
+                        </Border>
+                    </Button>
                 </StackPanel>
             </StackPanel>
             
-            <!--Buttons-->
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,30,20,0">
-                <Button Name="CancelButton" Content="Cancel" Width="68" Margin="20,0,20,0" CornerRadius="15" 
-                        Background="White" Command="{Binding CancelCommand}"></Button>
-                <Button Name="SaveButton" Content="Save" Width="55" Margin="0,0,10,0" CornerRadius="15"
-                        Background="CornflowerBlue" Command="{Binding CreateProjectCommand}"></Button>
-                
+            <!-- "More" section (Priority, StartDate, etc.) -->
+            <TextBlock Grid.Row="5" Text="More v" Foreground="DodgerBlue" Margin="4,10,4,0" />
+            
+            <!-- Buttons -->
+            <StackPanel Grid.Row="6"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <Button Content="Cancel"
+                        Click="OnCloseButtonPressed" />
+                <Button Content="Create project"
+                        Click="OnCreateProjectButtonPressed"
+                        Background="ForestGreen" />
             </StackPanel>
-            </StackPanel>
-        
-    </Border>
+        </Grid>
     </ScrollViewer>
+    
 </UserControl>

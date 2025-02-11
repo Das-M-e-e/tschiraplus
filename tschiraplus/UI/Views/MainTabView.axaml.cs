@@ -8,4 +8,9 @@ public partial class MainTabView : UserControl
     {
         InitializeComponent();
     }
+
+    public void OnCloseButtonPressed()
+    {
+        Root.ContextFlyout?.Hide();
+    }
 }

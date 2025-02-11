@@ -65,6 +65,7 @@ public class DatabaseInitializer
                     Status INTEGER,
                     Priority INTEGER,
                     CreationDate TIMESTAMP,
+                    StartDate TIMESTAMP,
                     DueDate TIMESTAMP,
                     CompletionDate TIMESTAMP,
                     LastUpdated TIMESTAMP,
@@ -172,6 +173,14 @@ public class DatabaseInitializer
                     FriendId TEXT REFERENCES Users(UserId),
                     BefriendedAt TIMESTAMP NOT NULL
                 );
+
+                CREATE TABlE IF NOT EXISTS ProjectInvitations (
+                    ProjectInvitationId TEXT PRIMARY KEY,
+                    ProjectId TEXT REFERENCES Projects(ProjectId),
+                    RecipientId TEXT REFERENCES Users(UserId),
+                    InviterId TEXT REFERENCES Users(UserId),
+                    Accepted BOOLEAN NOT NULL
+                )
         ");
     }
 }

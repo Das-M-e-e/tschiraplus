@@ -7,6 +7,6 @@
         x:Class="UI.Views.WrapperView"
         x:DataType="vm:WrapperViewModel"
         WindowState="Maximized"
-        Title="WrapperView">
+        Title="tschiraplus">
     <ContentControl Content="{Binding CurrentView}"/>
 </Window>
