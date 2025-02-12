@@ -112,7 +112,7 @@ public class MainViewModel : ViewModelBase
 
     public void OpenUserDetails()
     {
-        CurrentContent = new UserDetailsView();
+        CurrentContent = new UserProfileView();
     }
 
     public void OpenSettings()
