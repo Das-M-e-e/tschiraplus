@@ -13,9 +13,9 @@ using UI.ViewModels;
 
 namespace UI.Views;
 
-public partial class TaskDetailsView : UserControl
+public partial class TaskDetailView : UserControl
 {
-    public TaskDetailsView()
+    public TaskDetailView()
     {
         InitializeComponent();
     }
