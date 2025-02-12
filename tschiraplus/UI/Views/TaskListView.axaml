@@ -4,38 +4,49 @@
         x:Class="UI.Views.TaskListView"
         x:DataType="vm:TaskListViewModel">
     
-    <Grid RowDefinitions="Auto, Auto, *, Auto">
+    <UserControl.Styles>
+        <Style Selector="FlyoutPresenter.taskDetailFlyout">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
+            <Setter Property="MaxWidth" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay}"/>
+            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
+            <Setter Property="MaxHeight" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay}"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Name="RootGrid">
         
         <!-- Top Bar -->
-        <Border Grid.Row="0" Classes="TopBarBorder">
-        <Grid Grid.Row="0"  Classes="TopBar">
-            
+        <Grid Grid.Row="0" Background="#1a1c20">
+            <Border Background="LightSteelBlue" 
+                    CornerRadius="15" 
+                    Margin="10,20,10,0"
+                    Height="60">
+                
                 <StackPanel 
                     Height="34" 
                     Width="34" 
-                    VerticalAlignment="Center"
                     HorizontalAlignment="Left"
                     Orientation="Horizontal">
                     
-                    <Image Source="avares://UI/Assets/logo_mini.png"
-                           Stretch="Uniform" 
-                           Width="15" 
-                           Height="20" 
-                           Margin="15,0,0,0"></Image>
-                    <TextBlock Text="Task list" 
-                               Margin="5,10,0,10"
-                               FontWeight="Medium" 
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Center"
+                    <Image Source="avares://UI/Assets/kanban_fill_icon.png"
+                           Stretch="Fill" 
+                           Width="18" 
+                           Height="16" 
+                           Margin="20,0, 0,0"></Image>
+                    <TextBlock Text="List View" 
+                               FontSize="12"
+                               Margin="10,10,0,20"
+                               FontWeight="Regular" 
+                               Foreground="Black" 
+                               HorizontalAlignment="Left" 
                                Width="150">
                     </TextBlock>
-               
-                    <!-- Search Bar -->
-                    <TextBox Width="200" Height="30">
-                    </TextBox>
+                    
                 </StackPanel>
+            </Border>
         </Grid>
-        </Border>
+        
         <!-- Search/Sort/Filter Bar -->
         <Grid Grid.Row="1">
             <TextBox Text="{Binding UserInput}"
@@ -45,97 +56,24 @@
         </Grid>
         
         <!-- Main Area -->
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Background="#1a1c20">
             <Grid ColumnDefinitions="Auto,*">
-                <!-- Select Area -->
-                <StackPanel Grid.Column="0" Width="209.6" Spacing="8" HorizontalAlignment="Left">
-                    <Border 
-                        Margin="10" 
-                        HorizontalAlignment="Stretch"
-                        BorderThickness="5"
-                        CornerRadius="6" >
-                        <Grid RowDefinitions="Auto,*,Auto">
-                            <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
-                                    <TextBlock FontSize="14" 
-                                               VerticalAlignment="Center" 
-                                               HorizontalAlignment="Left" 
-                                               Text="Selector" 
-                                               Height="35" 
-                                               FontWeight="DemiBold" 
-                                               Padding="5,9,0,0">
-                                    </TextBlock>
-                            </Grid>
-                            <Grid Grid.Row="1" VerticalAlignment="Top" Margin="3,0,5,20">
-                                <Border
-                                    Margin="10,15,10,110" 
-                                    Padding="10,0,10,15" >
-                                </Border>
-                            <Grid>
-                                
-                            <CheckBox VerticalAlignment="Top"
-                                      HorizontalAlignment="Left"
-                                      Margin="20"
-                                      Height="35" 
-                                      Command="{Binding SortTasksByTitleCommand}"
-                            >Alphabetical</CheckBox>
-                                    
-                            <CheckBox VerticalAlignment="Top"
-                                      Margin="20,60"
-                                      Height="35" 
-                                      Command="{Binding FilterTasksByStatusCommand}">Priority</CheckBox>
-                                
-                            <CheckBox VerticalAlignment="Top"
-                                      Margin="20,100"
-                                      FontSize="12"
-                                      Height="35" 
-                            >Newest</CheckBox>
-                            
-                            <CheckBox VerticalAlignment="Top"
-                                      Margin="20,140"
-                                      FontSize="12"
-                                      Height="35" 
-                            >Oldest</CheckBox>
-                        </Grid>    
-                            
-                        <Button Classes="NewTask"
-                                Content="Apply"
-                                Width="55"
-                                FontSize="13"
-                                FontWeight="Medium"
-                                VerticalAlignment="Bottom"
-                                Margin="110,0,0,0" 
-                                VerticalContentAlignment="2"
-                                HorizontalContentAlignment="2"></Button> 
-                        
-                        <Button Classes="SecondaryActions"
-                                Content="Add a new task"
-                                FontSize="13"
-                                FontWeight="Medium"
-                                VerticalAlignment="Bottom"
-                                Margin="10,0,0,70" 
-                                Width="120"
-                                HorizontalAlignment="Left"
-                                Command="{Binding OpenTaskCreationCommand}">
-                        </Button>
-                            </Grid>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-                
                 <!-- Tasks Area -->
                 <ScrollViewer Grid.Column="1">
                     <ItemsControl ItemsSource="{Binding Tasks}" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:TaskViewModel">
-                                <Border Margin="10"
-                                        Padding="10"
-                                        CornerRadius="0">
-                                    <StackPanel TextElement.Foreground="Snow">
-                                        <TextBlock Text="{Binding Title}"></TextBlock>
-                                        <TextBlock Text="{Binding Description}"></TextBlock>
-                                        <Button Command="{Binding DeleteTaskCommand}" Content="Delete"></Button>
-                                    </StackPanel>
-                                </Border>
+                                <Button Command="{Binding OpenTaskDetailCommand}" HorizontalAlignment="Stretch" Click="OnEditButtonPressed">
+                                    <Border BorderBrush="Gray"
+                                            BorderThickness="1"
+                                            Margin="10"
+                                            Padding="10">
+                                        <StackPanel TextElement.Foreground="Snow">
+                                            <TextBlock Text="{Binding Title}"></TextBlock>
+                                            <TextBlock Text="{Binding Description}"></TextBlock>
+                                        </StackPanel>
+                                    </Border>
+                                </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -144,14 +82,27 @@
         </Grid>
         
         
+        <Grid.Styles>
+            <Style Selector="Button">
+                <Setter Property="Background" Value="#98acd0"></Setter>
+                <Setter Property="Foreground" Value="Black"></Setter>
+                <Setter Property="Cursor" Value="Arrow"></Setter>
+                <Setter Property="BorderBrush" Value="#5C76A6"></Setter>
+                <Setter Property="BorderThickness" Value="1"></Setter>
+            </Style>
+            <Style Selector="Button:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="#98acd0"></Setter>
+                <Setter Property="Foreground" Value="Black"></Setter>
+            </Style>
+        </Grid.Styles>
         
         <!-- Bottom Bar -->
-        <Border Grid.Row="3" Classes="BottomBarBorder">
-            <Grid Classes="BottomBar" >
-            </Grid>
+        <Border Grid.Row="3" Background="Snow" 
+                VerticalAlignment="Bottom"
+                Height="45">
+            <Button Command="{Binding OpenTaskCreationCommand}" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
         </Border>
         
-       
     </Grid>
 
 </UserControl>

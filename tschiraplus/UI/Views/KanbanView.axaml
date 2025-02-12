@@ -98,6 +98,7 @@
                                     Classes="KanbanColumnsAddNewTask"
                                     Command="{Binding OpenTaskCreationCommand}"
                                     CommandParameter="{Binding Status}"
+                                    Click="OnCreateTaskButtonPressed"
                                     Background="Transparent" 
                                     BorderThickness="0"
                                     FontSize="11" 
