@@ -1,138 +1,69 @@
-﻿using Core.Models;
+﻿using System.Text.Json;
+using Services.DTOs;
 using Services.Repositories;
 
 namespace Services.DatabaseServices;
 
 public class SyncService : ISyncService
 {
-    private readonly IProjectUserRepository _projectUserRepository;
-    private readonly IProjectRepository _projectRepository;
+    private readonly RemoteDatabaseService _remoteDatabaseService;
     private readonly IUserRepository _userRepository;
-    private readonly ITaskRepository _taskRepository;
-    private readonly ApplicationState _appState;
+    private readonly IProjectRepository _projectRepository;
+    private readonly IProjectUserRepository _projectUserRepository;
 
-    public SyncService(IProjectUserRepository projectUserRepository, IProjectRepository projectRepository,
-        IUserRepository userRepository, ITaskRepository taskRepository, ApplicationState appState)
+    public SyncService(RemoteDatabaseService remoteDatabaseService, IUserRepository userRepository,
+        IProjectRepository projectRepository, IProjectUserRepository projectUserRepository)
     {
-        _projectUserRepository = projectUserRepository;
-        _projectRepository = projectRepository;
+        _remoteDatabaseService = remoteDatabaseService;
         _userRepository = userRepository;
-        _taskRepository = taskRepository;
-        _appState = appState;
+        _projectRepository = projectRepository;
+        _projectUserRepository = projectUserRepository;
     }
 
-    /// <summary>
-    /// Synchronizes the local db to the remote db
-    /// </summary>
-    public async Task SyncAsync()
+    public async Task SyncProjectsAsync(Guid userId)
     {
-        var projectUsers = await GetAllProjectUsersForCurrentUser();
-        var projects = await GetAllProjectsForCurrentUser(projectUsers);
-        if (projects == null) return;
-        
-        var users = new List<Guid>();
-        foreach (var project in projects.Where(project => !users.Contains(project.OwnerId)))
+        try
         {
-            users.Add(project.OwnerId);
+            var response = await _remoteDatabaseService.GetByIdAsync("sync/projects", userId);
+            if (string.IsNullOrEmpty(response))
+            {
+                Console.WriteLine("No data received from the remote database.");
+                return;
+            }
+
+            var syncData = JsonSerializer.Deserialize<SyncProjectsResponse>(response);
+            if (syncData?.Projects != null)
+            {
+                foreach (var project in syncData.Projects)
+                {
+                    var localProject = _projectRepository.GetProjectById(project.ProjectId);
+                    if (localProject == null)
+                    {
+                        _projectRepository.AddProject(project);
+                    }
+                    else if (project.LastUpdated > localProject.LastUpdated)
+                    {
+                        _projectRepository.DeleteProject(localProject.ProjectId);
+                        _projectRepository.AddProject(project);
+                    }
+                }
+            }
+
+            if (syncData?.ProjectUsers != null)
+            {
+                foreach (var projectUser in syncData.ProjectUsers)
+                {
+                    var localProjectUser = _projectUserRepository.GetProjectUserById(projectUser.ProjectUserId);
+                    if (localProjectUser == null)
+                    {
+                        _projectUserRepository.AddProjectUser(projectUser);
+                    }
+                }
+            }
         }
-
-        var tasks = await GetAllTasksForProject(projects);
-        
-        await AddUsersToLocalDbIfNotExists(users);
-        AddProjectsToLocalDbIfNotExists(projects);
-        AddProjectUsersToLocalDbIfNotExists(projectUsers);
-        AddTasksToLocalDbIfNotExists(tasks);
-    }
-
-    /// <summary>
-    /// Gets all ProjectUsers for the logged-in user from the remote database
-    /// </summary>
-    /// <returns>A List of all ProjectUsers where the UserId = CurrentUser.UserId</returns>
-    private async Task<List<ProjectUserModel>?> GetAllProjectUsersForCurrentUser()
-    {
-        return await _projectUserRepository.GetAllProjectUsersByUserIdAsync(_appState.CurrentUser!.UserId);
-    }
-
-    /// <summary>
-    /// Gets all Projects the logged-in user is part of
-    /// </summary>
-    /// <param name="projectUsers"></param>
-    /// <returns>A List of all Projects the user is part of</returns>
-    private async Task<List<ProjectModel>?> GetAllProjectsForCurrentUser(List<ProjectUserModel>? projectUsers)
-    {
-        if (projectUsers == null) return null;
-
-        var projects = new List<ProjectModel>();
-        foreach (var projectUser in projectUsers)
+        catch (Exception e)
         {
-            projects.Add(await _projectRepository.GetProjectByIdAsync(projectUser.ProjectId));
-        }
-        
-        return projects;
-    }
-
-    private async Task<List<TaskModel>?> GetAllTasksForProject(List<ProjectModel> projects)
-    {
-        var tasks = new List<TaskModel>();
-        foreach (var project in projects)
-        {
-            tasks.AddRange(await _taskRepository.GetTasksByProjectIdAsync(project.ProjectId));
-        }
-
-        return tasks;
-    }
-
-    /// <summary>
-    /// Adds all the given ProjectUsers to the local database if they aren't already in there
-    /// </summary>
-    /// <param name="projectUsers"></param>
-    private void AddProjectUsersToLocalDbIfNotExists(List<ProjectUserModel>? projectUsers)
-    {
-        if (projectUsers == null) return;
-
-        foreach (var projectUser in projectUsers.Where(projectUser => !_projectUserRepository.ProjectUserExists(projectUser.ProjectUserId)))
-        {
-            _projectUserRepository.AddProjectUser(projectUser);
+            Console.WriteLine($"Error during sync: {e.Message}");
         }
     }
-
-    /// <summary>
-    /// Adds all the given Projects to the local database if they aren't already in there
-    /// </summary>
-    /// <param name="projects"></param>
-    private void AddProjectsToLocalDbIfNotExists(List<ProjectModel>? projects)
-    {
-        if (projects == null) return;
-
-        foreach (var project in projects.Where(project => !_projectRepository.ProjectExists(project.ProjectId)))
-        {
-            _projectRepository.AddProject(project);
-        }
-    }
-
-    /// <summary>
-    /// Adds all the given Users to the local database if they aren't already in there
-    /// </summary>
-    /// <param name="userIds"></param>
-    private async Task AddUsersToLocalDbIfNotExists(List<Guid>? userIds)
-    {
-        if (userIds == null) return;
-
-        foreach (var userId in userIds.Where(userId => !_userRepository.UserExists(userId)))
-        {
-            var user = await _userRepository.GetUserByIdAsync(userId);
-            _userRepository.AddUser(user);
-        }
-    }
-    
-    private void AddTasksToLocalDbIfNotExists(List<TaskModel>? tasks)
-    {
-        if (tasks == null) return;
-
-        foreach (var task in tasks.Where(task => !_taskRepository.TaskExists(task.TaskId)))
-        {
-            _taskRepository.AddTask(task);
-        }
-    }
-    
 }
