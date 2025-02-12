@@ -1,7 +1,17 @@
-﻿namespace Services.TaskServices;
+﻿using Services.Repositories;
+
+namespace Services.TaskServices;
 
 public class TaskSortingManager : ITaskSortingManager
 {
+    private readonly ITaskRepository _taskRepository;
+    private readonly ApplicationState _appState;
+    
+    public TaskSortingManager(ITaskRepository taskRepository, ApplicationState appState)
+    {
+        _taskRepository = taskRepository;
+        _appState = appState;
+    }
     /// <summary>
     /// Generic sorting method.
     /// Sorts a List of objects by a single attribute
@@ -19,7 +29,7 @@ public class TaskSortingManager : ITaskSortingManager
     {
         return items.OrderBy(keySelector).ToList();
     }
-
+    
     /// <summary>
     /// Generic filtering method.
     /// Filters a List of objects by one predicate.
@@ -34,4 +44,5 @@ public class TaskSortingManager : ITaskSortingManager
     {
         return items.Where(predicate).ToList();
     }
+    
 }

@@ -38,7 +38,10 @@
         </Border>
         <!-- Search/Sort/Filter Bar -->
         <Grid Grid.Row="1">
-            <TextBox Watermark="Search/Sort/Filter" MaxWidth="500" MinWidth="300" Margin="0,10"></TextBox>
+            <TextBox Text="{Binding UserInput}"
+                     KeyDown="SearchBar_KeyDown" 
+                     Watermark="Search/Sort/Filter" 
+                     MaxWidth="500" MinWidth="300" Margin="0,10"></TextBox>
         </Grid>
         
         <!-- Main Area -->
