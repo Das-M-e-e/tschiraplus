@@ -4,11 +4,13 @@ using System.Collections.ObjectModel;
 using System.Reactive.Disposables;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia.Controls;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
 using Services;
 using Services.DTOs;
 using Services.ProjectServices;
+using UI.Views;
 
 namespace UI.ViewModels;
 
@@ -17,19 +19,26 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
     // Services
     public ViewModelActivator Activator { get; }
     private readonly IProjectService _projectService;
-    private readonly MainMenuViewModel _mainMenuViewModel;
+    private readonly MainViewModel _mainViewModel;
     private readonly ApplicationState _appState;
     
     // Bindings
     public ObservableCollection<ProjectViewModel> Projects { get; set; } = [];
+
+    private UserControl _createProjectFlyout;
+    public UserControl CreateProjectFlyout
+    {
+        get => _createProjectFlyout;
+        set => this.RaiseAndSetIfChanged(ref _createProjectFlyout, value);
+    }
     
     // Commands
     public ICommand CreateNewProjectCommand { get; }
 
-    public ProjectListViewModel(IProjectService projectService, MainMenuViewModel mainMenuViewModel, ApplicationState appState)
+    public ProjectListViewModel(IProjectService projectService, MainViewModel mainViewModel, ApplicationState appState)
     {
         _projectService = projectService;
-        _mainMenuViewModel = mainMenuViewModel;
+        _mainViewModel = mainViewModel;
         _appState = appState;
         
         CreateNewProjectCommand = new RelayCommand(CreateNewProject);
@@ -68,7 +77,10 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
     /// </summary>
     private void CreateNewProject()
     {
-        _mainMenuViewModel.CreateNewProjectCommand.Execute(null);
+        CreateProjectFlyout = new CreateNewProjectView
+        {
+            DataContext = new CreateNewProjectViewModel(_projectService, this)
+        };
     }
 
     /// <summary>
@@ -77,7 +89,7 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
     /// <param name="projectId"></param>
     public void OpenProject(Guid projectId)
     {
-        _mainMenuViewModel.OpenProjectCommand.Execute(projectId);
+        _mainViewModel.OpenProject(projectId);
     }
 
     /// <summary>
@@ -87,6 +99,19 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
     public async Task DeleteProject(Guid projectId)
     {
         await _projectService.DeleteProject(projectId, _appState.IsOnline);
+        LoadProjects();
+    }
+
+    public void OpenProjectDetails(Guid projectId)
+    {
+        CreateProjectFlyout = new ProjectDetailsView
+        {
+            DataContext = new ProjectDetailsViewModel(_projectService, projectId)
+        };
+    }
+
+    public void CloseFlyout()
+    {
         LoadProjects();
     }
 }

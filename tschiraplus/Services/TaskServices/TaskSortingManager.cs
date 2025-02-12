@@ -19,7 +19,7 @@ public class TaskSortingManager : ITaskSortingManager
     {
         return items.OrderBy(keySelector).ToList();
     }
-
+    
     /// <summary>
     /// Generic filtering method.
     /// Filters a List of objects by one predicate.

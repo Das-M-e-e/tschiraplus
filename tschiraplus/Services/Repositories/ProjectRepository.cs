@@ -27,16 +27,6 @@ public class ProjectRepository : IProjectRepository
     public void AddProject(ProjectModel project)
     {
         _db.Insert("Projects", "ProjectId", project);
-
-        // Create the ProjectUser for the owner of the project
-        var projectUser = new ProjectUserModel
-        {
-            ProjectUserId = Guid.NewGuid(),
-            ProjectId = project.ProjectId,
-            UserId = project.OwnerId,
-            AssignedAt = DateTime.Now
-        };
-        _projectUserRepository.AddProjectUser(projectUser);
     }
 
     /// <summary>
@@ -77,7 +67,7 @@ public class ProjectRepository : IProjectRepository
             .OfType<ProjectModel>()
             .Select(project => new ProjectDto
             {
-                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, ProjectPriority = project.Priority.ToString(),
+                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, Priority = project.Priority.ToString(),
             })
             .ToList();
     }

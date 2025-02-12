@@ -1,32 +1,53 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="clr-namespace:UI.ViewModels"
-        x:Class="UI.Views.MainMenuView"
-        x:DataType="vm:MainMenuViewModel">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UI.Views.MainMenuView"
+             x:DataType="vm:MainMenuViewModel">
     
-    <Grid RowDefinitions="*,Auto">
-        
-        
-        <TabControl Grid.Row="0" ItemsSource="{Binding Tabs}" SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}" TabStripPlacement="Left">
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Header}" MaxWidth="150" TextTrimming="CharacterEllipsis"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate DataType="vm:TabItemViewModel">
-                    <ContentControl Content="{Binding Content}" />
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>
-        
-            <Grid Grid.Row="1" Height="60" >
-                <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                    <Button Classes="SecondaryActions" Content="Logout" FontSize="16" Margin="50,0,0,10" Command="{Binding LogoutUserCommand}">
-                    </Button>
-                </StackPanel>
-            </Grid>
-        
+    <Grid RowDefinitions="Auto,*,Auto,Auto">
+        <!-- Project List -->
+        <Button Grid.Row="0" HorizontalAlignment="Stretch"
+                Command="{Binding OpenProjectListCommand}"
+                Background="Transparent">
+            <Border CornerRadius="8">
+                <TextBlock Text="Project List" />
+            </Border>
+        </Button>
+        <!-- Projects -->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Stretch">
+            <TextBlock Text="Projects:" FontSize="10" Foreground="Gray" Margin="12,8,0,0" />
+            <ItemsControl ItemsSource="{Binding Projects}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:MenuProjectViewModel">
+                        <Button Background="Transparent" HorizontalAlignment="Stretch"
+                                Command="{Binding OpenProjectCommand}">
+                            <Border CornerRadius="8">
+                                <TextBlock Text="{Binding Name}" />
+                            </Border>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+        <!-- User Profile -->
+        <Button Grid.Row="2" HorizontalAlignment="Stretch"
+                Background="Transparent"
+                Command="{Binding OpenUserDetailsCommand}">
+            <Border CornerRadius="8">
+                <TextBlock Text="User Profile" />
+            </Border>
+        </Button>
+        <!-- Settings -->
+        <Button Grid.Row="3" HorizontalAlignment="Stretch"
+                Background="Transparent"
+                Command="{Binding OpenSettingsCommand}">
+            <Border CornerRadius="8">
+                <TextBlock Text="Settings" />
+            </Border>
+        </Button>
     </Grid>
     
 </UserControl>

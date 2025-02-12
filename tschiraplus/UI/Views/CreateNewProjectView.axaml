@@ -2,51 +2,74 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="1500" d:DesignHeight="900"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="UI.Views.CreateNewProjectView"
              xmlns:vm="clr-namespace:UI.ViewModels"
-             x:DataType="vm:CreateNewProjectViewModel"><ScrollViewer>
-   <Grid RowDefinitions="*, Auto">
-        <Grid Grid.Row="0" Height="800"  ColumnDefinitions="*,*" RowDefinitions="*" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Border Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="1" Width="800" Height="600">
-                <Grid Classes="CreateProjectGrid" ColumnDefinitions="*,*" RowDefinitions="*,*,*,*,*,*,*" VerticalAlignment="Center" Margin="30">
-                    <!-- First row -->
-                    <TextBlock Text="Project Name:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" FontSize="20" Margin="30,0,0,0" />
-                    <TextBox Grid.Column="1" Grid.Row="0" FontSize="20" VerticalAlignment="Center" Width="450" Height="50" Margin="0,0,70,0" Text="{Binding Name}" />
-                    <!-- Second row -->
-                    <TextBlock Text="Contributors:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" FontSize="20" Margin="30,18,0,10" />
-                    <TextBox Grid.Column="1" Grid.Row="1" FontSize="20" VerticalAlignment="Center" Width="450" Height="50" Margin="0,18,70,10" />
-                    <!-- Third row -->
-                    <TextBlock Text="Description:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Top" FontSize="20" Margin="30,18,0,0" />
-                    <TextBox Grid.Column="1" Grid.Row="2" FontSize="20" VerticalAlignment="Center" Width="450" Height="100" Margin="0,18,70,0" />
-                    <!-- Fourth row -->
-                    <TextBlock Text="Priority:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center" FontSize="20" Margin="30,18,0,0" />
-                    <TextBox Grid.Column="1" Grid.Row="3" FontSize="20" VerticalAlignment="Center" Width="450" Height="50" Margin="0,18,70,0" />
-                    <!-- Fifth row -->
-                    <TextBlock Text="Priority:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center" FontSize="20" Margin="30,18,0,0" />
-                    <ComboBox Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" Width="450" Height="50" Margin="-44,18,0,0" CornerRadius="20" SelectedItem="{Binding ProjectPriority}" >
-                        <ComboBoxItem Content="High"></ComboBoxItem>
-                        <ComboBoxItem Content="Medium"></ComboBoxItem>
-                        <ComboBoxItem Content="Low"></ComboBoxItem>
-                    </ComboBox>
-                    <!-- Sixth row -->
-                    <TextBlock Text="Start Date:" Grid.Column="0" Grid.Row="5" VerticalAlignment="Center" FontSize="20" Margin="30,18,0,0" />
-                    <DatePicker x:Name="StartDatePicker" Grid.Column="1" Grid.Row="5" Height="50" Width="450" CornerRadius="20" VerticalAlignment="Center" Margin="-44,18,0,0" />
-                    <!-- Seventh row -->
-                    <TextBlock Text="End Date:" Grid.Column="0" Grid.Row="6" VerticalAlignment="Center" FontSize="20" Margin="30,18,0,0" />
-                    <DatePicker x:Name="EndDatePicker" Grid.Column="1" Grid.Row="6" Height="50" Width="450" VerticalAlignment="Center" Margin="-44,18,0,0" />
-                </Grid>
-                
-            </Border>
+             x:DataType="vm:CreateNewProjectViewModel">
+    
+    <ScrollViewer>
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,*,Auto">
+            <!-- Header -->
+            <Grid Grid.Row="0" Margin="0,8">
+                <TextBlock Text="Create a new project" FontSize="24" HorizontalAlignment="Left" />
+                <Button HorizontalAlignment="Right" Click="OnCloseButtonPressed">
+                    <Image Source="avares://UI/Assets/close_icon.png" Width="18" />
+                </Button>
             </Grid>
-        <Grid Grid.Row="1">
-            <Grid Height="400" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50">
-                    <Button Name="CancelButton" Classes="SecondaryActions" FontSize="20" CornerRadius="20" Content="Cancel" Margin="540,0,20,50" Command="{Binding CancelCommand}"></Button>
-                    <Button Name="CreateProjectButton" FontSize="20" CornerRadius="20" Content="Create Project" Margin="0,0,0,50" Command="{Binding CreateProjectCommand}"></Button>
+            
+            <Separator Grid.Row="1" Height="1" Background="Gray" />
+        
+            <!-- Title -->
+            <StackPanel Grid.Row="2" Spacing="4" Margin="4,10,4,0">
+                <StackPanel Spacing="16" Orientation="Horizontal">
+                    <TextBlock Text="Project name *" HorizontalAlignment="Left" FontSize="11" />
+                    <TextBlock Text="{Binding TitleErrorMessage}"
+                               IsVisible="{Binding IsTitleErrorMessageVisible}"
+                               Foreground="Red" FontSize="11" />
                 </StackPanel>
-            </Grid>
+                <TextBox Text="{Binding Name}"/>
+            </StackPanel>
+            
+            <!-- Description -->
+            <StackPanel Grid.Row="3" Spacing="4" Margin="4,10,4,0">
+                <TextBlock Text="Description (optional)" HorizontalAlignment="Left" FontSize="11" />
+                <TextBox Text="{Binding Description}"/>
+            </StackPanel>
+            
+            <!-- Add People -->
+            <StackPanel Grid.Row="4" Spacing="4" Margin="4,10,4,0">
+                <TextBlock Text="Add people (optional)" HorizontalAlignment="Left" FontSize="11" />
+                <StackPanel Orientation="Horizontal" Spacing="4">
+                    <Border CornerRadius="8" Background="SlateGray">
+                        <TextBlock Text="Franzii" />
+                    </Border>
+                    <Border CornerRadius="8" Background="SlateGray">
+                        <TextBlock Text="Isaak" />
+                    </Border>
+                    <Button Padding="0" Background="Transparent">
+                        <Border CornerRadius="8" Background="SlateGray">
+                            <TextBlock Text="+" />
+                        </Border>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- "More" section (Priority, StartDate, etc.) -->
+            <TextBlock Grid.Row="5" Text="More v" Foreground="DodgerBlue" Margin="4,10,4,0" />
+            
+            <!-- Buttons -->
+            <StackPanel Grid.Row="6"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                <Button Content="Cancel"
+                        Click="OnCloseButtonPressed" />
+                <Button Content="Create project"
+                        Click="OnCreateProjectButtonPressed"
+                        Background="ForestGreen" />
+            </StackPanel>
         </Grid>
-        </Grid>
-        </ScrollViewer>
+    </ScrollViewer>
+    
 </UserControl>

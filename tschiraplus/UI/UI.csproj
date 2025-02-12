@@ -45,6 +45,9 @@
       <Compile Update="Views\LoginView.axaml.cs">
         <DependentUpon>LoginView.axaml</DependentUpon>
       </Compile>
+      <Compile Update="Views\MainView.axaml.cs">
+        <DependentUpon>MainView.axaml</DependentUpon>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
