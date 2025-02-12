@@ -33,7 +33,7 @@ public class ThemeService
     /// <param name="themePath"></param>
     private void ApplyTheme(string themePath)
     {
-        if (MediaTypeNames.Application.Current is not { } app) return;
+        if (Application.Current is not { } app) return;
 
         try
         {

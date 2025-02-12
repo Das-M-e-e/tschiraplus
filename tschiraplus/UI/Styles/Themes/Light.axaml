@@ -1,11 +1,10 @@
 <Styles xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/Buttons.axaml" />
-    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/GlobalStyles.axaml" />
-    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/Borders.axaml" />
-    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/Calender.axaml" />
-    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/DarkThemeDictionary.axaml" />
-    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/Other.axaml" />
-    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/TextBlocks.axaml" />
-    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/TextBoxes.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/LightTheme/Buttons.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/LightTheme/GlobalStyles.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/LightTheme/Borders.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/LightTheme/Calender.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/LightTheme/Other.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/LightTheme/TextBlocks.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/LightTheme/TextBoxes.axaml" />
 </Styles>

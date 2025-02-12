@@ -117,6 +117,9 @@ public class MainViewModel : ViewModelBase
 
     public void OpenSettings()
     {
-        CurrentContent = new SettingsView();
+        CurrentContent = new SettingsView
+        {
+            DataContext = new SettingsViewModel()
+        };
     }
 }
