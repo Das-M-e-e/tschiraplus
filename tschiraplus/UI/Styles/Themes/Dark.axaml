@@ -1,0 +1,11 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/Buttons.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/GlobalStyles.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/Borders.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/Calender.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/DarkThemeDictionary.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/Other.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/TextBlocks.axaml" />
+    <StyleInclude Source="avares://UI/Styles/Themes/DarkTheme/TextBoxes.axaml" />
+</Styles>
