@@ -17,9 +17,8 @@ public class MainViewModel : ViewModelBase
 {
     // Services
     private readonly DatabaseService _dbService;
-    private readonly IAuthService _authService;
     private readonly ApplicationState _appState;
-    private readonly WrapperViewModel _wrapper;
+    private readonly SyncService _syncService;
     
     // Bindings
     private bool _isPaneOpen;
@@ -49,12 +48,11 @@ public class MainViewModel : ViewModelBase
     // Commands
     public ICommand ToggleSidebarCommand { get; }
 
-    public MainViewModel(DatabaseService dbService, IAuthService authService, ApplicationState appState, WrapperViewModel wrapper)
+    public MainViewModel(DatabaseService dbService, ApplicationState appState, SyncService syncService)
     {
         _dbService = dbService;
-        _authService = authService;
         _appState = appState;
-        _wrapper = wrapper;
+        _syncService = syncService;
         
         IsPaneOpen = true;
         ToggleButtonSymbol = "<<";
@@ -81,6 +79,7 @@ public class MainViewModel : ViewModelBase
 
     public void OpenProjectList()
     {
+        _syncService.StopTaskSync();
         CurrentContent = new ProjectListView
         {
             DataContext = new ProjectListViewModel(
@@ -95,6 +94,8 @@ public class MainViewModel : ViewModelBase
 
     public void OpenProject(Guid projectId)
     {
+        _syncService.StartTaskSync(projectId);
+        
         var taskRepository = new TaskRepository(_dbService.GetDatabase(), new RemoteDatabaseService())
         {
             ProjectId = projectId
@@ -112,11 +113,13 @@ public class MainViewModel : ViewModelBase
 
     public void OpenUserDetails()
     {
+        _syncService.StopTaskSync();
         CurrentContent = new UserDetailsView();
     }
 
     public void OpenSettings()
     {
+        _syncService.StopTaskSync();
         CurrentContent = new SettingsView();
     }
 }
