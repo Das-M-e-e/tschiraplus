@@ -86,6 +86,16 @@ public class ProjectRepository : IProjectRepository
             })
             .ToList();
     }
+    
+    /// <summary>
+    /// Updates an existing project in the local database.
+    /// </summary>
+    /// <param name="project">The updated project data.</param>
+    public void UpdateProject(ProjectModel project)
+    {
+        _db.Update("Projects", "ProjectId", project);
+    }
+
 
     /// <summary>
     /// Deletes a project by id from the local database

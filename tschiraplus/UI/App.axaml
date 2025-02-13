@@ -15,7 +15,7 @@
     </Application.Styles>
              
     <Application.Resources>
-        <converters:FlyoutWidthOffsetConverter x:Key="FlyoutWidthOffsetConverter"/>
         <converters:InverseBoolConverter x:Key="InverseBoolConverter"/>
-    </Application.Resources>
+        <converters:FlyoutOffsetConverter x:Key="FlyoutOffsetConverter"/>
+    </Application.Resources>         
 </Application>

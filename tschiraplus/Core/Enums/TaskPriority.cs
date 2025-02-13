@@ -2,6 +2,7 @@
 
 public enum TaskPriority
 {
+    NotSet,
     Low,
     Medium,
     High,

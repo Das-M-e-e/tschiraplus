@@ -10,6 +10,7 @@ public interface IProjectRepository
     ProjectModel? GetProjectById(Guid projectId);
     List<ProjectDto> GetAllProjects();
     List<ProjectDto>? GetProjectsByUserId(Guid userId);
+    void UpdateProject(ProjectModel project);
     void DeleteProject(Guid projectId);
     Task PostProjectAsync(ProjectModel project);
     Task<List<ProjectModel>> GetAllProjectsAsync();

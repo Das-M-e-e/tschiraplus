@@ -18,6 +18,13 @@ public partial class ProjectListView : ReactiveUserControl<ProjectListViewModel>
         flyout?.ShowAt(grid);
     }
 
+    public void OnCreateProjectButtonPressed(object? sender, RoutedEventArgs args)
+    {
+        var grid = RootGrid;
+        var flyout = RootGrid.ContextFlyout;
+        flyout?.ShowAt(grid);
+    }
+
     public void OnCloseButtonPressed()
     {
         RootGrid.ContextFlyout?.Hide();

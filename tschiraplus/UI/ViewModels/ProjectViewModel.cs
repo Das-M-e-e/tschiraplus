@@ -31,6 +31,7 @@ public class ProjectViewModel
 
         OpenProjectCommand = new RelayCommand(OpenProject);
         DeleteProjectCommand = new AsyncRelayCommand(DeleteProject);
+        _projectListViewModel = projectListViewModel;
         OpenProjectDetailsCommand = new RelayCommand(OpenProjectDetails);
     }
 

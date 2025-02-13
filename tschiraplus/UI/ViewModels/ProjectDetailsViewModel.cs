@@ -28,22 +28,32 @@ public class ProjectDetailsViewModel : ViewModelBase
         get => _isEditingTitle;
         set => this.RaiseAndSetIfChanged(ref _isEditingTitle, value);
     }
+    
+    public string Username { get; set; }
 
     // Commands
     public ICommand StartEditingTitleCommand { get; set; }
     public ICommand SaveTitleCommand { get; set; }
     public ICommand CloseFlyoutCommand { get; set; }
+    public ICommand AddProjectUserCommand { get; set; }
     
     public ProjectDetailsViewModel(IProjectService projectService, ProjectListViewModel projectListViewModel, Guid projectId)
     {
         _projectService = projectService;
         _projectListViewModel = projectListViewModel;
         
+        AddProjectUserCommand = new RelayCommand(AddProjectUser);
         LoadProject(projectId);
         
         StartEditingTitleCommand = new RelayCommand(StartEditingTitle);
         SaveTitleCommand = new RelayCommand(SaveTitle);
         CloseFlyoutCommand = new RelayCommand(CloseFlyout);
+    }
+
+    private void AddProjectUser()
+    {
+        Console.WriteLine($"Adding project user {Username}");
+        _projectService.AddUserToProject(Username, _project.ProjectId);   
     }
 
     private void LoadProject(Guid projectId)

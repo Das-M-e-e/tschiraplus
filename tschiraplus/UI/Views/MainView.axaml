@@ -1,0 +1,48 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UI.ViewModels"
+             xmlns:views="clr-namespace:UI.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UI.Views.MainView"
+             x:DataType="vm:MainViewModel">
+    
+    <SplitView IsPaneOpen="{Binding IsPaneOpen}"
+               DisplayMode="Inline"
+               OpenPaneLength="200">
+        <SplitView.Pane>
+            <ContentControl Content="{Binding PaneContent}" />
+        </SplitView.Pane>
+        
+        <SplitView.Content>
+            <Grid>
+                <Path Stroke="Gray" StrokeThickness="2" Fill="Transparent" ZIndex="999">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure StartPoint="2,0" IsClosed="False">
+                                <LineSegment Point="2,4" />
+                                <LineSegment Point="24,4" />
+                                <QuadraticBezierSegment Point1="30,4" Point2="30,10" />
+                                <LineSegment Point="30,22" />
+                                <QuadraticBezierSegment Point1="30,28" Point2="24,28" />
+                                <LineSegment Point="2,28" />
+                                <LineSegment Point="2,10000" />
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+                <Button Padding="4,0"
+                        Margin="2,6,0,0"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        ZIndex="1000"
+                        Content="{Binding ToggleButtonSymbol}"
+                        Command="{Binding ToggleSidebarCommand}" />
+                <ContentControl Content="{Binding CurrentContent}" />
+            </Grid>
+        </SplitView.Content>
+    </SplitView>
+    
+</UserControl>

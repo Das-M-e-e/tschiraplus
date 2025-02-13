@@ -4,7 +4,17 @@
         x:Class="UI.Views.TaskListView"
         x:DataType="vm:TaskListViewModel">
     
-    <Grid RowDefinitions="Auto, Auto, *, Auto">
+    <UserControl.Styles>
+        <Style Selector="FlyoutPresenter.taskDetailFlyout">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
+            <Setter Property="MaxWidth" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay}"/>
+            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
+            <Setter Property="MaxHeight" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay}"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid RowDefinitions="Auto, Auto, *, Auto" Name="RootGrid">
         
         <!-- Top Bar -->
         <Grid Grid.Row="0" Background="#1a1c20">
@@ -32,26 +42,7 @@
                                HorizontalAlignment="Left" 
                                Width="150">
                     </TextBlock>
-               
-                    <!-- Search Bar -->
-                    <TextBox Background="#353340" 
-                             Height="40" 
-                             Width="250" 
-                             CornerRadius="15" 
-                             Foreground="#CFCFCF">
-                        <TextBox.Styles>
-                            <Style Selector="TextBox">
-                                <Setter Property="Background" Value="White"/>
-                                <Setter Property="Foreground" Value="Black"/>
-                                <Setter Property="Padding" Value="5"/>
-                                <Setter Property="FontSize" Value="16"/>
-                                <Setter Property="Opacity" Value="0.5"/>
-                            </Style>
-                            <Style Selector="TextBox:focus">
-                                <Setter Property="Opacity" Value="1"/>
-                            </Style>
-                        </TextBox.Styles>
-                    </TextBox>
+                    
                 </StackPanel>
             </Border>
         </Grid>
@@ -67,117 +58,22 @@
         <!-- Main Area -->
         <Grid Grid.Row="2" Background="#1a1c20">
             <Grid ColumnDefinitions="Auto,*">
-                <!-- Select Area -->
-                <StackPanel Grid.Column="0" Width="209.6" Spacing="8" HorizontalAlignment="Left">
-                
-                    <Border 
-                        Margin="10" 
-                        HorizontalAlignment="Stretch" 
-                        CornerRadius="6" 
-                        Background="LightSteelBlue">
-                        
-                        <Grid RowDefinitions="Auto,*,Auto">
-                            
-                            <Grid Grid.Row="0" Margin="10,10,10,0" VerticalAlignment="Center">
-                                
-                                    <TextBlock FontSize="14" 
-                                               VerticalAlignment="Center" 
-                                               HorizontalAlignment="Left" 
-                                               Text="Selector" 
-                                               Height="35" 
-                                               FontWeight="DemiBold" 
-                                               Foreground="Black" 
-                                               Padding="5,9,0,0">
-                                    </TextBlock>
-                                
-                            </Grid>
-                            
-                            <Grid Grid.Row="1" VerticalAlignment="Top" Margin="3,0,5,20">
-                                <Border 
-                                    Margin="10,15,10,110" 
-                                    Padding="10,0,10,15" 
-                                    CornerRadius="6" 
-                                    Background="#ECF3FF" 
-                                    BoxShadow="0 1 2 0 CornflowerBlue" >
-                                </Border>
-                            <Grid>
-                                
-                            <CheckBox Background="Transparent"
-                                      VerticalAlignment="Top"
-                                      HorizontalAlignment="Left"
-                                      Margin="20"
-                                      FontSize="12"
-                                      Height="35" 
-                                      FontWeight="DemiBold" 
-                                      Foreground="Black" 
-                                      Command="{Binding SortTasksByTitleCommand}"
-                            >Alphabetical</CheckBox>
-                                    
-                            <CheckBox Background="Transparent"
-                                      VerticalAlignment="Top"
-                                      Margin="20,60"
-                                      FontSize="12"
-                                      Height="35" 
-                                      FontWeight="DemiBold" 
-                                      Foreground="Black"
-                                      Command="{Binding FilterTasksByStatusCommand}"
-                            >Priority</CheckBox>
-                                
-                            <CheckBox Background="Transparent"
-                                      VerticalAlignment="Top"
-                                      Margin="20,100"
-                                      FontSize="12"
-                                      Height="35" 
-                                      FontWeight="DemiBold" 
-                                      Foreground="Black"
-                            >Newest</CheckBox>
-                            
-                            <CheckBox Background="Transparent"
-                                      VerticalAlignment="Top"
-                                      Margin="20,140"
-                                      FontSize="12"
-                                      Height="35" 
-                                      FontWeight="DemiBold" 
-                                      Foreground="Black"
-                            >Oldest</CheckBox>
-                        </Grid>    
-                            
-                        <Button CornerRadius="15"
-                                VerticalAlignment="Bottom"
-                                Margin="110,0,0,0" 
-                                FontSize="14"
-                                VerticalContentAlignment="2"
-                                HorizontalContentAlignment="2">Apply</Button> 
-                        
-                        <Button Background="#ECF3FF" 
-                                VerticalAlignment="Bottom"
-                                Margin="10,0,0,70" 
-                                FontSize="14"
-                                Width="165"
-                                HorizontalAlignment="Left"
-                                BorderBrush="LightBlue"
-                                Command="{Binding OpenTaskCreationCommand}">+ Add new Task</Button>
-                    
-                            </Grid>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-                
                 <!-- Tasks Area -->
                 <ScrollViewer Grid.Column="1">
                     <ItemsControl ItemsSource="{Binding Tasks}" >
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:TaskViewModel">
-                                <Border BorderBrush="Gray"
-                                        BorderThickness="1"
-                                        Margin="10"
-                                        Padding="10">
-                                    <StackPanel TextElement.Foreground="Snow">
-                                        <TextBlock Text="{Binding Title}"></TextBlock>
-                                        <TextBlock Text="{Binding Description}"></TextBlock>
-                                        <Button Command="{Binding DeleteTaskCommand}" Content="Delete"></Button>
-                                    </StackPanel>
-                                </Border>
+                                <Button Command="{Binding OpenTaskDetailCommand}" HorizontalAlignment="Stretch" Click="OnEditButtonPressed">
+                                    <Border BorderBrush="Gray"
+                                            BorderThickness="1"
+                                            Margin="10"
+                                            Padding="10">
+                                        <StackPanel TextElement.Foreground="Snow">
+                                            <TextBlock Text="{Binding Title}"></TextBlock>
+                                            <TextBlock Text="{Binding Description}"></TextBlock>
+                                        </StackPanel>
+                                    </Border>
+                                </Button>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -204,8 +100,9 @@
         <Border Grid.Row="3" Background="Snow" 
                 VerticalAlignment="Bottom"
                 Height="45">
+            <Button Command="{Binding OpenTaskCreationCommand}" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
         </Border>
-       
+        
     </Grid>
 
 </UserControl>
