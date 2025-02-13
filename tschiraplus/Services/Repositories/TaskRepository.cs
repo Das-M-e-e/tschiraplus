@@ -74,7 +74,8 @@ public class TaskRepository : ITaskRepository
             Description = task.Description ?? "No description provided",
             Status = task.Status.ToString(),
             Priority = task.Priority.ToString(),
-            StartDate = task.StartDate
+            StartDate = task.StartDate,
+            DueDate = task.DueDate
         }).ToList();
     }
     
@@ -186,6 +187,11 @@ public class TaskRepository : ITaskRepository
         if (task.DueDate.HasValue)
         {
             jsonParts.Add($"\"dueDate\":\"{task.DueDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
+        }
+        
+        if (task.StartDate.HasValue)
+        {
+            jsonParts.Add($"\"startDate\":\"{task.StartDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
         }
 
         if (task.CompletionDate.HasValue)
