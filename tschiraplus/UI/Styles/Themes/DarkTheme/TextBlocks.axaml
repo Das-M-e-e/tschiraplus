@@ -1,0 +1,90 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <!-- Standard TextBlock Style -->
+    <Style Selector="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"></Setter>
+        <Setter Property="FontWeight" Value="SemiBold"></Setter>
+        <Setter Property="FontSize" Value="11"></Setter>
+    </Style>
+    
+    <!-- ProjectName TextBlock Style -->
+    <Style Selector="TextBlock.ProjectName">
+        <Setter Property="FontSize" Value="15"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="Margin" Value="10,5,5,5"></Setter>
+</Style>    
+    
+    <!-- Error and MandatoryInput Text -->
+    <Style Selector="TextBlock.MandatoryInput">
+        <Setter Property="Foreground" Value="{DynamicResource ErrorForeground}"></Setter>
+        <Setter Property="FontSize" Value="11"></Setter>
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="Margin" Value="0,5,0,0"></Setter>
+    </Style>
+    
+    <!-- Tag Style Text -->
+    <Style Selector="TextBlock.TaskPrimaryTagText">
+        <Setter Property="Text" Value="API"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskPrimaryTagForeground}"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+    </Style>
+    <Style Selector="TextBlock.TaskSecondaryTagText">
+        <Setter Property="Text" Value="Backend"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskSecondaryTagForeground}"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+    </Style>
+    <!-- Progress Style Text-->
+    <Style Selector="TextBlock.ProjectStatusText">
+        <Setter Property="Text" Value="In Progress"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource ProjectProgressForeground}"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+    </Style>
+    <Style Selector="TextBlock.TaskStatusText">
+        <Setter Property="Text" Value="Open"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskForeground}"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="Margin" Value="0"></Setter>
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+    </Style>
+    <Style Selector="TextBlock.PriorityText">
+        <Setter Property="Text" Value="High"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource PriorityForeground}"></Setter>
+    </Style>
+    
+    <!-- SecondaryActions Text -->
+    <Style Selector="TextBlock.Delete">
+        <Setter Property="Text" Value="Delete"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+    </Style>
+   <!-- TaskManagement Text -->
+    <Style Selector="TextBlock.NewTask">
+        <Setter Property="Text" Value="+ Add a new task"></Setter>
+        <Setter Property="Background" Value="{DynamicResource LinksBackground}"></Setter>
+        <Setter Property="Opacity" Value="0.85"></Setter>
+        <Setter Property="FontSize" Value="11"></Setter>
+    </Style>
+</Styles>

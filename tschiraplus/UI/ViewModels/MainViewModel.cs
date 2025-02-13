@@ -114,12 +114,15 @@ public class MainViewModel : ViewModelBase
     public void OpenUserDetails()
     {
         _syncService.StopTaskSync();
-        CurrentContent = new UserDetailsView();
+        CurrentContent = new UserProfileView();
     }
 
     public void OpenSettings()
     {
         _syncService.StopTaskSync();
-        CurrentContent = new SettingsView();
+        CurrentContent = new SettingsView
+        {
+            DataContext = new SettingsViewModel()
+        };
     }
 }

@@ -6,34 +6,28 @@
     
     <Grid RowDefinitions="Auto, Auto, *, Auto">
         <!-- Title bar -->
-        <Grid Grid.Row="0" Background="Snow" Height="34" ColumnDefinitions="Auto, Auto, Auto, *, Auto">
+        <Border Grid.Row="0" Classes="TopBarBorder">
+            <Grid Classes="TopBar" ColumnDefinitions="Auto, Auto, Auto, *, Auto">
             <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Image Source="avares://UI/Assets/kanban_fill_icon.png" Stretch="Fill" Width="18" Height="16" Margin="8,0,0,0"></Image>
-                <TextBlock Text="KanbanView" FontSize="12" Margin="2,0,0,0" FontWeight="Regular" Foreground="Black" VerticalAlignment="Center" HorizontalAlignment="Center" Width="150"> </TextBlock>
+                <Image Source="avares://UI/Assets/logo_mini.png" Stretch="Uniform" Width="15" Height="20" Margin="15,0,0,0"></Image>
+                <TextBlock Text="Kanban" Margin="5,0,0,0" Width="150" FontWeight="Medium" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
             </StackPanel>
-            <Border Grid.Column="1" Width="97" BorderThickness="0,0,0,2"  BorderBrush="Black">
+            <Border Grid.Column="1" Classes="ProjectsDisplay" >
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <TextBlock Foreground="Black" HorizontalAlignment="Left" Opacity="0.80" FontWeight="DemiBold" FontSize="12" Text="Default board"></TextBlock>
+                    <TextBlock Text="Default board" FontWeight="Medium" Opacity="0.85" Margin="11,0,0,0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                     <!-- More can be added -->
-                    <Image Source="avares://UI/Assets/downarrow_symbol.png" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.45" Stretch="Uniform" Height="10" Margin="9,1,0,0"></Image>
+                    <Image Source="avares://UI/Assets/downarrow_symbol.png" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="0.45" Stretch="Uniform" Height="10" Margin="8,1,0,0"></Image>
                 </StackPanel>
             </Border>
-            <Button Grid.Column="3" Width="50" VerticalAlignment="Center">
+            <Button Grid.Column="3" Classes="Icons" Width="50" VerticalAlignment="Center">
                 <Image Source="avares://UI/Assets/add_symbol.png" Opacity="0.45" Stretch="Uniform" Height="19.5" ></Image>
             </Button>
-            <Button Grid.Column="4" Width="50">
+            <Button Grid.Column="4" Classes="Icons"  Width="50">
                 <Image Source="avares://UI/Assets/settings_symbol.png" Opacity="0.45" Stretch="Uniform" Height="40" Margin="0,0,10,0"></Image>
             </Button>
-            <Grid.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Background" Value="Transparent"></Setter>
-                </Style>
-                <Style Selector="Button:pointerover /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Transparent"></Setter>
-                    <Setter Property="Opacity" Value="0.5"></Setter>
-                    </Style>
-            </Grid.Styles>
         </Grid>
+        </Border>
+        
         
         <!-- Search/Sort/Filter Bar -->
         <Grid Grid.Row="1">
@@ -58,7 +52,7 @@
                             CornerRadius="6" 
                             Margin="10,0,0,0"
                             Background="{Binding BackgroundColor}">
-                            <Grid RowDefinitions="Auto,*,Auto">
+                            <Grid RowDefinitions="Auto,*,Auto" Background="Transparent">
                                 <TextBlock 
                                     Grid.Row="0" 
                                     Margin="10,10,10,0" 
@@ -100,30 +94,21 @@
                                 </ScrollViewer>
                                 <Button 
                                     Grid.Row="2"
+                                    Content="+ Add a new task"
+                                    Classes="KanbanColumnsAddNewTask"
                                     Command="{Binding OpenTaskCreationCommand}"
                                     CommandParameter="{Binding Status}"
                                     Click="OnCreateTaskButtonPressed"
                                     Background="Transparent" 
-                                    BorderBrush="Transparent" 
-                                    FontSize="12" 
+                                    BorderThickness="0"
+                                    FontSize="11" 
+                                    FontWeight="SemiBold"
                                     Foreground="Black" 
+                                    Opacity="0.85"
                                     Padding="5.5" 
-                                    Margin="10,8,0,0" 
+                                    Margin="10,8,0,5" 
                                     HorizontalAlignment="Left">
-                                    <TextBlock Opacity="0.85" FontSize="11">+ Add a new task</TextBlock>
                                 </Button>
-                                <Grid.Styles>
-                                    <Style Selector="Button">
-                                        <Setter Property="Background" Value="Transparent"></Setter>
-                                    </Style>
-                                    <Style Selector="Button:pressed /template/ ContentPresenter">
-                                        <Setter Property="Background" Value="Transparent"></Setter>
-                                        <Setter Property="Foreground" Value="Black"></Setter>
-                                    </Style>
-                                    <Style Selector="Button:pointerover /template/ ContentPresenter">
-                                        <Setter Property="Foreground" Value="Black"></Setter>
-                                    </Style>
-                                </Grid.Styles>
                             </Grid>
                         </Border>
                     </DataTemplate>
@@ -132,23 +117,13 @@
         </ScrollViewer>
         
         <!-- Bottom bar -->
-        <Grid Grid.Row="3" Background="snow" ColumnDefinitions="Auto, Auto, *">
-            <Button Grid.Column="0" CornerRadius="15" Margin="10,10,5,10"> Exit </Button>
-            <Button Grid.Column="1" Command="{Binding OpenTaskCreationCommand}" Click="OnCreateTaskButtonPressed" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
-            <Grid.Styles>
-                <Style Selector="Button">
-                    <Setter Property="Background" Value="#98acd0"></Setter>
-                    <Setter Property="Foreground" Value="Black"></Setter>
-                    <Setter Property="Cursor" Value="Arrow"></Setter>
-                    <Setter Property="BorderBrush" Value="#5C76A6"></Setter>
-                    <Setter Property="BorderThickness" Value="1"></Setter>
-                </Style>
-                <Style Selector="Button:pointerover /template/ ContentPresenter">
-                    <Setter Property="Background" Value="#98acd0"></Setter>
-                    <Setter Property="Foreground" Value="Black"></Setter>
-                </Style>
-            </Grid.Styles>
+        <Border Grid.Row="3" Classes="BottomBarBorder">
+        <Grid Classes="BottomBar" ColumnDefinitions="Auto, Auto, *">
+            <Button x:Name="BackToProjects" Content="Back to projects" Grid.Column="0" FontSize="13" FontWeight="Medium" Classes="SecondaryActions" Margin="20,10,15,10" CornerRadius="20" Height="30" >
+            </Button>
+            <Button Grid.Column="1" x:Name="AddMewTaskButton" Classes="NewTask" Content="Add a new task" FontWeight="Medium" FontSize="13" Command="{Binding OpenTaskCreationCommand}" CornerRadius="20" Height="30"></Button>
         </Grid>
+        </Border>
     </Grid>
 
 </UserControl>
