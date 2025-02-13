@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PetaPoco;
 using Services.DatabaseServices;
+using Services.DTOs;
 
 namespace Services.Repositories;
 
@@ -117,6 +118,18 @@ public class ProjectUserRepository : IProjectUserRepository
     public async Task<bool> DeleteProjectUserAsync(Guid projectUserId)
     {
         return await _remoteDb.DeleteAsync("ProjectUsers", projectUserId);
+    }
+
+    public async Task<bool> AddProjectUserAsync(string username, Guid inviterId, Guid projectId)
+    {
+        var data = new InvitationDto()
+        {
+            InviterId = inviterId,
+            Username = username,
+            ProjectId = projectId
+        };
+        
+        return await _remoteDb.PostAsync("ProjectUsers/AddProjectUser", JsonConvert.SerializeObject(data));
     }
 
     //****** HELPER ******//

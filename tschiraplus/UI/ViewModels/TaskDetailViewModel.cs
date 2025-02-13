@@ -79,6 +79,8 @@ public class TaskDetailViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isEditingDescription, value);
     }
     
+    public string Username { get; set; }
+        
     public string? Description {get; set;}
     
     public ObservableCollection<SelectionItemViewModel> StatusList { get; set; } = [];
@@ -90,6 +92,7 @@ public class TaskDetailViewModel : ViewModelBase
     public ICommand StartEditingDueDateCommand { get; set; }
     public ICommand SaveTitleCommand { get; set; }
     public ICommand SaveDescriptionCommand { get; set; }
+    public ICommand AddTaskUserCommand { get; set; }
     
     public TaskDetailViewModel(ITaskService taskService, Guid taskId)
     {
@@ -103,6 +106,7 @@ public class TaskDetailViewModel : ViewModelBase
         SaveTitleCommand = new RelayCommand(SaveTitle);
         StartEditingStartDateCommand = new RelayCommand(() => IsEditingStartDate = true);
         StartEditingDueDateCommand = new RelayCommand(() => IsEditingDueDate = true);
+        AddTaskUserCommand = new RelayCommand(AddTaskUser);
     }
 
     /// <summary>
@@ -229,5 +233,11 @@ public class TaskDetailViewModel : ViewModelBase
     public void ToggleDescriptionButton()
     {
         IsEditingDescription = !IsEditingDescription;   
+    }
+    
+    private void AddTaskUser()
+    {
+        Console.WriteLine($"Adding task user");
+        _taskService.AddUserToTask(Username, _taskDto.TaskId);
     }
 }

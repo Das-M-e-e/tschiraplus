@@ -102,6 +102,14 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
         LoadProjects();
     }
 
+    public void OpenProjectDetails(Guid projectId)
+    {
+        CreateProjectFlyout = new ProjectDetailsView
+        {
+            DataContext = new ProjectDetailsViewModel(_projectService, projectId)
+        };
+    }
+
     public void CloseFlyout()
     {
         LoadProjects();
