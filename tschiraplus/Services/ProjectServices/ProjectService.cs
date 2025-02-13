@@ -77,6 +77,11 @@ public class ProjectService : IProjectService
         }
     }
 
+    public void UpdateProject(ProjectDto projectDto)
+    {
+        _projectRepository.UpdateProject(_projectMapper.ToModel(projectDto));
+    }
+
     public async Task AddUserToProject(string username, Guid projectId)
     {
         await _projectUserRepository.AddProjectUserAsync(username, _currentUser.UserId, projectId);

@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.Enums;
+using Core.Models;
 using Newtonsoft.Json;
 using PetaPoco;
 using Services.DatabaseServices;
