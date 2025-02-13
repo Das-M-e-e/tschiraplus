@@ -8,24 +8,25 @@
              x:DataType="vm:ProjectListViewModel">
     
     <UserControl.Styles>
-        <Style Selector="FlyoutPresenter.createProjectFlyout">
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
-            <Setter Property="MaxWidth" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay}"/>
-            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}"/>
-            <Setter Property="MaxHeight" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay}"/>
+        <Style Selector="FlyoutPresenter.projectDetailsFlyout">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}" />
+            <Setter Property="MaxWidth" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay}" />
+            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}" />
+            <Setter Property="MaxHeight" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay}" />
         </Style>
     </UserControl.Styles>
     
-    <Grid Name="RootGrid" RowDefinitions="*,Auto">
+    <Grid Name="RootGrid"
+          RowDefinitions="*,Auto">
         <ScrollViewer Grid.Row="0">
-            <ItemsControl ItemsSource="{Binding Projects}">
+            <ItemsControl ItemsSource="{Binding Projects}" Margin="0,20,0,0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:ProjectViewModel">
-                        <Button Command="{Binding OpenProjectCommand}" HorizontalAlignment="Center">
-                            <Border MinWidth="600">
+                        <Button CornerRadius="10"  Margin="0,20,0,0" Classes="Projects" Command="{Binding OpenProjectCommand}">
+                            <Border Classes="ProjectsOverviewBorder">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Name}" />
+                                    <TextBlock Classes="ProjectName" Text="{Binding Name}" />
                                     <TextBlock Text="{Binding Description}" />
                                     <Button Content="Details" Command="{Binding OpenProjectDetailsCommand}" Click="OnCreateProjectButtonPressed"></Button>
                                 </StackPanel>
@@ -43,7 +44,7 @@
                 Content="Create New Project" />
         
         <Grid.ContextFlyout>
-            <Flyout Placement="Center" FlyoutPresenterClasses="createProjectFlyout">
+            <Flyout Placement="Center" FlyoutPresenterClasses="projectDetailsFlyout">
                 <ContentControl Content="{Binding CreateProjectFlyout}" />
             </Flyout>
         </Grid.ContextFlyout>

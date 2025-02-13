@@ -10,19 +10,20 @@
 
     <ItemGroup>
         <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Styles\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.1.0"/>
-        <PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="$(AvaloniaVersion)" />
-        <PackageReference Include="Avalonia.Desktop" Version="11.1.0"/>
-        <PackageReference Include="Avalonia.ReactiveUI" Version="11.1.0" />
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.1.0"/>
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.1.0"/>
+        <PackageReference Include="Avalonia" Version="11.2.3" />
+        <PackageReference Include="Avalonia.Controls.ItemsRepeater" Version="11.1.5" />
+        <PackageReference Include="Avalonia.Desktop" Version="11.2.3" />
+        <PackageReference Include="Avalonia.ReactiveUI" Version="11.2.3" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="11.2.3" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="11.2.3" />
         <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.1.0"/>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1"/>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.2.3" />
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -35,14 +36,17 @@
       <Compile Update="Views\CreateNewProject.axaml.cs">
         <DependentUpon>CreateNewProject.axaml</DependentUpon>
       </Compile>
-      <Compile Update="Views\TaskDetailView.axaml.cs">
-        <DependentUpon>TaskDetailView.axaml</DependentUpon>
-      </Compile>
       <Compile Update="Views\ProjectDetailsView.axaml.cs">
         <DependentUpon>ProjectDetailsView.axaml</DependentUpon>
       </Compile>
       <Compile Update="Views\LoginView.axaml.cs">
         <DependentUpon>LoginView.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\SettingsView.axaml.cs">
+        <DependentUpon>SettingsView.axaml</DependentUpon>
+      </Compile>
+      <Compile Update="Views\UserProfileView.axaml.cs">
+        <DependentUpon>UserProfileView.axaml</DependentUpon>
       </Compile>
       <Compile Update="Views\MainView.axaml.cs">
         <DependentUpon>MainView.axaml</DependentUpon>
@@ -51,5 +55,24 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Services\Services.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Styles\DarkTheme\Borders.axaml" />
+      <UpToDateCheckInput Remove="Styles\DarkTheme\Buttons.axaml" />
+      <UpToDateCheckInput Remove="Styles\DarkTheme\Calender.axaml" />
+      <UpToDateCheckInput Remove="Styles\DarkTheme\DarkThemeDictionary.axaml" />
+      <UpToDateCheckInput Remove="Styles\DarkTheme\GlobalStyles.axaml" />
+      <UpToDateCheckInput Remove="Styles\DarkTheme\Other.axaml" />
+      <UpToDateCheckInput Remove="Styles\DarkTheme\TextBlocks.axaml" />
+      <UpToDateCheckInput Remove="Styles\DarkTheme\TextBoxes.axaml" />
+      <UpToDateCheckInput Remove="Styles\LightTheme\Borders.axaml" />
+      <UpToDateCheckInput Remove="Styles\LightTheme\Buttons.axaml" />
+      <UpToDateCheckInput Remove="Styles\LightTheme\Calender.axaml" />
+      <UpToDateCheckInput Remove="Styles\LightTheme\GlobalStyles.axaml" />
+      <UpToDateCheckInput Remove="Styles\LightTheme\LightThemeDictionary.axaml" />
+      <UpToDateCheckInput Remove="Styles\LightTheme\Other.axaml" />
+      <UpToDateCheckInput Remove="Styles\LightTheme\TextBlocks.axaml" />
+      <UpToDateCheckInput Remove="Styles\LightTheme\TextBoxes.axaml" />
     </ItemGroup>
 </Project>

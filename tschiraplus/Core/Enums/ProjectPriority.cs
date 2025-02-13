@@ -2,6 +2,7 @@
 
 public enum ProjectPriority
 {
+    NotSet,
     Low,
     Medium,
     High,

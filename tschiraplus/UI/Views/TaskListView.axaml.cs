@@ -14,12 +14,25 @@ public partial class TaskListView : ReactiveUserControl<TaskListViewModel>
         InitializeComponent();
     }
 
-    public void OnEditButtonPressed(object? sender, RoutedEventArgs args)
+    public void OnEditButtonPressed(object? sender, RoutedEventArgs e)
     {
         var parent = this.GetLogicalAncestors().OfType<MainTabView>().FirstOrDefault();
+        var vm = parent?.DataContext as MainTabViewModel;
+        if (vm!.TaskCheckBoxClicked)
+        {
+            vm.TaskCheckBoxClicked = false;
+            return;
+        }
         var tabView = parent?.Root;
         var flyout = tabView?.ContextFlyout;
         flyout?.ShowAt(tabView!);
+    }
+
+    public void OnCheckBoxClicked(object? sender, RoutedEventArgs e)
+    {
+        var parent = this.GetLogicalAncestors().OfType<MainTabView>().FirstOrDefault();
+        var vm = parent?.DataContext as MainTabViewModel;
+        vm!.TaskCheckBoxClicked = true;
     }
 
     private void SearchBar_KeyDown(object? sender, KeyEventArgs e)

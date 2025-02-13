@@ -1,0 +1,81 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="LightThemeDictionary.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+    
+    <!-- Background-->
+    <Style Selector="Grid">
+        <Setter Property="Background" Value="{DynamicResource Background}"></Setter>
+    </Style>
+    <Style Selector="Window">
+        <Setter Property="Background" Value="{DynamicResource Background}"></Setter>
+    </Style>
+    <!-- Global Styles -->
+    <Style Selector="Grid.TopBar">
+        <Setter Property="Background" Value="{DynamicResource BarBackground}"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+    </Style>
+    <Style Selector="Border.TopBarBorder">
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
+        <Setter Property="CornerRadius" Value="0"></Setter>
+    </Style>
+    <Style Selector="Grid.BottomBar">
+        <Setter Property="Background" Value="{DynamicResource BarBackground}"></Setter>
+        <Setter Property="Height" Value="60"></Setter>
+        <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+    </Style>
+    <Style Selector="Border.BottomBarBorder">
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="0,1,0,0"></Setter>
+        <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+        <Setter Property="CornerRadius" Value="0"></Setter>
+    </Style>
+    <Style Selector="Border.Divider">
+        <Setter Property="Background" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Height" Value="1.5"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="Margin" Value="20,10,50,30"></Setter>
+    </Style>
+    <!-- Tag Styles -->
+    <Style Selector="Border.PrimaryUserProfileTag">
+        <Setter Property="Background" Value="{DynamicResource UserTagBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource UserTagBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Margin" Value="0,-1,8,15"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        <Setter Property="Width" Value="60"></Setter>
+        <Setter Property="Height" Value="20"></Setter>
+        <Setter Property="CornerRadius" Value="20"></Setter>
+    </Style>
+    <Style Selector="TextBlock.PrimaryUserProfileTagText">
+        <Setter Property="Foreground" Value="{DynamicResource UserTagForeground}"></Setter>
+        <Setter Property="Text" Value="Sofia"></Setter>
+        <Setter Property="Padding" Value="2"></Setter>
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="FontSize" Value="12"></Setter>
+    </Style>
+    <Style Selector="Border.SecondaryUserProfileTag">
+        <Setter Property="Background" Value="{DynamicResource UserTagBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource UserTagBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Margin" Value="0,-1,8,15"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+        <Setter Property="Width" Value="65"></Setter>
+        <Setter Property="Height" Value="20"></Setter>
+        <Setter Property="CornerRadius" Value="20"></Setter>
+    </Style>
+    <Style Selector="TextBlock.SecondaryUserProfileTagText">
+        <Setter Property="Foreground" Value="{DynamicResource UserTagForeground}"></Setter>
+        <Setter Property="Text" Value="Franzi"></Setter>
+        <Setter Property="Padding" Value="2"></Setter>
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="FontSize" Value="12"></Setter>
+    </Style>
+    
+</Styles>

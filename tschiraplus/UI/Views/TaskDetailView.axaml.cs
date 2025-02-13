@@ -60,11 +60,35 @@ public partial class TaskDetailView : UserControl
         var flyout = SetPriorityBorder.ContextFlyout;
         flyout?.Hide();
     }
-    
-    public async void OnCommentSaveButtonClick(object? sender,  RoutedEventArgs args)
-    {
-        var normalColor = DescriptionTextBox.BorderBrush;
 
+    public void OnSelectStartDate(object sender, DatePickerSelectedValueChangedEventArgs args)
+    {
+        if (DataContext is TaskDetailViewModel viewModel && args.NewDate.HasValue)
+        {
+            viewModel.EditStartDate(args.NewDate.Value.DateTime);
+        }
+    }
+    
+    public void OnSelectDueDate(object sender, DatePickerSelectedValueChangedEventArgs args)
+    {
+        if (DataContext is TaskDetailViewModel viewModel && args.NewDate.HasValue)
+        {
+            viewModel.EditDueDate(args.NewDate.Value.DateTime);
+        }
+    }
+
+    public void OnSameDate(object sender, RoutedEventArgs args)
+    {
+        if (DataContext is TaskDetailViewModel viewModel)
+        {
+            viewModel.CloseDatePicker();
+        }
+    }
+    
+    public async Task RunDescriptionBorderAnimation()
+    {
+        OnDescriptionLostFocus();
+        var normalColor = DescriptionTextBox.BorderBrush;
         if (DescriptionTextBox.Text != "")
         {
             DescriptionTextBox.BorderBrush = Brushes.PaleGreen;
@@ -95,6 +119,23 @@ public partial class TaskDetailView : UserControl
             
             await animation.RunAsync(DescriptionTextBox);
             DescriptionTextBox.BorderBrush = normalColor;
+            
+        }
+    }
+
+    public void OnDescriptionGotFocus(object sender, GotFocusEventArgs args)
+    {
+        if (DataContext is TaskDetailViewModel viewModel)
+        {
+            viewModel.ToggleDescriptionButton();
+        }
+    }
+    
+    private void OnDescriptionLostFocus()
+    {
+        if (DataContext is TaskDetailViewModel viewModel)
+        {
+            viewModel.ToggleDescriptionButton();
         }
     }
     
@@ -102,5 +143,12 @@ public partial class TaskDetailView : UserControl
     {
         var parent = this.GetLogicalAncestors().OfType<MainTabView>().FirstOrDefault();
         parent?.OnCloseButtonPressed();
+        var vm = parent?.DataContext as MainTabViewModel;
+        vm!.TaskCheckBoxClicked = false;
+    }
+
+    private void OnCommentSaveButtonClick(object? sender, RoutedEventArgs e)
+    {
+        RunDescriptionBorderAnimation();
     }
 }

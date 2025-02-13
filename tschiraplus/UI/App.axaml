@@ -9,9 +9,9 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
     <Application.Styles>
         <FluentTheme />
+        <StyleInclude Source="avares://UI/Styles/Base.axaml" />
     </Application.Styles>
              
     <Application.Resources>

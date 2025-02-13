@@ -14,35 +14,17 @@
         </Style>
     </UserControl.Styles>
     
-    <Grid RowDefinitions="Auto, Auto, *, Auto" Name="RootGrid">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Name="RootGrid">
         
         <!-- Top Bar -->
-        <Grid Grid.Row="0" Background="#1a1c20">
-            <Border Background="LightSteelBlue" 
-                    CornerRadius="15" 
-                    Margin="10,20,10,0"
-                    Height="60">
-                
-                <StackPanel 
-                    Height="34" 
-                    Width="34" 
-                    HorizontalAlignment="Left"
-                    Orientation="Horizontal">
-                    
+        <Grid Grid.Row="0">
+            <Border CornerRadius="15" Margin="10,20,10,0" Height="34">
+                <StackPanel Height="34" Width="34" 
+                    HorizontalAlignment="Left" Orientation="Horizontal">
                     <Image Source="avares://UI/Assets/kanban_fill_icon.png"
-                           Stretch="Fill" 
-                           Width="18" 
-                           Height="16" 
-                           Margin="20,0, 0,0"></Image>
-                    <TextBlock Text="List View" 
-                               FontSize="12"
-                               Margin="10,10,0,20"
-                               FontWeight="Regular" 
-                               Foreground="Black" 
-                               HorizontalAlignment="Left" 
-                               Width="150">
-                    </TextBlock>
-                    
+                           Stretch="Fill" Width="18" Height="16" Margin="20,0, 0,0" />
+                    <TextBlock Text="List View" FontSize="12" FontWeight="Regular"
+                               Margin="10,10,0,20" HorizontalAlignment="Left" Width="150" />
                 </StackPanel>
             </Border>
         </Grid>
@@ -52,7 +34,7 @@
             <TextBox Text="{Binding UserInput}"
                      KeyDown="SearchBar_KeyDown" 
                      Watermark="Search/Sort/Filter" 
-                     MaxWidth="500" MinWidth="300" Margin="0,10"></TextBox>
+                     MaxWidth="500" MinWidth="300" Margin="0,10" />
         </Grid>
         
         <!-- Main Area -->
@@ -60,18 +42,24 @@
             <Grid ColumnDefinitions="Auto,*">
                 <!-- Tasks Area -->
                 <ScrollViewer Grid.Column="1">
-                    <ItemsControl ItemsSource="{Binding Tasks}" >
+                    <ItemsControl ItemsSource="{Binding Tasks}" Margin="250,8">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate x:DataType="vm:TaskViewModel">
-                                <Button Command="{Binding OpenTaskDetailCommand}" HorizontalAlignment="Stretch" Click="OnEditButtonPressed">
-                                    <Border BorderBrush="Gray"
-                                            BorderThickness="1"
-                                            Margin="10"
-                                            Padding="10">
-                                        <StackPanel TextElement.Foreground="Snow">
-                                            <TextBlock Text="{Binding Title}"></TextBlock>
-                                            <TextBlock Text="{Binding Description}"></TextBlock>
-                                        </StackPanel>
+                                <Button Command="{Binding OpenTaskDetailCommand}"
+                                        Click="OnEditButtonPressed"
+                                        HorizontalAlignment="Stretch" Margin="10,4">
+                                    <Border Padding="10">
+                                        <Grid ColumnDefinitions="*,80">
+                                            <StackPanel Grid.Column="0">
+                                                <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="Bold" />
+                                                <TextBlock Text="{Binding Description}" TextTrimming="CharacterEllipsis" FontSize="11" />
+                                            </StackPanel>
+                                            
+                                            <CheckBox Grid.Column="1" IsChecked="{Binding IsDone, Mode=TwoWay}"
+                                                      Command="{Binding ToggleTaskDoneCommand}"
+                                                      Click="OnCheckBoxClicked"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Grid>
                                     </Border>
                                 </Button>
                             </DataTemplate>
@@ -81,26 +69,11 @@
             </Grid>
         </Grid>
         
-        
-        <Grid.Styles>
-            <Style Selector="Button">
-                <Setter Property="Background" Value="#98acd0"></Setter>
-                <Setter Property="Foreground" Value="Black"></Setter>
-                <Setter Property="Cursor" Value="Arrow"></Setter>
-                <Setter Property="BorderBrush" Value="#5C76A6"></Setter>
-                <Setter Property="BorderThickness" Value="1"></Setter>
-            </Style>
-            <Style Selector="Button:pointerover /template/ ContentPresenter">
-                <Setter Property="Background" Value="#98acd0"></Setter>
-                <Setter Property="Foreground" Value="Black"></Setter>
-            </Style>
-        </Grid.Styles>
-        
         <!-- Bottom Bar -->
-        <Border Grid.Row="3" Background="Snow" 
-                VerticalAlignment="Bottom"
-                Height="45">
-            <Button Command="{Binding OpenTaskCreationCommand}" CornerRadius="15" Margin="8,10,8,10" Content="Add Task"></Button>
+        <Border Grid.Row="3"
+                VerticalAlignment="Bottom">
+            <Button Command="{Binding OpenTaskCreationCommand}"
+                    CornerRadius="15" Margin="8,10,8,10" Content="Add Task" />
         </Border>
         
     </Grid>
