@@ -3,20 +3,22 @@ using PetaPoco;
 using Services.Repositories;
 
 namespace Testing.TestDatabase;
+
 [TestClass]
 [DoNotParallelize]
-public class TestTaskreopsitory
+public class TestTaskRepository
 {
-    private string TestDbConnectionString;  // SQLite im RAM für schnelle Tests
+    private string TestDbConnectionString;
     private TaskRepository _taskRepository;
     private Database _db;
 
     [TestInitialize]
     public void TestInitialize()
     {
-        var dbfile = $"test_{Guid.NewGuid()}.db";
-        TestDbConnectionString = $"Data Source={dbfile}";
-        /// Initialisiere die Datenbankverbindung
+        var dbFile = $"test_{Guid.NewGuid()}.db";
+        TestDbConnectionString = $"Data Source={dbFile}";
+        
+        // Initialisiere die Datenbankverbindung
         _db = new Database(TestDbConnectionString, "Microsoft.Data.Sqlite");
         
         // Erstelle die Tabelle, falls sie nicht existiert
@@ -78,9 +80,9 @@ public class TestTaskreopsitory
         // Assert
         var insertedTask = _taskRepository.GetTaskById(task.TaskId);
         Assert.IsNotNull(insertedTask);
-        Assert.AreEqual(task.TaskId, insertedTask?.TaskId);
-        Assert.AreEqual("Test Task", insertedTask?.Title);
-        Assert.AreEqual("This is a test task.", insertedTask?.Description);
+        Assert.AreEqual(task.TaskId, insertedTask.TaskId);
+        Assert.AreEqual("Test Task", insertedTask.Title);
+        Assert.AreEqual("This is a test task.", insertedTask.Description);
     }
 
     [TestMethod]
@@ -106,7 +108,7 @@ public class TestTaskreopsitory
 
         // Assert
         Assert.IsNotNull(fetchedTask);
-        Assert.AreEqual(task.TaskId, fetchedTask?.TaskId);
+        Assert.AreEqual(task.TaskId, fetchedTask.TaskId);
     }
     [TestMethod]
     public void GetTasksByProjectId_ShouldReturnTasks()
@@ -175,8 +177,8 @@ public class TestTaskreopsitory
 
         // Assert
         Assert.IsNotNull(updatedTask);
-        Assert.AreEqual("Updated Task Title", updatedTask?.Title);
-        Assert.AreEqual("This task's description is updated.", updatedTask?.Description);
+        Assert.AreEqual("Updated Task Title", updatedTask.Title);
+        Assert.AreEqual("This task's description is updated.", updatedTask.Description);
     }
     [TestMethod]
     public void DeleteTask_ShouldDeleteTask()
