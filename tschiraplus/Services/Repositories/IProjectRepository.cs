@@ -6,7 +6,6 @@ namespace Services.Repositories;
 public interface IProjectRepository
 {
     void AddProject(ProjectModel project);
-    void UpdateProject(ProjectDto project);
     ProjectModel? GetProjectById(Guid projectId);
     List<ProjectDto> GetAllProjects();
     List<ProjectDto>? GetProjectsByUserId(Guid userId);

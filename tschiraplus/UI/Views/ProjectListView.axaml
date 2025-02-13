@@ -10,9 +10,9 @@
     <UserControl.Styles>
         <Style Selector="FlyoutPresenter.projectDetailsFlyout">
             <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutWidthOffsetConverter}}" />
+            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}" />
             <Setter Property="MaxWidth" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay}" />
-            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutWidthOffsetConverter}}" />
+            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}" />
             <Setter Property="MaxHeight" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay}" />
         </Style>
     </UserControl.Styles>
@@ -44,7 +44,7 @@
                 Content="Create New Project" />
         
         <Grid.ContextFlyout>
-            <Flyout Placement="Center" FlyoutPresenterClasses="createProjectFlyout">
+            <Flyout Placement="Center" FlyoutPresenterClasses="projectDetailsFlyout">
                 <ContentControl Content="{Binding CreateProjectFlyout}" />
             </Flyout>
         </Grid.ContextFlyout>

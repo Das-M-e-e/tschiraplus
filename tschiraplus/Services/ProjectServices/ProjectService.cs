@@ -79,7 +79,7 @@ public class ProjectService : IProjectService
 
     public void UpdateProject(ProjectDto projectDto)
     {
-        _projectRepository.UpdateProject(projectDto);
+        _projectRepository.UpdateProject(_projectMapper.ToModel(projectDto));
     }
 
     public async Task AddUserToProject(string username, Guid projectId)
