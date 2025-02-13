@@ -12,12 +12,11 @@ public class MainTabViewModel : ViewModelBase
 {
     // Services
     private readonly ITaskService _taskService;
-    private readonly Guid _projectId;
+    private readonly TaskListViewModel _taskListViewModel;
     private readonly ApplicationState _appState;
     
     // Bindings
     public ObservableCollection<TabItemViewModel> Tabs { get; }
-    private TabItemViewModel? _currentTab;
     
     private int _selectedTabIndex;
     public int SelectedTabIndex
@@ -32,22 +31,21 @@ public class MainTabViewModel : ViewModelBase
         get => _selectedFlyout;
         set => this.RaiseAndSetIfChanged(ref _selectedFlyout, value);
     }
+    
+    public bool TaskCheckBoxClicked { get; set; }
 
-    private TaskListViewModel _taskListViewModel;
-
-    public MainTabViewModel(ITaskService taskService, Guid projectId, ApplicationState appState)
+    public MainTabViewModel(ITaskService taskService, ApplicationState appState)
     {
         _taskService = taskService;
-        _projectId = projectId;
         _appState = appState;
         
         _taskListViewModel = new TaskListViewModel(_taskService, this, _appState);
         
-        Tabs = new ObservableCollection<TabItemViewModel>
-        {
-            new("KanbanView", new KanbanView { DataContext = _taskListViewModel }),
-            new("TaskListView", new TaskListView{ DataContext = _taskListViewModel })
-        };
+        Tabs =
+        [
+            new TabItemViewModel("KanbanView", new KanbanView { DataContext = _taskListViewModel }),
+            new TabItemViewModel("TaskListView", new TaskListView { DataContext = _taskListViewModel })
+        ];
     }
 
     /// <summary>

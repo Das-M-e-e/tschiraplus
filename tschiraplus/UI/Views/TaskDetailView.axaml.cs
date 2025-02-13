@@ -85,7 +85,7 @@ public partial class TaskDetailView : UserControl
         }
     }
     
-    public async void OnCommentSaveButtonClick(object? sender,  RoutedEventArgs args)
+    public async Task RunDescriptionBorderAnimation()
     {
         OnDescriptionLostFocus();
         var normalColor = DescriptionTextBox.BorderBrush;
@@ -143,5 +143,12 @@ public partial class TaskDetailView : UserControl
     {
         var parent = this.GetLogicalAncestors().OfType<MainTabView>().FirstOrDefault();
         parent?.OnCloseButtonPressed();
+        var vm = parent?.DataContext as MainTabViewModel;
+        vm!.TaskCheckBoxClicked = false;
+    }
+
+    private void OnCommentSaveButtonClick(object? sender, RoutedEventArgs e)
+    {
+        RunDescriptionBorderAnimation();
     }
 }

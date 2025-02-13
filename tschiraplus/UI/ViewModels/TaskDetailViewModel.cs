@@ -17,12 +17,10 @@ public class TaskDetailViewModel : ViewModelBase
     
     //Bindings
     private string? _title;
-
     public string Title
     {
         get => _title ?? string.Empty;
         set => this.RaiseAndSetIfChanged(ref _title, value);
-        
     }
 
     private bool _isEditingTitle;
@@ -54,7 +52,6 @@ public class TaskDetailViewModel : ViewModelBase
     }
     
     private DateTimeOffset? _dueDate;
-
     public DateTimeOffset? DueDate
     {
         get => _dueDate;
@@ -82,14 +79,12 @@ public class TaskDetailViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _isEditingDescription, value);
     }
     
-        
     public string? Description {get; set;}
     
     public ObservableCollection<SelectionItemViewModel> StatusList { get; set; } = [];
     public ObservableCollection<SelectionItemViewModel> PriorityList { get; set; } = [];
     
     // Commands
-    
     public ICommand StartEditingTitleCommand { get; set; }
     public ICommand StartEditingStartDateCommand { get; set; }
     public ICommand StartEditingDueDateCommand { get; set; }
@@ -122,10 +117,9 @@ public class TaskDetailViewModel : ViewModelBase
             ?? StatusList.First();
         Priority = PriorityList.FirstOrDefault(s => (string)s.Tag! == _taskDto.Priority)
             ?? PriorityList.First();
-        StartDate = _taskDto.StartDate ?? null;
-        DueDate = _taskDto.DueDate ?? null;
+        StartDate = _taskDto.StartDate.HasValue ? new DateTimeOffset(_taskDto.StartDate.Value) : null;
+        DueDate = _taskDto.DueDate.HasValue ? new DateTimeOffset(_taskDto.DueDate.Value) : null;
         Description = _taskDto.Description;
-        
     }
 
     /// <summary>

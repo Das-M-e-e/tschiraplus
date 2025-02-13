@@ -103,7 +103,7 @@ public class MainViewModel : ViewModelBase
         var userInputParser = new UserInputParser();
         var taskService = new TaskService(taskRepository, taskSortingManager, _appState, userInputParser);
 
-        var mainTabViewModel = new MainTabViewModel(taskService, projectId, _appState);
+        var mainTabViewModel = new MainTabViewModel(taskService, _appState);
 
         CurrentContent = new MainTabView { DataContext = mainTabViewModel };
         
