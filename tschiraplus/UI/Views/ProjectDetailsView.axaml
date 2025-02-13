@@ -2,126 +2,226 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:vm= "clr-namespace:UI.ViewModels" 
+             xmlns:vm="clr-namespace:UI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
              x:Class="UI.Views.ProjectDetailsView"
              x:DataType="vm:ProjectDetailsViewModel">
-    <Grid RowDefinitions="Auto,*,Auto"> 
-        <!-- title bar -->
-        <Border Grid.Row="0" Classes="TopBarBorder">
-            <Grid Classes="TopBar" ColumnDefinitions="Auto, *, Auto">
-                <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock  Text="Projects / Tschiraplus" Width="315" FontWeight="Medium" Margin="15,4.5,0,0"></TextBlock>
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Width="120">
-                    <Button Classes="Icons">
-                        <Image Source="avares://UI/Assets/edit_icon.png" Opacity="0.85" Stretch="Uniform" Width="18" Margin="40,0,-5,0"></Image>
-                    </Button>
-                    <Button Classes="Icons">
-                        <Image Source="avares://UI/Assets/share_icon.png" Opacity="0.85" Stretch="Uniform" Width="18" Margin="0,0,-5,0"></Image>
-                    </Button>
-                </StackPanel>
-                </Grid>
-        </Border>
-        <!-- main -->
-        <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto"  >
-            <Grid Grid.Row="0">
-                <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Tschiraplus" FontSize="30" Padding="15,20,20,0"></TextBlock>
-                    <StackPanel  Margin="20,10,50,10" Orientation="Horizontal" >
-                        <Border Classes="ProjectStatus">
-                            <TextBlock Classes="ProjectStatusText"></TextBlock>
-                        </Border>
-                    </StackPanel>
-                    <Border Classes="Divider"/>
-                </StackPanel>
+    
+    <UserControl.Styles>
+        <Style Selector="FlyoutPresenter.dropdownPicker">
+            <Setter Property="Background" Value="#aae1e1e1" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid RowDefinitions="Auto,*,Auto">
+         
+        <!-- Top Bar -->
+        <Button Grid.Row="0" Command="{Binding CloseFlyoutCommand}"
+                Click="OnCloseButtonPressed"
+                HorizontalAlignment="Right">
+            <Image Source="avares://UI/Assets/close_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="0,0,10,0" />
+        </Button>
+        
+        <!-- Main Area -->
+        <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto,*,Auto">
+            <!-- Title Area -->
+            <Grid Grid.Row="0" Height="80">
+                <!-- Show Title Button -->
+                <Button IsVisible="{Binding IsEditingTitle, Converter={StaticResource InverseBoolConverter}}"
+                        Command="{Binding StartEditingTitleCommand}">
+                    <TextBlock Text="{Binding Title}" />
+                </Button>
+                <!-- Change Title TextBox -->
+                <TextBox Text="{Binding Title}"
+                         IsVisible="{Binding IsEditingTitle}" />
+                <!-- Save Title Button -->
+                <Button Command="{Binding SaveTitleCommand}"
+                        IsVisible="{Binding IsEditingTitle}"
+                        HorizontalAlignment="Right">
+                    <Image Source="avares://UI/Assets/edit_icon.png" Stretch="Uniform" Width="18" />
+                </Button>
             </Grid>
             
-            <Grid Grid.Row="2" Height="180" VerticalAlignment="Top">
-                <StackPanel Orientation="Horizontal">
-                    <Grid ColumnDefinitions="Auto,Auto">
-                        <Grid Grid.Column="0"  RowDefinitions="Auto,Auto,Auto,Auto,Auto" Width="130" Margin="0,5,0,0">
-                                    <StackPanel Grid.Row="1" Margin="22,-3,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <Image Source="avares://UI/Assets/priority_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5"></Image>
-                                        <TextBlock Text="Priority" Opacity="0.95" FontSize="13"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="2" Margin="22,1,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <Image Source="avares://UI/Assets/start_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5"></Image>
-                                        <TextBlock Text="Start date" Opacity="0.95" FontSize="13"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="3" Margin="23,1,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <Image Source="avares://UI/Assets/due_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11"></Image>
-                                        <TextBlock Text="End date" Opacity="0.95" FontSize="13"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="4" Margin="21,0,0,15" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                                        <Image Source="avares://UI/Assets/contributors_icon.png" Margin="0,0,4,0" Opacity="0.45" Stretch="Uniform" Width="13"></Image>
-                                        <TextBlock Text="Contributors" Opacity="0.95" FontSize="13"></TextBlock>
-                                    </StackPanel>
-                            
-                        </Grid>
-                        <Grid Grid.Column="1" RowDefinitions="Auto,Auto,Auto,Auto,Auto" Width="315" HorizontalAlignment="Left">
-                            <StackPanel Grid.Row="0" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Border Classes="Priority">
-                                    <TextBlock Classes="PriorityText"></TextBlock>
-                                </Border>
-                            </StackPanel>
-                                    <StackPanel Grid.Row="2" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="October 14, 2024" Opacity="0.65" FontSize="13"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Grid.Row="3" Margin="0,0,0,15" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <TextBlock Text="-" Opacity="0.65" FontSize="13"></TextBlock>
-                                    </StackPanel>
-                            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left">
-                                <Border Classes="PrimaryUserProfileTag">
-                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Height="15"></Image>
-                                        <TextBlock Classes="PrimaryUserProfileTagText"></TextBlock>
-                                    </StackPanel>
-                                </Border>
-                                <Border Classes="SecondaryUserProfileTag">
-                                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
-                                        <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Height="15"></Image>
-                                        <TextBlock Classes="SecondaryUserProfileTagText"></TextBlock>
-                                    </StackPanel>
-                                </Border>
-                                <Button Classes="SecondaryActions" Margin="0,-1,0,15" VerticalAlignment="Center" HorizontalAlignment="Center" Width="60" Height="23" CornerRadius="5">
-                                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-6,0,0,0">
-                                        <Image Source="avares://UI/Assets/user_add_icon.png" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Uniform" Margin="0,0,0,0" Height="12"></Image>
-                                        <TextBlock Text="Invite" FontWeight="Medium" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0"></TextBlock>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </Grid>
+            <!-- Separator -->
+            <Separator Grid.Row="1" Height="1" />
+            
+            <!-- Project Details -->
+            <Grid Grid.Row="2" VerticalAlignment="Top">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+                    
+                    <!-- Status Area -->
+                    <Grid Grid.Row="0" ColumnDefinitions="130,*">
+                        <!-- Icon & Label -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="avares://UI/Assets/status_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5" />
+                            <TextBlock Text="Status" FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
+                        </StackPanel>
+                        <!-- Status Display -->
+                        <Border Grid.Column="1" Name="SetStatusBorder"
+                                PointerPressed="OnSelectStatusList"
+                                Background="{Binding Status.ColorCode}"
+                                Padding="5,2" CornerRadius="8" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding Status.Name}" />
+                            <!-- Status Flyout -->
+                            <Border.ContextFlyout>
+                                <Flyout ShowMode="TransientWithDismissOnPointerMoveAway"
+                                        Placement="BottomEdgeAlignedLeft"
+                                        FlyoutPresenterClasses="dropdownPicker">
+                                    <ItemsControl ItemsSource="{Binding StatusList}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{Binding ColorCode}"
+                                                        PointerPressed="OnStatusSelected"
+                                                        Padding="5,2"
+                                                        Margin="0,1,0,4">
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Flyout>
+                            </Border.ContextFlyout>
+                        </Border>
                     </Grid>
-                </StackPanel>
-            </Grid>
-            <!-- Description Field -->
-        <Grid Grid.Row="3" Margin="20,0,0,15" Width="500" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <StackPanel Orientation="Vertical">
-                <StackPanel  Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Image Source="avares://UI/Assets/description_icon.png" Margin="0,-1,4,0" Opacity="0.45" Stretch="Uniform" Width="14"></Image>
-                    <TextBlock Text="Description"  FontSize="13"></TextBlock>
-                </StackPanel>
-                <TextBox Classes="TaskDetailsBoxes"></TextBox>
-                <Button Classes="SecondaryActions" Content="Comment" FontSize="13" FontWeight="Medium" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="85" Height="30" Margin="414,10,0,15" CornerRadius="5"></Button>
-                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,15,0,0">
-                    <Image Source="avares://UI/Assets/attachment_icon.png" Margin="0,-1,4,0" Opacity="0.45" Stretch="Uniform" Width="14"></Image>
-                    <TextBlock Text="Attachments" Opacity="0.95" FontSize="13"></TextBlock>
-                    <StackPanel Margin="-10" Orientation="Horizontal">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                            <Image Source="avares://UI/Assets/download_icon.png" Margin="250,-1,-1,0" Opacity="0.45" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" Width="15"></Image>
-                            <Button Classes="Links" Content="Download All" FontSize="13">
+                    
+                    <!-- Priority Area -->
+                    <Grid Grid.Row="1" ColumnDefinitions="130,*">
+                        <!-- Icon & Label -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="avares://UI/Assets/priority_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5" />
+                            <TextBlock Text="Priority" FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
+                        </StackPanel>
+                        <!-- Status Display -->
+                        <Border Grid.Column="1" Name="SetPriorityBorder"
+                                PointerPressed="OnSelectPriorityList"
+                                Background="{Binding Priority.ColorCode}"
+                                Padding="5,2" CornerRadius="8" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Text="{Binding Priority.Name}" />
+                            <!-- Priority Flyout -->
+                            <Border.ContextFlyout>
+                                <Flyout ShowMode="TransientWithDismissOnPointerMoveAway"
+                                        Placement="BottomEdgeAlignedLeft"
+                                        FlyoutPresenterClasses="dropdownPicker">
+                                    <ItemsControl ItemsSource="{Binding PriorityList}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Background="{Binding ColorCode}"
+                                                        PointerPressed="OnPrioritySelected"
+                                                        Padding="5,2"
+                                                        Margin="0,1,0,4">
+                                                    <TextBlock Text="{Binding Name}" />
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Flyout>
+                            </Border.ContextFlyout>
+                        </Border>
+                    </Grid>
+                    
+                    <!-- Start Date Area -->
+                    <Grid Grid.Row="2" ColumnDefinitions="130,*">
+                        <!-- Icon & Label -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="avares://UI/Assets/start_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5" />
+                            <TextBlock Text="Start date" FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
+                        </StackPanel>
+                        <!-- Open Start Date Picker Button -->
+                        <Button Grid.Column="1"
+                                IsVisible="{Binding IsEditingStartDate, Converter={StaticResource InverseBoolConverter}}"
+                                Command="{Binding StartEditingStartDateCommand}"
+                                VerticalAlignment="Center" Background="Transparent">
+                            <TextBlock Text="{Binding StartDate, StringFormat={}{0:dd.MM.yyyy}, TargetNullValue='Pick a Start Date'}"
+                                       FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
+                        </Button>
+                        <!-- Start Date Picker -->
+                        <DatePicker Grid.Column="1" Name="StartDatePicker"
+                                    IsVisible="{Binding IsEditingStartDate}"
+                                    SelectedDate="{Binding StartDate, Mode=TwoWay}"
+                                    SelectedDateChanged="OnSelectStartDate"
+                                    LostFocus="OnSameDate"
+                                    Width="300" CornerRadius="8" />
+                    </Grid>
+                    
+                    <!-- Due Date Area -->
+                    <Grid Grid.Row="3" ColumnDefinitions="130,*">
+                        <!-- Icon & Label -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="avares://UI/Assets/due_date_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5" />
+                            <TextBlock Text="Due date" FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
+                        </StackPanel>
+                        <!-- Open Due Date Picker Button -->
+                        <Button Grid.Column="1"
+                                IsVisible="{Binding IsEditingDueDate, Converter={StaticResource InverseBoolConverter}}"
+                                Command="{Binding StartEditingDueDateCommand}"
+                                VerticalAlignment="Center" Background="Transparent">
+                            <TextBlock Text="{Binding DueDate, StringFormat={}{0:dd.MM.yyyy}, TargetNullValue='Pick a Due Date'}"
+                                       FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
+                        </Button>
+                        <!-- Due Date Picker -->
+                        <DatePicker Grid.Column="1" Name="DueDatePicker"
+                                    IsVisible="{Binding IsEditingDueDate}"
+                                    SelectedDate="{Binding DueDate, Mode=TwoWay}"
+                                    SelectedDateChanged="OnSelectDueDate"
+                                    LostFocus="OnSameDate"
+                                    Width="300" CornerRadius="8" />
+                    </Grid>
+                    
+                    <!-- Contributor Area -->
+                    <Grid Grid.Row="4" ColumnDefinitions="130,*">
+                        <!-- Icon & Label -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <Image Source="avares://UI/Assets/contributors_icon.png" Margin="0,0,4,0" Opacity="0.45" Stretch="Uniform" Width="13" />
+                            <TextBlock Text="Contributors" FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
+                        </StackPanel>
+                        <!-- Contributors List -->
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Border HorizontalAlignment="Left" Width="55" Height="20" Background="LightGray" CornerRadius="20">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Height="15" />
+                                    <TextBlock Text="Sofia" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="11" />
+                                </StackPanel>
+                            </Border>
+                            <Border HorizontalAlignment="Left" Width="60" Height="20" Background="LightGray" CornerRadius="20">
+                                <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Height="15" />
+                                    <TextBlock Text="Franzi" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="11" />
+                                </StackPanel>
+                            </Border>
+                            <!-- Add User Button -->
+                            <Button x:Name="InviteButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="55" Height="25" Background="Snow" BorderBrush="#dfe3e8" CornerRadius="5">
+                                <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-6,0,0,0">
+                                    <Image Source="avares://UI/Assets/user_add_icon.png" Stretch="Uniform" Height="12" />
+                                    <TextBlock Text="Invite" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" FontWeight="Medium" FontSize="10" />
+                                </StackPanel>
                             </Button>
                         </StackPanel>
+                    </Grid>
+                </Grid>
+            </Grid>
+            
+            <!-- Description Area -->
+            <Grid Grid.Row="3" Width="500" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <StackPanel Orientation="Vertical">
+                    <!-- Icon & Label -->
+                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <Image Source="avares://UI/Assets/description_icon.png" Margin="0,-1,4,0" Opacity="0.45" Stretch="Uniform" Width="14" />
+                        <TextBlock Text="Description" FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
                     </StackPanel>
+                    <!-- Description Field -->
+                    <TextBox Name="DescriptionTextBox" Text="{Binding Description}"
+                             AcceptsReturn="True" GotFocus="OnDescriptionGotFocus" LostFocus="OnDescriptionLostFocus"
+                             CornerRadius="6" FontSize="13" HorizontalAlignment="Stretch" Height="100" />
+                    <!-- Save Description Button -->
+                    <Button Name="SaveDescriptionButton"
+                            Click="OnDescriptionLostFocus"
+                            IsVisible="{Binding IsEditingDescription}"
+                            Content="Save Description"
+                            VerticalAlignment="Center" HorizontalAlignment="Right" />
                 </StackPanel>
-            </StackPanel>
+            </Grid>
         </Grid>
-        <!-- Bottom bar -->
-        <Border Grid.Row="4" VerticalAlignment="Bottom" Classes="BottomBarBorder">
-            <Grid Height="60"  VerticalAlignment="Bottom" Classes="BottomBar"></Grid>
-        </Border>
-        
     </Grid>
-        </Grid>
+    
 </UserControl>

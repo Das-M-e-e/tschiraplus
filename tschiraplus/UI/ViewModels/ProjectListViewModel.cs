@@ -106,7 +106,7 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
     {
         CreateProjectFlyout = new ProjectDetailsView
         {
-            DataContext = new ProjectDetailsViewModel(_projectService, projectId)
+            DataContext = new ProjectDetailsViewModel(_projectService, this, projectId)
         };
     }
 

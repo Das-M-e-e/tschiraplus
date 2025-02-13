@@ -23,6 +23,8 @@ public class ProjectViewModel
 
     public ProjectViewModel(ProjectDto projectDto, ProjectListViewModel projectListViewModel)
     {
+        _projectListViewModel = projectListViewModel;
+        
         ProjectId = projectDto.ProjectId;
         Name = projectDto.Name;
         Description = projectDto.Description;
@@ -53,5 +55,4 @@ public class ProjectViewModel
     {
         _projectListViewModel.OpenProjectDetails(ProjectId);
     }
-    
 }
