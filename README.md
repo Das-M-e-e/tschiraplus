@@ -1,4 +1,7 @@
+---FOR THE ENGLISCH VERSION SEE BELOW---
+
 tschira+ - Projektplanungstool
+
 Projektbeschreibung
 
 tschira+ ist ein leistungsstarkes Projektplanungstool, das entwickelt wurde, um die Verwaltung und Organisation von Projektarbeiten effizienter zu gestalten. Mit dieser Software können Aufgaben einfach erstellt, zugewiesen, dokumentiert und deren Fortschritt verfolgt werden. Sie hilft dabei, den Überblick über alle Phasen eines Projekts zu behalten und fördert eine reibungslose Zusammenarbeit im Team.
@@ -39,3 +42,51 @@ Dieses Projekt ist unter der MIT Lizenz lizenziert.
 Autoren
 
     Gabriel; Anna-Lenna; Yuting; Sophia; Franzi; Paulina; Isaak  – Entwickler
+
+---NOW FOLLOWS THE ENGLISH VERSION---
+
+tschira+ - Project Planning Tool
+
+Project Description
+
+tschira+ is a powerful project planning tool designed to make the management and organization of project tasks more efficient. With this software, tasks can be easily created, assigned, documented, and their progress tracked. It helps keep an overview of all project phases and promotes smooth collaboration within the team.
+
+Features:
+
+    Create and manage tasks: Create tasks and subtasks, set due dates, and priorities.
+    Assign tasks: Assign tasks to team members to define clear responsibilities.
+    Progress tracking: Real-time tracking of individual tasks and the overall project progress.
+
+Technology Stack
+
+    Programming Language: C#
+    Framework: .NET
+    Database: PetaPoco
+    Other Tools: Avalonia UI
+
+Installation
+
+    Clone this repository to your local system:
+
+    git clone https://github.com/Das-M-e-e/tschiraplus.git
+
+    Open the project in Visual Studio or your preferred C# IDE.
+
+    Make sure you have .NET Core or the .NET Framework installed. For more details, visit the official .NET website (https://dotnet.microsoft.com/en-us/).
+
+    To start the application, run the Program.cs in the UI project.
+
+Usage
+
+    To start the application, run Program.cs in the UI project.
+    Create and manage tasks through the user interface.
+    Track project progress in real-time.
+
+License
+
+This project is licensed under the MIT License.
+
+Authors
+
+    Gabriel; Anna-Lenna; Yuting; Sophia; Franzi; Paulina; Isaak – Developers
+    
