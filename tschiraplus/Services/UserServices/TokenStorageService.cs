@@ -3,39 +3,50 @@ using System.Text;
 
 namespace Services.UserServices;
 
-public static class TokenStorageService
+public class TokenStorageService
 {
-    private const string FileName = "authToken.txt";
-    private static readonly string FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FileName);
+    //private const string FileName = "authToken.txt";
+    //private static string FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FileName);
+    private readonly string _filePath;
 
+    public TokenStorageService(string filePath = "")
+    {
+        _filePath = string.IsNullOrWhiteSpace(filePath)
+            ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "authToken.txt") 
+            : filePath;
+    }
     /// <summary>
     /// Encrypts a token and saves it to a file
     /// </summary>
     /// <param name="token"></param>
-    public static void SaveToken(string token)
+    public void SaveToken(string token)
     {
         var encryptedToken = EncryptToken(token);
-        File.WriteAllText(FilePath, encryptedToken);
+        using var fs = new FileStream(_filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+        using var sw = new StreamWriter(fs);
+        sw.Write(encryptedToken);
+        sw.Flush();
     }
 
     /// <summary>
     /// Loads the saved token and decrypts it
     /// </summary>
     /// <returns>The decrypted token as string</returns>
-    public static string? LoadToken()
+    public string? LoadToken()
     {
-        if (!File.Exists(FilePath)) return null;
+        if (!File.Exists(_filePath)) return null;
 
-        var encryptedToken = File.ReadAllText(FilePath);
-        return DecryptToken(encryptedToken);
+        using var fs = new FileStream(_filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        using var sr = new StreamReader(fs);
+        return DecryptToken(sr.ReadToEnd());
     }
 
     /// <summary>
     /// Removes the saved token
     /// </summary>
-    public static void RemoveToken()
+    public void RemoveToken()
     {
-        if (File.Exists(FilePath)) File.Delete(FilePath);
+        if (File.Exists(_filePath)) File.Delete(_filePath);
     }
 
     /// <summary>
@@ -43,7 +54,7 @@ public static class TokenStorageService
     /// </summary>
     /// <param name="token"></param>
     /// <returns>The encrypted token</returns>
-    private static string EncryptToken(string token)
+    private string EncryptToken(string token)
     {
         var key = GetEncryptionKey();
         using var aes = Aes.Create();
@@ -57,6 +68,8 @@ public static class TokenStorageService
         using (var sw = new StreamWriter(cs))
         {
             sw.Write(token);
+            sw.Flush();
+            cs.FlushFinalBlock();
         }
 
         var encryptedData = ms.ToArray();
@@ -72,7 +85,7 @@ public static class TokenStorageService
     /// </summary>
     /// <param name="encryptedToken"></param>
     /// <returns>The decrypted token</returns>
-    private static string DecryptToken(string encryptedToken)
+    private string DecryptToken(string encryptedToken)
     {
         var fullCipher = Convert.FromBase64String(encryptedToken);
         var iv = new byte[16];
@@ -97,7 +110,7 @@ public static class TokenStorageService
     /// Returns the encryption key as byte array
     /// </summary>
     /// <returns>The encryption key as byte array</returns>
-    private static byte[] GetEncryptionKey()
+    private byte[] GetEncryptionKey()
     {
         const string key = "YooWassupThisIsMySuperSecretKeyT";
         return Encoding.UTF8.GetBytes(key);

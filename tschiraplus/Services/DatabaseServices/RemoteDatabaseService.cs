@@ -7,6 +7,7 @@ namespace Services.DatabaseServices;
 public class RemoteDatabaseService
 {
     private readonly HttpClient _httpClient = new();
+    private readonly TokenStorageService _tokenStorageService = new();
 
     private const string BaseAddress = "http://api.tschira.plus:42069/api";
 
@@ -26,7 +27,7 @@ public class RemoteDatabaseService
                 HttpMethod.Post,
                 $"{BaseAddress}/{endpoint}"
                 );
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
             
             request.Headers.Add("accept", "text/plain");
             request.Content = new StringContent(data);
@@ -61,7 +62,7 @@ public class RemoteDatabaseService
                 $"{BaseAddress}/{endpoint}"
                 );
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
             
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
@@ -93,7 +94,7 @@ public class RemoteDatabaseService
                 $"{BaseAddress}/{endpoint}/{id}"
             );
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
             
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
@@ -122,7 +123,7 @@ public class RemoteDatabaseService
             var request = new HttpRequestMessage(
                 HttpMethod.Put,
                 $"{BaseAddress}/{endpoint}/{id}");
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
            
             request.Headers.Add("accept", "text/plain");
             request.Content = new StringContent(data);
@@ -156,7 +157,7 @@ public class RemoteDatabaseService
                 HttpMethod.Delete,
                 $"{BaseAddress}/{endpoint}/{id}"
                 );
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
 
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);

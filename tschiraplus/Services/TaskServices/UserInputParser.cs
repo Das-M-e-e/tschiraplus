@@ -7,13 +7,12 @@ public class UserInputParser : IUserInputParser
 {
     public List<CommandModel> Parse(string userInput)
     {
-        var commands = new List<CommandModel>(); // leere Liste
-        if (string.IsNullOrWhiteSpace(userInput))
-            return commands;
-        var instructions = userInput.Split(';', StringSplitOptions.RemoveEmptyEntries); // Eingabetrennung
+        var commands = new List<CommandModel>();
+        if (string.IsNullOrWhiteSpace(userInput)) return commands;
+        var instructions = userInput.Trim().Split(';', StringSplitOptions.RemoveEmptyEntries);
         foreach (var instruction in instructions)
         {
-            var parts = instruction.Trim().Split(':', 2);
+            var parts = instruction.Trim().Split(':', 2, StringSplitOptions.RemoveEmptyEntries);
             if (parts.Length < 2) continue;
             
             var commandType = parts[0].Trim().ToLower();
