@@ -2,8 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UI.ViewModels"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
-             x:Class="UI.Views.UserProfileView">
+             x:Class="UI.Views.UserProfileView"
+             x:DataType="vm:UserProfileViewModel">
     
     
     
@@ -108,8 +110,11 @@
                         <TextBlock Text="Irgendwas@gmail.com" FontSize="30"></TextBlock>
                     </StackPanel>
                 </Grid>
+                <Button Content="Logout" Command="{Binding LogoutCommand}" />
             </StackPanel>
         </Grid>
+            
+            
             
             
         <!-- Bottom bar -->

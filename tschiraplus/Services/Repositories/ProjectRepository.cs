@@ -169,22 +169,6 @@ public class ProjectRepository : IProjectRepository
         Console.WriteLine(jsonData);
         
         await _remoteDb.PostAsync("Projects", jsonData);
-        
-        // Create the ProjectUser for the owner of the project
-        var projectUser = new ProjectUserModel
-        {
-            ProjectUserId = Guid.NewGuid(),
-            ProjectId = project.ProjectId,
-            UserId = project.OwnerId,
-            AssignedAt = DateTime.Now
-        };
-
-        var projectUserJsonData = $"{{\"ProjectUserId\":\"{projectUser.ProjectUserId}\"," +
-                                  $"\"ProjectId\":\"{projectUser.ProjectId}\"," +
-                                  $"\"UserId\":\"{projectUser.UserId}\"," +
-                                  $"\"AssignedAt\":\"{projectUser.AssignedAt:yyyy-MM-ddTHH:mm:ss.fffZ}\"}}";
-        
-        await _remoteDb.PostAsync("ProjectUsers", projectUserJsonData);
     }
 
     /// <summary>

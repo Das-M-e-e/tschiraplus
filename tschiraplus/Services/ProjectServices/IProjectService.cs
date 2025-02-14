@@ -4,7 +4,7 @@ namespace Services.ProjectServices;
 
 public interface IProjectService
 {
-    List<ProjectDto> GetAllProjects();
+    Task<List<ProjectDto>> GetAllProjects();
     ProjectDto GetProjectById(Guid projectId);
     Task DeleteProject(Guid projectId, bool isOnline);
     void CreateProject(ProjectDto projectDto);

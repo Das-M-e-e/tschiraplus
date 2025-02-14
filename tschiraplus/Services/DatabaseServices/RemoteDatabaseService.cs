@@ -272,8 +272,5 @@ public class RemoteDatabaseService
             Console.WriteLine(e);
             throw;
         }
-        
     }
-    
-    
 }

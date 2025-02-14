@@ -117,7 +117,7 @@ public class TaskService : ITaskService
     /// Gets all tasks using the TaskRepository
     /// </summary>
     /// <returns>A List of all tasks as TaskDto</returns>
-    public List<TaskDto> GetAllTasks()
+    public async Task<List<TaskDto>> GetAllTasks()
     {
         try
         {
