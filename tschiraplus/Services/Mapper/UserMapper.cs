@@ -33,16 +33,21 @@ public class UserMapper
         var userModel = _userRepository.GetUserById(dto.UserId);
         if (userModel == null)
         {
-            throw new NullReferenceException($"User {dto.UserId} not found");
+            userModel = new UserModel
+            {
+                UserId = dto.UserId,
+                Username = dto.Username,
+                Email = dto.Email,
+                Bio = dto.Bio
+            };
         }
-        
-        userModel.Username = dto.Username;
-        userModel.Email = dto.Email;
-        userModel.Bio = dto.Bio;
+        else
+        {
+            userModel.Username = dto.Username;
+            userModel.Email = dto.Email;
+            userModel.Bio = dto.Bio;
+        }
 
         return userModel;
     }
-    
-    
-    
 }

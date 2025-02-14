@@ -8,10 +8,12 @@ namespace Services.Mapper;
 public class ProjectMapper
 {
     private readonly IProjectRepository _projectRepository;
+    private readonly ApplicationState _appState;
 
-    public ProjectMapper (IProjectRepository projectRepository)
+    public ProjectMapper (IProjectRepository projectRepository, ApplicationState appState)
     {
         _projectRepository = projectRepository;
+        _appState = appState;
     }
     
     public ProjectDto ToDto(ProjectModel model)
@@ -37,16 +39,29 @@ public class ProjectMapper
         var projectModel = _projectRepository.GetProjectById(dto.ProjectId);
         if (projectModel == null)
         {
-            throw new NullReferenceException($"Project {dto.ProjectId} not found");
+            projectModel = new ProjectModel
+            {
+                ProjectId = dto.ProjectId,
+                OwnerId = _appState.CurrentUser!.UserId,
+                Name = dto.Name,
+                Description = dto.Description,
+                Status = Enum.TryParse(dto.Status, out ProjectStatus stat) ? stat : ProjectStatus.NotStarted,
+                Priority = Enum.TryParse(dto.Priority, out ProjectPriority prio) ? prio : ProjectPriority.Low,
+                CreationDate = DateTime.Now,
+                StartDate = dto.StartDate,
+                DueDate = dto.DueDate,
+                LastUpdated = DateTime.Now
+            };
         }
-        
-        projectModel.Name = dto.Name;
-        projectModel.Description = dto.Description;
-        projectModel.Priority = Enum.TryParse(dto.Priority, out ProjectPriority priority) ? priority : ProjectPriority.Low;
-        projectModel.Status = Enum.TryParse(dto.Status, out ProjectStatus status) ? status : ProjectStatus.NotStarted;
-        projectModel.StartDate = dto.StartDate;
-        projectModel.DueDate = dto.DueDate;
-        
+        else
+        {
+            projectModel.Name = dto.Name;
+            projectModel.Description = dto.Description;
+            projectModel.Priority = Enum.TryParse(dto.Priority, out ProjectPriority priority) ? priority : ProjectPriority.Low;
+            projectModel.Status = Enum.TryParse(dto.Status, out ProjectStatus status) ? status : ProjectStatus.NotStarted;
+            projectModel.StartDate = dto.StartDate;
+            projectModel.DueDate = dto.DueDate;
+        }
         
         return projectModel;
     }
