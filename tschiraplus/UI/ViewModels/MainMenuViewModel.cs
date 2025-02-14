@@ -35,12 +35,19 @@ public class MainMenuViewModel
         LoadProjects();
     }
 
+    /// <summary>
+    /// Uses the ProjectService to load all projects
+    /// </summary>
     private async Task LoadProjects()
     {
         var allProjects = await _projectService.GetAllProjects();
         UpdateProjectList(allProjects);
     }
     
+    /// <summary>
+    /// Updates the Projects List with the newly loaded List of projects
+    /// </summary>
+    /// <param name="projectDtos"></param>
     private void UpdateProjectList(IEnumerable<ProjectDto> projectDtos)
     {
         Projects.Clear();
@@ -50,22 +57,35 @@ public class MainMenuViewModel
         }
     }
 
+    /// <summary>
+    /// Opens the ProjectListView
+    /// </summary>
     private void OpenProjectList()
     {
         _mainViewModel.OpenProjectList();
     }
 
+    /// <summary>
+    /// Opens a certain project by id
+    /// </summary>
+    /// <param name="projectId"></param>
     public void OpenProject(Guid projectId)
     {
         _mainViewModel.OpenProject(projectId);
     }
 
-    public void OpenUserDetails()
+    /// <summary>
+    /// Opens the UserProfileView
+    /// </summary>
+    private void OpenUserDetails()
     {
         _mainViewModel.OpenUserDetails();
     }
 
-    public void OpenSettings()
+    /// <summary>
+    /// Opens the SettingsView
+    /// </summary>
+    private void OpenSettings()
     {
         _mainViewModel.OpenSettings();
     }

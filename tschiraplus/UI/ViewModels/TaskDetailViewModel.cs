@@ -235,6 +235,9 @@ public class TaskDetailViewModel : ViewModelBase
         IsEditingDescription = !IsEditingDescription;   
     }
     
+    /// <summary>
+    /// Assigns a user to this task (not yet fully implemented)
+    /// </summary>
     private void AddTaskUser()
     {
         Console.WriteLine($"Adding task user");

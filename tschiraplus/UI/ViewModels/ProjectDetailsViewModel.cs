@@ -116,6 +116,10 @@ public class ProjectDetailsViewModel : ViewModelBase
         AddProjectUserCommand = new RelayCommand(AddProjectUser);
     }
 
+    /// <summary>
+    /// Fills the StatusList with hardcoded status.
+    /// These fit to the Enum ProjectStatus
+    /// </summary>
     private void LoadStatusList()
     {
         StatusList.Add(new SelectionItemViewModel{Name = "Not Started", Tag = "NotStarted", ColorCode = "#d3d3d3"});
@@ -124,6 +128,10 @@ public class ProjectDetailsViewModel : ViewModelBase
         StatusList.Add(new SelectionItemViewModel{Name = "Completed", Tag = "Completed", ColorCode = "#32cd32"});
     }
 
+    /// <summary>
+    /// Fills the PriorityList with hardcoded priorities.
+    /// These fit with the Enum ProjectPriority
+    /// </summary>
     private void LoadPriorityList()
     {
         PriorityList.Add(new SelectionItemViewModel{Name = "Not Set", Tag = "NotSet", ColorCode = "#d3d3d3"});
@@ -133,6 +141,10 @@ public class ProjectDetailsViewModel : ViewModelBase
         PriorityList.Add(new SelectionItemViewModel{Name = "Critical", Tag = "Critical", ColorCode = "#dd5550"});
     }
 
+    /// <summary>
+    /// Loads the Project to show
+    /// </summary>
+    /// <param name="projectId"></param>
     private void LoadProject(Guid projectId)
     {
         _project = _projectService.GetProjectById(projectId);
@@ -146,6 +158,9 @@ public class ProjectDetailsViewModel : ViewModelBase
         Description = _project.Description;
     }
 
+    /// <summary>
+    /// Save the title of the project
+    /// </summary>
     private void SaveTitle()
     {
         if (_project.Name != Title)
@@ -156,6 +171,10 @@ public class ProjectDetailsViewModel : ViewModelBase
         IsEditingTitle = false;
     }
 
+    /// <summary>
+    /// Save the new status of the project
+    /// </summary>
+    /// <param name="status"></param>
     public void SetStatus(string? status)
     {
         Status = StatusList.First(s => s.Name == status);
@@ -163,6 +182,10 @@ public class ProjectDetailsViewModel : ViewModelBase
         _projectService.UpdateProject(_project);
     }
 
+    /// <summary>
+    /// save the new priority of the project
+    /// </summary>
+    /// <param name="priority"></param>
     public void SetPriority(string? priority)
     {
         Priority = PriorityList.First(s => s.Name == priority);
@@ -170,6 +193,10 @@ public class ProjectDetailsViewModel : ViewModelBase
         _projectService.UpdateProject(_project);
     }
 
+    /// <summary>
+    /// save the new start date of the project
+    /// </summary>
+    /// <param name="newDate"></param>
     public void EditStartDate(DateTime newDate)
     {
         _project.StartDate = newDate;
@@ -177,6 +204,10 @@ public class ProjectDetailsViewModel : ViewModelBase
         IsEditingStartDate = false;
     }
 
+    /// <summary>
+    /// save the new due date of the project
+    /// </summary>
+    /// <param name="newDate"></param>
     public void EditDueDate(DateTime newDate)
     {
         _project.DueDate = newDate;
@@ -184,18 +215,27 @@ public class ProjectDetailsViewModel : ViewModelBase
         IsEditingDueDate = false;
     }
 
+    /// <summary>
+    /// Close all date pickers
+    /// </summary>
     public void CloseDatePicker()
     {
         IsEditingStartDate = false;
         IsEditingDueDate = false;
     }
 
+    /// <summary>
+    /// Show or hide the "Save Description" button
+    /// </summary>
     public void ToggleDescriptionButton()
     {
         IsEditingDescription = !IsEditingDescription;
         SaveDescription();
     }
 
+    /// <summary>
+    /// save the new description of the project
+    /// </summary>
     private void SaveDescription()
     {
         if (_project.Description != Description)
@@ -205,12 +245,18 @@ public class ProjectDetailsViewModel : ViewModelBase
         }
     }
     
+    /// <summary>
+    /// Add a user to the project (not yet fully implemented)
+    /// </summary>
     private void AddProjectUser()
     {
         Console.WriteLine($"Adding project user {Username}");
         _projectService.AddUserToProject(Username, _project.ProjectId);   
     }
 
+    /// <summary>
+    /// Close the flyout
+    /// </summary>
     private void CloseFlyout()
     {
         _projectListViewModel.CloseFlyout();

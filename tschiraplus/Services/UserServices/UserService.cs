@@ -65,8 +65,6 @@ public class UserService : IUserService
                 {
                     _userRepository.AddUser(user);
                 }
-                
-                
             }
         }
         catch (Exception e)
@@ -140,7 +138,11 @@ public class UserService : IUserService
         return false;
     }
 
-    //TODO: Methode vervollständigen
+    /// <summary>
+    /// Preparation for user invitation
+    /// </summary>
+    /// <param name="sendInvitationDto"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public async Task SendInvitation(SendInvitationDto sendInvitationDto)
     {
         //var recipient = await _userRepository.SendInvitationAsync();
@@ -152,6 +154,4 @@ public class UserService : IUserService
             ProjectId = _appState.CurrentProjectId ?? throw new ArgumentNullException(nameof(_appState.CurrentProjectId))
         };
     }
-    
-    
 }

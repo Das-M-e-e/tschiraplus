@@ -4,7 +4,6 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
 using Services.DTOs;
-using Services.ProjectServices;
 using Services.UserServices;
 
 namespace UI.ViewModels;
@@ -127,7 +126,7 @@ public class RegisterViewModel : ViewModelBase
             await _userService.RegisterUserAsync(newUser);
             Console.WriteLine($"Registration of new user {newUser.Username} successful");
             
-            await _wrapper.NavigateToMainMenu();
+            _wrapper.NavigateToMainMenu();
         }
         catch
         {

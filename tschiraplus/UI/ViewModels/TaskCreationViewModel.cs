@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
+﻿using System.Collections.ObjectModel;
 using ReactiveUI;
 using Services.DTOs;
 using Services.TaskServices;
@@ -68,6 +64,10 @@ public class TaskCreationViewModel : ViewModelBase
         LoadTagsList();
     }
 
+    /// <summary>
+    /// Fills the PriorityList with hardcoded priorities.
+    /// These fit with the Enum TaskPriority
+    /// </summary>
     private void LoadPriorityList()
     {
         PriorityList.Add(new SelectionItemViewModel{Name = "Low", Tag ="Low", ColorCode = "#95D8A1"});
@@ -76,6 +76,9 @@ public class TaskCreationViewModel : ViewModelBase
         PriorityList.Add(new SelectionItemViewModel{Name = "Critical", Tag ="Critical", ColorCode = "#DD5550"});
     }
 
+    /// <summary>
+    /// Gets the list of tags from the TaskService
+    /// </summary>
     private void LoadTagsList()
     {
        var tagsList = _taskService.GetAllTags();
@@ -102,8 +105,7 @@ public class TaskCreationViewModel : ViewModelBase
             Title = Title,
             Description = Description,
             Priority = Priority.Tag?.ToString() ?? "NotSet",
-            Status = InitialStatus,
-            Tag = CurrentTag.Tag?.ToString() ?? "NotSet"
+            Status = InitialStatus
         };
         _taskService.CreateTask(task);
         _taskListViewModel.LoadTasks();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Services;
 using Avalonia.Controls;
 using ReactiveUI;
@@ -63,6 +64,10 @@ public class MainTabViewModel : ViewModelBase
         SetFlyoutContent(view);
     }
 
+    /// <summary>
+    /// Opens a certain tasks TaskDetailView in a flyout
+    /// </summary>
+    /// <param name="taskId"></param>
     public void ShowTaskDetails(Guid taskId)
     {
         var view = new TaskDetailView
@@ -74,6 +79,10 @@ public class MainTabViewModel : ViewModelBase
         SetFlyoutContent(view);
     }
 
+    /// <summary>
+    /// Sets the content of the flyout
+    /// </summary>
+    /// <param name="content"></param>
     private void SetFlyoutContent(UserControl content)
     {
         SelectedFlyout = content;
@@ -82,8 +91,8 @@ public class MainTabViewModel : ViewModelBase
     /// <summary>
     /// Updates the task list by reloading the tasks from the view model
     /// </summary>
-    public void UpdateTaskList()
+    public async Task UpdateTaskList()
     {
-        _taskListViewModel.LoadTasks();
+        await _taskListViewModel.LoadTasks();
     }
 }

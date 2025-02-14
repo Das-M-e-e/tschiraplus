@@ -51,7 +51,7 @@ public class TaskMapper
         {
             taskModel = new TaskModel
             {
-                TaskId = dto.TaskId,
+                TaskId = Guid.NewGuid(),
                 ProjectId = (Guid)_appState.CurrentProjectId!,
                 AuthorId = _appState.CurrentUser!.UserId,
                 Title = dto.Title,

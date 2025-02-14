@@ -120,6 +120,13 @@ public class ProjectUserRepository : IProjectUserRepository
         return await _remoteDb.DeleteAsync("ProjectUsers", projectUserId);
     }
 
+    /// <summary>
+    /// Preparation for user invitations
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="inviterId"></param>
+    /// <param name="projectId"></param>
+    /// <returns>true or false</returns>
     public async Task<bool> AddProjectUserAsync(string username, Guid inviterId, Guid projectId)
     {
         var data = new InvitationDto()

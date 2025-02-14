@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Services.DTOs;
@@ -41,6 +40,9 @@ public class TaskViewModel
         _taskListViewModel.OpenTaskDetails(TaskId);
     }
 
+    /// <summary>
+    /// Sets this tasks status to "Done"
+    /// </summary>
     private void ToggleTaskDone()
     {
         _taskListViewModel.ToggleTaskDone(TaskId);

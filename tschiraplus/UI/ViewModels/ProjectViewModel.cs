@@ -51,6 +51,9 @@ public class ProjectViewModel
         await _projectListViewModel.DeleteProject(ProjectId);
     }
 
+    /// <summary>
+    /// Opens this projects ProjectDetailsView
+    /// </summary>
     private void OpenProjectDetails()
     {
         _projectListViewModel.OpenProjectDetails(ProjectId);

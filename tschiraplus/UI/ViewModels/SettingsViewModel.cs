@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Services;
+using Services.UserServices;
 
 namespace UI.ViewModels;
 
@@ -14,6 +14,9 @@ public partial class SettingsViewModel : ObservableObject
         _isDarkTheme = ThemeService.Instance.IsDarkTheme;
     }
 
+    /// <summary>
+    /// Sets the theme to light or dark
+    /// </summary>
     [RelayCommand]
     private void ToggleTheme()
     {

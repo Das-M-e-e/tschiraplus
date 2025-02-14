@@ -73,7 +73,7 @@ public class LoginViewModel : ObservableObject
             
             await _userService.LoginUserAsync(loginDto);
             Console.WriteLine("Login successful");
-            await _wrapperViewModel.NavigateToMainMenu();
+            _wrapperViewModel.NavigateToMainMenu();
         }
         catch
         {
