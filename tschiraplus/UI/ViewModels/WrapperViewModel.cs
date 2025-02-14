@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using ReactiveUI;
+﻿using ReactiveUI;
 using Services;
 using Services.DatabaseServices;
 using Services.Repositories;
@@ -47,10 +45,8 @@ public class WrapperViewModel : ViewModelBase
     /// <summary>
     /// Sets the current view (content) of the wrapper to be the MainMenuView
     /// </summary>
-    public async Task NavigateToMainMenu()
+    public void NavigateToMainMenu()
     {
-        await Sync();
-        
         _syncService.StartProjectSync(_appState.CurrentUser!.UserId);
 
         CurrentView = new MainView
@@ -90,20 +86,5 @@ public class WrapperViewModel : ViewModelBase
                     _appState),
                 this)
         };
-    }
-
-    /// <summary>
-    /// Starts the synchronization process
-    /// </summary>
-    private async Task Sync()
-    {
-        try
-        {
-            await _syncService.SyncProjectsAsync(_appState.CurrentUser.UserId);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"Synchronization failed: {e.Message}");
-        }
     }
 }

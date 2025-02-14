@@ -83,15 +83,17 @@ public class UserRepository : IUserRepository
         return user;
     }
 
+    /// <summary>
+    /// Preparation for user invitations
+    /// </summary>
+    /// <param name="invitation"></param>
+    /// <returns>true or false</returns>
     public async Task<bool> SendInvitationAsync(ProjectInvitationModel invitation)
     {
         var jsonString = JsonConvert.SerializeObject(invitation);
         return await _remoteDb.SendInvitationAsync(jsonString);
         
     }
-    
-    
-    
     
     //****** HELPER ******//
     /// <summary>

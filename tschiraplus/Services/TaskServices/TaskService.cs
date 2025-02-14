@@ -13,8 +13,7 @@ public class TaskService : ITaskService
     private readonly IUserInputParser _userInputParser;
     private readonly TaskMapper _taskMapper;
     private readonly UserDto _currentUser;
-
-
+    
     public TaskService(ITaskRepository taskRepository, ITaskSortingManager taskSortingManager, ApplicationState appState, UserInputParser userInputParser)
     {
         _taskRepository = taskRepository;
@@ -24,7 +23,12 @@ public class TaskService : ITaskService
         _userInputParser = userInputParser;
     }
     
-
+    /// <summary>
+    /// Uses the UserInputParser to evaluate the users input in the search bar
+    /// </summary>
+    /// <param name="userInput"></param>
+    /// <param name="tasks"></param>
+    /// <returns>A List of TaskDtos</returns>
     public IEnumerable<TaskDto> ProcessUserInput(string userInput, IEnumerable<TaskDto> tasks)
     {
         var commands = _userInputParser.Parse(userInput);
@@ -41,11 +45,20 @@ public class TaskService : ITaskService
         return tasks;
     }
 
+    /// <summary>
+    /// Preparation for Tag addition (to tasks)
+    /// </summary>
+    /// <param name="tags"></param>
+    /// <exception cref="NotImplementedException"></exception>
     public void ApplyTag(List<TagDto> tags)
     {
         throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Creates a list of hardcoded Tags for the user to apply to a task
+    /// </summary>
+    /// <returns>A List of TagDtos</returns>
     public IEnumerable<TagDto> GetAllTags()
     {
         var tagsList = new List<TagDto>();
@@ -58,6 +71,12 @@ public class TaskService : ITaskService
         return tagsList;
     }
 
+    /// <summary>
+    /// Uses the TaskSortingManager to sort a List of TaskDtos
+    /// </summary>
+    /// <param name="tasks"></param>
+    /// <param name="sortAttribute"></param>
+    /// <returns>The sorted List of TaskDtos</returns>
     private IEnumerable<TaskDto> SortTasks(IEnumerable<TaskDto> tasks, string sortAttribute)
     {
         return sortAttribute.ToLower() switch
@@ -68,6 +87,12 @@ public class TaskService : ITaskService
         };
     }
 
+    /// <summary>
+    /// Uses the TaskSortingManager to filter a List of TaskDtos
+    /// </summary>
+    /// <param name="tasks"></param>
+    /// <param name="filterExpression"></param>
+    /// <returns>The filtered List of TaskDtos</returns>
     private IEnumerable<TaskDto> FilterTasks(IEnumerable<TaskDto> tasks, string filterExpression)
     {
         var parts = filterExpression.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -93,7 +118,6 @@ public class TaskService : ITaskService
         };
     }
     
-
     /// <summary>
     /// Saves a task using the TaskRepository
     /// </summary>
@@ -174,6 +198,11 @@ public class TaskService : ITaskService
        return _taskSortingManager.FilterByPredicate(tasks, task => task.Status == status).ToList();
     }
     
+    /// <summary>
+    /// Preparation for user task assignment
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="taskId"></param>
     public async Task AddUserToTask(string username, Guid taskId)
     {
         await _taskRepository.AddTaskUserAsync(username, _currentUser.UserId, taskId );

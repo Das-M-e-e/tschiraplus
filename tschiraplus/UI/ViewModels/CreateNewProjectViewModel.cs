@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
 using Services.DTOs;
 using Services.ProjectServices;
@@ -64,6 +62,9 @@ public class CreateNewProjectViewModel : ViewModelBase
         return true;
     }
 
+    /// <summary>
+    /// Closes the opened flyout
+    /// </summary>
     private void CloseFlyout()
     {
         _projectListViewModel.CloseFlyout();

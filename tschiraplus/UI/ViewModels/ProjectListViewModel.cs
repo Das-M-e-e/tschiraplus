@@ -102,6 +102,10 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
         LoadProjects();
     }
 
+    /// <summary>
+    /// Opens the ProjectDetailsView in a flyout
+    /// </summary>
+    /// <param name="projectId"></param>
     public void OpenProjectDetails(Guid projectId)
     {
         CreateProjectFlyout = new ProjectDetailsView
@@ -110,8 +114,11 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
         };
     }
 
-    public void CloseFlyout()
+    /// <summary>
+    /// Closes the flyout
+    /// </summary>
+    public async Task CloseFlyout()
     {
-        LoadProjects();
+        await LoadProjects();
     }
 }

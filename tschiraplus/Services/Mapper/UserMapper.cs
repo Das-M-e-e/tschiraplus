@@ -13,7 +13,11 @@ public class UserMapper
         _userRepository = userRepository;
     }
     
-    
+    /// <summary>
+    /// Creates a UserDto from a UserModel
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns>The UserModel</returns>
     public UserDto toDto(UserModel model)
     {
         var userDto = new UserDto()
@@ -27,7 +31,11 @@ public class UserMapper
         return userDto;
     }
 
-
+    /// <summary>
+    /// Creates a UserModel from a UserDto
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns>The UserModel</returns>
     public UserModel toModel(UserDto dto)
     {
         var userModel = _userRepository.GetUserById(dto.UserId);

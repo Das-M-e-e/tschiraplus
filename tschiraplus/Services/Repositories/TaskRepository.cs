@@ -3,8 +3,6 @@ using Newtonsoft.Json;
 using PetaPoco;
 using Services.DatabaseServices;
 using Services.DTOs;
-using TaskStatus = Core.Enums.TaskStatus;
-using TaskPriority = Core.Enums.TaskPriority;
 
 namespace Services.Repositories;
 
@@ -202,7 +200,13 @@ public class TaskRepository : ITaskRepository
         return "{" + string.Join(",", jsonParts) + "}";
     }
     
-    
+    /// <summary>
+    /// Preparation for user task assignments
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="inviterId"></param>
+    /// <param name="taskId"></param>
+    /// <returns>true or false</returns>
     public async Task<bool> AddTaskUserAsync(string username, Guid inviterId, Guid taskId)
     {
         var data = new TaskInvitationDto()
@@ -214,6 +218,4 @@ public class TaskRepository : ITaskRepository
         
         return await _remoteDb.PostAsync("Tasks/AssignUser", JsonConvert.SerializeObject(data));
     }
-    
-    
 }

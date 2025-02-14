@@ -20,6 +20,9 @@ public class UserProfileViewModel
         LogoutCommand = new RelayCommand(Logout);
     }
 
+    /// <summary>
+    /// Logs out the user
+    /// </summary>
     private void Logout()
     {
         _tokenStorageService.RemoveToken();

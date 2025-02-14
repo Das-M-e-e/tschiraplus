@@ -13,7 +13,6 @@ using Services.TaskServices;
 
 namespace UI.ViewModels;
 
-
 public class TaskListViewModel : ViewModelBase, IActivatableViewModel
 {
     // Services
@@ -38,7 +37,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         _mainTabViewModel = mainTabViewModel;
         _appState = appState;
 
-        OpenTaskCreationCommand = new RelayCommand<string>(OpenTaskCreation, CanOpenTaskCreation);
+        OpenTaskCreationCommand = new RelayCommand<string>(OpenTaskCreation);
         ManipulateTasksCommand = new RelayCommand(ManipulateTasks);
         
         InitializeKanbanColumns();
@@ -99,11 +98,6 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         _mainTabViewModel.CreateNewTask(status);
     }
 
-    private bool CanOpenTaskCreation(string status)
-    {
-        return true;
-    }
-
     /// <summary>
     /// Uses the _mainTabViewModel to navigate to the TaskDetailView
     /// </summary>
@@ -113,6 +107,10 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         _mainTabViewModel.ShowTaskDetails(taskId);
     }
 
+    /// <summary>
+    /// Sets a tasks status to "Done"
+    /// </summary>
+    /// <param name="taskId"></param>
     public void ToggleTaskDone(Guid taskId)
     {
         var task = AllTasks.FirstOrDefault(t => t.TaskId == taskId);
@@ -120,6 +118,9 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
         _taskService.UpdateTask(task);
     }
     
+    /// <summary>
+    /// Sorts or filters the tasks
+    /// </summary>
     private void ManipulateTasks()
     {
         var manipulatedTask  = _taskService.ProcessUserInput(UserInput, AllTasks);

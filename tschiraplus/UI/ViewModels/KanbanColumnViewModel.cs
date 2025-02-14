@@ -31,6 +31,10 @@ public class KanbanColumnViewModel
         OpenTaskCreationCommand = new RelayCommand<string>(OpenTaskCreation);
     }
 
+    /// <summary>
+    /// Opens the TaskCreationView in a flyout
+    /// </summary>
+    /// <param name="status"></param>
     private void OpenTaskCreation(string? status)
     {
         _taskListViewModel.OpenTaskCreationCommand.Execute(status);

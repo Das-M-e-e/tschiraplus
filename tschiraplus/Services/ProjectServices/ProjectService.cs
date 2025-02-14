@@ -78,15 +78,22 @@ public class ProjectService : IProjectService
         }
     }
 
+    /// <summary>
+    /// Updates a specific project in both the local and remote database
+    /// </summary>
+    /// <param name="projectDto"></param>
     public void UpdateProject(ProjectDto projectDto)
     {
         _projectRepository.UpdateProject(_projectMapper.ToModel(projectDto));
     }
 
+    /// <summary>
+    /// Creates a ProjectUserModel to add a user to a project
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="projectId"></param>
     public async Task AddUserToProject(string username, Guid projectId)
     {
         await _projectUserRepository.AddProjectUserAsync(username, _currentUser.UserId, projectId);
-        
     }
-    
 }

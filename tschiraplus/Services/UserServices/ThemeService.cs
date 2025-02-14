@@ -1,8 +1,7 @@
-using System.Net.Mime;
 using Avalonia;
 using Avalonia.Markup.Xaml.Styling;
 
-namespace Services;
+namespace Services.UserServices;
 
 public class ThemeService
 {
@@ -12,7 +11,7 @@ public class ThemeService
     private const string LightThemePath = "avares://UI/Styles/Themes/Light.axaml";
     private const string DarkThemePath = "avares://UI/Styles/Themes/Dark.axaml";
 
-    public bool IsDarkTheme { get; private set; }
+    public bool IsDarkTheme { get; set; }
     
     private const string SettingsFile = "themeSettings.txt";
     private static readonly string SettingsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, SettingsFile);
@@ -58,6 +57,7 @@ public class ThemeService
             Console.WriteLine($"Fehler beim Laden des Themes: {ex.Message}");
         }
     }
+    
     /// <summary>
     /// Saves the currently selected theme to a file where 0 = LightTheme and 1 = DarkTheme
     /// </summary>

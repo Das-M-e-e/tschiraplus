@@ -26,6 +26,9 @@ public class MenuProjectViewModel
         OpenProjectCommand = new RelayCommand(OpenProject);
     }
 
+    /// <summary>
+    /// Opens this project
+    /// </summary>
     private void OpenProject()
     {
         _mainMenuViewModel.OpenProject(ProjectId);

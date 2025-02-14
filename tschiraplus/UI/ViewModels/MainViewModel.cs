@@ -8,7 +8,6 @@ using Services.DatabaseServices;
 using Services.ProjectServices;
 using Services.Repositories;
 using Services.TaskServices;
-using Services.UserServices;
 using UI.Views;
 
 namespace UI.ViewModels;
@@ -73,12 +72,18 @@ public class MainViewModel : ViewModelBase
         OpenProjectList();
     }
 
+    /// <summary>
+    /// Opens or CLoses the sidebar
+    /// </summary>
     private void ToggleSidebar()
     {
         IsPaneOpen = !IsPaneOpen;
         ToggleButtonSymbol = IsPaneOpen ? "<<" : ">>";
     }
 
+    /// <summary>
+    /// Opens the ProjectListView
+    /// </summary>
     public void OpenProjectList()
     {
         _syncService.StopTaskSync();
@@ -94,6 +99,10 @@ public class MainViewModel : ViewModelBase
         };
     }
 
+    /// <summary>
+    /// Opens a certain project by id
+    /// </summary>
+    /// <param name="projectId"></param>
     public void OpenProject(Guid projectId)
     {
         _syncService.StartTaskSync(projectId);
@@ -113,6 +122,9 @@ public class MainViewModel : ViewModelBase
         _appState.CurrentProjectId = projectId;
     }
 
+    /// <summary>
+    /// Opens the UserProfileView
+    /// </summary>
     public void OpenUserDetails()
     {
         _syncService.StopTaskSync();
@@ -122,6 +134,9 @@ public class MainViewModel : ViewModelBase
         };
     }
 
+    /// <summary>
+    /// Opens the SettingsView
+    /// </summary>
     public void OpenSettings()
     {
         _syncService.StopTaskSync();

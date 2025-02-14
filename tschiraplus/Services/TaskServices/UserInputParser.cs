@@ -5,6 +5,11 @@ namespace Services.TaskServices;
 
 public class UserInputParser : IUserInputParser
 {
+    /// <summary>
+    /// Evaluates a string (userInput) and turns it into a list of commands
+    /// </summary>
+    /// <param name="userInput"></param>
+    /// <returns>A List of CommandModels</returns>
     public List<CommandModel> Parse(string userInput)
     {
         var commands = new List<CommandModel>();

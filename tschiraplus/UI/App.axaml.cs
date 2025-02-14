@@ -86,7 +86,7 @@ public partial class App : Application
                 if (isAuthenticated)
                 {
                     Console.WriteLine("User logged in with saved token.");
-                    await wrapperViewModel.NavigateToMainMenu();
+                    wrapperViewModel.NavigateToMainMenu();
                 }
                 else
                 {

@@ -16,6 +16,11 @@ public class ProjectMapper
         _appState = appState;
     }
     
+    /// <summary>
+    /// Creates a ProjectDto from a ProjectModel
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns>The ProjectDto</returns>
     public ProjectDto ToDto(ProjectModel model)
     {
         var projectDto = new ProjectDto()
@@ -33,6 +38,11 @@ public class ProjectMapper
 
     }
 
+    /// <summary>
+    /// Creates a ProjectModel from a ProjectDto
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns>The ProjectModel</returns>
     public ProjectModel ToModel(ProjectDto dto)
     {
         

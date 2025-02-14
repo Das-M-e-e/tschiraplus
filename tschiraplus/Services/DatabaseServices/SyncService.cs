@@ -26,7 +26,11 @@ public class SyncService
         _taskRepository = taskRepository;
     }
 
-    public async Task SyncProjectsAsync(Guid userId)
+    /// <summary>
+    /// Synchronizes the currently logged-in users projects with the remote database
+    /// </summary>
+    /// <param name="userId"></param>
+    private async Task SyncProjectsAsync(Guid userId)
     {
         try
         {
@@ -83,7 +87,11 @@ public class SyncService
         }
     }
 
-    public async Task SyncTasksAsync(Guid projectId)
+    /// <summary>
+    /// Synchronizes the currently opened projects tasks with the remote database
+    /// </summary>
+    /// <param name="projectId"></param>
+    private async Task SyncTasksAsync(Guid projectId)
     {
         try
         {
@@ -122,6 +130,10 @@ public class SyncService
         }
     }
 
+    /// <summary>
+    /// Starts a cyclic process of syncing projects every 30 seconds
+    /// </summary>
+    /// <param name="userId"></param>
     public void StartProjectSync(Guid userId)
     {
         StopProjectSync();
@@ -139,6 +151,9 @@ public class SyncService
         }, token);
     }
 
+    /// <summary>
+    /// Stops project syncing
+    /// </summary>
     public void StopProjectSync()
     {
         _projectSyncTokenSource?.Cancel();
@@ -146,6 +161,9 @@ public class SyncService
         _projectSyncTokenSource = null;
     }
 
+    /// <summary>
+    /// Starts a cyclic process of syncing tasks every 30 seconds
+    /// </summary>
     public void StartTaskSync(Guid projectId)
     {
         StopTaskSync();
@@ -163,6 +181,9 @@ public class SyncService
         }, token);
     }
 
+    /// <summary>
+    /// Stops task syncing
+    /// </summary>
     public void StopTaskSync()
     {
         _taskSyncTokenSource?.Cancel();

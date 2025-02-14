@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Services.ProjectServices;
+namespace Services.UserServices;
 
 public class ValidationService
 {
