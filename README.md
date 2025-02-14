@@ -88,5 +88,5 @@ This project is licensed under the MIT License.
 
 Authors
 
-    Gabriel; Anna-Lenna; Yuting; Sophia; Franzi; Paulina; Isaak – Developers
+     (ge010) Gabriel Eißler (Das-M-e-e); (ma157) Anna-Lenna Miletic (Anna-L3na); (yc019) Yuting Chen (tingting864); (sk405) Sofia Koumpatidou (SozukaLab); (fl062) Franziska Landt (flandt); (pr077) Polina Rogge (Paliiin); (ik066) Isaak Kulikowskich (NewtonFma) – Developers
     
