@@ -7,17 +7,28 @@
              x:Class="UI.Views.ProjectListView"
              x:DataType="vm:ProjectListViewModel">
     
-    <Grid RowDefinitions="*,Auto">
+    <UserControl.Styles>
+        <Style Selector="FlyoutPresenter.projectDetailsFlyout">
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Width" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}" />
+            <Setter Property="MaxWidth" Value="{Binding #RootGrid.Bounds.Width, Mode=OneWay}" />
+            <Setter Property="Height" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay, Converter={StaticResource FlyoutOffsetConverter}}" />
+            <Setter Property="MaxHeight" Value="{Binding #RootGrid.Bounds.Height, Mode=OneWay}" />
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid Name="RootGrid"
+          RowDefinitions="*,Auto">
         <ScrollViewer Grid.Row="0">
-            <ItemsControl ItemsSource="{Binding Projects}">
+            <ItemsControl ItemsSource="{Binding Projects}" Margin="20,20,0,0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:ProjectViewModel">
-                        <Button Command="{Binding OpenProjectCommand}">
-                            <Border MinWidth="600">
+                        <Button CornerRadius="10"  Margin="0,20,0,0" Classes="Projects" Command="{Binding OpenProjectCommand}">
+                            <Border Classes="ProjectsOverviewBorder">
                                 <StackPanel Orientation="Vertical">
-                                    <TextBlock Text="{Binding Name}" />
-                                    <TextBlock Text="{Binding Description}" />
-                                    <Button Content="Delete" Command="{Binding DeleteProjectCommand}"></Button>
+                                    <TextBlock Classes="ProjectName" Text="{Binding Name}" />
+                                    <TextBlock Foreground="Black" Margin="10,5,5,5" Text="{Binding Description}" />
+                                    <Button Margin="5,5,5,5" Content="Details" Command="{Binding OpenProjectDetailsCommand}" Click="OnCreateProjectButtonPressed"></Button>
                                 </StackPanel>
                             </Border>
                         </Button>
@@ -25,7 +36,18 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <Button Grid.Row="1" HorizontalAlignment="Center" Margin="0,10" Command="{Binding CreateNewProjectCommand}" Content="Create New Project" />
+        <Button Grid.Row="1"
+                HorizontalAlignment="Center"
+                Margin="0,10"
+                Command="{Binding CreateNewProjectCommand}"
+                Click="OnCreateProjectButtonPressed"
+                Content="Create New Project" />
+        
+        <Grid.ContextFlyout>
+            <Flyout Placement="Center" FlyoutPresenterClasses="projectDetailsFlyout">
+                <ContentControl Content="{Binding CreateProjectFlyout}" />
+            </Flyout>
+        </Grid.ContextFlyout>
     </Grid>
     
 </UserControl>

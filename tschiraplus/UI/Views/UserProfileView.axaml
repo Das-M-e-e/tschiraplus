@@ -1,0 +1,122 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
+             x:Class="UI.Views.UserProfileView">
+    
+    
+    
+    <Grid  RowDefinitions="Auto,*,Auto">
+        
+        <!-- Top Bar -->
+        <Border Grid.Row="0" Classes="TopBarBorder">
+        <Grid ColumnDefinitions="Auto, *, Auto" Height="40" Classes="TopBar" Margin="0,30,0,0" >
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="Project / UserName" FontSize="11" Width="315" Margin="10,4.5,0,0" ></TextBlock>
+            </StackPanel>
+        </Grid>
+        </Border>
+         
+        <!-- Profile Picture and Description-->
+        <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto">
+            
+            
+            <Grid Grid.Row="0">
+                
+                <TextBlock Classes="TitleText" Text="UserName" Margin="20,20,0,0"></TextBlock>
+                
+                <StackPanel Margin="10, 10, 50, 0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                    
+                    <Button>
+                        <Image Source="avares://UI/Assets/edit_icon.png" Opacity="0.45" Stretch="Uniform" Width="18"></Image>
+                    </Button>
+                    
+                </StackPanel>
+                
+            </Grid>
+            
+            <Grid Grid.Row="1">
+                
+                <StackPanel Orientation="Vertical">
+                    <Border Height="1" Background="Black"/>
+                </StackPanel>
+                
+            </Grid>
+            
+            
+            
+            <Grid Grid.Row="2" VerticalAlignment="Center">
+                
+                
+                <StackPanel Orientation="Horizontal">
+                    
+                    
+                    <Grid ColumnDefinitions="Auto,Auto,Auto">
+                        
+                        <Grid Grid.Column="0" RowDefinitions="Auto" Width="500">
+                
+                            <StackPanel Margin="40,0,0,0">
+                                <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Width="500" Margin="20,0,0,0"></Image>
+                            </StackPanel>
+                            
+                        </Grid>
+                        
+                        <Grid Grid.Column="1"  RowDefinitions="Auto,Auto,Auto" Width="400" Margin="30">
+                            
+                                    <StackPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,15">
+                                        <Image Source="avares://UI/Assets/description_icon.png" Stretch="Uniform" Width="30" Margin="0,0,5,0"></Image>
+                                        <TextBlock Text="Description" FontSize="30"></TextBlock>
+                                    </StackPanel>
+                
+                                    <StackPanel Grid.Row="1">
+                                        <TextBlock Text="SomeThing Something" FontSize="30"></TextBlock>
+                                    </StackPanel>
+                                    
+                        </Grid>
+                        
+                    </Grid>
+                </StackPanel>
+            </Grid>
+            
+            
+            
+            
+            <!-- User Info -->
+        <Grid Grid.Row="3">
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                <Grid RowDefinitions="Auto,Auto,Auto" Width="200">
+               
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Image Source="avares://UI/Assets/priority_icon.png" Stretch="Uniform" Width="30" Margin="0,0,5,0"></Image>
+                        <TextBlock Text="Username" FontSize="30"></TextBlock>
+                    </StackPanel>
+                    
+                            
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <Image Source="avares://UI/Assets/due_date_icon.png" Stretch="Uniform" Margin="0,0,5,0" Width="30"></Image>
+                        <TextBlock Text="E-Mail" FontSize="30"></TextBlock>
+                    </StackPanel>
+                </Grid>
+                
+                
+                <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto" Width="200" HorizontalAlignment="Left">
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="ExampleUser" FontSize="30"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock Text="Irgendwas@gmail.com" FontSize="30"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </Grid>
+            
+            
+        <!-- Bottom bar -->
+            <Border Grid.Row="3" Classes="BottomBarBorder">
+        <Grid Classes="BottomBar" ColumnDefinitions="Auto" Height="30" VerticalAlignment="Bottom">
+        </Grid>
+                </Border>
+        </Grid>
+    </Grid>
+</UserControl>

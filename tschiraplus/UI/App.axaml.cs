@@ -29,6 +29,8 @@ public partial class App : Application
             // Without this line you will get duplicate validations from both Avalonia and CT
             BindingPlugins.DataValidators.RemoveAt(0);
 
+            ThemeService.Instance.LoadThemeSettings();
+            
             var appState = new ApplicationState();
             var dbService = new DatabaseService("localDatabase.db");
             dbService.InitializeDatabase();
@@ -70,7 +72,7 @@ public partial class App : Application
     {
         try
         {
-            var savedToken = TokenStorageService.LoadToken();
+            var savedToken = new TokenStorageService().LoadToken();
             if (savedToken != null)
             {
                 var userService = new UserService(

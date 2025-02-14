@@ -1,5 +1,6 @@
 ﻿using System.Net.Http.Headers;
 using System.Security.Authentication;
+using Core.Models;
 using Newtonsoft.Json;
 using Services.DTOs;
 using Services.Repositories;
@@ -64,6 +65,8 @@ public class UserService : IUserService
                 {
                     _userRepository.AddUser(user);
                 }
+                
+                
             }
         }
         catch (Exception e)
@@ -136,4 +139,19 @@ public class UserService : IUserService
 
         return false;
     }
+
+    //TODO: Methode vervollständigen
+    public async Task SendInvitation(SendInvitationDto sendInvitationDto)
+    {
+        //var recipient = await _userRepository.SendInvitationAsync();
+        //hier der Invitation Mapper --> zu Model
+
+        var Invitation = new ProjectInvitationModel()
+        {
+            ProjectInvitationId = Guid.NewGuid(),
+            ProjectId = _appState.CurrentProjectId ?? throw new ArgumentNullException(nameof(_appState.CurrentProjectId))
+        };
+    }
+    
+    
 }

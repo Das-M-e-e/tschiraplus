@@ -53,23 +53,9 @@ public class TaskRepository : ITaskRepository
     /// </summary>
     /// <param name="taskId"></param>
     /// <returns>The wanted task as TaskDto</returns>
-    public TaskDto? GetTaskById(Guid taskId)
+    public TaskModel? GetTaskById(Guid taskId)
     {
-        var task = _db.SingleOrDefault<TaskModel>("SELECT * FROM Tasks WHERE TaskId = @0", taskId);
-        if (task is null)
-        {
-            return null;
-        }
-
-        return new TaskDto
-        {
-            TaskId = task.TaskId,
-            Title = task.Title ?? "Unnamed",
-            Description = task.Description ?? "No description provided...",
-            Status = task.Status.ToString() ?? TaskStatus.Backlog.ToString(),
-            Priority = task.Priority.ToString() ?? TaskPriority.NotSet.ToString(),
-            StartDate = task.CreationDate
-        };
+        return _db.SingleOrDefault<TaskModel>("SELECT * FROM Tasks WHERE TaskId = @0", taskId);
     }
 
     /// <summary>
@@ -88,7 +74,8 @@ public class TaskRepository : ITaskRepository
             Description = task.Description ?? "No description provided",
             Status = task.Status.ToString(),
             Priority = task.Priority.ToString(),
-            StartDate = task.StartDate
+            StartDate = task.StartDate,
+            DueDate = task.DueDate
         }).ToList();
     }
     
@@ -201,6 +188,11 @@ public class TaskRepository : ITaskRepository
         {
             jsonParts.Add($"\"dueDate\":\"{task.DueDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
         }
+        
+        if (task.StartDate.HasValue)
+        {
+            jsonParts.Add($"\"startDate\":\"{task.StartDate:yyyy-MM-ddTHH:mm:ss.fffZ}\"");
+        }
 
         if (task.CompletionDate.HasValue)
         {
@@ -209,5 +201,19 @@ public class TaskRepository : ITaskRepository
         
         return "{" + string.Join(",", jsonParts) + "}";
     }
+    
+    
+    public async Task<bool> AddTaskUserAsync(string username, Guid inviterId, Guid taskId)
+    {
+        var data = new TaskInvitationDto()
+        {
+            InviterId = inviterId,
+            Username = username,
+            TaskId = taskId
+        };
+        
+        return await _remoteDb.PostAsync("Tasks/AssignUser", JsonConvert.SerializeObject(data));
+    }
+    
     
 }

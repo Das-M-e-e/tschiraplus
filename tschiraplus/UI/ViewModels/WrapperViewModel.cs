@@ -13,7 +13,7 @@ public class WrapperViewModel : ViewModelBase
 {
     // Services
     private readonly ApplicationState _appState;
-    private readonly ISyncService _syncService;
+    private readonly SyncService _syncService;
 
     // Bindings
     private object _currentView;
@@ -26,12 +26,13 @@ public class WrapperViewModel : ViewModelBase
     public WrapperViewModel(ApplicationState appState)
     {
         _appState = appState;
+        var db = new DatabaseService("localDatabase.db").GetDatabase();
         _syncService = new SyncService(
-            new ProjectUserRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
-            new ProjectRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
-            new UserRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()), 
-            new TaskRepository(new DatabaseService("localDatabase.db").GetDatabase(), new RemoteDatabaseService()),
-            _appState);
+            new RemoteDatabaseService(),
+            new UserRepository(db, new RemoteDatabaseService()),
+            new ProjectRepository(db, new RemoteDatabaseService()),
+            new ProjectUserRepository(db, new RemoteDatabaseService()),
+            new TaskRepository(db, new RemoteDatabaseService()));
 
         if (_appState.CurrentUser != null)
         {
@@ -50,13 +51,14 @@ public class WrapperViewModel : ViewModelBase
     {
         await Sync();
         
-        CurrentView = new MainMenuView
+        _syncService.StartProjectSync(_appState.CurrentUser!.UserId);
+
+        CurrentView = new MainView
         {
-            DataContext = new MainMenuViewModel(
+            DataContext = new MainViewModel(
                 new DatabaseService("localDatabase.db"),
                 _appState,
-                new AuthService(new RemoteDatabaseService()),
-                this)
+                _syncService)
         };
     }
 
@@ -65,6 +67,8 @@ public class WrapperViewModel : ViewModelBase
     /// </summary>
     public void NavigateToLogin()
     {
+        _syncService.StopProjectSync();
+        
         CurrentView = new LoginView
         {
             DataContext = new LoginViewModel(this, _appState)
@@ -94,7 +98,7 @@ public class WrapperViewModel : ViewModelBase
     {
         try
         {
-            await _syncService.SyncAsync();
+            await _syncService.SyncProjectsAsync(_appState.CurrentUser.UserId);
         }
         catch (Exception e)
         {

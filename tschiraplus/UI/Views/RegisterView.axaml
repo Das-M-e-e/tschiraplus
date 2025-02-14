@@ -28,8 +28,8 @@
         <TextBox Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}" PasswordChar="*"/>
         <Label Content="{Binding ConfirmPasswordErrorMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="10" Foreground="Red"/>
         
-        <Button Content="Register" Command="{Binding RegisterUserCommand}" IsEnabled="{Binding CanRegister}"/>
-        <Button Content="Back to Login" Command="{Binding BackToLoginCommand}" />
+        <Button Classes="SecondaryActions" Content="Register" Command="{Binding RegisterUserCommand}" IsEnabled="{Binding CanRegister}"/>
+        <Button Classes="SignInButton" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" Content="Back to Login" Width="100" Command="{Binding BackToLoginCommand}" />
     </StackPanel>
     
 </UserControl>

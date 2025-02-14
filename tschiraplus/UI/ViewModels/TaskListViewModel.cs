@@ -9,7 +9,6 @@ using ReactiveUI;
 using Services;
 using Services.DTOs;
 using Services.TaskServices;
-using UI.Views;
 
 namespace UI.ViewModels;
 
@@ -26,15 +25,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     public ObservableCollection<TaskViewModel> Tasks { get; } = [];
     public ObservableCollection<KanbanColumnViewModel> KanbanColumns { get; } = [];
     private List<TaskDto> AllTasks { get; set; } = [];
-    public string UserInput { get; set; } 
-
-    private object _taskDetailFlyout;
-
-    public object TaskDetailFlyout
-    {
-        get => _taskDetailFlyout;
-        set => this.RaiseAndSetIfChanged(ref _taskDetailFlyout, value);
-    }
+    public string UserInput { get; set; }
     
     // Commands
     public ICommand OpenTaskCreationCommand { get; }
@@ -73,7 +64,7 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     /// <summary>
     /// Loads all tasks from the database
     /// </summary>
-    private void LoadTasks()
+    public void LoadTasks()
     {
         AllTasks = _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
@@ -113,33 +104,21 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     }
 
     /// <summary>
-    /// Uses the _taskService to delete a task
+    /// Uses the _mainTabViewModel to navigate to the TaskDetailView
     /// </summary>
-    /// <param name="task"></param>
-    public void DeleteTask(TaskViewModel task)
-    {
-        _taskService.DeleteTask(task.TaskId, _appState.IsOnline);
-        LoadTasks();
-    }
-
+    /// <param name="taskId"></param>
     public void OpenTaskDetails(Guid taskId)
     {
-        var task = AllTasks.FirstOrDefault(t => t.TaskId == taskId);
-        TaskDetailFlyout = new TaskDetailView
-        {
-            DataContext = new TaskDetailViewModel(
-                _taskService,
-                taskId, 
-                this)
-        };
+        _mainTabViewModel.ShowTaskDetails(taskId);
     }
 
-    public void CloseFlyout()
+    public void ToggleTaskDone(Guid taskId)
     {
-        TaskDetailFlyout = null;
-        LoadTasks();
+        var task = AllTasks.FirstOrDefault(t => t.TaskId == taskId);
+        task!.Status = task.Status.Equals("Done") ? "Ready" : "Done";
+        _taskService.UpdateTask(task);
     }
-
+    
     private void ManipulateTasks()
     {
         var manipulatedTask  = _taskService.ProcessUserInput(UserInput, AllTasks);

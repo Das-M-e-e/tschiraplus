@@ -8,4 +8,6 @@ public interface IProjectService
     ProjectDto GetProjectById(Guid projectId);
     Task DeleteProject(Guid projectId, bool isOnline);
     void CreateProject(ProjectDto projectDto);
+    void UpdateProject(ProjectDto projectDto);
+    Task AddUserToProject(string username, Guid projectId);
 }
