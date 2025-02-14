@@ -77,5 +77,4 @@
         <Setter Property="FontWeight" Value="Medium"></Setter>
         <Setter Property="FontSize" Value="12"></Setter>
     </Style>
-    
 </Styles>

@@ -13,14 +13,14 @@
             <Setter Property="BorderThickness" Value="0" />
         </Style>
     </UserControl.Styles>
-    
+    <Border Background="Transparent" BorderBrush="#3d444d" BorderThickness="3" CornerRadius="5">
     <Grid RowDefinitions="Auto,*,Auto">
-         
         <!-- Top Bar -->
         <Button Grid.Row="0" Command="{Binding CloseFlyoutCommand}"
                 Click="OnCloseButtonPressed"
-                HorizontalAlignment="Right">
-            <Image Source="avares://UI/Assets/close_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" Margin="0,0,10,0" />
+                HorizontalAlignment="Right"
+                Margin="0,20,20,0">
+            <Image Source="avares://UI/Assets/close_icon.png" Opacity="0.45" Stretch="Uniform" Width="18" />
         </Button>
         
         <!-- Main Area -->
@@ -29,25 +29,33 @@
             <Grid Grid.Row="0" Height="80">
                 <!-- Show Title Button -->
                 <Button IsVisible="{Binding IsEditingTitle, Converter={StaticResource InverseBoolConverter}}"
-                        Command="{Binding StartEditingTitleCommand}">
-                    <TextBlock Text="{Binding Title}" />
+                        Command="{Binding StartEditingTitleCommand}"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        Margin="20,-5,0,-5">
+                    <TextBlock Text="{Binding Title}"
+                              Classes="TitleText"/>
                 </Button>
                 <!-- Change Title TextBox -->
                 <TextBox Text="{Binding Title}"
-                         IsVisible="{Binding IsEditingTitle}" />
+                         IsVisible="{Binding IsEditingTitle}"
+                         Margin="20, 0, 0,-5"
+                         Background="Transparent"
+                         BorderThickness="0"
+                         Classes="TitleTextBox"/>
                 <!-- Save Title Button -->
                 <Button Command="{Binding SaveTitleCommand}"
                         IsVisible="{Binding IsEditingTitle}"
                         HorizontalAlignment="Right">
-                    <Image Source="avares://UI/Assets/edit_icon.png" Stretch="Uniform" Width="18" />
+                    <Image Source="avares://UI/Assets/edit_icon.png" HorizontalAlignment="Center" Stretch="Uniform" Width="18" />
                 </Button>
             </Grid>
             
             <!-- Separator -->
-            <Separator Grid.Row="1" Height="1" />
+            <Border Grid.Row="1" Classes="Divider" BorderThickness="1" Margin="20,0,20,20"/>
             
             <!-- Project Details -->
-            <Grid Grid.Row="2" VerticalAlignment="Top">
+            <Grid Grid.Row="2" VerticalAlignment="Top"  Margin="20,0,0,0">
                 <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
                     
                     <!-- Status Area -->
@@ -62,7 +70,7 @@
                                 PointerPressed="OnSelectStatusList"
                                 Background="{Binding Status.ColorCode}"
                                 Padding="5,2" CornerRadius="8" VerticalAlignment="Center" HorizontalAlignment="Left">
-                            <TextBlock Text="{Binding Status.Name}" />
+                            <TextBlock Foreground="Black" Text="{Binding Status.Name}" />
                             <!-- Status Flyout -->
                             <Border.ContextFlyout>
                                 <Flyout ShowMode="TransientWithDismissOnPointerMoveAway"
@@ -75,7 +83,7 @@
                                                         PointerPressed="OnStatusSelected"
                                                         Padding="5,2"
                                                         Margin="0,1,0,4">
-                                                    <TextBlock Text="{Binding Name}" />
+                                                    <TextBlock Foreground="Black" Text="{Binding Name}" />
                                                 </Border>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -88,7 +96,7 @@
                     <!-- Priority Area -->
                     <Grid Grid.Row="1" ColumnDefinitions="130,*">
                         <!-- Icon & Label -->
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0,0,10">
                             <Image Source="avares://UI/Assets/priority_icon.png" Margin="0,0,5,0.5" Opacity="0.45" Stretch="Uniform" Width="11.5" />
                             <TextBlock Text="Priority" FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
                         </StackPanel>
@@ -97,7 +105,7 @@
                                 PointerPressed="OnSelectPriorityList"
                                 Background="{Binding Priority.ColorCode}"
                                 Padding="5,2" CornerRadius="8" VerticalAlignment="Center" HorizontalAlignment="Left">
-                            <TextBlock Text="{Binding Priority.Name}" />
+                            <TextBlock Foreground="Black" Text="{Binding Priority.Name}" />
                             <!-- Priority Flyout -->
                             <Border.ContextFlyout>
                                 <Flyout ShowMode="TransientWithDismissOnPointerMoveAway"
@@ -110,7 +118,7 @@
                                                         PointerPressed="OnPrioritySelected"
                                                         Padding="5,2"
                                                         Margin="0,1,0,4">
-                                                    <TextBlock Text="{Binding Name}" />
+                                                    <TextBlock Foreground="Black" Text="{Binding Name}" />
                                                 </Border>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
@@ -177,20 +185,20 @@
                         </StackPanel>
                         <!-- Contributors List -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                            <Border HorizontalAlignment="Left" Width="55" Height="20" Background="LightGray" CornerRadius="20">
+                            <Border Classes="PrimaryUserProfileTag" VerticalAlignment="Center" Margin="0,10,5,10">
                                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
                                     <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Height="15" />
-                                    <TextBlock Text="Sofia" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="11" />
+                                    <TextBlock  Classes="PrimaryUserProfileTagText" Text="Sofia" />
                                 </StackPanel>
                             </Border>
-                            <Border HorizontalAlignment="Left" Width="60" Height="20" Background="LightGray" CornerRadius="20">
+                            <Border Classes="SecondaryUserProfileTag" Margin="0,10,5,10">
                                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" VerticalAlignment="Center">
                                     <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Height="15" />
-                                    <TextBlock Text="Franzi" Foreground="Black" Padding="2" FontWeight="Medium" FontSize="11" />
+                                    <TextBlock Classes="SecondaryUserProfileTagText" Text="Franzi" />
                                 </StackPanel>
                             </Border>
                             <!-- Add User Button -->
-                            <Button x:Name="InviteButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="55" Height="25" Background="Snow" BorderBrush="#dfe3e8" CornerRadius="5">
+                            <Button Classes="SecondaryActions" x:Name="InviteButton" VerticalAlignment="Center" HorizontalAlignment="Center" Width="55" Height="25" CornerRadius="5">
                                 <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-6,0,0,0">
                                     <Image Source="avares://UI/Assets/user_add_icon.png" Stretch="Uniform" Height="12" />
                                     <TextBlock Text="Invite" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2,0,0,0" FontWeight="Medium" FontSize="10" />
@@ -202,10 +210,10 @@
             </Grid>
             
             <!-- Description Area -->
-            <Grid Grid.Row="3" Width="500" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Grid Grid.Row="3" Width="500" Height="200" VerticalAlignment="Top" HorizontalAlignment="Left"  Margin="20,0,0,0">
                 <StackPanel Orientation="Vertical">
                     <!-- Icon & Label -->
-                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,20,0,10">
                         <Image Source="avares://UI/Assets/description_icon.png" Margin="0,-1,4,0" Opacity="0.45" Stretch="Uniform" Width="14" />
                         <TextBlock Text="Description" FontWeight="SemiBold" Opacity="0.5" FontSize="13" />
                     </StackPanel>
@@ -214,14 +222,14 @@
                              AcceptsReturn="True" GotFocus="OnDescriptionGotFocus" LostFocus="OnDescriptionLostFocus"
                              CornerRadius="6" FontSize="13" HorizontalAlignment="Stretch" Height="100" />
                     <!-- Save Description Button -->
-                    <Button Name="SaveDescriptionButton"
+                    <Button Classes="SecondaryActions" Name="SaveDescriptionButton"
                             Click="OnDescriptionLostFocus"
                             IsVisible="{Binding IsEditingDescription}"
                             Content="Save Description"
-                            VerticalAlignment="Center" HorizontalAlignment="Right" />
+                            VerticalAlignment="Center" HorizontalAlignment="Right" CornerRadius="5" Margin="0,10,0,0" />
                 </StackPanel>
             </Grid>
         </Grid>
     </Grid>
-    
+    </Border>
 </UserControl>

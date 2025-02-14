@@ -47,9 +47,9 @@
     <SolidColorBrush x:Key="TaskSecondaryTagBackground" Color="#32233c" />
     <SolidColorBrush x:Key="TaskSecondaryTagBorderBrush" Color="#633f6f" />
     <SolidColorBrush x:Key="TaskSecondaryTagForeground" Color="#d97eca" />
-    <SolidColorBrush x:Key="UserTagBackground" Color="#313240" />
-    <SolidColorBrush x:Key="UserTagForeground" Color="#c8c3f9" />
-    <SolidColorBrush x:Key="UserTagBorderBrush" Color="#615d77" />
+    <SolidColorBrush x:Key="UserTagBackground" Color="#afa8cc" />
+    <SolidColorBrush x:Key="UserTagForeground" Color="#1e154c" />
+    <SolidColorBrush x:Key="UserTagBorderBrush" Color="#1e154c" />
 
     <!-- Other Colors -->
     <SolidColorBrush x:Key="OtherBackground" Color="#181c24" />
@@ -57,8 +57,6 @@
     <SolidColorBrush x:Key="Project" Color="#788194" />
     <SolidColorBrush x:Key="ProjectBorder" Color="#4d5669" />
     <SolidColorBrush x:Key="ProjectBorderHoverBackground" Color="#565f73" />
-    
-    
-    <!-- <Bitmap x:Key="EditIcon">avares://tschiraplus/UI/Assets/edit_icon_darkmode.png</Bitmap>
-        <Bitmap x:Key="ShareIcon">avares://tschiraplus/UI/Assets/share_icon_darkmode.png</Bitmap> -->
+    <SolidColorBrush x:Key="TaskBorderBackground" Color="#a3a8b2" />
+    <SolidColorBrush x:Key="TaskBorderHoverBackground" Color="#b8bcc4" />
 </ResourceDictionary>

@@ -7,17 +7,16 @@
     
     
     
-    <Grid  RowDefinitions="Auto,*,Auto" Background="Snow">
-        
+    <Grid  RowDefinitions="Auto,*,Auto">
         
         <!-- Top Bar -->
-        <Grid Grid.Row="0" ColumnDefinitions="Auto, *, Auto" Height="40" Background="#f3f3f3">
-            
+        <Border Grid.Row="0" Classes="TopBarBorder">
+        <Grid ColumnDefinitions="Auto, *, Auto" Height="40" Classes="TopBar" Margin="0,30,0,0" >
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="Project / UserName" FontSize="11" Width="315" Margin="10,4.5,0,0" ></TextBlock>
             </StackPanel>
         </Grid>
-        
+        </Border>
          
         <!-- Profile Picture and Description-->
         <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, *, Auto">
@@ -25,7 +24,7 @@
             
             <Grid Grid.Row="0">
                 
-                <TextBlock Text="UserName"></TextBlock>
+                <TextBlock Classes="TitleText" Text="UserName" Margin="20,20,0,0"></TextBlock>
                 
                 <StackPanel Margin="10, 10, 50, 0"  Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Right">
                     
@@ -55,23 +54,23 @@
                     
                     <Grid ColumnDefinitions="Auto,Auto,Auto">
                         
-                        <Grid Grid.Column="0" RowDefinitions="Auto" Width="200">
+                        <Grid Grid.Column="0" RowDefinitions="Auto" Width="500">
                 
                             <StackPanel Margin="40,0,0,0">
-                                <Image Source="avares://UI/Assets/contributors_icon.png" Stretch="Uniform" Width="200"></Image>
+                                <Image Source="avares://UI/Assets/user_profile.png" Stretch="Uniform" Width="500" Margin="20,0,0,0"></Image>
                             </StackPanel>
                             
                         </Grid>
                         
-                        <Grid Grid.Column="1"  RowDefinitions="Auto,Auto,Auto" Width="200" Margin="30">
+                        <Grid Grid.Column="1"  RowDefinitions="Auto,Auto,Auto" Width="400" Margin="30">
                             
                                     <StackPanel Grid.Row="0" Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,15">
-                                        <Image Source="avares://UI/Assets/description_icon.png" Stretch="Uniform" Width="14"></Image>
-                                        <TextBlock Text="Description"></TextBlock>
+                                        <Image Source="avares://UI/Assets/description_icon.png" Stretch="Uniform" Width="30" Margin="0,0,5,0"></Image>
+                                        <TextBlock Text="Description" FontSize="30"></TextBlock>
                                     </StackPanel>
                 
                                     <StackPanel Grid.Row="1">
-                                        <TextBlock Text="SomeThing Something"></TextBlock>
+                                        <TextBlock Text="SomeThing Something" FontSize="30"></TextBlock>
                                     </StackPanel>
                                     
                         </Grid>
@@ -85,44 +84,39 @@
             
             <!-- User Info -->
         <Grid Grid.Row="3">
-            <StackPanel Orientation="Horizontal" Margin="15">
-                <Grid Grid.Column="0"  RowDefinitions="Auto,Auto,Auto" Width="100">
+            <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
+                <Grid RowDefinitions="Auto,Auto,Auto" Width="200">
                
                     <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Image Source="avares://UI/Assets/priority_icon.png" Stretch="Uniform" Width="11.5"></Image>
-                        <TextBlock Text="Username"></TextBlock>
+                        <Image Source="avares://UI/Assets/priority_icon.png" Stretch="Uniform" Width="30" Margin="0,0,5,0"></Image>
+                        <TextBlock Text="Username" FontSize="30"></TextBlock>
                     </StackPanel>
                     
                             
                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
-                        <Image Source="avares://UI/Assets/due_date_icon.png" Stretch="Uniform" Width="11"></Image>
-                        <TextBlock Text="E-Mail"></TextBlock>
+                        <Image Source="avares://UI/Assets/due_date_icon.png" Stretch="Uniform" Margin="0,0,5,0" Width="30"></Image>
+                        <TextBlock Text="E-Mail" FontSize="30"></TextBlock>
                     </StackPanel>
                 </Grid>
                 
                 
-                <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto" Width="150" HorizontalAlignment="Left">
-                            
+                <Grid Grid.Row="1" RowDefinitions="Auto,Auto,Auto" Width="200" HorizontalAlignment="Left">
                     <StackPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Jemand123"></TextBlock>
+                        <TextBlock Text="ExampleUser" FontSize="30"></TextBlock>
                     </StackPanel>
-                            
                     <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <TextBlock Text="Irgendwas"></TextBlock>
+                        <TextBlock Text="Irgendwas@gmail.com" FontSize="30"></TextBlock>
                     </StackPanel>
-                            
                 </Grid>
-               
-                
             </StackPanel>
-            
         </Grid>
             
             
         <!-- Bottom bar -->
-        <Grid Grid.Row="3" ColumnDefinitions="Auto" Background="#1A1C20" Height="30" VerticalAlignment="Bottom">
-            
+            <Border Grid.Row="3" Classes="BottomBarBorder">
+        <Grid Classes="BottomBar" ColumnDefinitions="Auto" Height="30" VerticalAlignment="Bottom">
         </Grid>
+                </Border>
         </Grid>
     </Grid>
 </UserControl>

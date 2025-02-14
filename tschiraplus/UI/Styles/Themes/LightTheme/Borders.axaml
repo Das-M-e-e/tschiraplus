@@ -81,4 +81,9 @@
         <Setter Property="Width" Value="112"></Setter>
         <Setter Property="CornerRadius" Value="0"></Setter>
     </Style>
+    <!-- TaskListView Border -->
+    <Style Selector="Border.IndividualTasksBorder">
+        <Setter Property="Background" Value="{DynamicResource TaskBorderBackground}"></Setter>
+        <Setter Property="CornerRadius" Value="15"></Setter>
+    </Style>
 </Styles>

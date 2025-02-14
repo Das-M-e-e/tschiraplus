@@ -9,23 +9,25 @@
     
     <Grid RowDefinitions="Auto,*,Auto,Auto">
         <!-- Project List -->
-        <Button Grid.Row="0" HorizontalAlignment="Stretch"
+        <Button Grid.Row="0" Classes="SecondaryActions" HorizontalAlignment="Stretch" Margin="0,10,0,0"
                 Command="{Binding OpenProjectListCommand}"
+                BorderThickness="0"
                 Background="Transparent">
             <Border CornerRadius="8">
-                <TextBlock Text="Project List" />
+                <TextBlock Text="Project List" HorizontalAlignment="Center" />
             </Border>
         </Button>
         <!-- Projects -->
         <StackPanel Grid.Row="1" HorizontalAlignment="Stretch">
-            <TextBlock Text="Projects:" FontSize="10" Foreground="Gray" Margin="12,8,0,0" />
+            <TextBlock Text="Projects:" FontSize="12" Foreground="Gray" Margin="12,8,0,0" />
             <ItemsControl ItemsSource="{Binding Projects}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:MenuProjectViewModel">
-                        <Button Background="Transparent" HorizontalAlignment="Stretch"
+                        <Button Classes="SecondaryActions" Background="Transparent" BorderThickness="0"
+                                HorizontalAlignment="Stretch"
                                 Command="{Binding OpenProjectCommand}">
                             <Border CornerRadius="8">
-                                <TextBlock Text="{Binding Name}" />
+                                <TextBlock HorizontalAlignment="Center" Text="{Binding Name}" />
                             </Border>
                         </Button>
                     </DataTemplate>
@@ -33,19 +35,21 @@
             </ItemsControl>
         </StackPanel>
         <!-- User Profile -->
-        <Button Grid.Row="2" HorizontalAlignment="Stretch"
+        <Button Grid.Row="2" Classes="SecondaryActions" HorizontalAlignment="Stretch"
                 Background="Transparent"
+                BorderThickness="0"
                 Command="{Binding OpenUserDetailsCommand}">
             <Border CornerRadius="8">
-                <TextBlock Text="User Profile" />
+                <TextBlock HorizontalAlignment="Center" Text="User Profile" />
             </Border>
         </Button>
         <!-- Settings -->
-        <Button Grid.Row="3" HorizontalAlignment="Stretch"
+        <Button Grid.Row="3" Classes="SecondaryActions" HorizontalAlignment="Stretch" Margin="0,0,0,10"
                 Background="Transparent"
+                BorderThickness="0"
                 Command="{Binding OpenSettingsCommand}">
             <Border CornerRadius="8">
-                <TextBlock Text="Settings" />
+                <TextBlock Text="Settings" HorizontalAlignment="Center" />
             </Border>
         </Button>
     </Grid>
