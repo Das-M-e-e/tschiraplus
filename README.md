@@ -27,13 +27,13 @@ Installation
 
     Stelle sicher, dass du .NET Core oder das .NET Framework installiert hast. Weitere Infos findest du in der offiziellen .NET-Website(https://dotnet.microsoft.com/en-us/).
 
-    Um die Anwendung zu starten führen sie die Program.cs im UI Projekt aus.
+    Um die Anwendung zu starten führen Sie die Program.cs im UI Projekt aus.
 
 Verwendung
 
-    Um die Anwendung zu starten führen sie die Program.cs im UI Projekt (To build the app, run Program.cs in the UI Project.)
+     Um die Anwendung zu starten führen Sie die Program.cs im UI Projekt aus.
     Erstelle und verwalte Aufgaben über die Benutzeroberfläche.
-    Verfolge den Fortschritt des Projekts in Echtzeit.
+    Verfolgen Sie den Fortschritt des Projekts in Echtzeit.
 
 
 Lizenz
@@ -41,7 +41,7 @@ Lizenz
 Dieses Projekt ist unter der MIT Lizenz lizenziert.
 Autoren
 
-    Gabriel; Anna-Lenna; Yuting; Sophia; Franzi; Paulina; Isaak  – Entwickler
+    (ge010) Gabriel Eißler (Das-M-e-e); (ma157) Anna-Lenna Miletic (Anna-L3na); (yc019) Yuting Chen (tingting864); (sk405) Sofia Koumpatidou (SozukaLab); (fl062) Franziska Landt (flandt); (pr077) Polina Rogge (Paliiin); (ik066) Isaak Kulikowskich (NewtonFma)  – Entwickler
 
 ---NOW FOLLOWS THE ENGLISH VERSION---
 
