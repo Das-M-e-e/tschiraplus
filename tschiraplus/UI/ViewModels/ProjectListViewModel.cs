@@ -53,9 +53,9 @@ public class ProjectListViewModel : ViewModelBase, IActivatableViewModel
     /// <summary>
     /// Gets all projects from the host using the _projectService and updates the Projects list
     /// </summary>
-    private void LoadProjects()
+    private async Task LoadProjects()
     {
-        var allProjects = _projectService.GetAllProjects();
+        var allProjects = await _projectService.GetAllProjects();
         UpdateProjectList(allProjects);
     }
 

@@ -5,8 +5,6 @@ namespace Services.UserServices;
 
 public class TokenStorageService
 {
-    //private const string FileName = "authToken.txt";
-    //private static string FilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, FileName);
     private readonly string _filePath;
 
     public TokenStorageService(string filePath = "")
@@ -15,6 +13,7 @@ public class TokenStorageService
             ? Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "authToken.txt") 
             : filePath;
     }
+    
     /// <summary>
     /// Encrypts a token and saves it to a file
     /// </summary>
