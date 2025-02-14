@@ -88,5 +88,5 @@ This project is licensed under the MIT License.
 
 Authors
 
-    Gabriel; Anna-Lenna; Yuting; Sophia; Franzi; Paulina; Isaak – Developers
+    Gabriel; Anna-Lena; YuTing; Sofia; Franzi; Palina; Isaak – Developers
     
