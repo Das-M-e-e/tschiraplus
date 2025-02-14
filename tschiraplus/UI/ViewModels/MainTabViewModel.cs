@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Services;
 using Avalonia.Collections;
 using ReactiveUI;
 using Services.TaskServices;
@@ -13,6 +15,7 @@ public class MainTabViewModel : ObservableObject
     // Services
     private readonly ITaskService _taskService;
     private readonly Guid _projectId;
+    private readonly ApplicationState _appState;
     
     // Bindings
     public ObservableCollection<TabItemViewModel> Tabs { get; }
@@ -25,11 +28,13 @@ public class MainTabViewModel : ObservableObject
     
     private TabItemViewModel? _currentTab;
 
-    public MainTabViewModel(ITaskService taskService, Guid projectId)
+    public MainTabViewModel(ITaskService taskService, Guid projectId, ApplicationState appState)
     {
         _taskService = taskService;
         _projectId = projectId;
-        var taskListViewModel = new TaskListViewModel(_taskService, this);
+        _appState = appState;
+        
+        var taskListViewModel = new TaskListViewModel(_taskService, this, _appState);
         
         Tabs = new ObservableCollection<TabItemViewModel>
         {
@@ -61,6 +66,7 @@ public class MainTabViewModel : ObservableObject
     /// </summary>
     public void CreateNewTask(string? status)
     {
+        CloseCurrentTab();
         _currentTab = new TabItemViewModel(
             "New Task",
             new TaskCreationView
@@ -76,9 +82,14 @@ public class MainTabViewModel : ObservableObject
         Tabs.Add(_currentTab);
         NavigateToTab(_currentTab);
     }
-
+    
+    /// <summary>
+    /// Closes the Tab if possible to avoid duplicates
+    /// </summary>
     public void CloseCurrentTab()
     {
+        if (_currentTab == null) return;
+        
         if (_currentTab!.CanClose)
         {
             Tabs.Remove(_currentTab);

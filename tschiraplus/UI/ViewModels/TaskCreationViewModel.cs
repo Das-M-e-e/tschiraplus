@@ -50,6 +50,7 @@ public class TaskCreationViewModel : ViewModelBase
             Title,
             Description,
             InitialStatus,
+            "NotSet",
             DateTime.Today);
         _taskService.CreateTask(dto);
         _mainTabViewModel.SelectedTabIndex = 0;

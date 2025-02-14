@@ -92,13 +92,16 @@ public class MainMenuViewModel : ObservableObject
             Tabs.Remove(_currentProjectTab);
         }
 
-        var taskRepository = new TaskRepository(_dbService.GetDatabase(), projectId);
+        var taskRepository = new TaskRepository(_dbService.GetDatabase(), new RemoteDatabaseService())
+        {
+            ProjectId = projectId
+        };
         _appState.CurrentProjectId = projectId;
         var taskSortingManager = new TaskSortingManager(taskRepository, _appState);
         var userInputParser = new UserInputParser();
         var taskService = new TaskService(taskRepository, taskSortingManager, _appState, userInputParser);
 
-        var mainTabViewModel = new MainTabViewModel(taskService, projectId);
+        var mainTabViewModel = new MainTabViewModel(taskService, projectId, _appState);
 
         _currentProjectTab = new TabItemViewModel($"{projectId}", new MainTabView { DataContext = mainTabViewModel })
         {
