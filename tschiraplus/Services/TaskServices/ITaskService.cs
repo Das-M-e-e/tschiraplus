@@ -10,6 +10,7 @@ public interface ITaskService
     Task DeleteTask(Guid taskId, bool isOnline);
     void UpdateTask(TaskDto taskDto);
     IEnumerable<TaskDto> ProcessUserInput(string userInput, IEnumerable<TaskDto> tasks);
-    public void ApplyTag(List<TagDto> tags);
+    IEnumerable<TagDto> GetAllTags();
+    void ApplyTag(List<TagDto> tags);
     Task AddUserToTask(string username, Guid taskId);
 }

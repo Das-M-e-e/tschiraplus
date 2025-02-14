@@ -7,6 +7,7 @@ public class TaskDto
     public string Description { get; set; } = string.Empty;
     public string Status { get; set; } = string.Empty;
     public string Priority { get; set; } = string.Empty;
+    public string Tag { get; set; } = string.Empty;
     public DateTime? StartDate { get; set; }
     public DateTime? DueDate { get; set; }
 }
