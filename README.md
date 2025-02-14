@@ -31,7 +31,7 @@ Installation
 
 Verwendung
 
-    Um die Anwendung zu starten führen sie die Program.cs im UI Projekt
+     Um die Anwendung zu starten führen Sie die Program.cs im UI Projekt aus.
     Erstelle und verwalte Aufgaben über die Benutzeroberfläche.
     Verfolgen Sie den Fortschritt des Projekts in Echtzeit.
 
