@@ -48,7 +48,15 @@ public class TaskCreationViewModel : ViewModelBase
     }
     public string InitialStatus { get; set; }
 
+    private SelectionItemViewModel? _currentTag;
+
+    public SelectionItemViewModel? CurrentTag
+    {
+        get => _currentTag;
+        set => this.RaiseAndSetIfChanged(ref _currentTag, value);
+    }
     public ObservableCollection<SelectionItemViewModel> PriorityList { get; set; } = [];
+    public ObservableCollection<SelectionItemViewModel> TagsList { get; set; } = [];
     
     public TaskCreationViewModel(ITaskService taskService, TaskListViewModel taskListViewModel)
     {
@@ -57,6 +65,7 @@ public class TaskCreationViewModel : ViewModelBase
 
         Priority = new SelectionItemViewModel { Name = "Choose...", ColorCode = "#323232" };
         LoadPriorityList();
+        LoadTagsList();
     }
 
     private void LoadPriorityList()
@@ -65,6 +74,15 @@ public class TaskCreationViewModel : ViewModelBase
         PriorityList.Add(new SelectionItemViewModel{Name = "Medium", Tag ="Medium", ColorCode = "#8FCDF3"});
         PriorityList.Add(new SelectionItemViewModel{Name = "High", Tag ="High", ColorCode = "#EBA29A"});
         PriorityList.Add(new SelectionItemViewModel{Name = "Critical", Tag ="Critical", ColorCode = "#DD5550"});
+    }
+
+    private void LoadTagsList()
+    {
+       var tagsList = _taskService.GetAllTags();
+       foreach (var tagDto in tagsList)
+       {
+           TagsList.Add(new SelectionItemViewModel{Name = tagDto.Title, Tag = tagDto.Title.Replace(" ", ""), ColorCode = tagDto.ColorCode});
+       }
     }
 
     /// <summary>
@@ -84,7 +102,8 @@ public class TaskCreationViewModel : ViewModelBase
             Title = Title,
             Description = Description,
             Priority = Priority.Tag?.ToString() ?? "NotSet",
-            Status = InitialStatus
+            Status = InitialStatus,
+            Tag = CurrentTag.Tag?.ToString() ?? "NotSet"
         };
         _taskService.CreateTask(task);
         _taskListViewModel.LoadTasks();

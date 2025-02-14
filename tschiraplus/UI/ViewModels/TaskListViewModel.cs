@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reactive.Disposables;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
@@ -64,9 +65,9 @@ public class TaskListViewModel : ViewModelBase, IActivatableViewModel
     /// <summary>
     /// Loads all tasks from the database
     /// </summary>
-    public void LoadTasks()
+    public async Task LoadTasks()
     {
-        AllTasks = _taskService.GetAllTasks();
+        AllTasks = await _taskService.GetAllTasks();
         UpdateTaskList(AllTasks);
     }
 

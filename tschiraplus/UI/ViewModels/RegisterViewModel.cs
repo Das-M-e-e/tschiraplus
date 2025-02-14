@@ -1,21 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using ReactiveUI;
 using Services.DTOs;
+using Services.ProjectServices;
 using Services.UserServices;
 
 namespace UI.ViewModels;
 
-public partial class RegisterViewModel : ViewModelBase
+public class RegisterViewModel : ViewModelBase
 {
     // Services
     private readonly IUserService _userService;
     private readonly WrapperViewModel _wrapper;
+    private readonly ValidationService _validationService;
     
     // Bindings
     private string _username;
@@ -100,21 +99,12 @@ public partial class RegisterViewModel : ViewModelBase
     // Commands
     public ICommand RegisterUserCommand { get; }
     public ICommand BackToLoginCommand { get; }
-    
-    // Regex patterns
-    [GeneratedRegex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$")]
-    private static partial Regex EmailRegex();
-
-    [GeneratedRegex(@"^[a-zA-Z0-9äöüÄÖÜßñçéèêàáíóúøåæ$^()\[\]{}<>~+-_.,!?|\\=]+$")]
-    private static partial Regex UsernameRegex();
-
-    [GeneratedRegex(@"[@$^()\[\]{}<>~+\-_,.!?|\\=]")]
-    private static partial Regex SpecialCharsRegex();
 
     public RegisterViewModel(IUserService userService, WrapperViewModel wrapper)
     {
         _userService = userService;
         _wrapper = wrapper;
+        _validationService = new ValidationService();
         
         RegisterUserCommand = ReactiveCommand.CreateFromTask(RegisterUserAsync);
         BackToLoginCommand = new RelayCommand(BackToLogin);
@@ -137,7 +127,7 @@ public partial class RegisterViewModel : ViewModelBase
             await _userService.RegisterUserAsync(newUser);
             Console.WriteLine($"Registration of new user {newUser.Username} successful");
             
-            _wrapper.NavigateToMainMenu();
+            await _wrapper.NavigateToMainMenu();
         }
         catch
         {
@@ -152,20 +142,9 @@ public partial class RegisterViewModel : ViewModelBase
     /// <returns>true or false</returns>
     private bool ValidateUsername(string username)
     {
-        if (string.IsNullOrWhiteSpace(username))
-        {
-            UsernameErrorMessage = "Username can't be empty.";
-            return false;
-        }
-        
-        if (!UsernameRegex().IsMatch(username))
-        {
-            UsernameErrorMessage = "Username contains illegal characters.";
-            return false;
-        }
-
-        UsernameErrorMessage = string.Empty;
-        return true;
+        var isValid = _validationService.ValidateUsername(username, out var errorMessage);
+        UsernameErrorMessage = errorMessage;
+        return isValid;
     }
 
     /// <summary>
@@ -175,20 +154,9 @@ public partial class RegisterViewModel : ViewModelBase
     /// <returns>true or false</returns>
     private bool ValidateEmail(string email)
     {
-        if (string.IsNullOrWhiteSpace(email))
-        {
-            EmailErrorMessage = "Email cannot be empty";
-            return false;
-        }
-        
-        if (!EmailRegex().IsMatch(email))
-        {
-            EmailErrorMessage = "Not a valid email address";
-            return false;
-        }
-        
-        EmailErrorMessage = string.Empty;
-        return true;
+        var isValid = _validationService.ValidateEmail(email, out var errorMessage);
+        EmailErrorMessage = errorMessage;
+        return isValid;
     }
 
     /// <summary>
@@ -203,55 +171,9 @@ public partial class RegisterViewModel : ViewModelBase
     /// <returns>true or false</returns>
     private bool ValidatePassword(string password)
     {
-        var commonPasswords = new HashSet<string>
-        {
-            "12345678", "password", "a1b2c3d4", "qwertzui", "letmein1", "12341234", "admin", "iloveyou", "welcome"
-        };
-
-        if (string.IsNullOrWhiteSpace(password))
-        {
-            PasswordErrorMessage = "Password cannot be empty.";
-            return false;
-        }
-
-        if (password.Length < 8)
-        {
-            PasswordErrorMessage = "Password must be at least 8 characters long.";
-            return false;
-        }
-
-        if (!password.Any(char.IsLower))
-        {
-            PasswordErrorMessage = "Password must contain at least one lowercase letter.";
-            return false;
-        }
-
-        if (!password.Any(char.IsUpper))
-        {
-            PasswordErrorMessage = "Password must contain at least one uppercase letter.";
-            return false;
-        }
-
-        if (!password.Any(char.IsDigit))
-        {
-            PasswordErrorMessage = "Password must contain at least one number.";
-            return false;
-        }
-
-        if (!SpecialCharsRegex().IsMatch(password))
-        {
-            PasswordErrorMessage = "Password must contain at least one special character.";
-            return false;
-        }
-
-        if (commonPasswords.Contains(password.ToLower()))
-        {
-            PasswordErrorMessage = "Password is too common. Please choose a stronger password.";
-            return false;
-        }
-
-        PasswordErrorMessage = string.Empty;
-        return true;
+        var isValid = _validationService.ValidatePassword(password, out var errorMessage);
+        PasswordErrorMessage = errorMessage;
+        return isValid;
     }
 
     /// <summary>
@@ -261,14 +183,9 @@ public partial class RegisterViewModel : ViewModelBase
     /// <returns>true or false</returns>
     private bool ValidateConfirmPassword(string confirmPassword)
     {
-        if (confirmPassword != Password)
-        {
-            ConfirmPasswordErrorMessage = "Passwords don't match.";
-            return false;
-        }
-
-        ConfirmPasswordErrorMessage = string.Empty;
-        return true;
+        var isValid = _validationService.ValidateConfirmPassword(Password, confirmPassword, out var errorMessage);
+        ConfirmPasswordErrorMessage = errorMessage;
+        return isValid;
     }
 
     /// <summary>

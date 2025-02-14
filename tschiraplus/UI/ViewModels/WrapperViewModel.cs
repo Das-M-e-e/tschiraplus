@@ -56,7 +56,8 @@ public class WrapperViewModel : ViewModelBase
             DataContext = new MainViewModel(
                 new DatabaseService("localDatabase.db"),
                 _appState,
-                _syncService)
+                _syncService,
+                this)
         };
     }
 

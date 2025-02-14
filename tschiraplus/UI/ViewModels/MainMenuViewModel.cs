@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Services.DTOs;
@@ -34,9 +35,9 @@ public class MainMenuViewModel
         LoadProjects();
     }
 
-    private void LoadProjects()
+    private async Task LoadProjects()
     {
-        var allProjects = _projectService.GetAllProjects();
+        var allProjects = await _projectService.GetAllProjects();
         UpdateProjectList(allProjects);
     }
     

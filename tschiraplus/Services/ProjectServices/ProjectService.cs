@@ -39,6 +39,7 @@ public class ProjectService : IProjectService
           };
           
           _projectUserRepository.AddProjectUser(ownerProjectUser);
+          _projectUserRepository.PostProjectUserAsync(ownerProjectUser);
     }
     
     
@@ -46,7 +47,7 @@ public class ProjectService : IProjectService
     /// Gets a list of all projects in the database as DTOs
     /// </summary>
     /// <returns>A List of ProjectDTOs</returns>
-    public List<ProjectDto> GetAllProjects()
+    public async Task<List<ProjectDto>> GetAllProjects()
     {
         return _projectRepository.GetProjectsByUserId(_currentUser.UserId) ?? [];
     }

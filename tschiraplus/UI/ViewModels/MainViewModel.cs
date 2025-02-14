@@ -19,6 +19,7 @@ public class MainViewModel : ViewModelBase
     private readonly DatabaseService _dbService;
     private readonly ApplicationState _appState;
     private readonly SyncService _syncService;
+    private readonly WrapperViewModel _wrapper;
     
     // Bindings
     private bool _isPaneOpen;
@@ -48,11 +49,12 @@ public class MainViewModel : ViewModelBase
     // Commands
     public ICommand ToggleSidebarCommand { get; }
 
-    public MainViewModel(DatabaseService dbService, ApplicationState appState, SyncService syncService)
+    public MainViewModel(DatabaseService dbService, ApplicationState appState, SyncService syncService, WrapperViewModel wrapper)
     {
         _dbService = dbService;
         _appState = appState;
         _syncService = syncService;
+        _wrapper = wrapper;
         
         IsPaneOpen = true;
         ToggleButtonSymbol = "<<";
@@ -114,7 +116,10 @@ public class MainViewModel : ViewModelBase
     public void OpenUserDetails()
     {
         _syncService.StopTaskSync();
-        CurrentContent = new UserProfileView();
+        CurrentContent = new UserProfileView
+        {
+            DataContext = new UserProfileViewModel(_wrapper)
+        };
     }
 
     public void OpenSettings()
