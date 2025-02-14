@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using CommunityToolkit.Mvvm.Input;
 using Services.DTOs;
@@ -11,32 +12,37 @@ public class TaskViewModel
     private readonly TaskListViewModel _taskListViewModel;
     
     // Bindings
-    public Guid TaskId { get; }
+    private Guid TaskId { get; }
     public string Title { get; }
     public string Description { get; }
-    public string? Status { get; }
-    public DateTime CreationDate { get; }
+    public bool IsDone { get; set; }
     
     // Commands
-    public ICommand DeleteTaskCommand { get; }
+    public ICommand OpenTaskDetailCommand { get; }
+    public ICommand ToggleTaskDoneCommand { get; }
 
-    public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel) //Konstruktor
+    public TaskViewModel(TaskDto task, TaskListViewModel taskListViewModel) 
     {
         TaskId = task.TaskId;
         Title = task.Title;
-        Description = task.Description;
-        Status = task.Status;
-        CreationDate = task.CreationDate;
+        Description = task.Description.Replace("\r\n", " ");
+        IsDone = task.Status == "Done";
 
         _taskListViewModel = taskListViewModel;
-        DeleteTaskCommand = new RelayCommand(DeleteTask);
+        OpenTaskDetailCommand = new RelayCommand(OpenTaskDetails);
+        ToggleTaskDoneCommand = new RelayCommand(ToggleTaskDone);
     }
 
     /// <summary>
-    /// Uses the _taskListViewModel to delete the task
+    /// Uses the _taskListViewModel to open the TaskDetailView
     /// </summary>
-    private void DeleteTask()
+    private void OpenTaskDetails()
     {
-        _taskListViewModel.DeleteTask(this);
+        _taskListViewModel.OpenTaskDetails(TaskId);
+    }
+
+    private void ToggleTaskDone()
+    {
+        _taskListViewModel.ToggleTaskDone(TaskId);
     }
 }

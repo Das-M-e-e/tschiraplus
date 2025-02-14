@@ -19,9 +19,12 @@ public class ProjectViewModel
     // Commands
     public ICommand OpenProjectCommand { get; }
     public ICommand DeleteProjectCommand { get; }
+    public ICommand OpenProjectDetailsCommand { get; }
 
     public ProjectViewModel(ProjectDto projectDto, ProjectListViewModel projectListViewModel)
     {
+        _projectListViewModel = projectListViewModel;
+        
         ProjectId = projectDto.ProjectId;
         Name = projectDto.Name;
         Description = projectDto.Description;
@@ -29,6 +32,7 @@ public class ProjectViewModel
         OpenProjectCommand = new RelayCommand(OpenProject);
         DeleteProjectCommand = new AsyncRelayCommand(DeleteProject);
         _projectListViewModel = projectListViewModel;
+        OpenProjectDetailsCommand = new RelayCommand(OpenProjectDetails);
     }
 
     /// <summary>
@@ -45,5 +49,10 @@ public class ProjectViewModel
     private async Task DeleteProject()
     {
         await _projectListViewModel.DeleteProject(ProjectId);
+    }
+
+    private void OpenProjectDetails()
+    {
+        _projectListViewModel.OpenProjectDetails(ProjectId);
     }
 }

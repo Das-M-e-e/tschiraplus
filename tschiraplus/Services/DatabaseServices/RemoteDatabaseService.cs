@@ -7,6 +7,7 @@ namespace Services.DatabaseServices;
 public class RemoteDatabaseService
 {
     private readonly HttpClient _httpClient = new();
+    private readonly TokenStorageService _tokenStorageService = new();
 
     private const string BaseAddress = "http://api.tschira.plus:42069/api";
 
@@ -26,7 +27,7 @@ public class RemoteDatabaseService
                 HttpMethod.Post,
                 $"{BaseAddress}/{endpoint}"
                 );
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
             
             request.Headers.Add("accept", "text/plain");
             request.Content = new StringContent(data);
@@ -61,7 +62,7 @@ public class RemoteDatabaseService
                 $"{BaseAddress}/{endpoint}"
                 );
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
             
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
@@ -93,7 +94,7 @@ public class RemoteDatabaseService
                 $"{BaseAddress}/{endpoint}/{id}"
             );
 
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
             
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
@@ -107,7 +108,39 @@ public class RemoteDatabaseService
             throw;
         }
     }
-
+    /// <summary>
+    /// Sends an HTTP-request to the host
+    /// to update an object
+    /// </summary>
+    /// <param name="endpoint"></param>
+    /// <param name="id"></param>
+    /// <param name="data"></param>
+    /// <returns>true</returns>
+    public async Task<bool> UpdateAsync(string endpoint, Guid id, string data)
+    {
+        try
+        {
+            var request = new HttpRequestMessage(
+                HttpMethod.Put,
+                $"{BaseAddress}/{endpoint}/{id}");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
+           
+            request.Headers.Add("accept", "text/plain");
+            request.Content = new StringContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            return response.IsSuccessStatusCode;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return false;
+        }
+    }
+    
     /// <summary>
     /// Sends an HTTP-request to the host
     /// to delete an entry in a specific table (endpoint) with a specific id (id)
@@ -124,7 +157,7 @@ public class RemoteDatabaseService
                 HttpMethod.Delete,
                 $"{BaseAddress}/{endpoint}/{id}"
                 );
-            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", TokenStorageService.LoadToken());
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _tokenStorageService.LoadToken());
 
             // HTTP response received from host
             var response = await _httpClient.SendAsync(request);
@@ -206,4 +239,41 @@ public class RemoteDatabaseService
             throw;
         }
     }
+
+    /// <summary>
+    /// Sends an HTTP-request to the host
+    /// to send Project-Invitation to another User
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns>true or false</returns>
+    public async Task<bool> SendInvitationAsync(string data)
+    {
+        try
+        {
+            // HTTP-POST message to send to host
+            var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                $"{BaseAddress}/ProjectInvitation/SendInvitation"
+            );
+            
+            request.Headers.Add("accept", "text/plain");
+            request.Content = new StringContent(data);
+            request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            
+            // HTTP response received from host
+            var response = await _httpClient.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            
+            return response.IsSuccessStatusCode;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
+    }
+    
+    
 }

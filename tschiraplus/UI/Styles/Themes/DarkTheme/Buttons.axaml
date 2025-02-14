@@ -1,0 +1,134 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <MergeResourceInclude Source="DarkThemeDictionary.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <!-- Standard Button Style -->
+    <Style Selector="Button">
+        <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="CornerRadius" Value="15"></Setter>
+    </Style>
+    <Style Selector="Button:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ButtonBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    
+    <!-- ProjectOverview Buttons -->
+    <Style Selector="Button.Projects">
+        <Setter Property="Background" Value="{DynamicResource ProjectBorder}"></Setter>
+        <Setter Property="BorderThickness" Value="3"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+    </Style>
+    <Style Selector="Button.Projects:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource ProjectBorderHoverBackground}"></Setter>
+        <Setter Property="BorderThickness" Value="3"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+</Style>
+    <!-- TaskListView Buttons -->
+    <Style Selector="Button.IndividualTasks">
+        <Setter Property="Background" Value="{DynamicResource TaskBorderBackground}"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+    </Style>
+    <Style Selector="Button.IndividualTasks:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource TaskBorderHoverBackground}"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+    </Style>
+    <!-- Link Buttons -->
+    <Style Selector="Button.Links">
+        <Setter Property="Background" Value="{DynamicResource LinksBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource LinksForeground}"></Setter>
+        <Setter Property="FontSize" Value="11" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Width" Value="115" />
+        <Setter Property="BorderThickness" Value="0"></Setter>
+    </Style>
+    <Style Selector="Button.Links:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource LinksBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource LinksForeground}"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+    </Style>
+    
+    <!-- SecondaryAction Buttons -->
+    <Style Selector="Button.SecondaryActions">
+        <Setter Property="Background" Value="{DynamicResource TaskDetailsButtonBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskDetailsButtonForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+    <Style Selector="Button.SecondaryActions:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource TaskDetailsButtonHoverBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TaskDetailsButtonForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+    
+    <!-- TaskManagement Buttons -->
+    <Style Selector="Button.NewTask">
+        <Setter Property="Background" Value="{DynamicResource NewTaskBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource NewTaskForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource NewTaskBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="CornerRadius" Value="20"></Setter>
+    </Style>
+    <Style Selector="Button.NewTask:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource NewTaskHoverBackground}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource NewTaskForeground}"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource NewTaskBorderBrush}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+    </Style>
+    <Style Selector="Button.KanbanColumnsAddNewTask:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource Black}"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="FontSize" Value="11"></Setter>
+        <Setter Property="FontWeight" Value="SemiBold"></Setter>
+        <Setter Property="Padding" Value="5.5"></Setter>
+        <Setter Property="Opacity" Value="0.85"></Setter>
+    </Style>
+    <Style Selector="Button.Icons">
+        <Setter Property="Background" Value="{DynamicResource LinksBackground}"></Setter>
+        <Setter Property="Opacity" Value="0.45"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+    </Style>
+    <Style Selector="Button.Icons:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource LinksBackground}"></Setter>
+        <Setter Property="Opacity" Value="0.5"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+    </Style>
+    
+    <!-- SignIn Buttons -->
+    <Style Selector="Button.SignInButton">
+        <Setter Property="Background" Value="{DynamicResource SignInButtonBackground}" />
+        <Setter Property="Foreground" Value="{DynamicResource SignInButtonForeground}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Width" Value="270" />
+        <Setter Property="FontWeight" Value="Medium"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
+        <Setter Property="Margin" Value="0,25,0,0"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource SignInButtonBrush}" />
+    </Style>
+    <Style Selector="Button.SignInButton:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource SignInButtonHoverBackground}" />
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource SignInButtonBrush}" />
+    </Style>
+</Styles>

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using Newtonsoft.Json;
 using Services.DatabaseServices;
 using Services.DTOs;
@@ -9,10 +8,12 @@ namespace Services.UserServices;
 public class AuthService : IAuthService
 {
     private readonly RemoteDatabaseService _remoteDb;
+    private readonly TokenStorageService _tokenStorage;
 
     public AuthService(RemoteDatabaseService remoteDb)
     {
         _remoteDb = remoteDb;
+        _tokenStorage = new TokenStorageService();
     }
     
     /// <summary>
@@ -76,7 +77,7 @@ public class AuthService : IAuthService
     /// <param name="token"></param>
     public void SaveToken(string token)
     {
-        TokenStorageService.SaveToken(token);
+        _tokenStorage.SaveToken(token);
     }
 
     /// <summary>
@@ -85,15 +86,15 @@ public class AuthService : IAuthService
     /// <returns></returns>
     public string? LoadToken()
     {
-        return TokenStorageService.LoadToken();
+        return _tokenStorage.LoadToken();
     }
 
     /// <summary>
     /// Removes the saved token
     /// </summary>
-    private static void RemoveToken()
+    private void RemoveToken()
     {
-        TokenStorageService.RemoveToken();
+        _tokenStorage.RemoveToken();
     }
 
     /// <summary>

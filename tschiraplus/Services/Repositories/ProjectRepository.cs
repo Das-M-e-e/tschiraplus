@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.Enums;
+using Core.Models;
 using Newtonsoft.Json;
 using PetaPoco;
 using Services.DatabaseServices;
@@ -67,10 +68,20 @@ public class ProjectRepository : IProjectRepository
             .OfType<ProjectModel>()
             .Select(project => new ProjectDto
             {
-                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, ProjectPriority = project.Priority.ToString(),
+                ProjectId = project.ProjectId, Name = project.Name, Description = project.Description ?? string.Empty, Priority = project.Priority.ToString(),
             })
             .ToList();
     }
+    
+    /// <summary>
+    /// Updates an existing project in the local database.
+    /// </summary>
+    /// <param name="project">The updated project data.</param>
+    public void UpdateProject(ProjectModel project)
+    {
+        _db.Update("Projects", "ProjectId", project);
+    }
+
 
     /// <summary>
     /// Deletes a project by id from the local database

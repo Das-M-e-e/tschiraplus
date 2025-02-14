@@ -1,0 +1,20 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UI.Views.SettingsView"
+             x:DataType="vm:SettingsViewModel">
+    
+    <Grid>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Margin="5,0,0,0" Text="Dark Mode" />
+            <ToggleSwitch VerticalAlignment="Center" Margin="0,10,0,0" IsChecked="{Binding IsDarkTheme, Mode=TwoWay}"
+                          Command="{Binding ToggleThemeCommand}"
+                          Background="Gray" />
+        </StackPanel>
+        
+    </Grid>
+    
+</UserControl>

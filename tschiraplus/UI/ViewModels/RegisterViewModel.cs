@@ -115,7 +115,7 @@ public partial class RegisterViewModel : ViewModelBase
     [GeneratedRegex(@"^[a-zA-Z0-9äöüÄÖÜßñçéèêàáíóúøåæ$^()\[\]{}<>~+-_.,!?|\\=]+$")]
     private static partial Regex UsernameRegex();
 
-    [GeneratedRegex(@"[^\w\säöüÄÖÜßñçéèêàáíóúøåæ@$^()\[\]{}<>~+-_.,!?|\\=]", RegexOptions.Compiled)]
+    [GeneratedRegex(@"[@$^()\[\]{}<>~+\-_,.!?|\\=]")]
     private static partial Regex SpecialCharsRegex();
 
     public RegisterViewModel(IUserService userService, WrapperViewModel wrapper)
