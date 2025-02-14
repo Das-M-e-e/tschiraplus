@@ -2,8 +2,6 @@
 using Services.DTOs;
 using Services.Mapper;
 using Services.Repositories;
-using TaskStatus = Core.Enums.TaskStatus;
-using TaskPriority = Core.Enums.TaskPriority;
 
 namespace Services.TaskServices;
 
@@ -22,9 +20,8 @@ public class TaskService : ITaskService
         _taskRepository = taskRepository;
         _taskSortingManager = taskSortingManager;
         _appState = appState;
-        _taskMapper = new TaskMapper(_taskRepository);
+        _taskMapper = new TaskMapper(_taskRepository, _appState);
         _userInputParser = userInputParser;
-        
     }
     
 

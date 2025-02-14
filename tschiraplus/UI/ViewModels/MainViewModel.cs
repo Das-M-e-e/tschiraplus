@@ -64,7 +64,7 @@ public class MainViewModel : ViewModelBase
                 new ProjectService(
                     new ProjectRepository(_dbService.GetDatabase(), new RemoteDatabaseService()),
                     new ProjectUserRepository(_dbService.GetDatabase(), new RemoteDatabaseService()),
-                    _appState.CurrentUser)
+                    _appState)
                 )
         };
 
@@ -86,7 +86,7 @@ public class MainViewModel : ViewModelBase
                 new ProjectService(
                     new ProjectRepository(_dbService.GetDatabase(), new RemoteDatabaseService()),
                     new ProjectUserRepository(_dbService.GetDatabase(), new RemoteDatabaseService()),
-                    _appState.CurrentUser),
+                    _appState),
                 this,
                 _appState)
         };

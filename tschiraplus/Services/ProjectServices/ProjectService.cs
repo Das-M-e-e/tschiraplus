@@ -12,12 +12,12 @@ public class ProjectService : IProjectService
     private readonly UserDto _currentUser;
     private readonly ProjectMapper _projectMapper;
 
-    public ProjectService(IProjectRepository projectRepository, IProjectUserRepository projectUserRepository, UserDto currentUser)
+    public ProjectService(IProjectRepository projectRepository, IProjectUserRepository projectUserRepository, ApplicationState appState)
     {
         _projectRepository = projectRepository;
         _projectUserRepository = projectUserRepository;
-        _currentUser = currentUser;
-        _projectMapper = new ProjectMapper(_projectRepository);
+        _currentUser = appState.CurrentUser!;
+        _projectMapper = new ProjectMapper(_projectRepository, appState);
     }
 
     /// <summary>
