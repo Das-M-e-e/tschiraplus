@@ -27,13 +27,13 @@ Installation
 
     Stelle sicher, dass du .NET Core oder das .NET Framework installiert hast. Weitere Infos findest du in der offiziellen .NET-Website(https://dotnet.microsoft.com/en-us/).
 
-    Um die Anwendung zu starten führen sie die Program.cs im UI Projekt aus.
+    Um die Anwendung zu starten führen Sie die Program.cs im UI Projekt aus.
 
 Verwendung
 
     Um die Anwendung zu starten führen sie die Program.cs im UI Projekt
     Erstelle und verwalte Aufgaben über die Benutzeroberfläche.
-    Verfolge den Fortschritt des Projekts in Echtzeit.
+    Verfolgen Sie den Fortschritt des Projekts in Echtzeit.
 
 
 Lizenz
