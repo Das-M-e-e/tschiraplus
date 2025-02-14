@@ -34,6 +34,26 @@ public partial class TaskCreationView : UserControl
         var flyout = SelectPriorityBorder.ContextFlyout;
         flyout?.Hide();
     }
+    
+    public void OnSelectTagsList(object sender, PointerPressedEventArgs args)
+    {
+        var border = SelectTagBorder;
+        var flyout = border.ContextFlyout;
+        flyout?.ShowAt(border);
+    }
+
+    public void OnTagsSelected(object sender, PointerPressedEventArgs args)
+    {
+        if (sender is not Border { DataContext: SelectionItemViewModel selectedTag }) return;
+
+        if (DataContext is TaskCreationViewModel viewModel)
+        {
+            viewModel.CurrentTag = selectedTag;
+        }
+
+        var flyout = SelectTagBorder.ContextFlyout;
+        flyout?.Hide();
+    }
 
     public void OnCreateTaskButtonPressed(object? sender, RoutedEventArgs args)
     {

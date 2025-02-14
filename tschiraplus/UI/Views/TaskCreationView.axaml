@@ -7,6 +7,13 @@
              x:Class="UI.Views.TaskCreationView"
              x:DataType="vm:TaskCreationViewModel">
     
+    <UserControl.Styles>
+        <Style Selector="FlyoutPresenter.dropdownPicker">
+            <Setter Property="Background" Value="#aae1e1e1"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+    </UserControl.Styles>
+    
     <ScrollViewer>
         <Border Background="Transparent" BorderBrush="#3d444d" BorderThickness="3" CornerRadius="5">
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto">
@@ -90,9 +97,36 @@
                 </StackPanel>
             </StackPanel>
             
-            <!-- "More" section (Status, StartDate, DueDate, etc.) -->
-            <TextBlock Grid.Row="6" Text="More v" Foreground="DodgerBlue" Margin="20,20,4,0" />
-            
+            <!-- Tag Section -->
+            <StackPanel
+                Grid.Row="6" Spacing="4" Margin="20,20,4,0" >
+                <TextBlock Text="Add Tags (optional)" HorizontalAlignment="Left" FontSize="11" />
+                <Border Name="SelectTagBorder"
+                        PointerPressed="OnSelectTagsList"
+                        Background="{Binding CurrentTag.ColorCode}" 
+                        Padding="5,2,5,2" CornerRadius="8" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <TextBlock Foreground="Black" Text="{Binding CurrentTag.Name}"/>
+                    <!-- Status Flyout -->
+                    <Border.ContextFlyout>
+                        <Flyout ShowMode="TransientWithDismissOnPointerMoveAway"
+                                Placement="BottomEdgeAlignedLeft"
+                                FlyoutPresenterClasses="dropdownPicker">
+                            <ItemsControl ItemsSource="{Binding TagsList}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Background="{Binding ColorCode}"
+                                                PointerPressed="OnTagsSelected"
+                                                Padding="5, 2,5,2"
+                                                Margin="0,1,0,4">
+                                            <TextBlock Foreground="Black" Text="{Binding Name}" />
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Flyout>
+                    </Border.ContextFlyout>
+                </Border>
+            </StackPanel>
             <!-- Buttons -->
             <StackPanel Grid.Row="7"
                         Margin="0,0,20,20"

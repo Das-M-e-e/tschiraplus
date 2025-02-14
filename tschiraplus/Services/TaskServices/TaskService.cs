@@ -41,6 +41,23 @@ public class TaskService : ITaskService
         return tasks;
     }
 
+    public void ApplyTag(List<TagDto> tags)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerable<TagDto> GetAllTags()
+    {
+        var tagsList = new List<TagDto>();
+        tagsList.Add(new TagDto{TagId = Guid.NewGuid(), Title = "Documentation", ColorCode = "Lightblue"});
+        tagsList.Add(new TagDto{TagId = Guid.NewGuid(), Title = "Bug", ColorCode = "pink"});
+        tagsList.Add(new TagDto{TagId = Guid.NewGuid(), Title = "help wanted", ColorCode = "lightorange"});
+        tagsList.Add(new TagDto{TagId = Guid.NewGuid(), Title = "needs review", ColorCode = "lightgreen"});
+        tagsList.Add(new TagDto{TagId = Guid.NewGuid(), Title = "question", ColorCode = "lightyellow"});
+        tagsList.Add(new TagDto{TagId = Guid.NewGuid(), Title = "others", ColorCode = "violet"});
+        return tagsList;
+    }
+
     private IEnumerable<TaskDto> SortTasks(IEnumerable<TaskDto> tasks, string sortAttribute)
     {
         return sortAttribute.ToLower() switch
