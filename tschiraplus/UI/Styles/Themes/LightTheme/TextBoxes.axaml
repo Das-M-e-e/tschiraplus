@@ -28,4 +28,11 @@
         <Setter Property="Height" Value="100"></Setter>
         <Setter Property="Width" Value="500"></Setter>
     </Style>
+    
+    <!-- Title Textbox -->
+    <Style Selector="TextBox.TitleTextBox">
+        <Setter Property="Foreground" Value="Black"></Setter>
+        <Setter Property="FontSize" Value="30"></Setter>
+        <Setter Property="FontWeight" Value="SemiBold"></Setter>
+    </Style>
 </Styles>

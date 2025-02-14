@@ -20,15 +20,15 @@
     <Grid Name="RootGrid"
           RowDefinitions="*,Auto">
         <ScrollViewer Grid.Row="0">
-            <ItemsControl ItemsSource="{Binding Projects}" Margin="0,20,0,0">
+            <ItemsControl ItemsSource="{Binding Projects}" Margin="20,20,0,0">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate x:DataType="vm:ProjectViewModel">
                         <Button CornerRadius="10"  Margin="0,20,0,0" Classes="Projects" Command="{Binding OpenProjectCommand}">
                             <Border Classes="ProjectsOverviewBorder">
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Classes="ProjectName" Text="{Binding Name}" />
-                                    <TextBlock Text="{Binding Description}" />
-                                    <Button Content="Details" Command="{Binding OpenProjectDetailsCommand}" Click="OnCreateProjectButtonPressed"></Button>
+                                    <TextBlock Foreground="Black" Margin="10,5,5,5" Text="{Binding Description}" />
+                                    <Button Margin="5,5,5,5" Content="Details" Command="{Binding OpenProjectDetailsCommand}" Click="OnCreateProjectButtonPressed"></Button>
                                 </StackPanel>
                             </Border>
                         </Button>

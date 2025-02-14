@@ -30,15 +30,27 @@
         <Setter Property="Background" Value="{DynamicResource ProjectBorder}"></Setter>
         <Setter Property="BorderThickness" Value="3"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource Black}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
     </Style>
     <Style Selector="Button.Projects:pointerover /template/ ContentPresenter">
         <Setter Property="Background" Value="{DynamicResource ProjectBorderHoverBackground}"></Setter>
         <Setter Property="BorderThickness" Value="3"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource Black}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
 </Style>
-    
+    <!-- TaskListView Buttons -->
+    <Style Selector="Button.IndividualTasks">
+        <Setter Property="Background" Value="{DynamicResource TaskBorderBackground}"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+    </Style>
+    <Style Selector="Button.IndividualTasks:pointerover /template/ ContentPresenter">
+        <Setter Property="Background" Value="{DynamicResource TaskBorderHoverBackground}"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource DividerColor}"></Setter>
+        <Setter Property="Foreground" Value="Black"></Setter>
+    </Style>
     <!-- Link Buttons -->
     <Style Selector="Button.Links">
         <Setter Property="Background" Value="{DynamicResource LinksBackground}"></Setter>
@@ -119,16 +131,4 @@
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource SignInButtonBrush}" />
     </Style>
-    
-    <!-- Icon Buttons-->
-    <!-- <Style Selector="Button.EditIcon">
-        <Setter Property="Width" Value="18" />
-        <Setter Property="Margin" Value="10,0,-5,0" />
-        <Setter Property="Opacity" Value="0.45" />
-        <Setter Property="ContentTemplate">
-            <Template>
-                <Image Source="{DynamicResource EditIcon}" Stretch="Uniform" />
-            </Template>
-        </Setter>
-    </Style> -->
 </Styles>

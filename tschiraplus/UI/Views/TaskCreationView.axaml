@@ -1,43 +1,44 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:UI.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="850"
-        x:Class="UI.Views.TaskCreationView"
-        x:DataType="vm:TaskCreationViewModel">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:UI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="850"
+             x:Class="UI.Views.TaskCreationView"
+             x:DataType="vm:TaskCreationViewModel">
     
     <ScrollViewer>
+        <Border Background="Transparent" BorderBrush="#3d444d" BorderThickness="3" CornerRadius="5">
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto">
             <!-- Header -->
-            <Grid Grid.Row="0" Margin="0,8">
+            <Grid Grid.Row="0"  Margin="20,25,4,0" >
                 <TextBlock Text="Create a new task" FontSize="24" HorizontalAlignment="Left" />
-                <Button HorizontalAlignment="Right" Click="OnCloseButtonPressed">
-                    <Image Source="avares://UI/Assets/close_icon.png" Width="18" />
+                <Button HorizontalAlignment="Right" Click="OnCloseButtonPressed" Margin="0,0,20,0">
+                    <Image Source="avares://UI/Assets/close_icon.png"  Opacity="0.45" Stretch="Uniform" Width="18" />
                 </Button>
             </Grid>
             
-            <Separator Grid.Row="1" Height="1" Background="Gray" />
+            <Border Grid.Row="1" Classes="Divider" BorderThickness="1" Margin="20,20,20,0"/>
             
             <!-- Title -->
-            <StackPanel Grid.Row="2" Spacing="4" Margin="4,10,4,0">
+            <StackPanel Grid.Row="2" Spacing="4" Margin="20,25,4,0">
                 <StackPanel Spacing="16" Orientation="Horizontal">
                     <TextBlock Text="Title *" HorizontalAlignment="Left" FontSize="11" />
                     <TextBlock Text="{Binding TitleErrorMessage}"
                                IsVisible="{Binding IsTitleErrorMessageVisible}"
                                Foreground="Red" FontSize="11" />
                 </StackPanel>
-                <TextBox Text="{Binding Title}"/>
+                <TextBox  Width="800" HorizontalAlignment="Left" Text="{Binding Title}"/>
             </StackPanel>
             
             <!-- Description -->
-            <StackPanel Grid.Row="3" Spacing="4" Margin="4,10,4,0">
+            <StackPanel Grid.Row="3" Spacing="4" Margin="20,10,4,0">
                 <TextBlock Text="Description (optional)" HorizontalAlignment="Left" FontSize="11" />
-                <TextBox Text="{Binding Description}"/>
+                <TextBox  Width="800" HorizontalAlignment="Left" Text="{Binding Description}"/>
             </StackPanel>
             
             <!-- Priority -->
-            <StackPanel Grid.Row="4">
+            <StackPanel Grid.Row="4" Margin="20,20,4,0">
                 <TextBlock Text="Priority (optional)"
                            HorizontalAlignment="Left"
                            FontSize="11"
@@ -48,7 +49,7 @@
                         CornerRadius="8"
                         Padding="5,2"
                         HorizontalAlignment="Left">
-                    <TextBlock Text="{Binding Priority.Name}" />
+                    <TextBlock Foreground="Black" Text="{Binding Priority.Name}" />
                     
                     <Border.ContextFlyout>
                         <Flyout ShowMode="TransientWithDismissOnPointerMoveAway"
@@ -61,7 +62,7 @@
                                                 PointerPressed="OnPrioritySelected"
                                                 Padding="5, 2,5,2"
                                                 Margin="0,1,0,4">
-                                            <TextBlock Text="{Binding Name}" />
+                                            <TextBlock Foreground="Black" Text="{Binding Name}" />
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -72,17 +73,17 @@
             </StackPanel>
             
             <!-- Assign people -->
-            <StackPanel Grid.Row="5" Spacing="4" Margin="4,10,4,0">
+            <StackPanel Grid.Row="5" Spacing="4" Margin="20,20,4,0">
                 <TextBlock Text="Add people (optional)" HorizontalAlignment="Left" FontSize="11" />
                 <StackPanel Orientation="Horizontal" Spacing="4">
-                    <Border CornerRadius="8" Background="SlateGray" Padding="4">
-                        <TextBlock Text="Franzii" />
+                    <Border Classes="PrimaryUserProfileTag" Width="45" Margin="0,10,0,10">
+                        <TextBlock Classes="PrimaryUserProfileTagText" Text="Franzi" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Border>
-                    <Border CornerRadius="8" Background="SlateGray" Padding="4">
-                        <TextBlock Text="Isaak" />
+                    <Border Classes="SecondaryUserProfileTag" Width="45" Margin="0,10,0,10">
+                        <TextBlock Classes="SecondaryUserProfileTagText" Text="Isaak" VerticalAlignment="Center" HorizontalAlignment="Center" />
                     </Border>
-                    <Button Padding="0" Background="Transparent">
-                        <Border CornerRadius="8" Background="SlateGray" Padding="4">
+                    <Button Classes="SecondaryActions" Padding="0" >
+                        <Border CornerRadius="8">
                             <TextBlock Text="+" />
                         </Border>
                     </Button>
@@ -90,20 +91,23 @@
             </StackPanel>
             
             <!-- "More" section (Status, StartDate, DueDate, etc.) -->
-            <TextBlock Grid.Row="6" Text="More v" Foreground="DodgerBlue" Margin="4,10,4,0" />
+            <TextBlock Grid.Row="6" Text="More v" Foreground="DodgerBlue" Margin="20,20,4,0" />
             
             <!-- Buttons -->
             <StackPanel Grid.Row="7"
+                        Margin="0,0,20,20"
                         VerticalAlignment="Bottom"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal"
                         Spacing="8">
                 <Button Content="Cancel"
-                        Click="OnCloseButtonPressed" />
+                        Click="OnCloseButtonPressed"
+                        Classes="SecondaryActions"/>
                 <Button Content="Create task"
                         Click="OnCreateTaskButtonPressed"
-                        Background="ForestGreen" />
+                        Classes="NewTask" />
             </StackPanel>
         </Grid>
+            </Border>
     </ScrollViewer>
 </UserControl>

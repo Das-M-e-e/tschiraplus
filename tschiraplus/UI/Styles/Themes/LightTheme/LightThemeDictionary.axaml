@@ -58,8 +58,6 @@
     <SolidColorBrush x:Key="Project" Color="#90949c" />
     <SolidColorBrush x:Key="ProjectBorder" Color="#6e7585" />
     <SolidColorBrush x:Key="ProjectBorderHoverBackground" Color="#7d8491" />
- 
-    
-    <!-- <Bitmap x:Key="EditIcon">avares://tschiraplus/UI/Assets/edit_icon_darkmode.png</Bitmap>
-        <Bitmap x:Key="ShareIcon">avares://tschiraplus/UI/Assets/share_icon_darkmode.png</Bitmap> -->
+    <SolidColorBrush x:Key="TaskBorderBackground" Color="#a3a8b2" />
+    <SolidColorBrush x:Key="TaskBorderHoverBackground" Color="#b8bcc4" />
 </ResourceDictionary>
