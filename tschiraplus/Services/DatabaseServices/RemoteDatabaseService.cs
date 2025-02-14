@@ -108,6 +108,7 @@ public class RemoteDatabaseService
             throw;
         }
     }
+    
     /// <summary>
     /// Sends an HTTP-request to the host
     /// to update an object
@@ -272,8 +273,5 @@ public class RemoteDatabaseService
             Console.WriteLine(e);
             throw;
         }
-        
     }
-    
-    
 }

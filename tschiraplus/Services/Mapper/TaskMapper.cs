@@ -1,5 +1,4 @@
-﻿using System.Data;
-using Core.Enums;
+﻿using Core.Enums;
 using Core.Models;
 using Services.DTOs;
 using Services.Repositories;
@@ -19,6 +18,11 @@ public class TaskMapper
         _appState = appState;
     }
 
+    /// <summary>
+    /// Creates a TaskDto from a TaskModel
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns>The TaskDto</returns>
     public TaskDto ToDto(TaskModel model)
     {
         var taskDto = new TaskDto()
@@ -35,8 +39,11 @@ public class TaskMapper
         return taskDto;
     }
 
-
-
+    /// <summary>
+    /// Creates a TaskModel from a TaskDto
+    /// </summary>
+    /// <param name="dto"></param>
+    /// <returns>The TaskModel</returns>
     public TaskModel ToModel(TaskDto dto)
     {
         var taskModel = _taskRepository.GetTaskById(dto.TaskId);

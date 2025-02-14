@@ -1,6 +1,6 @@
 ﻿namespace Services.API;
 
-public class ConnectivityService : IConnectivityService
+public class ConnectivityService
 {
     /// <summary>
     /// Tests if the connection to host is available
